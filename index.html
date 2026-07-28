@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12161E">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Krąg</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app" id="app">
+  <!-- Ekran wejścia (K-27/K-28): Ida prowadzi, konto = klucz lokalny + kod zaproszenia -->
+  <section class="screen on" id="s-welcome">
+    <div class="badge">◈</div>
+    <h1>Cześć. Jestem Ida<br>i prowadzę Krąg.</h1>
+    <p>Krąg to miejsce wsparcia między ludźmi, którzy żyją z HIV albo są blisko kogoś takiego. Wchodzisz tu <b>bez nazwiska, maila i numeru</b>.</p>
+    <p class="muted">Twoje dane o zdrowiu zostają na tym urządzeniu i nigdy go nie opuszczają. Serwer widzi tylko pseudonim i zaszyfrowane wiadomości, których nie potrafi odczytać.</p>
+    <button class="btn" id="go-invite">Mam kod zaproszenia</button>
+    <p class="note">Prototyp produkcyjny (szkielet). Backend, E2E i moderacja jeszcze nie działają — patrz README.</p>
+  </section>
+
+  <!-- Kod zaproszenia -->
+  <section class="screen" id="s-invite">
+    <div class="badge">◎</div>
+    <h1>Kod zaproszenia</h1>
+    <p class="muted">Do Kręgu wchodzi się z zaproszenia. Ktoś, kto już tu jest, dał Ci kod. (W szkielecie akceptowany jest dowolny kod w formacie <code>KRAG-XXXX-XXXX</code>.)</p>
+    <input id="invite-code" class="field" placeholder="KRAG-A7F3-92KD" autocomplete="off" spellcheck="false">
+    <div class="err" id="invite-err"></div>
+    <button class="btn" id="go-keys">Dalej</button>
+    <button class="btn ghost" data-back="welcome">Wróć</button>
+  </section>
+
+  <!-- Generacja klucza + pseudonim -->
+  <section class="screen" id="s-keys">
+    <div class="badge">◈</div>
+    <h1>Twój klucz i pseudonim</h1>
+    <p class="muted">Twoje konto to para kluczy wygenerowana na tym urządzeniu. Klucz prywatny nigdy go nie opuszcza. Pseudonim wywodzi się z klucza publicznego.</p>
+    <div class="card">
+      <div class="klbl">Pseudonim</div>
+      <div class="pseudo" id="pseudo">…</div>
+      <div class="klbl" style="margin-top:14px">Klucz publiczny (skrót)</div>
+      <div class="mono" id="pubfp">…</div>
+    </div>
+    <button class="btn" id="go-recovery">Dalej</button>
+  </section>
+
+  <!-- Fraza odzyskiwania -->
+  <section class="screen" id="s-recovery">
+    <div class="badge">⚿</div>
+    <h1>Fraza odzyskiwania</h1>
+    <p class="muted">To jedyny sposób, by odzyskać konto na nowym urządzeniu. Zapisz ją na papierze. <b>Nikt — także Krąg — nie może jej odtworzyć.</b> Bez niej nowy telefon = nowe konto.</p>
+    <div class="card seed" id="seed">…</div>
+    <label class="chk"><input type="checkbox" id="seed-ack"> Zapisałem/am frazę w bezpiecznym miejscu</label>
+    <button class="btn" id="go-enter" disabled>Wejdź do Kręgu</button>
+  </section>
+
+  <!-- Wnętrze (stub) -->
+  <section class="screen" id="s-home">
+    <div class="badge">◈</div>
+    <h1 id="home-hi">…</h1>
+    <p class="muted">To jest szkielet klienta „prawdziwego” Kręgu. Poniżej pokazuję, co już żyje lokalnie na tym urządzeniu.</p>
+    <div class="card">
+      <div class="krow"><span>Konto (klucz lokalny)</span><b class="ok">na urządzeniu</b></div>
+      <div class="krow"><span>Dziennik zdrowia (IndexedDB)</span><b class="ok" id="diary-state">…</b></div>
+      <div class="krow"><span>Tryb offline (service worker)</span><b class="ok" id="sw-state">…</b></div>
+      <div class="krow"><span>Rozmowy 1:1 (Signal E2E)</span><b class="todo">czeka na backend</b></div>
+      <div class="krow"><span>Kolejka moderacji</span><b class="todo">czeka na O-08</b></div>
+    </div>
+    <button class="btn ghost" id="diary-add">Dodaj przykładowy wpis do dziennika (lokalnie)</button>
+    <div class="note" id="diary-list"></div>
+    <button class="btn ghost danger" id="wipe">Usuń wszystko z tego urządzenia</button>
+  </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
