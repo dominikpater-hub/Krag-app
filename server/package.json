@@ -1,0 +1,25 @@
+{
+  "name": "krag-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Krąg — cienkie API (K-27/K-30). Serwer widzi tylko pseudonim, klucz publiczny i zaszyfrowane koperty.",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/app.test.ts",
+    "migrate": "tsx src/migrate.ts"
+  },
+  "dependencies": {
+    "fastify": "^5.2.0",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/pg": "^8.11.10",
+    "pg-mem": "^3.0.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
