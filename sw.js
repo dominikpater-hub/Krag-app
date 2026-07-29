@@ -1,7 +1,8 @@
 /* Krąg — service worker (offline shell). Cache tylko statycznej powłoki;
    dane użytkownika NIE są tu cache'owane (żyją w IndexedDB). */
-const CACHE = 'krag-shell-v1';
-const SHELL = ['./','./index.html','./style.css','./app.js','./manifest.webmanifest'];
+const CACHE = 'krag-shell-v2';
+const SHELL = ['./','./index.html','./style.css','./app.js','./config.js',
+  './lib/api.js','./lib/identity.js','./lib/e2e.js','./manifest.webmanifest'];
 
 self.addEventListener('install', (e)=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));

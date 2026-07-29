@@ -17,14 +17,14 @@
     <p>Krąg to miejsce wsparcia między ludźmi, którzy żyją z HIV albo są blisko kogoś takiego. Wchodzisz tu <b>bez nazwiska, maila i numeru</b>.</p>
     <p class="muted">Twoje dane o zdrowiu zostają na tym urządzeniu i nigdy go nie opuszczają. Serwer widzi tylko pseudonim i zaszyfrowane wiadomości, których nie potrafi odczytać.</p>
     <button class="btn" id="go-invite">Mam kod zaproszenia</button>
-    <p class="note">Prototyp produkcyjny (szkielet). Backend, E2E i moderacja jeszcze nie działają — patrz README.</p>
+    <div class="err" id="boot-err"></div>
   </section>
 
   <!-- Kod zaproszenia -->
   <section class="screen" id="s-invite">
     <div class="badge">◎</div>
     <h1>Kod zaproszenia</h1>
-    <p class="muted">Do Kręgu wchodzi się z zaproszenia. Ktoś, kto już tu jest, dał Ci kod. (W szkielecie akceptowany jest dowolny kod w formacie <code>KRAG-XXXX-XXXX</code>.)</p>
+    <p class="muted">Do Kręgu wchodzi się z zaproszenia. Ktoś, kto już tu jest, dał Ci kod.</p>
     <input id="invite-code" class="field" placeholder="KRAG-A7F3-92KD" autocomplete="off" spellcheck="false">
     <div class="err" id="invite-err"></div>
     <button class="btn" id="go-keys">Dalej</button>
@@ -35,7 +35,7 @@
   <section class="screen" id="s-keys">
     <div class="badge">◈</div>
     <h1>Twój klucz i pseudonim</h1>
-    <p class="muted">Twoje konto to para kluczy wygenerowana na tym urządzeniu. Klucz prywatny nigdy go nie opuszcza. Pseudonim wywodzi się z klucza publicznego.</p>
+    <p class="muted">Twoje konto to klucze wygenerowane na tym urządzeniu. Klucz prywatny nigdy go nie opuszcza. Pseudonim wywodzi się z klucza publicznego.</p>
     <div class="card">
       <div class="klbl">Pseudonim</div>
       <div class="pseudo" id="pseudo">…</div>
@@ -49,29 +49,63 @@
   <section class="screen" id="s-recovery">
     <div class="badge">⚿</div>
     <h1>Fraza odzyskiwania</h1>
-    <p class="muted">To jedyny sposób, by odzyskać konto na nowym urządzeniu. Zapisz ją na papierze. <b>Nikt — także Krąg — nie może jej odtworzyć.</b> Bez niej nowy telefon = nowe konto.</p>
+    <p class="muted">To jedyny sposób, by odzyskać konto na nowym urządzeniu. Zapisz ją na papierze. <b>Nikt — także Krąg — nie może jej odtworzyć.</b></p>
     <div class="card seed" id="seed">…</div>
     <label class="chk"><input type="checkbox" id="seed-ack"> Zapisałem/am frazę w bezpiecznym miejscu</label>
     <button class="btn" id="go-enter" disabled>Wejdź do Kręgu</button>
+    <div class="err" id="enter-err"></div>
   </section>
 
-  <!-- Wnętrze (stub) -->
-  <section class="screen" id="s-home">
-    <div class="badge">◈</div>
-    <h1 id="home-hi">…</h1>
-    <p class="muted">To jest szkielet klienta „prawdziwego” Kręgu. Poniżej pokazuję, co już żyje lokalnie na tym urządzeniu.</p>
-    <div class="card">
-      <div class="krow"><span>Konto (klucz lokalny)</span><b class="ok">na urządzeniu</b></div>
-      <div class="krow"><span>Dziennik zdrowia (IndexedDB)</span><b class="ok" id="diary-state">…</b></div>
-      <div class="krow"><span>Tryb offline (service worker)</span><b class="ok" id="sw-state">…</b></div>
-      <div class="krow"><span>Rozmowy 1:1 (Signal E2E)</span><b class="todo">czeka na backend</b></div>
-      <div class="krow"><span>Kolejka moderacji</span><b class="todo">czeka na O-08</b></div>
+  <!-- ROZMOWY (główny ekran) -->
+  <section class="screen" id="s-app">
+    <div class="apphead">
+      <div>
+        <div class="klbl">Zalogowano jako</div>
+        <div class="pseudo" id="me-pseudo" style="font-size:19px">…</div>
+      </div>
+      <span class="dot" id="conn-dot" title="połączenie"></span>
     </div>
-    <button class="btn ghost" id="diary-add">Dodaj przykładowy wpis do dziennika (lokalnie)</button>
-    <div class="note" id="diary-list"></div>
-    <button class="btn ghost danger" id="wipe">Usuń wszystko z tego urządzenia</button>
+
+    <div class="klbl" style="margin-top:18px">Rozmowy</div>
+    <div id="thread-list" class="threads"></div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="klbl">Rozpocznij rozmowę</div>
+      <p class="muted" style="margin:6px 0 0">Wpisz pseudonim osoby, którą znasz z Kręgu.</p>
+      <input id="peer-input" class="field" placeholder="Spokojna Rzeka #C3D4" autocomplete="off">
+      <div class="err" id="peer-err"></div>
+      <button class="btn" id="start-thread">Otwórz rozmowę</button>
+    </div>
+
+    <details class="dev">
+      <summary>To urządzenie</summary>
+      <div class="card">
+        <div class="krow"><span>Konto (klucz lokalny)</span><b class="ok">na urządzeniu</b></div>
+        <div class="krow"><span>Dziennik zdrowia (IndexedDB)</span><b class="ok" id="diary-state">…</b></div>
+        <div class="krow"><span>Tryb offline (service worker)</span><b class="ok" id="sw-state">…</b></div>
+        <div class="krow"><span>Rozmowy 1:1 (E2E)</span><b class="ok">aktywne</b></div>
+      </div>
+      <button class="btn ghost" id="diary-add">Dodaj przykładowy wpis do dziennika (lokalnie)</button>
+      <div class="note" id="diary-list"></div>
+      <button class="btn ghost danger" id="wipe">Usuń wszystko z tego urządzenia</button>
+    </details>
+  </section>
+
+  <!-- WĄTEK (jedna rozmowa) -->
+  <section class="screen" id="s-thread">
+    <div class="apphead">
+      <button class="iconbtn" id="thread-back" aria-label="Wróć">‹</button>
+      <div class="pseudo" id="thread-peer" style="font-size:18px">…</div>
+      <button class="iconbtn" id="thread-report" title="Zgłoś / zablokuj">⚑</button>
+    </div>
+    <div class="lock-note">🔒 Szyfrowane od końca do końca. Serwer nie czyta tych wiadomości.</div>
+    <div id="msg-list" class="msgs"></div>
+    <div class="composer">
+      <input id="msg-input" class="field" placeholder="Napisz…" autocomplete="off">
+      <button class="sendbtn" id="msg-send" aria-label="Wyślij">↑</button>
+    </div>
   </section>
 </div>
-<script src="app.js"></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>
