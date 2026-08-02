@@ -1,6 +1,8 @@
 # krag-app — „prawdziwy" Krąg (klient PWA)
 
-Osobne repo od prototypu-demo (`ProjektKrag`, dawniej `Krag`, który pokazuje możliwości i bibliotekę wiedzy). Tu powstaje aplikacja produkcyjna wg decyzji **K-27** (hybryda) i **K-30** (stos). To jest **szkielet** — świadomie minimalny, ale realny fundament, nie makieta.
+Osobne repo od prototypu-demo (`ProjektKrag`, dawniej `Krag`, który pokazuje możliwości i bibliotekę wiedzy). Tu powstaje aplikacja produkcyjna wg decyzji **K-27** (hybryda) i **K-30** (stos).
+
+**Aktualizacja (2026-08): baza wiedzy + Ida + warstwa kryzysowa przeniesione z demo.** Produkcyjny klient ma teraz to, co pokazywało demo — 223 fakty, silnik routingu pytań Idy i warstwę kryzysową — na wierzchu swojej bezpiecznej architektury (klucz lokalny, E2E rozmowy, dziennik na urządzeniu). Kod wiedzy jest czysto lokalny: `lib/knowledge.js` (bundle z `ProjektKrag/library`), `lib/ida.js` (routing), `lib/crisis.js` (wykrywanie kryzysu). Warstwa kryzysowa dopasowuje **wzorcami z luzem na wtrącenia**, a nie stałym podciągiem — poprawka **SEC-01** (audyt AUDYT4x): „nie chcę **już** żyć" już nie omija wykrycia. Regresję pilnują `lib/crisis.test.mjs` i `lib/ida.test.mjs`.
 
 ## Architektura (K-27 / K-30)
 
@@ -9,6 +11,7 @@ Zasada nadrzędna (**K-04**): *serwer nigdy nie może poznać, kim jesteś.* Dan
 | Warstwa | Wybór | Status w szkielecie |
 |---|---|---|
 | Klient | **PWA** (Web Crypto, IndexedDB, service worker) | ✅ działa |
+| Baza wiedzy | 223 fakty + routing Idy + warstwa kryzysowa (`lib/knowledge.js`, `lib/ida.js`, `lib/crisis.js`) | ✅ działa lokalnie |
 | Konto | lokalny klucz (ECDSA P-256) + kod zaproszenia; pseudonim z klucza publicznego | ✅ działa lokalnie |
 | Backup konta | fraza odzyskiwania (docelowo pełny **BIP-39**) | ✅ demo (skrócona lista słów) |
 | Dziennik zdrowia | tylko urządzenie: **IndexedDB** + `navigator.storage.persist()` | ✅ działa lokalnie |

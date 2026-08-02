@@ -64,7 +64,9 @@ async function onboard(ctx, code) {
   await page.click('#go-recovery');
   await page.check('#seed-ack');
   await page.click('#go-enter');
-  await page.waitForSelector('#s-app.on', { timeout: 15000 });
+  await page.waitForSelector('#s-ida.on', { timeout: 15000 });   // wejście ląduje na Idzie
+  await page.click('.tab[data-tab="app"]');                       // → zakładka Rozmowy
+  await page.waitForSelector('#s-app.on');
   await page.waitForFunction(() => document.querySelector('#me-pseudo')?.textContent !== '…');
   const pseudo = await page.textContent('#me-pseudo');
   return { page, pseudo: pseudo.trim() };

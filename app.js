@@ -8,17 +8,28 @@ import { API_BASE } from './config.js';
 import { makeClient } from './lib/api.js';
 import { generateAuthKeyPair, authPublicB64, signNonce } from './lib/identity.js';
 import { generateKeyPair, publicKeyB64, deriveSessionKey, encrypt, decrypt, envelope } from './lib/e2e.js';
+import { findFacts, resetThread, setRole, BLOCKNAME, confBadge, MED_BLOCKS, isPos, FACTS } from './lib/ida.js';
+import { risky, stopMeds, CRISIS_LINE, CRISIS_EU } from './lib/crisis.js';
+import { PROV } from './lib/knowledge.js';
 
 'use strict';
 const $ = (s) => document.querySelector(s);
+const MAIN_TABS = { ida: 1, app: 1, diary: 1 };
 
 /* ---------- nawigacja ---------- */
 function show(id) {
   document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === 's-' + id));
+  const tb = $('#tabbar');
+  if (tb) {
+    tb.hidden = !MAIN_TABS[id];
+    tb.querySelectorAll('.tab').forEach((t) => t.classList.toggle('on', t.dataset.tab === id));
+  }
   window.scrollTo(0, 0);
 }
 document.querySelectorAll('[data-back]').forEach((b) =>
   b.addEventListener('click', () => show(b.dataset.back)));
+$('#tabbar').querySelectorAll('.tab').forEach((t) =>
+  t.addEventListener('click', () => { show(t.dataset.tab); if (t.dataset.tab === 'ida') idaFirstOpen(); }));
 
 /* ---------- stan ---------- */
 const api = makeClient(API_BASE);
@@ -187,7 +198,9 @@ async function tryRestore() {
 /* ---------- wejście do aplikacji ---------- */
 async function enterApp(opts = {}) {
   $('#me-pseudo').textContent = account.pseudo;
-  show('app');
+  await initRole();
+  show('ida');
+  idaFirstOpen();
   await renderThreads();
   await renderDiaryStatus();
   // logowanie + klucze w tle; przy odtworzeniu konta nie blokuj UI
@@ -352,7 +365,110 @@ $('#diary-add').addEventListener('click', async () => {
   await put('diary', { ts: Date.now(), note: s[Math.floor(Math.random() * s.length)] });
   await renderDiary();
 });
+async function saveDiaryNote() {
+  const inp = $('#diary-note'); const note = (inp.value || '').trim();
+  if (!note) return;
+  inp.value = '';
+  await put('diary', { ts: Date.now(), note });
+  await renderDiary();
+}
+$('#diary-save').addEventListener('click', saveDiaryNote);
+$('#diary-note').addEventListener('keydown', (e) => { if (e.key === 'Enter') saveDiaryNote(); });
 $('#wipe').addEventListener('click', async () => { await wipe(); location.reload(); });
+
+/* ═══════════ IDA — baza wiedzy ═══════════
+ * Kolejność reakcji (R-1): kryzys → chęć odstawienia leków → baza wiedzy.
+ * Nic z tego nie idzie na serwer — silnik i baza działają w całości na urządzeniu.
+ */
+let idaStarted = false;
+async function initRole() {
+  let r = 'plhiv';
+  try { r = (await get('account', 'role'))?.v || 'plhiv'; } catch { /* noop */ }
+  setRole(r);
+  const sel = $('#ida-role'); if (sel) sel.value = r;
+}
+$('#ida-role').addEventListener('change', async (e) => {
+  const r = e.target.value; setRole(r);
+  try { await put('account', { k: 'role', v: r }); } catch { /* noop */ }
+});
+
+function idaBubble(who, html, src) {
+  const log = $('#ida-log');
+  const d = document.createElement('div');
+  d.className = 'ida-msg ' + who;
+  // Kanał Idy renderuje zaufany HTML z bazy; wpis użytkownika ZAWSZE escapowany (B-3/TECH-02).
+  d.innerHTML = (who === 'me') ? escapeHtml(html) : html + (src ? `<div class="srcline">${src}</div>` : '');
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+  return d;
+}
+function trustHtml(c) { const x = confBadge(c); return `<span class="trust ${x[0]}">${x[1]}</span>`; }
+
+function crisisReply() {
+  const covered = CRISIS_LINE.langs.indexOf('pl') > -1;
+  idaBubble('ida', `<div class="crisisbox">
+    <p>Zatrzymuję się tutaj, bo przeczytałam w tym coś ciężkiego. Nie jestem od tego, żeby to unieść — ale wiem, kto jest. Zostaję. Możesz pisać dalej.</p>
+    <span class="num">${CRISIS_LINE.no}</span>
+    <div class="sub">${CRISIS_LINE.label}</div>
+    ${covered ? '' : `<p class="sub" style="margin-top:8px">Ta linia odpowiada po polsku. Pod numerem ${CRISIS_EU} poprosisz o tłumacza.</p>`}
+  </div>`);
+}
+function stopMedsReply() {
+  idaBubble('ida', `<p>To ważne, że o tym mówisz — i to jest rozmowa do przeprowadzenia z lekarzem prowadzącym, nie samodzielnie. Powody bywają różne: objawy uboczne, zmęczenie codziennością, koszty, wstyd. Każdy z nich da się z kimś omówić i każdy ma zwykle jakieś wyjście.</p>`);
+}
+function noCoverage() {
+  const chips = `<div class="bchips">${MED_BLOCKS.map((b) => `<button class="chip sm" data-blk="${b}">${BLOCKNAME[b] || b}</button>`).join('')}</div>`;
+  const d = idaBubble('ida', `<b>Tego nie ma w bazie Kręgu, więc nie odpowiem.</b><br><br>Zapisuję pytanie jako lukę. Jeśli czegoś w bazie brakuje, to jest informacja dla osób, które ją prowadzą.<br><br><span style="color:var(--tx-3)">Mogę mówić o tym:</span>${chips}`,
+    `<span class="trust t4">poza pokryciem</span>zapisano jako luka`);
+  d.querySelectorAll('[data-blk]').forEach((e) => e.addEventListener('click', () => openBlock(e.dataset.blk)));
+}
+function openBlock(b) {
+  resetThread();
+  idaBubble('me', BLOCKNAME[b] || b);
+  const fs = findFactsByBlock(b);
+  setTimeout(() => renderHit({ block: b, facts: fs, follow: true }), 160);
+}
+function findFactsByBlock(b) {
+  // Bezpośredni podgląd bloku (chip) — pierwsze trzy fakty z bloku.
+  return FACTS.filter((f) => f.b === b).slice(0, 3);
+}
+function renderHit(hit) {
+  let body = hit.facts.map((f) => `<p>${f.w}</p>`).join('');
+  if (hit.unsure) body = `<div class="ctx">Nie jestem pewna, czy dobrze rozumiem — najbliżej mam to. Jeśli chodziło o coś innego, wybierz temat niżej.</div>` + body;
+  if (hit.bound) body = `<p><b>Nie odpowiem na pytanie o Twój własny wynik — i to jest celowe. To rozmowa z lekarzem, nie z bazą.</b></p>` + body;
+  if (!isPos() && (hit.block === 'uu' || hit.block === 'transmisja')) body = `<div class="ctx">odpowiedź dla osoby niezakażonej</div>` + body;
+  if (hit.follow) body = `<div class="ctx">w wątku: ${BLOCKNAME[hit.block] || hit.block}</div>` + body;
+  if (hit.block === 'pep' || hit.block === 'ekspozycja') body = `<div class="urg">To jest sytuacja z zegarem. Czytaj od razu:</div>` + body;
+  const uniq = {}; hit.facts.forEach((f) => { uniq[f.s] = f.c; });
+  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + escapeHtml(nm)).join('<br>');
+  const gate = (hit.facts[0] && hit.facts[0].gate)
+    ? `<div class="gatewarn">Blok medyczny — przed wydaniem wymaga podpisu lekarza. W tej wersji nikt tego jeszcze nie zatwierdził.</div>` : '';
+  src += `<br><span style="opacity:.75">Baza ${PROV.ed} · nikt z ludzi jeszcze tego nie sprawdził</span>`;
+  idaBubble('ida', body + gate, src);
+}
+function idaAsk(q) {
+  idaBubble('me', q);
+  if (risky(q)) { setTimeout(crisisReply, 200); return; }
+  if (stopMeds(q)) { setTimeout(stopMedsReply, 200); return; }
+  const hit = findFacts(q);
+  if (!hit) { setTimeout(noCoverage, 200); return; }
+  setTimeout(() => renderHit(hit), 200);
+}
+const IDA_STARTERS = ['Co to znaczy niewykrywalny?', 'Jak działa PrEP?', 'Co robić po ryzyku?', 'Co znaczy CD4?', 'Czy muszę powiedzieć pracodawcy?'];
+function idaFirstOpen() {
+  if (idaStarted) return;
+  idaStarted = true;
+  idaBubble('ida', `<p>Cześć. Jestem Ida — towarzyszę Ci w Kręgu i odpowiadam z materiałów, które mam. Kiedy czegoś nie mam, mówię to wprost, zamiast zgadywać.</p><div class="starters">${IDA_STARTERS.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}</div>`);
+  $('#ida-log').querySelectorAll('[data-q]').forEach((e) => e.addEventListener('click', () => { const q = e.dataset.q; $('#ida-input').value = ''; idaAsk(q); }));
+}
+function sendIda() {
+  const inp = $('#ida-input'); const q = (inp.value || '').trim();
+  if (!q) return;
+  inp.value = '';
+  idaAsk(q);
+}
+$('#ida-send').addEventListener('click', sendIda);
+$('#ida-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') sendIda(); });
 
 /* ---------- helpers ---------- */
 function escapeHtml(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }

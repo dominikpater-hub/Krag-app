@@ -10,12 +10,20 @@
 </head>
 <body>
 <div class="app" id="app">
-  <!-- Ekran wejścia (K-27/K-28): Ida prowadzi, konto = klucz lokalny + kod zaproszenia -->
+  <!-- Ekran wejścia (K-27/K-28): Ida TOWARZYSZY (nie „prowadzi"); konto = klucz lokalny + kod zaproszenia -->
   <section class="screen on" id="s-welcome">
     <div class="badge">◈</div>
-    <h1>Cześć. Jestem Ida<br>i prowadzę Krąg.</h1>
-    <p>Krąg to miejsce wsparcia między ludźmi, którzy żyją z HIV albo są blisko kogoś takiego. Wchodzisz tu <b>bez nazwiska, maila i numeru</b>.</p>
-    <p class="muted">Twoje dane o zdrowiu zostają na tym urządzeniu i nigdy go nie opuszczają. Serwer widzi tylko pseudonim i zaszyfrowane wiadomości, których nie potrafi odczytać.</p>
+    <h1>Cześć. Jestem Ida.</h1>
+    <p>Towarzyszę osobom żyjącym z HIV i ich bliskim. Pomogę Ci znaleźć <b>sprawdzone informacje</b>, zrozumieć wyniki i być w kontakcie z ludźmi, którzy to znają. Gdy potrzebna jest konsultacja medyczna, powiem to wprost.</p>
+    <p class="lbl">W Kręgu możesz</p>
+    <ul class="benefits">
+      <li><span class="bi">📚</span> Uczyć się o HIV prostym językiem</li>
+      <li><span class="bi">📈</span> Prowadzić prywatną historię badań</li>
+      <li><span class="bi">💊</span> Pilnować leczenia</li>
+      <li><span class="bi">🤝</span> Rozmawiać szyfrowanie z ludźmi, którzy to rozumieją</li>
+      <li><span class="bi">◈</span> Zapytać mnie o wszystko</li>
+    </ul>
+    <p class="muted">Wchodzisz tu <b>bez nazwiska, maila i numeru</b>. Dane o zdrowiu zostają na tym urządzeniu i nigdy go nie opuszczają. Serwer widzi tylko pseudonim i zaszyfrowane wiadomości, których nie potrafi odczytać.</p>
     <button class="btn" id="go-invite">Mam kod zaproszenia</button>
     <div class="err" id="boot-err"></div>
   </section>
@@ -56,7 +64,27 @@
     <div class="err" id="enter-err"></div>
   </section>
 
-  <!-- ROZMOWY (główny ekran) -->
+  <!-- ═══ IDA — baza wiedzy (ekran domyślny po wejściu) ═══ -->
+  <section class="screen" id="s-ida">
+    <div class="apphead">
+      <div>
+        <div class="klbl">Krąg wiedzy</div>
+        <div class="pseudo" style="font-size:19px">Zapytaj Idę</div>
+      </div>
+      <select id="ida-role" class="rolesel" title="Kim jesteś — to dobiera odpowiedzi">
+        <option value="plhiv">Żyję z HIV</option>
+        <option value="partner">Jestem partnerem/partnerką</option>
+        <option value="bliska">Jestem osobą bliską</option>
+      </select>
+    </div>
+    <div id="ida-log" class="idalog"></div>
+    <div class="composer">
+      <input id="ida-input" class="field" placeholder="Zapytaj o HIV, PrEP, leczenie, wyniki…" autocomplete="off">
+      <button class="sendbtn" id="ida-send" aria-label="Zapytaj">↑</button>
+    </div>
+  </section>
+
+  <!-- ROZMOWY -->
   <section class="screen" id="s-app">
     <div class="apphead">
       <div>
@@ -76,6 +104,23 @@
       <div class="err" id="peer-err"></div>
       <button class="btn" id="start-thread">Otwórz rozmowę</button>
     </div>
+  </section>
+
+  <!-- DZIENNIK -->
+  <section class="screen" id="s-diary">
+    <div class="apphead">
+      <div>
+        <div class="klbl">Tylko to urządzenie</div>
+        <div class="pseudo" style="font-size:19px">Dziennik</div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:12px">Wyniki, dawki, nastrój — cokolwiek chcesz mieć pod ręką. Nic z dziennika nie opuszcza tego telefonu.</p>
+    <div class="card" style="margin-top:6px">
+      <div class="klbl">Nowy wpis</div>
+      <input id="diary-note" class="field" placeholder="np. CD4 268, wiremia poniżej progu" autocomplete="off">
+      <button class="btn" id="diary-save">Zapisz w dzienniku</button>
+    </div>
+    <div class="note" id="diary-list" style="margin-top:12px"></div>
 
     <details class="dev">
       <summary>To urządzenie</summary>
@@ -85,8 +130,7 @@
         <div class="krow"><span>Tryb offline (service worker)</span><b class="ok" id="sw-state">…</b></div>
         <div class="krow"><span>Rozmowy 1:1 (E2E)</span><b class="ok">aktywne</b></div>
       </div>
-      <button class="btn ghost" id="diary-add">Dodaj przykładowy wpis do dziennika (lokalnie)</button>
-      <div class="note" id="diary-list"></div>
+      <button class="btn ghost" id="diary-add">Dodaj przykładowy wpis</button>
       <button class="btn ghost danger" id="wipe">Usuń wszystko z tego urządzenia</button>
     </details>
   </section>
@@ -105,6 +149,13 @@
       <button class="sendbtn" id="msg-send" aria-label="Wyślij">↑</button>
     </div>
   </section>
+
+  <!-- Pasek nawigacji (widoczny na ekranach głównych) -->
+  <nav class="tabbar" id="tabbar" hidden>
+    <button class="tab" data-tab="ida"><span class="ti">◈</span><span>Ida</span></button>
+    <button class="tab" data-tab="app"><span class="ti">💬</span><span>Rozmowy</span></button>
+    <button class="tab" data-tab="diary"><span class="ti">📓</span><span>Dziennik</span></button>
+  </nav>
 </div>
 <script type="module" src="app.js"></script>
 </body>
