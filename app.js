@@ -11,7 +11,10 @@ import { generateKeyPair, publicKeyB64, deriveSessionKey, encrypt, decrypt, enve
 import { findFacts, resetThread, setRole, BLOCKNAME, confBadge, MED_BLOCKS, isPos, FACTS } from './lib/ida.js';
 import { risky, stopMeds, CRISIS_LINE, CRISIS_EU } from './lib/crisis.js';
 import { PROV } from './lib/knowledge.js';
-import { fromPhrase, seal, open } from './lib/vault.js';
+import { fromSecretBytes, seal, open } from './lib/vault.js';
+import { newKeycode, parseKeycode, qrSvg, encodeKeycode } from './lib/keycode.js';
+import { passkeyAvailable, createPasskey, unlockPasskey } from './lib/passkey.js';
+import { solvePow } from './lib/pow.js';
 
 const LANGS = { pl: 'polski', en: 'English', uk: 'українська', ru: 'русский' };
 
@@ -40,7 +43,8 @@ $('#tabbar').querySelectorAll('.tab').forEach((t) =>
 
 /* ---------- stan ---------- */
 const api = makeClient(API_BASE);
-const account = { authKeyPair: null, msgKeyPair: null, pubRaw: null, pseudo: null, seed: null, inviteCode: null };
+const account = { authKeyPair: null, msgKeyPair: null, pubRaw: null, pseudo: null, master: null };
+// master: 32 bajty „Klucza Kręgu" (bytes). Z niego wyprowadzamy sejf (lib/vault.js).
 // Profil: pseudonim (nazwa wyświetlana), język, rola. Synchronizowany E2E przez sejf (lib/vault.js).
 const profile = { pseudonym: null, lang: 'pl', role: 'plhiv', gram: 'n' };
 // Forma gramatyczna zwracania się do użytkownika (płeć językowa): f/m/neutralna.
@@ -117,14 +121,6 @@ async function generateAccount() {
   account.pseudo = pseudoFrom(hash);
 }
 
-/* fraza odzyskiwania (demo; docelowo pełny BIP-39) */
-const WORDS = ['akacja', 'brzoza', 'cień', 'dąb', 'echo', 'fala', 'gaj', 'horyzont', 'iskra', 'jodła',
-  'klucz', 'liść', 'most', 'nurt', 'obłok', 'pole', 'rosa', 'sopel', 'tarcza', 'ul', 'wrzos', 'zorza',
-  'agat', 'bór', 'cis', 'dzban', 'gil', 'kra', 'łąka', 'mech', 'nić', 'osika', 'próg', 'sarna', 'topola', 'wydma'];
-function makeSeed(n = 12) {
-  return Array.from(crypto.getRandomValues(new Uint32Array(n)), (r) => WORDS[r % WORDS.length]);
-}
-
 /* ---------- logowanie / sieć ---------- */
 function setDot(state) {
   const d = $('#conn-dot');
@@ -155,89 +151,113 @@ async function sessionFor(peer) {
   return key;
 }
 
-/* ---------- przepływ wejścia ---------- */
-$('#go-invite').addEventListener('click', () => show('invite'));
+/* ---------- przepływ wejścia (bez zaproszeń: passkey · anonimowo · Klucz Kręgu) ---------- */
+if (passkeyAvailable()) { $('#go-passkey').hidden = false; $('#login-passkey').hidden = false; }
 $('#go-login').addEventListener('click', () => { $('#login-err').textContent = ''; show('login'); });
 
-/* Logowanie na nowym urządzeniu: fraza → sejf → odszyfrowane klucze + profil → login. */
-$('#go-login-do').addEventListener('click', async () => {
-  const words = ($('#login-phrase').value || '').trim().toLowerCase().split(/\s+/).filter(Boolean);
-  if (words.length < 6) { $('#login-err').textContent = 'Wpisz pełną frazę (12 słów).'; return; }
-  const btn = $('#go-login-do'); btn.disabled = true; $('#login-err').textContent = 'Odszyfrowuję sejf…';
-  try {
-    const { lookupId, key } = await fromPhrase(words);
-    let ciphertext;
-    try { ({ ciphertext } = await api.getVault(lookupId)); }
-    catch (e) { throw new Error(/404|nie istnieje/i.test(e.message) ? 'Nie znaleziono konta dla tej frazy.' : e.message); }
-    let bundle;
-    try { bundle = await open(ciphertext, key); }
-    catch { throw new Error('Fraza nie pasuje do tego sejfu.'); }
-    account.seed = words;
-    account.pseudo = bundle.pseudo;
-    account.pubRaw = new Uint8Array(bundle.pubRaw || []);
-    account.authKeyPair = await importAuthKeyPair(bundle.auth);
-    account.msgKeyPair = await importMsgKeyPair(bundle.msg);
-    Object.assign(profile, bundle.profile || {});
-    if (!profile.pseudonym) profile.pseudonym = account.pseudo;
-    await put('account', {
-      k: 'me', pseudo: account.pseudo, pubRaw: Array.from(account.pubRaw),
-      authKeyPair: account.authKeyPair, msgKeyPair: account.msgKeyPair,
-    });
-    await put('account', { k: 'seed', v: account.seed });
-    await persistProfile();
-    await requestPersist();
-    $('#login-err').textContent = '';
-    await enterApp();
-  } catch (e) {
-    $('#login-err').textContent = 'Nie udało się: ' + e.message;
-    btn.disabled = false;
-  }
-});
-
-$('#go-keys').addEventListener('click', async () => {
-  const v = $('#invite-code').value.trim().toUpperCase();
-  if (!/^KRAG-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(v)) {
-    $('#invite-err').textContent = 'Format kodu: KRAG-XXXX-XXXX.';
-    return;
-  }
-  account.inviteCode = v;
-  $('#invite-err').textContent = '';
-  show('keys');
+// Rejestracja konta: klucze na urządzeniu + proof-of-work zamiast zaproszenia.
+async function registerOnServer() {
   await generateAccount();
-  $('#pseudo').textContent = account.pseudo;
-  $('#pubfp').textContent = hex(account.pubRaw, 10) + '…';
-});
+  const pub = await authPublicB64(account.authKeyPair);
+  const { challenge, bits } = await api.powChallenge();
+  const nonce = solvePow(challenge, bits);          // kilka sekund CPU — anty-spam, zero danych
+  await api.register(account.pseudo, pub, { challenge, nonce });
+  await login();
+  await publishMyKeys();
+}
+async function persistAccount() {
+  await put('account', {
+    k: 'me', pseudo: account.pseudo, pubRaw: Array.from(account.pubRaw),
+    authKeyPair: account.authKeyPair, msgKeyPair: account.msgKeyPair,
+  });
+  await put('account', { k: 'master', v: Array.from(account.master) });
+  await persistProfile();
+  await requestPersist();
+}
 
-$('#go-recovery').addEventListener('click', () => {
-  account.seed = makeSeed(12);
-  $('#seed').textContent = account.seed.map((w, i) => `${i + 1}. ${w}`).join('   ');
-  show('recovery');
-});
-$('#seed-ack').addEventListener('change', (e) => { $('#go-enter').disabled = !e.target.checked; });
+$('#go-anon').addEventListener('click', () => signup({ passkey: false }));
+$('#go-passkey').addEventListener('click', () => signup({ passkey: true }));
 
-$('#go-enter').addEventListener('click', async () => {
-  const btn = $('#go-enter'); btn.disabled = true;
-  $('#enter-err').textContent = 'Łączę z Kręgiem…';
+async function signup({ passkey }) {
+  const btn = passkey ? $('#go-passkey') : $('#go-anon');
+  btn.disabled = true; $('#boot-err').textContent = '';
+  let pkSecret = null;
   try {
-    const pub = await authPublicB64(account.authKeyPair);
-    await api.redeem(account.inviteCode, account.pseudo, pub);   // rejestracja na serwerze
-    await login();                                               // dowód klucza → token
-    await publishMyKeys();                                       // klucz wiadomości dla innych
-    await put('account', {
-      k: 'me', pseudo: account.pseudo, pubRaw: Array.from(account.pubRaw),
-      authKeyPair: account.authKeyPair, msgKeyPair: account.msgKeyPair,
-    });
-    profile.pseudonym = account.pseudo;
-    await put('account', { k: 'seed', v: account.seed });
-    await persistProfile();
-    await requestPersist();
-    $('#enter-err').textContent = '';
-    await enterApp({ backup: true });
+    if (passkey) {
+      $('#boot-err').textContent = 'Potwierdź passkeyem…';
+      try { pkSecret = (await createPasskey('Krąg')).secret; }
+      catch (e) { throw new Error('passkey się nie udał (' + e.message + '). Możesz wejść anonimowo.'); }
+    }
+    $('#boot-err').textContent = 'Zakładam konto… (chwila liczenia)';
+    const kc = newKeycode();                 // master = Klucz Kręgu (32 B)
+    account.master = kc.bytes;
+    await registerOnServer();
+    await backupVault();                       // sejf pod lookupId(master)
+    if (pkSecret) {                            // passkey odblokowuje sejf: kopia mastera pod lookupId(PRF)
+      const pk = await fromSecretBytes(pkSecret);
+      const wrap = await seal({ master: Array.from(account.master) }, pk.key);
+      await withAuth(() => api.putVault(pk.lookupId, wrap));
+    }
+    await persistAccount();
+    $('#boot-err').textContent = '';
+    presentKeycode(kc.code);
   } catch (e) {
-    $('#enter-err').textContent = 'Nie udało się: ' + e.message;
+    $('#boot-err').textContent = 'Nie udało się: ' + e.message;
     btn.disabled = false;
   }
+}
+
+// Ekran „Twój Klucz Kręgu" (QR + kopiuj) → wejście.
+function presentKeycode(code) {
+  $('#kc-qr').innerHTML = qrSvg(code);
+  $('#kc-code').textContent = code;
+  $('#kc-ack').checked = false; $('#kc-enter').disabled = true; $('#kc-err').textContent = '';
+  show('keycode');
+}
+$('#kc-ack').addEventListener('change', (e) => { $('#kc-enter').disabled = !e.target.checked; });
+$('#kc-copy').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText($('#kc-code').textContent); toast('Skopiowano Klucz Kręgu.'); }
+  catch { $('#kc-err').textContent = 'Zaznacz klucz i skopiuj ręcznie.'; }
 });
+$('#kc-enter').addEventListener('click', () => enterApp());
+
+// —— Logowanie na nowym urządzeniu ——
+$('#login-passkey').addEventListener('click', async () => {
+  const btn = $('#login-passkey'); btn.disabled = true; $('#login-err').textContent = 'Potwierdź passkeyem…';
+  try {
+    const secret = await unlockPasskey();
+    if (!secret) throw new Error('brak PRF — użyj Klucza Kręgu.');
+    const pk = await fromSecretBytes(secret);
+    let masterBytes;
+    try { const { ciphertext } = await api.getVault(pk.lookupId); masterBytes = new Uint8Array((await open(ciphertext, pk.key)).master); }
+    catch { throw new Error('nie znaleziono konta dla tego passkeya.'); }
+    await loginWithMaster(masterBytes);
+  } catch (e) { $('#login-err').textContent = 'Nie udało się: ' + e.message; btn.disabled = false; }
+});
+$('#login-do').addEventListener('click', async () => {
+  const bytes = parseKeycode($('#login-keycode').value);
+  if (!bytes) { $('#login-err').textContent = 'To nie wygląda na Klucz Kręgu (krag1:…).'; return; }
+  const btn = $('#login-do'); btn.disabled = true; $('#login-err').textContent = 'Odszyfrowuję sejf…';
+  try { await loginWithMaster(bytes); }
+  catch (e) { $('#login-err').textContent = 'Nie udało się: ' + e.message; btn.disabled = false; }
+});
+
+// Wspólne: master → sejf → klucze/profil → login → wejście.
+async function loginWithMaster(masterBytes) {
+  const m = await fromSecretBytes(masterBytes);
+  let bundle;
+  try { const { ciphertext } = await api.getVault(m.lookupId); bundle = await open(ciphertext, m.key); }
+  catch (e) { throw new Error(/404|nie istnieje/i.test(e.message) ? 'nie znaleziono konta dla tego klucza.' : 'klucz nie pasuje do sejfu.'); }
+  account.master = masterBytes;
+  account.pseudo = bundle.pseudo;
+  account.pubRaw = new Uint8Array(bundle.pubRaw || []);
+  account.authKeyPair = await importAuthKeyPair(bundle.auth);
+  account.msgKeyPair = await importMsgKeyPair(bundle.msg);
+  Object.assign(profile, bundle.profile || {});
+  if (!profile.pseudonym) profile.pseudonym = account.pseudo;
+  await persistAccount();
+  await enterApp();
+}
 
 /* ---------- odtworzenie konta przy starcie ---------- */
 async function tryRestore() {
@@ -247,7 +267,7 @@ async function tryRestore() {
   account.pubRaw = new Uint8Array(me.pubRaw || []);
   account.authKeyPair = me.authKeyPair;
   account.msgKeyPair = me.msgKeyPair;
-  try { account.seed = (await get('account', 'seed'))?.v || null; } catch { /* noop */ }
+  try { const m = (await get('account', 'master'))?.v; account.master = m ? new Uint8Array(m) : null; } catch { /* noop */ }
   await enterApp({ background: true, pull: true });
   return true;
 }
@@ -464,11 +484,11 @@ function setSync(state) {
   el.textContent = state === 'on' ? '✓ zsynchronizowano' : state === 'sync' ? 'synchronizuję…' : state === 'off' ? 'offline' : '—';
 }
 
-/* Zapis sejfu: {klucze JWK + profil} zaszyfrowane frazą; serwer dostaje sam szyfrogram. */
+/* Zapis sejfu: {klucze JWK + profil} zaszyfrowane Kluczem Kręgu; serwer dostaje sam szyfrogram. */
 async function backupVault() {
-  if (!account.seed || !account.authKeyPair) return;
+  if (!account.master || !account.authKeyPair) return;
   setSync('sync');
-  const { lookupId, key } = await fromPhrase(account.seed);
+  const { lookupId, key } = await fromSecretBytes(account.master);
   const bundle = {
     v: 1, pseudo: account.pseudo, pubRaw: Array.from(account.pubRaw || []),
     auth: await exportAuthKeyPair(account.authKeyPair),
@@ -481,8 +501,8 @@ async function backupVault() {
 }
 /* Pobranie profilu z sejfu (zmiany z innego urządzenia). Nie dotyka kluczy — te już mamy. */
 async function pullVault() {
-  if (!account.seed) return;
-  const { lookupId, key } = await fromPhrase(account.seed);
+  if (!account.master) return;
+  const { lookupId, key } = await fromSecretBytes(account.master);
   const { ciphertext } = await api.getVault(lookupId);
   const bundle = await open(ciphertext, key);
   if (bundle.profile) { Object.assign(profile, bundle.profile); await persistProfile(); applyProfile(); }
@@ -496,7 +516,13 @@ function renderProfile() {
   langSel.value = profile.lang || 'pl';
   $('#pf-role').value = profile.role || 'plhiv';
   $('#pf-gram').value = profile.gram || 'n';
-  $('#pf-seed').textContent = account.seed ? account.seed.map((w, i) => `${i + 1}. ${w}`).join('   ') : '(niedostępna na tym urządzeniu)';
+  if (account.master) {
+    const code = encodeKeycode(account.master);
+    $('#pf-kc-qr').innerHTML = qrSvg(code);
+    $('#pf-kc-code').textContent = code;
+  } else {
+    $('#pf-kc-qr').innerHTML = ''; $('#pf-kc-code').textContent = '(niedostępny na tym urządzeniu)';
+  }
   $('#pf-err').textContent = '';
 }
 $('#pf-save').addEventListener('click', async () => {
@@ -515,6 +541,10 @@ $('#ida-role').addEventListener('change', async (e) => {
   profile.role = e.target.value; setRole(profile.role);
   await persistProfile();
   backupVault().catch(() => setSync('off'));
+});
+$('#pf-kc-copy').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText($('#pf-kc-code').textContent); toast('Skopiowano Klucz Kręgu.'); }
+  catch { /* zaznacz ręcznie */ }
 });
 
 function idaBubble(who, html, src) {

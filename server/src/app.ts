@@ -2,6 +2,7 @@ import Fastify, { type FastifyInstance, type FastifyRequest } from 'fastify';
 import type { Queryable } from './db.ts';
 import * as repo from './repo.ts';
 import { verifySignature, newToken, newNonce, minutesFromNow } from './auth.ts';
+import { issue as powIssue, verify as powVerify } from './pow.ts';
 
 const SESSION_MINUTES = 60;
 const CHALLENGE_MINUTES = 5;
@@ -42,6 +43,15 @@ export function buildApp(db: Queryable): FastifyInstance {
     const { code, pseudonym, publicKey } = req.body as any;
     requireFields({ code, pseudonym, publicKey });
     return repo.redeemInvite(db, code, pseudonym, publicKey);
+  });
+
+  // ——— Otwarta rejestracja (bez zaproszeń), chroniona proof-of-work ———
+  app.get('/pow', async () => powIssue());
+  app.post('/accounts/register', async (req) => {
+    const { pseudonym, publicKey, pow } = req.body as any;
+    requireFields({ pseudonym, publicKey });
+    if (!pow || !powVerify(pow.challenge, pow.nonce)) throw repo.httpError(403, 'Nieprawidłowy dowód pracy');
+    return repo.registerAccount(db, pseudonym, publicKey);
   });
 
   // ——— „Logowanie" = dowód posiadania klucza prywatnego ———

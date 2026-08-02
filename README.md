@@ -2,6 +2,8 @@
 
 Osobne repo od prototypu-demo (`ProjektKrag`, dawniej `Krag`, który pokazuje możliwości i bibliotekę wiedzy). Tu powstaje aplikacja produkcyjna wg decyzji **K-27** (hybryda) i **K-30** (stos).
 
+**Aktualizacja (2026-08): logowanie bez zaproszeń, maks prywatność.** Zamiast kodów zaproszeń wejście jest trojakie, wszystkie server-blind: **passkey (Face ID / odcisk)** — WebAuthn używany wyłącznie lokalnie jako źródło sekretu (rozszerzenie PRF) do odblokowania sejfu, serwer nigdy nie widzi WebAuthn; **Klucz Kręgu** — jeden wysokoentropijny sekret (QR + tekst `krag1:…`) do przeniesienia konta na inne urządzenie; **anonimowo** — konto od razu, chronione bezstanowym **proof-of-work** (`lib/pow.js` + `server/src/pow.ts`) zamiast bramki zaproszeń. Wszystkie trzy prowadzą do tego samego sejfu E2E (`lib/vault.js`, `fromSecretBytes`). Passkey testowany automatycznie wirtualnym authenticatorem z PRF (`scripts/e2e-passkey.mjs`).
+
 **Aktualizacja (2026-08): baza wiedzy + Ida + warstwa kryzysowa przeniesione z demo.** Produkcyjny klient ma teraz to, co pokazywało demo — 223 fakty, silnik routingu pytań Idy i warstwę kryzysową — na wierzchu swojej bezpiecznej architektury (klucz lokalny, E2E rozmowy, dziennik na urządzeniu). Kod wiedzy jest czysto lokalny: `lib/knowledge.js` (bundle z `ProjektKrag/library`), `lib/ida.js` (routing), `lib/crisis.js` (wykrywanie kryzysu). Warstwa kryzysowa dopasowuje **wzorcami z luzem na wtrącenia**, a nie stałym podciągiem — poprawka **SEC-01** (audyt AUDYT4x): „nie chcę **już** żyć" już nie omija wykrycia. Regresję pilnują `lib/crisis.test.mjs` i `lib/ida.test.mjs`.
 
 ## Architektura (K-27 / K-30)

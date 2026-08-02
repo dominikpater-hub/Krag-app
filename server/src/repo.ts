@@ -33,6 +33,18 @@ export async function redeemInvite(
   return { id, pseudonym };
 }
 
+/** Otwarta rejestracja (bez zaproszenia). Anty-spam załatwia proof-of-work w warstwie app. */
+export async function registerAccount(db: Queryable, pseudonym: string, publicKey: string) {
+  const dup = await findAccountByPseudonym(db, pseudonym);
+  if (dup) throw httpError(409, 'Pseudonim zajęty');
+  const id = randomUUID();
+  await db.query(
+    'insert into accounts (id, pseudonym, public_key, invited_by) values ($1,$2,$3,null)',
+    [id, pseudonym, publicKey],
+  );
+  return { id, pseudonym };
+}
+
 /** Bootstrap: pierwsze konto bez zaproszenia (założyciel). Kolejne — tylko z kodem. */
 export async function bootstrapAccount(db: Queryable, pseudonym: string, publicKey: string) {
   const { rows } = await db.query('select count(*)::int as n from accounts');

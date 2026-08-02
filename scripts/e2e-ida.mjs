@@ -34,7 +34,7 @@ function startWeb() {
 }
 function startApi() {
   apiProc = spawn(join(ROOT, 'server', 'node_modules', '.bin', 'tsx'), ['src/dev-memory.ts'],
-    { cwd: join(ROOT, 'server'), env: { ...process.env, PORT: String(API_PORT) }, stdio: 'ignore', detached: true });
+    { cwd: join(ROOT, 'server'), env: { ...process.env, PORT: String(API_PORT), POW_BITS: '10' }, stdio: 'ignore', detached: true });
   return waitHealth();
 }
 function killApi() { try { if (apiProc?.pid) process.kill(-apiProc.pid); } catch { /* gone */ } }
@@ -54,13 +54,10 @@ async function main() {
   page.on('pageerror', (e) => { console.log('  [pageerror]', e.message); fail++; });
 
   await page.goto(WEB);
-  await page.click('#go-invite');
-  await page.fill('#invite-code', 'KRAG-DEMO-0001');
-  await page.click('#go-keys');
-  await page.waitForSelector('#s-keys.on');
-  await page.click('#go-recovery');
-  await page.check('#seed-ack');
-  await page.click('#go-enter');
+  await page.click('#go-anon');
+  await page.waitForSelector('#s-keycode.on', { timeout: 20000 });
+  await page.check('#kc-ack');
+  await page.click('#kc-enter');
 
   await page.waitForSelector('#s-ida.on', { timeout: 15000 });
   ok(true, 'wejście ląduje na ekranie Idy');

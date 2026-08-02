@@ -38,7 +38,7 @@ function startWeb() {
 }
 function startApi() {
   apiProc = spawn(join(ROOT, 'server', 'node_modules', '.bin', 'tsx'), ['src/dev-memory.ts'], {
-    cwd: join(ROOT, 'server'), env: { ...process.env, PORT: String(API_PORT) },
+    cwd: join(ROOT, 'server'), env: { ...process.env, PORT: String(API_PORT), POW_BITS: '10' },
     stdio: 'ignore', detached: true,      // własna grupa procesów → czysty teardown
   });
   return waitHealth();
@@ -52,19 +52,16 @@ async function waitHealth() {
   throw new Error('dev-server nie wstał');
 }
 
-async function onboard(ctx, code) {
+async function onboard(ctx) {
   const page = await ctx.newPage();
   await page.addInitScript((api) => { window.KRAG_API_BASE = api; }, API);
   page.on('pageerror', (e) => console.log('  [pageerror]', e.message));
   await page.goto(WEB);
-  await page.click('#go-invite');
-  await page.fill('#invite-code', code);
-  await page.click('#go-keys');
-  await page.waitForSelector('#s-keys.on');
-  await page.click('#go-recovery');
-  await page.check('#seed-ack');
-  await page.click('#go-enter');
-  await page.waitForSelector('#s-ida.on', { timeout: 15000 });   // wejście ląduje na Idzie
+  await page.click('#go-anon');                                   // konto anonimowe (PoW + otwarta rejestracja)
+  await page.waitForSelector('#s-keycode.on', { timeout: 20000 });
+  await page.check('#kc-ack');
+  await page.click('#kc-enter');
+  await page.waitForSelector('#s-ida.on', { timeout: 15000 });    // wejście ląduje na Idzie
   await page.click('.tab[data-tab="app"]');                       // → zakładka Rozmowy
   await page.waitForSelector('#s-app.on');
   await page.waitForFunction(() => document.querySelector('#me-pseudo')?.textContent !== '…');
@@ -80,8 +77,8 @@ async function main() {
   const ctxA = await browser.newContext();
   const ctxB = await browser.newContext();
 
-  const A = await onboard(ctxA, 'KRAG-DEMO-0001'); log('A wszedł:', A.pseudo);
-  const B = await onboard(ctxB, 'KRAG-DEMO-0002'); log('B wszedł:', B.pseudo);
+  const A = await onboard(ctxA); log('A wszedł:', A.pseudo);
+  const B = await onboard(ctxB); log('B wszedł:', B.pseudo);
 
   // A → B
   const outText = 'Cześć. Jak się dziś trzymasz?';

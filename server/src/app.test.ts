@@ -129,6 +129,29 @@ test('bezpieczeństwo: brak tokenu jest odrzucany, nieznany pseudonim = 404', as
   assert.equal(ch.statusCode, 404);
 });
 
+test('otwarta rejestracja: bez PoW = 403; z poprawnym PoW = konto; duplikat = 409', async () => {
+  const { createHash } = await import('node:crypto');
+  const lzb = (hex: string) => { let n = 0; for (const ch of hex) { const v = parseInt(ch, 16); if (v === 0) { n += 4; continue; } n += Math.clz32(v) - 28; break; } return n; };
+  const solve = (challenge: string, bits: number) => { for (let i = 0; ; i++) { if (lzb(createHash('sha256').update(`${challenge}:${i}`).digest('hex')) >= bits) return String(i); } };
+
+  const pk = 'AAAApublickey==';
+  // bez PoW
+  const noPow = await app.inject({ method: 'POST', url: '/accounts/register', payload: { pseudonym: 'Nowy Ktoś #1111', publicKey: pk } });
+  assert.equal(noPow.statusCode, 403, noPow.body);
+  // z PoW
+  const ch = (await app.inject({ method: 'GET', url: '/pow' })).json();
+  const nonce = solve(ch.challenge, ch.bits);
+  const reg = await app.inject({ method: 'POST', url: '/accounts/register', payload: { pseudonym: 'Nowy Ktoś #1111', publicKey: pk, pow: { challenge: ch.challenge, nonce } } });
+  assert.equal(reg.statusCode, 200, reg.body);
+  // duplikat pseudonimu (nowy PoW)
+  const ch2 = (await app.inject({ method: 'GET', url: '/pow' })).json();
+  const dup = await app.inject({ method: 'POST', url: '/accounts/register', payload: { pseudonym: 'Nowy Ktoś #1111', publicKey: pk, pow: { challenge: ch2.challenge, nonce: solve(ch2.challenge, ch2.bits) } } });
+  assert.equal(dup.statusCode, 409);
+  // sfałszowane wyzwanie odrzucone
+  const fake = await app.inject({ method: 'POST', url: '/accounts/register', payload: { pseudonym: 'Inny #2222', publicKey: pk, pow: { challenge: '9999999999999.deadbeef.0000000000000000', nonce: '0' } } });
+  assert.equal(fake.statusCode, 403);
+});
+
 test('sejf E2E: zapis (authed) → odczyt po lookupId (bez auth); cudze konto nie nadpisze', async () => {
   // świeża baza, żeby móc zbootstrapować konto A
   const mem = newDb(); mem.public.none(schema);

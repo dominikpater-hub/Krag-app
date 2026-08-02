@@ -34,7 +34,7 @@ function startWeb() {
 }
 function startApi() {
   apiProc = spawn(join(ROOT, 'server', 'node_modules', '.bin', 'tsx'), ['src/dev-memory.ts'],
-    { cwd: join(ROOT, 'server'), env: { ...process.env, PORT: String(API_PORT) }, stdio: 'ignore', detached: true });
+    { cwd: join(ROOT, 'server'), env: { ...process.env, PORT: String(API_PORT), POW_BITS: '10' }, stdio: 'ignore', detached: true });
   return waitHealth();
 }
 function killApi() { try { if (apiProc?.pid) process.kill(-apiProc.pid); } catch { /* gone */ } }
@@ -56,23 +56,20 @@ async function main() {
   await startApi(); log('dev-server (pg-mem) na', API);
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
 
-  // ——— Urządzenie A: onboarding + profil ———
+  // ——— Urządzenie A: onboarding anonimowy → Klucz Kręgu → profil ———
   const A = await newDevice(browser);
-  await A.click('#go-invite');
-  await A.fill('#invite-code', 'KRAG-DEMO-0001');
-  await A.click('#go-keys');
-  await A.waitForSelector('#s-keys.on');
-  const handle = (await A.textContent('#pseudo')).trim();
-  await A.click('#go-recovery');
-  const seed = (await A.textContent('#seed')).replace(/\d+\.\s*/g, '').trim().split(/\s+/).join(' ');
-  await A.check('#seed-ack');
-  await A.click('#go-enter');
+  await A.click('#go-anon');
+  await A.waitForSelector('#s-keycode.on', { timeout: 20000 });
+  const keycode = (await A.textContent('#kc-code')).trim();
+  ok(/^krag1:[A-Za-z0-9\-_]+$/.test(keycode), 'A: dostał Klucz Kręgu (krag1:…)');
+  await A.check('#kc-ack');
+  await A.click('#kc-enter');
   await A.waitForSelector('#s-ida.on', { timeout: 15000 });
-  ok(!!seed && seed.split(' ').length === 12, 'A: fraza odzyskiwania ma 12 słów');
 
-  // A ustawia profil: pseudonim + język uk
+  // A ustawia profil: pseudonim + język uk + rola + płeć językowa
   await A.click('.tab[data-tab="profile"]');
   await A.waitForSelector('#s-profile.on');
+  const handle = (await A.textContent('#pf-handle')).trim();
   await A.fill('#pf-pseudo', 'Wschodni Wiatr');
   await A.selectOption('#pf-lang', 'uk');
   await A.selectOption('#pf-role', 'partner');
@@ -81,14 +78,14 @@ async function main() {
   await A.waitForFunction(() => document.querySelector('#sync-state')?.textContent?.includes('zsynchronizowano'), { timeout: 10000 });
   ok(true, 'A: profil zapisany i zsynchronizowany (sejf wypchnięty)');
 
-  // ——— Urządzenie B: logowanie frazą A ———
+  // ——— Urządzenie B: logowanie Kluczem Kręgu A ———
   const B = await newDevice(browser);
   await B.click('#go-login');
   await B.waitForSelector('#s-login.on');
-  await B.fill('#login-phrase', seed);
-  await B.click('#go-login-do');
+  await B.fill('#login-keycode', keycode);
+  await B.click('#login-do');
   await B.waitForSelector('#s-ida.on', { timeout: 15000 });
-  ok(true, 'B: zalogowano frazą A (konto odtworzone z sejfu)');
+  ok(true, 'B: zalogowano Kluczem Kręgu A (konto odtworzone z sejfu)');
 
   await B.click('.tab[data-tab="profile"]');
   await B.waitForSelector('#s-profile.on');
@@ -104,10 +101,11 @@ async function main() {
   ok(bHandle === handle, 'B: ten sam adres sieciowy (klucz odtworzony z sejfu)');
 
   // serwer: surowy sejf to szyfrogram bez pseudonimu w jawnym tekście
-  const bLookup = await B.evaluate(async (words) => {
-    const { vaultLookupId } = await import('./lib/vault.js');
-    return vaultLookupId(words.split(' '));
-  }, seed);
+  const bLookup = await B.evaluate(async (code) => {
+    const { parseKeycode } = await import('./lib/keycode.js');
+    const { fromSecretBytes } = await import('./lib/vault.js');
+    return (await fromSecretBytes(parseKeycode(code))).lookupId;
+  }, keycode);
   const vaultRes = await fetch(`${API}/vault/${bLookup}`).then((r) => r.json());
   ok(typeof vaultRes.ciphertext === 'string' && !vaultRes.ciphertext.includes('Wschodni'),
     'serwer: sejf to szyfrogram — pseudonim NIE w jawnym tekście');

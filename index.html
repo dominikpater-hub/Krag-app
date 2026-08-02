@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="app" id="app">
-  <!-- Ekran wejścia (K-27/K-28): Ida TOWARZYSZY (nie „prowadzi"); konto = klucz lokalny + kod zaproszenia -->
+  <!-- Ekran wejścia: bez zaproszeń. Passkey (Face ID/odcisk) · anonimowo · Klucz Kręgu -->
   <section class="screen on" id="s-welcome">
     <img src="enso.svg" class="logo" alt="Krąg" width="80" height="80">
     <h1>Cześć. Jestem Ida.</h1>
@@ -24,56 +24,38 @@
       <li><span class="bi">◈</span> Zapytać mnie o wszystko</li>
     </ul>
     <p class="muted">Prywatność jest tu domyślna, nie opcją do włączenia. To, co zapisujesz o swoim zdrowiu, zostaje zaszyfrowane na Twoim urządzeniu — i nikt w Kręgu tego nie widzi, także my.</p>
-    <button class="btn" id="go-invite">Mam kod zaproszenia</button>
-    <button class="btn ghost" id="go-login">Mam już konto — zaloguj frazą</button>
+    <button class="btn" id="go-passkey" hidden>Wejdź — Face ID lub odcisk</button>
+    <button class="btn" id="go-anon">Wejdź anonimowo</button>
+    <button class="btn ghost" id="go-login">Mam już konto</button>
     <div class="err" id="boot-err"></div>
   </section>
 
-  <!-- Logowanie frazą odzyskiwania (nowe urządzenie) -->
+  <!-- Logowanie na nowym urządzeniu: passkey albo Klucz Kręgu -->
   <section class="screen" id="s-login">
-    <div class="badge">⚿</div>
-    <h1>Zaloguj się frazą</h1>
-    <p class="muted">Wpisz 12 słów frazy odzyskiwania z pierwszego urządzenia. Odtworzymy konto i pobierzemy Twój profil — wszystko odszyfrowane <b>na tym urządzeniu</b>. Serwer nigdy nie widzi tych słów.</p>
-    <textarea id="login-phrase" class="field" rows="3" placeholder="akacja brzoza cień…  (12 słów, oddzielonych spacją)" autocomplete="off" spellcheck="false" style="resize:none"></textarea>
+    <img src="enso.svg" class="logo" alt="Krąg" width="72" height="72">
+    <h1>Mam już konto</h1>
+    <p class="muted">Odtwórz konto na tym urządzeniu — passkeyem (Face ID / odcisk) albo Kluczem Kręgu. Wszystko odszyfrowuje się <b>tutaj</b>; serwer nie widzi ani jednego, ani drugiego.</p>
+    <button class="btn" id="login-passkey" hidden>Zaloguj — Face ID lub odcisk</button>
+    <p class="lbl">albo Kluczem Kręgu</p>
+    <textarea id="login-keycode" class="field" rows="2" placeholder="krag1:…  (wklej albo zeskanuj)" autocomplete="off" spellcheck="false" style="resize:none"></textarea>
     <div class="err" id="login-err"></div>
-    <button class="btn" id="go-login-do">Zaloguj i zsynchronizuj</button>
+    <button class="btn" id="login-do">Zaloguj i zsynchronizuj</button>
     <button class="btn ghost" data-back="welcome">Wróć</button>
   </section>
 
-  <!-- Kod zaproszenia -->
-  <section class="screen" id="s-invite">
-    <div class="badge">◎</div>
-    <h1>Kod zaproszenia</h1>
-    <p class="muted">Do Kręgu wchodzi się z zaproszenia. Ktoś, kto już tu jest, dał Ci kod.</p>
-    <input id="invite-code" class="field" placeholder="KRAG-A7F3-92KD" autocomplete="off" spellcheck="false">
-    <div class="err" id="invite-err"></div>
-    <button class="btn" id="go-keys">Dalej</button>
-    <button class="btn ghost" data-back="welcome">Wróć</button>
-  </section>
-
-  <!-- Generacja klucza + pseudonim -->
-  <section class="screen" id="s-keys">
-    <div class="badge">◈</div>
-    <h1>Twój klucz i pseudonim</h1>
-    <p class="muted">Twoje konto to klucze wygenerowane na tym urządzeniu. Klucz prywatny nigdy go nie opuszcza. Pseudonim wywodzi się z klucza publicznego.</p>
-    <div class="card">
-      <div class="klbl">Pseudonim</div>
-      <div class="pseudo" id="pseudo">…</div>
-      <div class="klbl" style="margin-top:14px">Klucz publiczny (skrót)</div>
-      <div class="mono" id="pubfp">…</div>
+  <!-- Klucz Kręgu — pokazywany po założeniu konta -->
+  <section class="screen" id="s-keycode">
+    <img src="enso.svg" class="logo" alt="Krąg" width="72" height="72">
+    <h1>Twój Klucz Kręgu</h1>
+    <p class="muted">To sposób, by wejść na koncie z innego urządzenia albo je odzyskać. Zapisz go — zrzut ekranu lub menedżer haseł. <b>Nikt, także Krąg, go nie odtworzy.</b></p>
+    <div class="card" style="align-items:center;text-align:center">
+      <div id="kc-qr" class="kc-qr"></div>
+      <div class="mono" id="kc-code" style="margin-top:12px;word-break:break-all"></div>
+      <button class="btn ghost sm" id="kc-copy" style="width:auto;padding:8px 14px;margin-top:10px">Kopiuj klucz</button>
     </div>
-    <button class="btn" id="go-recovery">Dalej</button>
-  </section>
-
-  <!-- Fraza odzyskiwania -->
-  <section class="screen" id="s-recovery">
-    <div class="badge">⚿</div>
-    <h1>Fraza odzyskiwania</h1>
-    <p class="muted">To jedyny sposób, by odzyskać konto na nowym urządzeniu. Zapisz ją na papierze. <b>Nikt — także Krąg — nie może jej odtworzyć.</b></p>
-    <div class="card seed" id="seed">…</div>
-    <label class="chk"><input type="checkbox" id="seed-ack"> Zapisałem/am frazę w bezpiecznym miejscu</label>
-    <button class="btn" id="go-enter" disabled>Wejdź do Kręgu</button>
-    <div class="err" id="enter-err"></div>
+    <label class="chk"><input type="checkbox" id="kc-ack"> Zapisałem/am Klucz Kręgu w bezpiecznym miejscu</label>
+    <button class="btn" id="kc-enter" disabled>Wejdź do Kręgu</button>
+    <div class="err" id="kc-err"></div>
   </section>
 
   <!-- ═══ IDA — baza wiedzy (ekran domyślny po wejściu) ═══ -->
@@ -186,9 +168,13 @@
     <div class="err" id="pf-err"></div>
 
     <details class="dev">
-      <summary>Fraza odzyskiwania</summary>
-      <p class="muted" style="margin-top:8px">To jedyny sposób, by wejść na koncie z innego urządzenia. Zapisz na papierze. Nikt — także Krąg — jej nie odtworzy.</p>
-      <div class="card seed" id="pf-seed">…</div>
+      <summary>Twój Klucz Kręgu</summary>
+      <p class="muted" style="margin-top:8px">Sposób, by wejść na koncie z innego urządzenia albo je odzyskać. Zapisz go bezpiecznie. Nikt, także Krąg, go nie odtworzy.</p>
+      <div class="card" style="align-items:center;text-align:center">
+        <div id="pf-kc-qr" class="kc-qr"></div>
+        <div class="mono" id="pf-kc-code" style="margin-top:12px;word-break:break-all"></div>
+        <button class="btn ghost sm" id="pf-kc-copy" style="width:auto;padding:8px 14px;margin-top:10px">Kopiuj klucz</button>
+      </div>
     </details>
   </section>
 
