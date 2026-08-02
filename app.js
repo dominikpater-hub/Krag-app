@@ -42,7 +42,15 @@ $('#tabbar').querySelectorAll('.tab').forEach((t) =>
 const api = makeClient(API_BASE);
 const account = { authKeyPair: null, msgKeyPair: null, pubRaw: null, pseudo: null, seed: null, inviteCode: null };
 // Profil: pseudonim (nazwa wyświetlana), język, rola. Synchronizowany E2E przez sejf (lib/vault.js).
-const profile = { pseudonym: null, lang: 'pl', role: 'plhiv' };
+const profile = { pseudonym: null, lang: 'pl', role: 'plhiv', gram: 'n' };
+// Forma gramatyczna zwracania się do użytkownika (płeć językowa): f/m/neutralna.
+function gw({ m, f, n }) { return profile.gram === 'm' ? m : profile.gram === 'f' ? f : n; }
+function toast(msg) {
+  let el = document.querySelector('#toast');
+  if (!el) { el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; document.body.appendChild(el); }
+  el.textContent = msg; el.classList.add('on');
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), 2600);
+}
 const sessionKeys = new Map();   // peer -> CryptoKey (AES-GCM)
 const unread = new Map();        // peer -> liczba nieprzeczytanych
 let currentPeer = null;
@@ -423,6 +431,7 @@ async function saveDiaryNote() {
   inp.value = '';
   await put('diary', { ts: Date.now(), note });
   await renderDiary();
+  toast(gw({ m: 'Zapisałeś wpis.', f: 'Zapisałaś wpis.', n: 'Wpis zapisany.' }));
 }
 $('#diary-save').addEventListener('click', saveDiaryNote);
 $('#diary-note').addEventListener('keydown', (e) => { if (e.key === 'Enter') saveDiaryNote(); });
@@ -486,6 +495,7 @@ function renderProfile() {
   langSel.innerHTML = Object.entries(LANGS).map(([c, n]) => `<option value="${c}">${n}</option>`).join('');
   langSel.value = profile.lang || 'pl';
   $('#pf-role').value = profile.role || 'plhiv';
+  $('#pf-gram').value = profile.gram || 'n';
   $('#pf-seed').textContent = account.seed ? account.seed.map((w, i) => `${i + 1}. ${w}`).join('   ') : '(niedostępna na tym urządzeniu)';
   $('#pf-err').textContent = '';
 }
@@ -494,9 +504,11 @@ $('#pf-save').addEventListener('click', async () => {
   profile.pseudonym = ps || account.pseudo;
   profile.lang = $('#pf-lang').value;
   profile.role = $('#pf-role').value;
+  profile.gram = $('#pf-gram').value;
   await persistProfile();
   applyProfile();
   $('#pf-err').textContent = '';
+  toast(gw({ m: 'Zapisałeś profil.', f: 'Zapisałaś profil.', n: 'Profil zapisany.' }));
   try { await backupVault(); } catch (e) { setSync('off'); $('#pf-err').textContent = 'Zapisano lokalnie, sync offline: ' + e.message; }
 });
 $('#ida-role').addEventListener('change', async (e) => {

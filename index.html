@@ -12,18 +12,18 @@
 <div class="app" id="app">
   <!-- Ekran wejścia (K-27/K-28): Ida TOWARZYSZY (nie „prowadzi"); konto = klucz lokalny + kod zaproszenia -->
   <section class="screen on" id="s-welcome">
-    <div class="badge">◈</div>
+    <img src="enso.svg" class="logo" alt="Krąg" width="80" height="80">
     <h1>Cześć. Jestem Ida.</h1>
-    <p>Towarzyszę osobom żyjącym z HIV i ich bliskim. Pomogę Ci znaleźć <b>sprawdzone informacje</b>, zrozumieć wyniki i być w kontakcie z ludźmi, którzy to znają. Gdy potrzebna jest konsultacja medyczna, powiem to wprost.</p>
+    <p>Towarzyszę osobom żyjącym z HIV i ich bliskim. Pomogę Ci znaleźć <b>sprawdzone informacje</b>, zrozumieć wyniki i być w kontakcie z ludźmi, którzy to znają.</p>
     <p class="lbl">W Kręgu możesz</p>
     <ul class="benefits">
       <li><span class="bi">📚</span> Uczyć się o HIV prostym językiem</li>
       <li><span class="bi">📈</span> Prowadzić prywatną historię badań</li>
       <li><span class="bi">💊</span> Pilnować leczenia</li>
-      <li><span class="bi">🤝</span> Rozmawiać szyfrowanie z ludźmi, którzy to rozumieją</li>
+      <li><span class="bi">🤝</span> Pisać szyfrowane wiadomości do ludzi, którzy to rozumieją</li>
       <li><span class="bi">◈</span> Zapytać mnie o wszystko</li>
     </ul>
-    <p class="muted">Wchodzisz tu <b>bez nazwiska, maila i numeru</b>. Dane o zdrowiu zostają na tym urządzeniu i nigdy go nie opuszczają. Serwer widzi tylko pseudonim i zaszyfrowane wiadomości, których nie potrafi odczytać.</p>
+    <p class="muted">Prywatność jest tu domyślna, nie opcją do włączenia. To, co zapisujesz o swoim zdrowiu, zostaje zaszyfrowane na Twoim urządzeniu — i nikt w Kręgu tego nie widzi, także my.</p>
     <button class="btn" id="go-invite">Mam kod zaproszenia</button>
     <button class="btn ghost" id="go-login">Mam już konto — zaloguj frazą</button>
     <div class="err" id="boot-err"></div>
@@ -173,6 +173,12 @@
         <option value="plhiv">Żyję z HIV</option>
         <option value="partner">Jestem partnerem/partnerką</option>
         <option value="bliska">Jestem osobą bliską</option>
+      </select>
+      <div class="klbl" style="margin-top:14px">Jak mam się do Ciebie zwracać?</div>
+      <select id="pf-gram" class="rolesel" style="max-width:100%;width:100%;margin-top:8px">
+        <option value="n">Neutralnie (bezosobowo)</option>
+        <option value="f">W formie żeńskiej</option>
+        <option value="m">W formie męskiej</option>
       </select>
     </div>
 

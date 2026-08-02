@@ -76,6 +76,7 @@ async function main() {
   await A.fill('#pf-pseudo', 'Wschodni Wiatr');
   await A.selectOption('#pf-lang', 'uk');
   await A.selectOption('#pf-role', 'partner');
+  await A.selectOption('#pf-gram', 'f');
   await A.click('#pf-save');
   await A.waitForFunction(() => document.querySelector('#sync-state')?.textContent?.includes('zsynchronizowano'), { timeout: 10000 });
   ok(true, 'A: profil zapisany i zsynchronizowany (sejf wypchnięty)');
@@ -94,10 +95,12 @@ async function main() {
   const bPseudo = await B.inputValue('#pf-pseudo');
   const bLang = await B.inputValue('#pf-lang');
   const bRole = await B.inputValue('#pf-role');
+  const bGram = await B.inputValue('#pf-gram');
   const bHandle = (await B.textContent('#pf-handle')).trim();
   ok(bPseudo === 'Wschodni Wiatr', `B: pseudonim zsynchronizowany ("${bPseudo}")`);
   ok(bLang === 'uk', `B: język zsynchronizowany (${bLang})`);
   ok(bRole === 'partner', `B: rola zsynchronizowana (${bRole})`);
+  ok(bGram === 'f', `B: forma zwracania się (płeć językowa) zsynchronizowana (${bGram})`);
   ok(bHandle === handle, 'B: ten sam adres sieciowy (klucz odtworzony z sejfu)');
 
   // serwer: surowy sejf to szyfrogram bez pseudonimu w jawnym tekście
