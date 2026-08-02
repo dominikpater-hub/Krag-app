@@ -110,6 +110,21 @@ export function buildApp(db: Queryable): FastifyInstance {
     return { envelopes: await repo.pullEnvelopes(db, req.account!.id) };
   });
 
+  // ——— Sejf E2E (profil + kopia kluczy). Serwer trzyma tylko szyfrogram. ———
+  app.get('/vault/:lookupId', async (req) => {
+    const { lookupId } = req.params as any;
+    const v = await repo.getVault(db, lookupId);
+    if (!v) throw repo.httpError(404, 'Sejf nie istnieje');
+    return { ciphertext: v.ciphertext, updatedAt: v.updated_at };
+  });
+
+  app.put('/vault', async (req) => {
+    await requireAuth(req);
+    const { lookupId, ciphertext } = req.body as any;
+    requireFields({ lookupId, ciphertext });
+    return repo.putVault(db, lookupId, req.account!.id, ciphertext);
+  });
+
   // ——— Moderacja (message franking) ———
   app.post('/reports', async (req) => {
     await requireAuth(req);

@@ -59,3 +59,14 @@ create table if not exists auth_challenges (
   pseudonym   text not null,
   expires_at  timestamptz not null
 );
+
+-- Sejf E2E (profil + kopia kluczy). Serwer widzi TYLKO losowy lookup_id (z frazy odzyskiwania)
+-- i szyfrogram AES-GCM — nie potrafi go odczytać. lookup_id NIE jest powiązany z pseudonimem,
+-- więc nie zdradza, kto ma konto. account_id wiąże sejf z kontem tylko po to, by cudzy zapis
+-- nie mógł nadpisać nie swojego wpisu (zapis wymaga zalogowania kluczem).
+create table if not exists vault (
+  lookup_id   text primary key,               -- HKDF(fraza) — wysokoentropijny, nie enumerowany
+  account_id  uuid not null references accounts(id) on delete cascade,
+  ciphertext  text not null,                  -- base64(iv+ct); nieczytelne dla serwera
+  updated_at  timestamptz not null default now()
+);

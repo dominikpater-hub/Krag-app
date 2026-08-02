@@ -128,3 +128,50 @@ test('bezpieczeństwo: brak tokenu jest odrzucany, nieznany pseudonim = 404', as
   const ch = await app.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: 'Nikt #0000' } });
   assert.equal(ch.statusCode, 404);
 });
+
+test('sejf E2E: zapis (authed) → odczyt po lookupId (bez auth); cudze konto nie nadpisze', async () => {
+  // świeża baza, żeby móc zbootstrapować konto A
+  const mem = newDb(); mem.public.none(schema);
+  const { Pool } = mem.adapters.createPg();
+  const app2 = buildApp(new Pool());
+
+  const kpA = await genKey(); const A = 'Cichy Świt #AAAA';
+  await app2.inject({ method: 'POST', url: '/accounts/bootstrap', payload: { pseudonym: A, publicKey: await rawPub(kpA) } });
+  const tokA = await (async () => {
+    const ch = await app2.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: A } });
+    const { nonce } = ch.json();
+    const signature = await sign(kpA, nonce);
+    const v = await app2.inject({ method: 'POST', url: '/auth/verify', payload: { pseudonym: A, nonce, signature } });
+    return v.json().token as string;
+  })();
+
+  const lookupId = 'lookup_' + 'a'.repeat(40);
+  // zapis wymaga auth
+  const noAuth = await app2.inject({ method: 'PUT', url: '/vault', payload: { lookupId, ciphertext: 'CT1' } });
+  assert.equal(noAuth.statusCode, 401);
+  // zapis authed
+  const put = await app2.inject({ method: 'PUT', url: '/vault', headers: bearer(tokA), payload: { lookupId, ciphertext: 'CT1' } });
+  assert.equal(put.statusCode, 200, put.body);
+  // odczyt bez auth po lookupId
+  const get = await app2.inject({ method: 'GET', url: `/vault/${lookupId}` });
+  assert.equal(get.statusCode, 200, get.body);
+  assert.equal(get.json().ciphertext, 'CT1');
+  // aktualizacja przez to samo konto działa (LWW)
+  const put2 = await app2.inject({ method: 'PUT', url: '/vault', headers: bearer(tokA), payload: { lookupId, ciphertext: 'CT2' } });
+  assert.equal(put2.statusCode, 200);
+  assert.equal((await app2.inject({ method: 'GET', url: `/vault/${lookupId}` })).json().ciphertext, 'CT2');
+
+  // inne konto (B) nie może nadpisać sejfu A pod tym samym lookupId → 403
+  const inv = await app2.inject({ method: 'POST', url: '/invites', headers: bearer(tokA) });
+  const code = inv.json().code as string;
+  const kpB = await genKey(); const B = 'Spokojny Ogród #BBBB';
+  await app2.inject({ method: 'POST', url: '/invites/redeem', payload: { code, pseudonym: B, publicKey: await rawPub(kpB) } });
+  const chB = await app2.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: B } });
+  const sigB = await sign(kpB, chB.json().nonce);
+  const tokB = (await app2.inject({ method: 'POST', url: '/auth/verify', payload: { pseudonym: B, nonce: chB.json().nonce, signature: sigB } })).json().token;
+  const hijack = await app2.inject({ method: 'PUT', url: '/vault', headers: bearer(tokB), payload: { lookupId, ciphertext: 'EVIL' } });
+  assert.equal(hijack.statusCode, 403);
+
+  // nieistniejący sejf = 404
+  assert.equal((await app2.inject({ method: 'GET', url: '/vault/nope' })).statusCode, 404);
+});

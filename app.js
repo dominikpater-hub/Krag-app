@@ -6,15 +6,18 @@
  */
 import { API_BASE } from './config.js';
 import { makeClient } from './lib/api.js';
-import { generateAuthKeyPair, authPublicB64, signNonce } from './lib/identity.js';
-import { generateKeyPair, publicKeyB64, deriveSessionKey, encrypt, decrypt, envelope } from './lib/e2e.js';
+import { generateAuthKeyPair, authPublicB64, signNonce, exportAuthKeyPair, importAuthKeyPair } from './lib/identity.js';
+import { generateKeyPair, publicKeyB64, deriveSessionKey, encrypt, decrypt, envelope, exportMsgKeyPair, importMsgKeyPair } from './lib/e2e.js';
 import { findFacts, resetThread, setRole, BLOCKNAME, confBadge, MED_BLOCKS, isPos, FACTS } from './lib/ida.js';
 import { risky, stopMeds, CRISIS_LINE, CRISIS_EU } from './lib/crisis.js';
 import { PROV } from './lib/knowledge.js';
+import { fromPhrase, seal, open } from './lib/vault.js';
+
+const LANGS = { pl: 'polski', en: 'English', uk: 'українська', ru: 'русский' };
 
 'use strict';
 const $ = (s) => document.querySelector(s);
-const MAIN_TABS = { ida: 1, app: 1, diary: 1 };
+const MAIN_TABS = { ida: 1, app: 1, diary: 1, profile: 1 };
 
 /* ---------- nawigacja ---------- */
 function show(id) {
@@ -29,11 +32,17 @@ function show(id) {
 document.querySelectorAll('[data-back]').forEach((b) =>
   b.addEventListener('click', () => show(b.dataset.back)));
 $('#tabbar').querySelectorAll('.tab').forEach((t) =>
-  t.addEventListener('click', () => { show(t.dataset.tab); if (t.dataset.tab === 'ida') idaFirstOpen(); }));
+  t.addEventListener('click', () => {
+    show(t.dataset.tab);
+    if (t.dataset.tab === 'ida') idaFirstOpen();
+    if (t.dataset.tab === 'profile') renderProfile();
+  }));
 
 /* ---------- stan ---------- */
 const api = makeClient(API_BASE);
 const account = { authKeyPair: null, msgKeyPair: null, pubRaw: null, pseudo: null, seed: null, inviteCode: null };
+// Profil: pseudonim (nazwa wyświetlana), język, rola. Synchronizowany E2E przez sejf (lib/vault.js).
+const profile = { pseudonym: null, lang: 'pl', role: 'plhiv' };
 const sessionKeys = new Map();   // peer -> CryptoKey (AES-GCM)
 const unread = new Map();        // peer -> liczba nieprzeczytanych
 let currentPeer = null;
@@ -140,6 +149,42 @@ async function sessionFor(peer) {
 
 /* ---------- przepływ wejścia ---------- */
 $('#go-invite').addEventListener('click', () => show('invite'));
+$('#go-login').addEventListener('click', () => { $('#login-err').textContent = ''; show('login'); });
+
+/* Logowanie na nowym urządzeniu: fraza → sejf → odszyfrowane klucze + profil → login. */
+$('#go-login-do').addEventListener('click', async () => {
+  const words = ($('#login-phrase').value || '').trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (words.length < 6) { $('#login-err').textContent = 'Wpisz pełną frazę (12 słów).'; return; }
+  const btn = $('#go-login-do'); btn.disabled = true; $('#login-err').textContent = 'Odszyfrowuję sejf…';
+  try {
+    const { lookupId, key } = await fromPhrase(words);
+    let ciphertext;
+    try { ({ ciphertext } = await api.getVault(lookupId)); }
+    catch (e) { throw new Error(/404|nie istnieje/i.test(e.message) ? 'Nie znaleziono konta dla tej frazy.' : e.message); }
+    let bundle;
+    try { bundle = await open(ciphertext, key); }
+    catch { throw new Error('Fraza nie pasuje do tego sejfu.'); }
+    account.seed = words;
+    account.pseudo = bundle.pseudo;
+    account.pubRaw = new Uint8Array(bundle.pubRaw || []);
+    account.authKeyPair = await importAuthKeyPair(bundle.auth);
+    account.msgKeyPair = await importMsgKeyPair(bundle.msg);
+    Object.assign(profile, bundle.profile || {});
+    if (!profile.pseudonym) profile.pseudonym = account.pseudo;
+    await put('account', {
+      k: 'me', pseudo: account.pseudo, pubRaw: Array.from(account.pubRaw),
+      authKeyPair: account.authKeyPair, msgKeyPair: account.msgKeyPair,
+    });
+    await put('account', { k: 'seed', v: account.seed });
+    await persistProfile();
+    await requestPersist();
+    $('#login-err').textContent = '';
+    await enterApp();
+  } catch (e) {
+    $('#login-err').textContent = 'Nie udało się: ' + e.message;
+    btn.disabled = false;
+  }
+});
 
 $('#go-keys').addEventListener('click', async () => {
   const v = $('#invite-code').value.trim().toUpperCase();
@@ -174,9 +219,12 @@ $('#go-enter').addEventListener('click', async () => {
       k: 'me', pseudo: account.pseudo, pubRaw: Array.from(account.pubRaw),
       authKeyPair: account.authKeyPair, msgKeyPair: account.msgKeyPair,
     });
+    profile.pseudonym = account.pseudo;
+    await put('account', { k: 'seed', v: account.seed });
+    await persistProfile();
     await requestPersist();
     $('#enter-err').textContent = '';
-    await enterApp();
+    await enterApp({ backup: true });
   } catch (e) {
     $('#enter-err').textContent = 'Nie udało się: ' + e.message;
     btn.disabled = false;
@@ -191,7 +239,8 @@ async function tryRestore() {
   account.pubRaw = new Uint8Array(me.pubRaw || []);
   account.authKeyPair = me.authKeyPair;
   account.msgKeyPair = me.msgKeyPair;
-  await enterApp({ background: true });
+  try { account.seed = (await get('account', 'seed'))?.v || null; } catch { /* noop */ }
+  await enterApp({ background: true, pull: true });
   return true;
 }
 
@@ -209,6 +258,9 @@ async function enterApp(opts = {}) {
       await login();
       await publishMyKeys();
       setDot('on');
+      // synchronizacja sejfu: przy wejściu z nowego konta wypchnij; przy powrocie pobierz zmiany
+      if (opts.backup) { try { await backupVault(); } catch { setSync('off'); } }
+      if (opts.pull) { try { await pullVault(); setSync('on'); } catch { /* brak sejfu/offline — trudno */ } }
       startPolling();
     } catch (e) {
       setDot('off');
@@ -381,15 +433,76 @@ $('#wipe').addEventListener('click', async () => { await wipe(); location.reload
  * Nic z tego nie idzie na serwer — silnik i baza działają w całości na urządzeniu.
  */
 let idaStarted = false;
-async function initRole() {
-  let r = 'plhiv';
-  try { r = (await get('account', 'role'))?.v || 'plhiv'; } catch { /* noop */ }
-  setRole(r);
-  const sel = $('#ida-role'); if (sel) sel.value = r;
+
+/* ——— profil: wczytanie, zastosowanie, zapis + synchronizacja E2E ——— */
+async function initRole() {   // wołane z enterApp — wczytuje cały profil
+  try { const p = await get('account', 'profile'); if (p && p.v) Object.assign(profile, p.v); } catch { /* noop */ }
+  if (!profile.pseudonym) profile.pseudonym = account.pseudo;
+  applyProfile();
 }
+function applyProfile() {
+  setRole(profile.role || 'plhiv');
+  const rs = $('#ida-role'); if (rs) rs.value = profile.role || 'plhiv';
+  try { document.documentElement.lang = profile.lang || 'pl'; } catch { /* noop */ }
+  const nm = $('#me-pseudo'); if (nm) nm.textContent = profile.pseudonym || account.pseudo;
+}
+async function persistProfile() {
+  try { await put('account', { k: 'profile', v: { ...profile } }); } catch { /* noop */ }
+}
+function setSync(state) {
+  const el = $('#sync-state'); if (!el) return;
+  el.className = 'synctag ' + state;
+  el.textContent = state === 'on' ? '✓ zsynchronizowano' : state === 'sync' ? 'synchronizuję…' : state === 'off' ? 'offline' : '—';
+}
+
+/* Zapis sejfu: {klucze JWK + profil} zaszyfrowane frazą; serwer dostaje sam szyfrogram. */
+async function backupVault() {
+  if (!account.seed || !account.authKeyPair) return;
+  setSync('sync');
+  const { lookupId, key } = await fromPhrase(account.seed);
+  const bundle = {
+    v: 1, pseudo: account.pseudo, pubRaw: Array.from(account.pubRaw || []),
+    auth: await exportAuthKeyPair(account.authKeyPair),
+    msg: await exportMsgKeyPair(account.msgKeyPair),
+    profile: { ...profile },
+  };
+  const ct = await seal(bundle, key);
+  await withAuth(() => api.putVault(lookupId, ct));
+  setSync('on');
+}
+/* Pobranie profilu z sejfu (zmiany z innego urządzenia). Nie dotyka kluczy — te już mamy. */
+async function pullVault() {
+  if (!account.seed) return;
+  const { lookupId, key } = await fromPhrase(account.seed);
+  const { ciphertext } = await api.getVault(lookupId);
+  const bundle = await open(ciphertext, key);
+  if (bundle.profile) { Object.assign(profile, bundle.profile); await persistProfile(); applyProfile(); }
+}
+
+function renderProfile() {
+  $('#pf-pseudo').value = profile.pseudonym || account.pseudo || '';
+  $('#pf-handle').textContent = account.pseudo || '—';
+  const langSel = $('#pf-lang');
+  langSel.innerHTML = Object.entries(LANGS).map(([c, n]) => `<option value="${c}">${n}</option>`).join('');
+  langSel.value = profile.lang || 'pl';
+  $('#pf-role').value = profile.role || 'plhiv';
+  $('#pf-seed').textContent = account.seed ? account.seed.map((w, i) => `${i + 1}. ${w}`).join('   ') : '(niedostępna na tym urządzeniu)';
+  $('#pf-err').textContent = '';
+}
+$('#pf-save').addEventListener('click', async () => {
+  const ps = ($('#pf-pseudo').value || '').trim();
+  profile.pseudonym = ps || account.pseudo;
+  profile.lang = $('#pf-lang').value;
+  profile.role = $('#pf-role').value;
+  await persistProfile();
+  applyProfile();
+  $('#pf-err').textContent = '';
+  try { await backupVault(); } catch (e) { setSync('off'); $('#pf-err').textContent = 'Zapisano lokalnie, sync offline: ' + e.message; }
+});
 $('#ida-role').addEventListener('change', async (e) => {
-  const r = e.target.value; setRole(r);
-  try { await put('account', { k: 'role', v: r }); } catch { /* noop */ }
+  profile.role = e.target.value; setRole(profile.role);
+  await persistProfile();
+  backupVault().catch(() => setSync('off'));
 });
 
 function idaBubble(who, html, src) {

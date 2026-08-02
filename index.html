@@ -25,7 +25,19 @@
     </ul>
     <p class="muted">Wchodzisz tu <b>bez nazwiska, maila i numeru</b>. Dane o zdrowiu zostają na tym urządzeniu i nigdy go nie opuszczają. Serwer widzi tylko pseudonim i zaszyfrowane wiadomości, których nie potrafi odczytać.</p>
     <button class="btn" id="go-invite">Mam kod zaproszenia</button>
+    <button class="btn ghost" id="go-login">Mam już konto — zaloguj frazą</button>
     <div class="err" id="boot-err"></div>
+  </section>
+
+  <!-- Logowanie frazą odzyskiwania (nowe urządzenie) -->
+  <section class="screen" id="s-login">
+    <div class="badge">⚿</div>
+    <h1>Zaloguj się frazą</h1>
+    <p class="muted">Wpisz 12 słów frazy odzyskiwania z pierwszego urządzenia. Odtworzymy konto i pobierzemy Twój profil — wszystko odszyfrowane <b>na tym urządzeniu</b>. Serwer nigdy nie widzi tych słów.</p>
+    <textarea id="login-phrase" class="field" rows="3" placeholder="akacja brzoza cień…  (12 słów, oddzielonych spacją)" autocomplete="off" spellcheck="false" style="resize:none"></textarea>
+    <div class="err" id="login-err"></div>
+    <button class="btn" id="go-login-do">Zaloguj i zsynchronizuj</button>
+    <button class="btn ghost" data-back="welcome">Wróć</button>
   </section>
 
   <!-- Kod zaproszenia -->
@@ -135,6 +147,45 @@
     </details>
   </section>
 
+  <!-- PROFIL -->
+  <section class="screen" id="s-profile">
+    <div class="apphead">
+      <div>
+        <div class="klbl">Twój profil</div>
+        <div class="pseudo" style="font-size:19px">Profil</div>
+      </div>
+      <span class="synctag" id="sync-state" title="stan synchronizacji">—</span>
+    </div>
+    <p class="muted" style="margin-top:12px">Profil jest szyfrowany Twoją frazą i synchronizuje się między urządzeniami. Serwer trzyma tylko nieczytelny szyfrogram.</p>
+
+    <div class="card">
+      <div class="klbl">Pseudonim (nazwa wyświetlana)</div>
+      <input id="pf-pseudo" class="field" maxlength="32" autocomplete="off" spellcheck="false">
+      <div class="klbl" style="margin-top:14px">Adres w sieci (z klucza, niezmienny)</div>
+      <div class="mono" id="pf-handle" style="margin-top:4px">…</div>
+    </div>
+
+    <div class="card">
+      <div class="klbl">Język</div>
+      <select id="pf-lang" class="rolesel" style="max-width:100%;width:100%;margin-top:8px"></select>
+      <div class="klbl" style="margin-top:14px">Kim jesteś w Kręgu</div>
+      <select id="pf-role" class="rolesel" style="max-width:100%;width:100%;margin-top:8px">
+        <option value="plhiv">Żyję z HIV</option>
+        <option value="partner">Jestem partnerem/partnerką</option>
+        <option value="bliska">Jestem osobą bliską</option>
+      </select>
+    </div>
+
+    <button class="btn" id="pf-save">Zapisz i zsynchronizuj</button>
+    <div class="err" id="pf-err"></div>
+
+    <details class="dev">
+      <summary>Fraza odzyskiwania</summary>
+      <p class="muted" style="margin-top:8px">To jedyny sposób, by wejść na koncie z innego urządzenia. Zapisz na papierze. Nikt — także Krąg — jej nie odtworzy.</p>
+      <div class="card seed" id="pf-seed">…</div>
+    </details>
+  </section>
+
   <!-- WĄTEK (jedna rozmowa) -->
   <section class="screen" id="s-thread">
     <div class="apphead">
@@ -155,6 +206,7 @@
     <button class="tab" data-tab="ida"><span class="ti">◈</span><span>Ida</span></button>
     <button class="tab" data-tab="app"><span class="ti">💬</span><span>Rozmowy</span></button>
     <button class="tab" data-tab="diary"><span class="ti">📓</span><span>Dziennik</span></button>
+    <button class="tab" data-tab="profile"><span class="ti">◉</span><span>Profil</span></button>
   </nav>
 </div>
 <script type="module" src="app.js"></script>

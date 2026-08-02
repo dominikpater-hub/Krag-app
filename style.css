@@ -119,3 +119,11 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--moss)}
   border-radius:11px;padding:9px 12px;font-size:12.5px;cursor:pointer;min-height:40px}
 .chip.sm:hover{border-color:var(--moss);color:var(--tx)}
 .starters{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+
+/* ——— profil / synchronizacja ——— */
+.synctag{font-size:11px;color:var(--tx-3);border:1px solid var(--line);border-radius:9px;padding:4px 9px}
+.synctag.on{color:var(--moss);border-color:rgba(126,155,119,.4)}
+.synctag.sync{color:var(--warn)}
+.synctag.off{color:var(--warn);border-color:rgba(201,138,107,.35)}
+#s-profile .card{margin-top:12px}
+textarea.field{font-family:ui-monospace,Menlo,monospace;line-height:1.7}

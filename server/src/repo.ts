@@ -181,6 +181,26 @@ export async function fileReport(
   return { id, status: 'open' };
 }
 
+/** Odczyt sejfu po lookup_id (bez auth — id z frazy jest wysokoentropijny, treść zaszyfrowana). */
+export async function getVault(db: Queryable, lookupId: string) {
+  const { rows } = await db.query('select ciphertext, updated_at from vault where lookup_id = $1', [lookupId]);
+  return rows[0] ?? null;
+}
+
+/** Zapis sejfu (authed). lookup_id wiąże się z kontem przy pierwszym zapisie; cudzy zapis odrzucony. */
+export async function putVault(db: Queryable, lookupId: string, accountId: string, ciphertext: string) {
+  const { rows } = await db.query('select account_id from vault where lookup_id = $1', [lookupId]);
+  const existing = rows[0];
+  if (existing && existing.account_id !== accountId) throw httpError(403, 'Ten sejf należy do innego konta');
+  await db.query(
+    `insert into vault (lookup_id, account_id, ciphertext, updated_at)
+     values ($1,$2,$3, now())
+     on conflict (lookup_id) do update set ciphertext = excluded.ciphertext, updated_at = now()`,
+    [lookupId, accountId, ciphertext],
+  );
+  return { ok: true, updatedAt: new Date().toISOString() };
+}
+
 export interface HttpError extends Error { statusCode: number }
 export function httpError(statusCode: number, message: string): HttpError {
   const e = new Error(message) as HttpError;
