@@ -59,7 +59,8 @@ async function main() {
   await page.click('.tab[data-tab="profile"]'); await page.waitForSelector('#s-profile.on');
   await page.selectOption('#pf-lang', 'en');
   await page.click('#pf-save');
-  await page.waitForFunction(() => document.querySelector('#sync-state')?.textContent?.includes('synced') || document.querySelector('#sync-state')?.textContent?.includes('✓'), { timeout: 10000 });
+  // UI tłumaczy się synchronicznie po zapisie; poczekaj wprost na przetłumaczony przycisk (bez wyścigu z sync).
+  await page.waitForFunction(() => document.querySelector('#pf-save')?.textContent === 'Save and sync', { timeout: 10000 });
   ok((await page.textContent('#pf-save')) === 'Save and sync', 'profil przetłumaczony na EN');
   ok((await page.textContent('.tab[data-tab="ida"] span:last-child')) === 'Ida', 'zakładki po EN');
 

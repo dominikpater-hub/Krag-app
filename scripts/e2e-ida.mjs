@@ -76,12 +76,26 @@ async function main() {
   html = await lastIda(page);
   ok(/crisisbox/.test(html) && html.includes('800 70 2222'), 'kryzys z wtrąceniem „już" → reakcja z numerem 800 70 2222');
 
-  // 3) brak pokrycia → uczciwe „nie odpowiem" + chipy tematów
+  // 3) brak pokrycia → uczciwie „nie zmyślam" + chipy tematów + wejście do Pomocy
   await page.fill('#ida-input', 'jaka jest stolica Australii');
   await page.click('#ida-send');
-  await page.waitForFunction(() => /nie odpowiem|luka|poza pokryciem/i.test([...document.querySelectorAll('#ida-log .ida-msg.ida')].pop()?.innerHTML || ''), { timeout: 8000 });
+  await page.waitForFunction(() => /zmysla|nie mam tego w bazie|poza pokryciem/i.test([...document.querySelectorAll('#ida-log .ida-msg.ida')].pop()?.innerHTML || ''), { timeout: 8000 });
   html = await lastIda(page);
-  ok(/nie odpowiem/i.test(html) && /data-blk/.test(html), 'pytanie spoza bazy → „nie odpowiem" + podpowiedzi tematów');
+  ok(/zmysla|nie mam tego w bazie/i.test(html) && /data-blk/.test(html) && /data-gap-help/.test(html), 'pytanie spoza bazy → uczciwie, z tematami i wejściem do Pomocy');
+
+  // 4) wsparcie emocjonalne: „Jestem samotny" NIE trafia na fakt o „nosicielu"
+  await page.fill('#ida-input', 'Jestem samotny');
+  await page.click('#ida-send');
+  await page.waitForFunction(() => /data-emo/.test([...document.querySelectorAll('#ida-log .ida-msg.ida')].pop()?.innerHTML || ''), { timeout: 8000 });
+  html = await lastIda(page);
+  ok(!/nosiciel/i.test(html) && /data-emo="meet"/.test(html) && /data-emo="help"/.test(html), 'samotność → ciepłe wsparcie z wyjściami (ludzie/Pomoc), bez losowego faktu');
+
+  // 5) koinfekcja „HPV" → merytoryczny fakt (nie „nie mam tego w bazie")
+  await page.fill('#ida-input', 'HPV');
+  await page.click('#ida-send');
+  await page.waitForFunction(() => document.querySelectorAll('#ida-log .ida-msg.ida').length >= 6, { timeout: 8000 });
+  html = await lastIda(page);
+  ok(/szczepie|koinfekc|wzw|gruzlic|kila/i.test(html) && !/nie mam tego w bazie/i.test(html), 'HPV → fakt o koinfekcjach/szczepieniach, nie odmowa');
 
   // 3b) biblioteka wiedzy: otwórz, wejdź w ścieżkę, zobacz fakty
   await page.click('#ida-lib');

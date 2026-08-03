@@ -10,6 +10,7 @@ import { generateAuthKeyPair, authPublicB64, signNonce, exportAuthKeyPair, impor
 import { generateKeyPair, publicKeyB64, deriveSessionKey, encrypt, decrypt, envelope, exportMsgKeyPair, importMsgKeyPair } from './lib/e2e.js';
 import { findFacts, resetThread, setRole, BLOCKNAME, confBadge, MED_BLOCKS, isPos, FACTS } from './lib/ida.js';
 import { risky, stopMeds, CRISIS_LINE, CRISIS_EU } from './lib/crisis.js';
+import { emotional } from './lib/emotion.js';
 import { PROV, PATHS_DB } from './lib/knowledge.js';
 import { fromSecretBytes, seal, open } from './lib/vault.js';
 import { newKeycode, parseKeycode, qrSvg, encodeKeycode } from './lib/keycode.js';
@@ -960,11 +961,20 @@ function crisisReply() {
 function stopMedsReply() {
   idaBubble('ida', `<p>${t('ida.stopMeds')}</p>`);
 }
+// Wsparcie emocjonalne (nie-kryzysowe): ciepła odpowiedź + realne wyjścia (ludzie, Pomoc).
+function emoReply(cat) {
+  const d = idaBubble('ida', `<p>${t('emo.' + cat)}</p><div class="starters">
+    <button class="chip sm help" type="button" data-emo="meet">${escapeHtml(t('emo.meet'))}</button>
+    <button class="chip sm help" type="button" data-emo="help">${escapeHtml(t('emo.help'))}</button></div>`);
+  d.querySelectorAll('[data-emo]').forEach((e) => e.addEventListener('click', () => show(e.dataset.emo === 'meet' ? 'app' : 'help')));
+}
 function noCoverage() {
   const chips = `<div class="bchips">${MED_BLOCKS.map((b) => `<button class="chip sm" data-blk="${b}">${BLOCKNAME[b] || b}</button>`).join('')}</div>`;
-  const d = idaBubble('ida', `${t('ida.noCover')}${chips}`,
+  const help = `<div class="starters"><button class="chip sm help" type="button" data-gap-help="1">${escapeHtml(t('help.open'))}</button></div>`;
+  const d = idaBubble('ida', `${t('ida.noCover')}${chips}${help}`,
     `<span class="trust t4">${t('ida.gapTag')}</span>${t('ida.gapSaved')}`);
   d.querySelectorAll('[data-blk]').forEach((e) => e.addEventListener('click', () => openBlock(e.dataset.blk)));
+  d.querySelectorAll('[data-gap-help]').forEach((e) => e.addEventListener('click', () => show('help')));
 }
 function openBlock(b) {
   resetThread();
@@ -995,6 +1005,8 @@ function idaAsk(q) {
   idaBubble('me', q);
   if (risky(q)) { setTimeout(crisisReply, 200); return; }
   if (stopMeds(q)) { setTimeout(stopMedsReply, 200); return; }
+  const emo = emotional(q);                               // wsparcie emocjonalne przed wiedzą
+  if (emo) { setTimeout(() => emoReply(emo), 200); return; }
   const hit = findFacts(q);
   if (!hit) { setTimeout(noCoverage, 200); return; }
   setTimeout(() => renderHit(hit), 200);
