@@ -155,15 +155,25 @@ async function sessionFor(peer) {
 if (passkeyAvailable()) { $('#go-passkey').hidden = false; $('#login-passkey').hidden = false; }
 $('#go-login').addEventListener('click', () => { $('#login-err').textContent = ''; show('login'); });
 
-// Rejestracja konta: klucze na urządzeniu + proof-of-work zamiast zaproszenia.
-async function registerOnServer() {
-  await generateAccount();
+// Błąd „brak backendu" (sieć niedostępna albo serwer nie odpowiada) — wtedy działamy lokalnie.
+function isNetErr(e) {
+  return /Failed to fetch|NetworkError|Load failed|HTTP 0|HTTP 404|HTTP 405|HTTP 5\d\d/i.test(String(e && e.message));
+}
+// Rejestracja na serwerze (PoW zamiast zaproszenia). Zakłada, że klucze już są wygenerowane.
+async function registerNow() {
   const pub = await authPublicB64(account.authKeyPair);
   const { challenge, bits } = await api.powChallenge();
-  const nonce = solvePow(challenge, bits);          // kilka sekund CPU — anty-spam, zero danych
-  await api.register(account.pseudo, pub, { challenge, nonce });
+  await api.register(account.pseudo, pub, { challenge, nonce: solvePow(challenge, bits) });
   await login();
   await publishMyKeys();
+}
+// Login; a jeśli konta nie ma na serwerze (założone offline) — zarejestruj je i utwórz sejf.
+async function ensureServerAccount() {
+  try { await login(); await publishMyKeys(); }
+  catch (e) {
+    if (/nieznany pseudonim|404/i.test(String(e.message))) { await registerNow(); await backupVault(); }
+    else throw e;
+  }
 }
 async function persistAccount() {
   await put('account', {
@@ -188,15 +198,25 @@ async function signup({ passkey }) {
       try { pkSecret = (await createPasskey('Krąg')).secret; }
       catch (e) { throw new Error('passkey się nie udał (' + e.message + '). Możesz wejść anonimowo.'); }
     }
-    $('#boot-err').textContent = 'Zakładam konto… (chwila liczenia)';
+    $('#boot-err').textContent = 'Zakładam konto…';
     const kc = newKeycode();                 // master = Klucz Kręgu (32 B)
     account.master = kc.bytes;
-    await registerOnServer();
-    await backupVault();                       // sejf pod lookupId(master)
-    if (pkSecret) {                            // passkey odblokowuje sejf: kopia mastera pod lookupId(PRF)
-      const pk = await fromSecretBytes(pkSecret);
-      const wrap = await seal({ master: Array.from(account.master) }, pk.key);
-      await withAuth(() => api.putVault(pk.lookupId, wrap));
+    await generateAccount();                    // klucze + pseudonim — ZAWSZE lokalnie
+    profile.pseudonym = account.pseudo;
+    // Rejestracja + sejf. Gdy backendu nie ma — wchodzimy lokalnie, reszta dołączy później.
+    try {
+      $('#boot-err').textContent = 'Zakładam konto… (chwila liczenia)';
+      await registerNow();
+      await backupVault();                     // sejf pod lookupId(master)
+      if (pkSecret) {                          // passkey odblokowuje sejf: kopia mastera pod lookupId(PRF)
+        const pk = await fromSecretBytes(pkSecret);
+        const wrap = await seal({ master: Array.from(account.master) }, pk.key);
+        await withAuth(() => api.putVault(pk.lookupId, wrap));
+      }
+    } catch (e) {
+      if (!isNetErr(e)) throw e;              // prawdziwy błąd pokazujemy; brak sieci — nie
+      console.warn('rejestracja offline — konto działa lokalnie:', e.message);
+      setSync('off');
     }
     await persistAccount();
     $('#boot-err').textContent = '';
@@ -280,19 +300,16 @@ async function enterApp(opts = {}) {
   idaFirstOpen();
   await renderThreads();
   await renderDiaryStatus();
-  // logowanie + klucze w tle; przy odtworzeniu konta nie blokuj UI
+  // Sieć w tle. Brak backendu NIE blokuje wejścia — Ida/dziennik/profil działają lokalnie.
   const connect = (async () => {
     try {
-      await login();
-      await publishMyKeys();
+      await ensureServerAccount();             // login albo rejestracja konta założonego offline
       setDot('on');
-      // synchronizacja sejfu: przy wejściu z nowego konta wypchnij; przy powrocie pobierz zmiany
-      if (opts.backup) { try { await backupVault(); } catch { setSync('off'); } }
-      if (opts.pull) { try { await pullVault(); setSync('on'); } catch { /* brak sejfu/offline — trudno */ } }
+      if (opts.pull) { try { await pullVault(); setSync('on'); } catch { /* brak sejfu — trudno */ } }
       startPolling();
     } catch (e) {
-      setDot('off');
-      if (!opts.background) throw e;
+      setDot('off');                            // tryb lokalny (np. produkcja bez wpiętego backendu)
+      console.warn('offline:', e && e.message);
     }
   })();
   if (!opts.background) await connect;

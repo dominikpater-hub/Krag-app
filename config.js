@@ -1,6 +1,13 @@
 /* Krąg — konfiguracja klienta.
- * API_BASE: adres backendu. Domyślnie dev-server lokalny (server/src/dev-memory.ts).
- * W produkcji podmień na URL API (po deploy, O-09) albo ustaw window.KRAG_API_BASE.
- * Pusty string ('') = ten sam origin, co aplikacja. */
-export const API_BASE =
-  (typeof globalThis !== 'undefined' && globalThis.KRAG_API_BASE) ?? 'http://localhost:8080';
+ * API_BASE: adres backendu rozmów/synchronizacji.
+ *  • window.KRAG_API_BASE — jawnie ustawiony URL wygrywa zawsze.
+ *  • na localhost — dev-server (server/src/dev-memory.ts).
+ *  • w produkcji bez wpiętego backendu — '' (ten sam origin). Gdy backendu nie ma,
+ *    aplikacja działa LOKALNIE (Ida, dziennik, profil); rozmowy/sync dołączą, gdy będzie.
+ */
+function pickApiBase() {
+  if (typeof globalThis !== 'undefined' && globalThis.KRAG_API_BASE) return globalThis.KRAG_API_BASE;
+  if (typeof location !== 'undefined' && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return 'http://localhost:8080';
+  return '';   // produkcja: brak backendu → tryb lokalny (bez „Failed to fetch" w twarz)
+}
+export const API_BASE = pickApiBase();
