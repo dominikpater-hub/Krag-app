@@ -57,7 +57,8 @@ function toast(msg) {
   let el = document.querySelector('#toast');
   if (!el) { el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; document.body.appendChild(el); }
   el.textContent = msg; el.classList.add('on');
-  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), 2600);
+  const dur = Math.min(7000, 2600 + msg.length * 28);   // dłuższe komunikaty — dłużej widoczne
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), dur);
 }
 const sessionKeys = new Map();   // peer -> CryptoKey (AES-GCM)
 const unread = new Map();        // peer -> liczba nieprzeczytanych
@@ -132,7 +133,10 @@ function setDot(state) {
   d.classList.remove('on', 'off');
   if (state === 'on') d.classList.add('on');
   else if (state === 'off') d.classList.add('off');
+  d.setAttribute('aria-label', t(state === 'off' ? 'conn.off' : 'conn.on'));
 }
+// #2: kropka połączenia jest dotykalna — wyjaśnia, co znaczy „offline".
+$('#conn-dot').addEventListener('click', () => toast(t($('#conn-dot').classList.contains('off') ? 'conn.off' : 'conn.on')));
 async function login() {
   await api.login(account.pseudo, (nonce) => signNonce(account.authKeyPair, nonce));
 }
@@ -260,8 +264,7 @@ $('#login-passkey').addEventListener('click', async () => {
     await loginWithMaster(masterBytes);
   } catch (e) { $('#login-err').textContent = 'Nie udało się: ' + e.message; btn.disabled = false; }
 });
-// —— skaner QR Klucza Kręgu ——
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { const b = $('#login-scan'); if (b) b.hidden = false; }
+// —— skaner QR Klucza Kręgu (zawsze widoczny; brak kamery obsłużony w startScan) ——
 let scanStream = null, scanRAF = null;
 function stopScan() {
   const ov = $('#scan-ov'); if (ov) ov.hidden = true;

@@ -45,7 +45,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--moss)}
 
 /* ——— rozmowy ——— */
 .apphead{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--tx-3);flex:0 0 auto}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--tx-3);flex:0 0 auto;cursor:pointer}
 .dot.on{background:var(--moss)}
 .dot.off{background:var(--warn)}
 .iconbtn{background:transparent;border:0;color:var(--tx-2);font-size:26px;line-height:1;cursor:pointer;padding:4px 8px}
@@ -86,7 +86,8 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--moss)}
   backdrop-filter:blur(10px);border-top:1px solid var(--line)}
 .tab{flex:1;background:transparent;border:0;color:var(--tx-3);font-size:11px;font-weight:600;
   display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;cursor:pointer;border-radius:12px}
-.tab .ti{font-size:20px;line-height:1}
+.tab .ti{font-size:20px;line-height:1;height:22px;display:flex;align-items:center}
+.tab .ti svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block}
 .tab.on{color:var(--moss)}
 .tab.on .ti{filter:none}
 .tabbar[hidden]{display:none}   /* atrybut hidden musi wygrać z display:flex */

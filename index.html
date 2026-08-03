@@ -38,7 +38,7 @@
     <button class="btn" id="login-passkey" data-i18n="login.passkey" hidden>Zaloguj — Face ID lub odcisk</button>
     <p class="lbl" data-i18n="login.orKc">albo Kluczem Kręgu</p>
     <textarea id="login-keycode" class="field" rows="2" data-i18n-ph="login.ph" placeholder="krag1:…" autocomplete="off" spellcheck="false" style="resize:none"></textarea>
-    <button class="btn ghost sm" id="login-scan" data-i18n="login.scan" hidden>Zeskanuj kod QR</button>
+    <button class="btn ghost sm" id="login-scan" data-i18n="login.scan">Zeskanuj kod QR</button>
     <div class="err" id="login-err"></div>
     <button class="btn" id="login-do" data-i18n="login.do">Zaloguj i zsynchronizuj</button>
     <button class="btn ghost" data-back="welcome" data-i18n="back">Wróć</button>
@@ -288,8 +288,9 @@
     <div class="card">
       <div class="klbl" data-i18n="pf.pseudo">Pseudonim (nazwa wyświetlana)</div>
       <input id="pf-pseudo" class="field" maxlength="32" autocomplete="off" spellcheck="false">
-      <div class="klbl" data-i18n="pf.handle" style="margin-top:14px">Adres w sieci (z klucza, niezmienny)</div>
+      <div class="klbl" data-i18n="pf.handle" style="margin-top:14px">Twój adres w Kręgu (na niego piszą do Ciebie)</div>
       <div class="mono" id="pf-handle" style="margin-top:4px">…</div>
+      <p class="note" data-i18n="pf.handleHint" style="margin-top:6px">Powstaje z Twojego klucza i nigdy się nie zmienia.</p>
     </div>
 
     <div class="card">
@@ -358,10 +359,10 @@
 
   <!-- Pasek nawigacji (widoczny na ekranach głównych) -->
   <nav class="tabbar" id="tabbar" hidden>
-    <button class="tab" data-tab="ida"><span class="ti">◈</span><span data-i18n="tab.ida">Ida</span></button>
-    <button class="tab" data-tab="app"><span class="ti">💬</span><span data-i18n="tab.app">Rozmowy</span></button>
-    <button class="tab" data-tab="diary"><span class="ti">📓</span><span data-i18n="tab.diary">Dziennik</span></button>
-    <button class="tab" data-tab="profile"><span class="ti">◉</span><span data-i18n="tab.profile">Profil</span></button>
+    <button class="tab" data-tab="ida"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-4.2-7.05"/></svg></span><span data-i18n="tab.ida">Ida</span></button>
+    <button class="tab" data-tab="app"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v10H8l-4 3.5z"/></svg></span><span data-i18n="tab.app">Rozmowy</span></button>
+    <button class="tab" data-tab="diary"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h11a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6.5A1.5 1.5 0 0 1 5 20V5a1.5 1.5 0 0 1 1.5-1.5z"/><path d="M9 3.5v17"/></svg></span><span data-i18n="tab.diary">Dziennik</span></button>
+    <button class="tab" data-tab="profile"><span class="ti"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg></span><span data-i18n="tab.profile">Profil</span></button>
   </nav>
 </div>
 <script type="module" src="app.js"></script>

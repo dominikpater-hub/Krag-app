@@ -51,7 +51,7 @@ async function main() {
   page.on('pageerror', (e) => { console.log('  [pageerror]', e.message); fail++; });
   await page.goto(WEB);
 
-  ok((await page.textContent('#go-anon')) === 'Wejdź anonimowo', 'start po polsku (autodetekcja pl-PL)');
+  ok((await page.textContent('#go-anon')) === 'Wejdź', 'start po polsku (autodetekcja pl-PL)');
   await page.click('#go-anon');
   await page.waitForSelector('#s-ida.on', { timeout: 20000 });
 
