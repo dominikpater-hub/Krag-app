@@ -1,0 +1,6 @@
+# Krąg — Caddy: automatyczny HTTPS (Let's Encrypt) + proxy do API.
+# {$API_DOMAIN} bierze się z docker-compose (np. api.krag.example).
+{$API_DOMAIN} {
+	encode gzip
+	reverse_proxy api:8080
+}

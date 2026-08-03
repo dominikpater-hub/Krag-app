@@ -1,0 +1,53 @@
+# Krąg — produkcja (Scaleway WAW, O-09): API + Postgres + Caddy (HTTPS z Let's Encrypt).
+# Dane fizycznie w Polsce. Uruchom: docker compose -f docker-compose.prod.yml up -d
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${PGUSER:-krag}
+      POSTGRES_PASSWORD: ${PGPASSWORD:?ustaw PGPASSWORD w .env}
+      POSTGRES_DB: ${PGDATABASE:-krag}
+    volumes:
+      - krag_pg:/var/lib/postgresql/data
+    # brak portów na zewnątrz — baza dostępna tylko dla API w sieci compose
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PGUSER:-krag}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${PGUSER:-krag}:${PGPASSWORD}@db:5432/${PGDATABASE:-krag}
+      PORT: "8080"
+      TRUST_PROXY: "true"                 # za Caddy — realne IP dla rate-limitu (SEC-04)
+      CORS_ORIGINS: ${CORS_ORIGINS:?ustaw origin PWA, np. https://projectkrag.vercel.app}
+      POW_SECRET: ${POW_SECRET:?ustaw długi losowy sekret}
+      POW_BITS: ${POW_BITS:-18}
+    expose:
+      - "8080"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [api]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      API_DOMAIN: ${API_DOMAIN:?ustaw domenę API, np. api.krag.example}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  krag_pg:
+  caddy_data:
+  caddy_config:

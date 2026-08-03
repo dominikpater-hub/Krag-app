@@ -7,7 +7,12 @@
  */
 function pickApiBase() {
   if (typeof globalThis !== 'undefined' && globalThis.KRAG_API_BASE) return globalThis.KRAG_API_BASE;
+  // Produkcja: adres API ustawiany jednym <meta name="krag-api-base" content="https://api...">
+  if (typeof document !== 'undefined') {
+    const m = document.querySelector('meta[name="krag-api-base"]');
+    if (m && m.content) return m.content;
+  }
   if (typeof location !== 'undefined' && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return 'http://localhost:8080';
-  return '';   // produkcja: brak backendu → tryb lokalny (bez „Failed to fetch" w twarz)
+  return '';   // brak backendu → tryb lokalny (bez „Failed to fetch" w twarz)
 }
 export const API_BASE = pickApiBase();

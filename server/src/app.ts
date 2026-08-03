@@ -12,8 +12,9 @@ declare module 'fastify' {
   interface FastifyRequest { account?: { id: string; pseudonym: string } }
 }
 
-export function buildApp(db: Queryable): FastifyInstance {
-  const app = Fastify({ logger: false });
+export function buildApp(db: Queryable, opts: { trustProxy?: boolean } = {}): FastifyInstance {
+  // trustProxy: włączane w produkcji za reverse proxy (Caddy), by rate-limit widział realne IP (SEC-04).
+  const app = Fastify({ logger: false, trustProxy: opts.trustProxy ?? false });
 
   // Jednolita obsługa błędów z warstwy repo (statusCode).
   app.setErrorHandler((err, _req, reply) => {
