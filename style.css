@@ -89,6 +89,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--moss)}
 .tab.on{color:var(--moss)}
 .tab.on .ti{filter:none}
 .tabbar[hidden]{display:none}   /* atrybut hidden musi wygrać z display:flex */
+.tab[hidden]{display:none}      /* ukrycie zakładki (np. Dziennik dla partnera/bliskiej) */
 
 /* ——— Ida: czat wiedzy ——— */
 .rolesel{background:var(--surf);color:var(--tx-2);border:1px solid var(--line);border-radius:11px;

@@ -220,7 +220,8 @@ async function signup({ passkey }) {
     }
     await persistAccount();
     $('#boot-err').textContent = '';
-    presentKeycode(kc.code);
+    // #4: nie wpychamy Klucza Kręgu przy wejściu — jest w Profilu, gdy user go zechce.
+    await enterApp();
   } catch (e) {
     $('#boot-err').textContent = 'Nie udało się: ' + e.message;
     btn.disabled = false;
@@ -488,7 +489,10 @@ async function initRole() {   // wołane z enterApp — wczytuje cały profil
 }
 function applyProfile() {
   setRole(profile.role || 'plhiv');
-  const rs = $('#ida-role'); if (rs) rs.value = profile.role || 'plhiv';
+  // #5: dziennik choroby widzi tylko osoba żyjąca z HIV; partner/bliska — nie.
+  const showDiary = (profile.role || 'plhiv') === 'plhiv';
+  const dtab = document.querySelector('.tab[data-tab="diary"]'); if (dtab) dtab.hidden = !showDiary;
+  if (!showDiary && document.querySelector('#s-diary.on')) show('ida');
   const prevLang = getI18nLang();
   setLang(profile.lang || 'pl');
   try { document.documentElement.lang = profile.lang || 'pl'; } catch { /* noop */ }
@@ -560,11 +564,6 @@ $('#pf-save').addEventListener('click', async () => {
   $('#pf-err').textContent = '';
   toast(gwt('prof'));
   try { await backupVault(); } catch (e) { setSync('off'); }
-});
-$('#ida-role').addEventListener('change', async (e) => {
-  profile.role = e.target.value; setRole(profile.role);
-  await persistProfile();
-  backupVault().catch(() => setSync('off'));
 });
 $('#pf-kc-copy').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText($('#pf-kc-code').textContent); toast(t('kc.copied')); }

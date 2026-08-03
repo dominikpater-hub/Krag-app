@@ -62,11 +62,8 @@ async function main() {
   await page.goto(WEB);
   ok(await page.isVisible('#go-passkey'), 'przycisk „Face ID / odcisk" widoczny (WebAuthn wykryty)');
   await page.click('#go-passkey');
-  await page.waitForSelector('#s-keycode.on', { timeout: 20000 });
-  ok(true, 'passkey utworzony (PRF) → konto założone → pokazano Klucz Kręgu');
-  await page.check('#kc-ack');
-  await page.click('#kc-enter');
-  await page.waitForSelector('#s-ida.on', { timeout: 15000 });
+  await page.waitForSelector('#s-ida.on', { timeout: 20000 });
+  ok(true, 'passkey utworzony (PRF) → konto założone → wejście na Idę');
   await page.click('.tab[data-tab="profile"]');
   await page.waitForSelector('#s-profile.on');
   const handle = (await page.textContent('#pf-handle')).trim();

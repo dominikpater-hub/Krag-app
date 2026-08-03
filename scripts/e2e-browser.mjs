@@ -58,10 +58,7 @@ async function onboard(ctx) {
   page.on('pageerror', (e) => console.log('  [pageerror]', e.message));
   await page.goto(WEB);
   await page.click('#go-anon');                                   // konto anonimowe (PoW + otwarta rejestracja)
-  await page.waitForSelector('#s-keycode.on', { timeout: 20000 });
-  await page.check('#kc-ack');
-  await page.click('#kc-enter');
-  await page.waitForSelector('#s-ida.on', { timeout: 15000 });    // wejście ląduje na Idzie
+  await page.waitForSelector('#s-ida.on', { timeout: 20000 });    // #4: wchodzi prosto na Idę (bez ekranu klucza)
   await page.click('.tab[data-tab="app"]');                       // → zakładka Rozmowy
   await page.waitForSelector('#s-app.on');
   await page.waitForFunction(() => document.querySelector('#me-pseudo')?.textContent !== '…');

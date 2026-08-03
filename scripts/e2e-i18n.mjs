@@ -53,9 +53,7 @@ async function main() {
 
   ok((await page.textContent('#go-anon')) === 'Wejdź anonimowo', 'start po polsku (autodetekcja pl-PL)');
   await page.click('#go-anon');
-  await page.waitForSelector('#s-keycode.on', { timeout: 20000 });
-  await page.check('#kc-ack'); await page.click('#kc-enter');
-  await page.waitForSelector('#s-ida.on', { timeout: 15000 });
+  await page.waitForSelector('#s-ida.on', { timeout: 20000 });
 
   // przełącz na angielski
   await page.click('.tab[data-tab="profile"]'); await page.waitForSelector('#s-profile.on');

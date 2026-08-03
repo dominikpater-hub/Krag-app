@@ -59,17 +59,14 @@ async function main() {
   // ——— Urządzenie A: onboarding anonimowy → Klucz Kręgu → profil ———
   const A = await newDevice(browser);
   await A.click('#go-anon');
-  await A.waitForSelector('#s-keycode.on', { timeout: 20000 });
-  const keycode = (await A.textContent('#kc-code')).trim();
-  ok(/^krag1:[A-Za-z0-9\-_]+$/.test(keycode), 'A: dostał Klucz Kręgu (krag1:…)');
-  await A.check('#kc-ack');
-  await A.click('#kc-enter');
-  await A.waitForSelector('#s-ida.on', { timeout: 15000 });
+  await A.waitForSelector('#s-ida.on', { timeout: 20000 });   // #4: prosto na Idę
 
-  // A ustawia profil: pseudonim + język uk + rola + płeć językowa
+  // A ustawia profil: pseudonim + język uk + rola + płeć językowa; Klucz Kręgu jest w profilu
   await A.click('.tab[data-tab="profile"]');
   await A.waitForSelector('#s-profile.on');
   const handle = (await A.textContent('#pf-handle')).trim();
+  const keycode = (await A.textContent('#pf-kc-code')).trim();
+  ok(/^krag1:[A-Za-z0-9\-_]+$/.test(keycode), 'A: Klucz Kręgu dostępny w profilu (krag1:…)');
   await A.fill('#pf-pseudo', 'Wschodni Wiatr');
   await A.selectOption('#pf-lang', 'uk');
   await A.selectOption('#pf-role', 'partner');

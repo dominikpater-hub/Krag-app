@@ -55,11 +55,7 @@ async function main() {
 
   await page.goto(WEB);
   await page.click('#go-anon');
-  await page.waitForSelector('#s-keycode.on', { timeout: 20000 });
-  await page.check('#kc-ack');
-  await page.click('#kc-enter');
-
-  await page.waitForSelector('#s-ida.on', { timeout: 15000 });
+  await page.waitForSelector('#s-ida.on', { timeout: 20000 });
   ok(true, 'wejście ląduje na ekranie Idy');
   await page.waitForSelector('#ida-log .ida-msg.ida');
   ok(/towarzysz/i.test(await lastIda(page)), 'Ida wita się słowem „towarzyszę" (nie „prowadzę")');

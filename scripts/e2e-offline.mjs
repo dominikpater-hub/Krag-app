@@ -40,14 +40,10 @@ async function main() {
   await page.goto(WEB);
 
   await page.click('#go-anon');
-  await page.waitForSelector('#s-keycode.on', { timeout: 20000 });
-  ok(true, 'bez backendu: „Wejdź anonimowo" prowadzi do Klucza Kręgu (nie „Failed to fetch")');
+  await page.waitForSelector('#s-ida.on', { timeout: 20000 });
+  ok(true, 'bez backendu: „Wejdź anonimowo" wchodzi lokalnie (nie „Failed to fetch")');
   const err = (await page.textContent('#boot-err')).trim();
   ok(err === '', 'brak komunikatu błędu na ekranie wejścia (był: "' + err + '")');
-  await page.check('#kc-ack');
-  await page.click('#kc-enter');
-  await page.waitForSelector('#s-ida.on', { timeout: 15000 });
-  ok(true, 'wejście do Kręgu działa lokalnie (ekran Idy)');
 
   // Ida odpowiada lokalnie (baza wiedzy nie potrzebuje serwera)
   await page.fill('#ida-input', 'co to znaczy niewykrywalny');
