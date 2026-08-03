@@ -36,6 +36,10 @@ async function main() {
   const ctx = await browser.newContext();
   const page = await ctx.newPage();
   await page.addInitScript((api) => { window.KRAG_API_BASE = api; }, DEAD_API);
+  // Stub silnika OCR (prawdziwy Tesseract wymaga CDN+sieci) — testujemy WPIĘCIE: obraz→parser→prefill.
+  await page.addInitScript(() => {
+    window.Tesseract = { recognize: async () => ({ data: { text: 'Wynik badania CD4 333 kom/µl 21% HIV RNA niewykrywalny <20' } }) };
+  });
   page.on('pageerror', (e) => { console.log('  [pageerror]', e.message); fail++; });
   await page.goto(WEB);
   await page.click('#go-anon');
@@ -96,6 +100,15 @@ async function main() {
   await page.setInputFiles('#d-photo-in', { name: 'wynik.png', mimeType: 'image/png', buffer: PNG });
   await page.waitForFunction(() => document.querySelector('#d-photos .ph img'), { timeout: 5000 });
   ok(true, 'zdjęcie badania wgrane (miniatura)');
+
+  // #3/#5: odczyt wyniku ze zdjęcia → prefill formularza (OCR nie zapisuje sam)
+  await page.setInputFiles('#d-ocr-in', { name: 'lab.png', mimeType: 'image/png', buffer: PNG });
+  await page.waitForFunction(() => document.querySelector('#d-val')?.value === '333', { timeout: 8000 });
+  ok((await page.inputValue('#d-marker')) === 'cd4', 'OCR: rozpoznał CD4 i ustawił marker');
+  ok((await page.inputValue('#d-val')) === '333', 'OCR: wartość wpisana do formularza (do potwierdzenia)');
+  await page.click('#d-add-result');   // użytkownik potwierdza zapis
+  await page.waitForFunction(() => /333/.test(document.querySelector('#d-results')?.textContent || ''), { timeout: 5000 });
+  ok(true, 'OCR: po potwierdzeniu wynik trafia do dziennika');
 
   // usuwanie wyniku
   const before = await page.evaluate(() => document.querySelectorAll('#d-results .d-item').length);

@@ -253,12 +253,16 @@
       </div>
     </div>
 
-    <!-- Zdjęcia badań -->
+    <!-- Zdjęcia badań + odczyt wyniku (#3/#5) -->
     <div class="card">
       <div class="klbl" data-i18n="d.photos">Zdjęcia badań</div>
       <div id="d-photos" class="d-photos"></div>
-      <label class="btn ghost sm" for="d-photo-in" data-i18n="d.addPhoto" style="text-align:center">Wgraj zdjęcie</label>
+      <label class="btn ghost sm" for="d-ocr-in" data-i18n="d.scanResult" style="text-align:center">Odczytaj wynik ze zdjęcia</label>
+      <input id="d-ocr-in" type="file" accept="image/*" hidden>
+      <label class="btn ghost sm" for="d-photo-in" data-i18n="d.addPhoto" style="text-align:center;margin-top:8px">Wgraj zdjęcie</label>
       <input id="d-photo-in" type="file" accept="image/*" hidden>
+      <div id="d-ocr-msg" class="note" style="margin-top:8px"></div>
+      <p class="note" data-i18n="d.photoHint" style="margin-top:6px">Zdjęcia trzymasz prywatnie na tym urządzeniu.</p>
     </div>
 
     <!-- Notatki -->

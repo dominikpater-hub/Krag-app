@@ -19,6 +19,7 @@ import jsQR from './lib/jsqr.js';
 import { t, setLang, detectLang, translateDOM, LANG_NAMES } from './lib/i18n.js';
 import { knownFor, checkSubstance } from './lib/interactions.js';
 import { inviteUrl, parseInviteFromSearch } from './lib/invite.js';
+import { parseLabValues, pickPrefill, ocrImage } from './lib/ocr.js';
 import { roomPeerKey, isRoomPeer, roomIdFromPeer, parseRoomPayload, fanout } from './lib/rooms.js';
 
 const LANGS = LANG_NAMES;
@@ -760,6 +761,24 @@ $('#d-photo-in').addEventListener('change', async (e) => {
   const img = await fileToThumb(f);
   await put('diary', { ts: Date.now(), kind: 'photo', img, caption: '' });
   e.target.value = ''; await renderDiary(); toast(t('d.saved'));
+});
+// #3/#5: odczyt wyniku ze zdjęcia. OCR NIGDY nie zapisuje sam — tylko prefill do potwierdzenia.
+$('#d-ocr-in').addEventListener('change', async (e) => {
+  const f = e.target.files && e.target.files[0]; e.target.value = ''; if (!f) return;
+  const msg = $('#d-ocr-msg'); if (msg) msg.textContent = t('d.ocrReading');
+  try {
+    const text = await ocrImage(f);
+    const pick = pickPrefill(parseLabValues(text));
+    if (!pick) { if (msg) msg.textContent = t('d.ocrNone'); return; }
+    $('#d-marker').value = pick.marker;
+    $('#d-val').value = String(pick.value);
+    if (msg) msg.textContent = '';
+    $('#d-val').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    $('#d-val').focus();
+    toast(t('d.ocrPrefilled'));                 // użytkownik sprawdza i klika „Dodaj wynik"
+  } catch (err) {
+    if (msg) msg.textContent = t('d.ocrOffline');
+  }
 });
 async function saveDiaryNote() {
   const inp = $('#diary-note'); const note = (inp.value || '').trim();
