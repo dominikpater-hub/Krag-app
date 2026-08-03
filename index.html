@@ -106,13 +106,23 @@
     <div class="klbl" data-i18n="app.threads" style="margin-top:18px">Rozmowy</div>
     <div id="thread-list" class="threads"></div>
 
+    <!-- Poznaj ludzi (discovery-first, #10): nie trzeba nikogo znać -->
     <div class="card" style="margin-top:14px">
-      <div class="klbl" data-i18n="app.start">Rozpocznij rozmowę</div>
-      <p class="muted" data-i18n="app.startHint" style="margin:6px 0 0">Wpisz pseudonim osoby, którą znasz z Kręgu.</p>
-      <input id="peer-input" class="field" data-i18n-ph="app.peerPh" placeholder="Spokojna Rzeka #C3D4" autocomplete="off">
-      <div class="err" id="peer-err"></div>
-      <button class="btn" id="start-thread" data-i18n="app.open">Otwórz rozmowę</button>
+      <div class="klbl" data-i18n="app.discover">Poznaj ludzi</div>
+      <p class="muted" data-i18n="app.discoverP" style="margin:6px 0 12px">Krąg łączy osoby, które przez to przechodzą. Nie musisz nikogo znać — zacznij od okolicy albo tematu.</p>
+      <button class="btn" id="disc-cat" data-i18n="app.findPeople">Znajdź osoby w okolicy albo po temacie</button>
+      <button class="btn ghost" id="disc-rooms" data-i18n="app.joinRoom" style="margin-top:8px">Dołącz do pokoju tematycznego</button>
     </div>
+
+    <!-- Masz już czyjś adres/link? — opcja drugorzędna -->
+    <details class="dev" style="margin-top:12px">
+      <summary data-i18n="app.knowAddr">Masz już czyjś adres albo link?</summary>
+      <div class="card">
+        <input id="peer-input" class="field" data-i18n-ph="app.peerPh" placeholder="Spokojna Rzeka #C3D4" autocomplete="off">
+        <div class="err" id="peer-err"></div>
+        <button class="btn ghost sm" id="start-thread" data-i18n="app.open">Otwórz rozmowę</button>
+      </div>
+    </details>
   </section>
 
   <!-- KATALOG (#6) -->

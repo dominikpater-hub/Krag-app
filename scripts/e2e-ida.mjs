@@ -96,7 +96,7 @@ async function main() {
 
   // 4) rozmowy i dziennik nadal dostępne przez zakładki
   await page.click('.tab[data-tab="app"]'); await page.waitForSelector('#s-app.on');
-  ok(await page.isVisible('#start-thread'), 'zakładka Rozmowy działa');
+  ok(await page.isVisible('#disc-cat'), 'zakładka Rozmowy działa (discovery-first)');
   await page.click('.tab[data-tab="diary"]'); await page.waitForSelector('#s-diary.on');
   await page.fill('#diary-note', 'pierwszy tydzień za mną');
   await page.click('#diary-save');

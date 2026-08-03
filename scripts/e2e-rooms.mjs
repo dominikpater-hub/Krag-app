@@ -61,8 +61,8 @@ async function main() {
   const B = await onboard(browser); log('B:', B.pseudo);
 
   // ——— POKOJE ———
-  // A zakłada pokój → od razu wchodzi do wątku pokoju
-  await A.page.click('#app-rooms'); await A.page.waitForSelector('#s-rooms.on');
+  // A zakłada pokój → od razu wchodzi do wątku pokoju (wchodzi przez discovery-first CTA #10)
+  await A.page.click('#disc-rooms'); await A.page.waitForSelector('#s-rooms.on');
   await A.page.fill('#rooms-name', 'Świeżo po diagnozie');
   await A.page.click('#rooms-create');
   await A.page.waitForSelector('#s-thread.on', { timeout: 10000 });

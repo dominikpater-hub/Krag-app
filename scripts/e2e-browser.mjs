@@ -77,8 +77,9 @@ async function main() {
   const A = await onboard(ctxA); log('A wszedł:', A.pseudo);
   const B = await onboard(ctxB); log('B wszedł:', B.pseudo);
 
-  // A → B
+  // A → B (opcja „masz już czyjś adres" jest w zwijanym panelu, #10 — rozwiń go)
   const outText = 'Cześć. Jak się dziś trzymasz?';
+  await A.page.click('#s-app details summary');
   await A.page.fill('#peer-input', B.pseudo);
   await A.page.click('#start-thread');
   await A.page.waitForSelector('#s-thread.on', { timeout: 10000 });

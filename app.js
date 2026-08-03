@@ -532,6 +532,9 @@ $('#thread-report').addEventListener('click', async () => {
 
 /* ---------- Katalog (#6): opt-in ogłoszenia, okolica bez GPS, start rozmowy ---------- */
 $('#app-cat').addEventListener('click', openCatalog);
+// #10: discovery-first — wprost z ekranu Rozmów prowadzimy do katalogu i pokojów.
+$('#disc-cat').addEventListener('click', openCatalog);
+$('#disc-rooms').addEventListener('click', openRooms);
 $('#cat-back').addEventListener('click', () => show('app'));
 $('#cat-search').addEventListener('click', catSearch);
 $('#cat-f-region').addEventListener('keydown', (e) => { if (e.key === 'Enter') catSearch(); });
