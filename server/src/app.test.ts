@@ -184,6 +184,66 @@ test('katalog: publikacja ogłoszenia, przeglądanie z filtrem okolicy/tematu, u
   assert.equal((await app2.inject({ method: 'GET', url: '/catalog', headers: bearer(tokA) })).json().listings.length, 0);
 });
 
+test('pokoje: utworzenie → dołączenie → lista członków (tylko członek) → wyjście', async () => {
+  const mem = newDb(); mem.public.none(schema);
+  const { Pool } = mem.adapters.createPg();
+  const app2 = buildApp(new Pool());
+  const mkAcc = async (pseudonym: string) => {
+    const kp = await genKey();
+    await app2.inject({ method: 'POST', url: '/accounts/bootstrap', payload: { pseudonym, publicKey: await rawPub(kp) } })
+      .then(async (r) => { if (r.statusCode !== 200) { // po pierwszym bootstrapie kolejne przez register+PoW
+        const { createHash } = await import('node:crypto');
+        const lzb = (hex: string) => { let n = 0; for (const ch of hex) { const v = parseInt(ch, 16); if (v === 0) { n += 4; continue; } n += Math.clz32(v) - 28; break; } return n; };
+        const ch = (await app2.inject({ method: 'GET', url: '/pow' })).json();
+        let i = 0; while (lzb(createHash('sha256').update(`${ch.challenge}:${i}`).digest('hex')) < ch.bits) i++;
+        await app2.inject({ method: 'POST', url: '/accounts/register', payload: { pseudonym, publicKey: await rawPub(kp), pow: { challenge: ch.challenge, nonce: String(i) } } });
+      } });
+    const c = await app2.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym } });
+    const v = await app2.inject({ method: 'POST', url: '/auth/verify', payload: { pseudonym, nonce: c.json().nonce, signature: await sign(kp, c.json().nonce) } });
+    return v.json().token as string;
+  };
+  const A = 'Cichy Świt #AA01', B = 'Spokojna Rzeka #BB02', C = 'Nocny Brzeg #CC03';
+  const tokA = await mkAcc(A), tokB = await mkAcc(B), tokC = await mkAcc(C);
+
+  // A tworzy pokój (i jest w nim automatycznie)
+  const cr = await app2.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA), payload: { name: 'Świeżo po diagnozie' } });
+  assert.equal(cr.statusCode, 200, cr.body);
+  const roomId = cr.json().id as string;
+
+  // lista pokojów pokazuje 1 członka; filtr po nazwie działa
+  const list = await app2.inject({ method: 'GET', url: '/rooms', headers: bearer(tokB) });
+  assert.equal(list.json().rooms.length, 1);
+  assert.equal(list.json().rooms[0].members, 1);
+  assert.equal((await app2.inject({ method: 'GET', url: '/rooms?q=diagnoz', headers: bearer(tokB) })).json().rooms.length, 1);
+  assert.equal((await app2.inject({ method: 'GET', url: '/rooms?q=xyz', headers: bearer(tokB) })).json().rooms.length, 0);
+
+  // nie-członek NIE widzi listy członków (403)
+  assert.equal((await app2.inject({ method: 'GET', url: `/rooms/${roomId}/members`, headers: bearer(tokB) })).statusCode, 403);
+
+  // B i C dołączają
+  assert.equal((await app2.inject({ method: 'POST', url: `/rooms/${roomId}/join`, headers: bearer(tokB) })).statusCode, 200);
+  assert.equal((await app2.inject({ method: 'POST', url: `/rooms/${roomId}/join`, headers: bearer(tokC) })).statusCode, 200);
+  // ponowne dołączenie idempotentne
+  assert.equal((await app2.inject({ method: 'POST', url: `/rooms/${roomId}/join`, headers: bearer(tokB) })).statusCode, 200);
+
+  // członek widzi pełną listę (do rozgłaszania)
+  const mem2 = await app2.inject({ method: 'GET', url: `/rooms/${roomId}/members`, headers: bearer(tokA) });
+  assert.equal(mem2.statusCode, 200);
+  assert.deepEqual(mem2.json().members.slice().sort(), [A, B, C].slice().sort());
+
+  // licznik członków = 3
+  assert.equal((await app2.inject({ method: 'GET', url: '/rooms', headers: bearer(tokA) })).json().rooms[0].members, 3);
+
+  // B wychodzi → nie widzi już listy członków, licznik = 2
+  assert.equal((await app2.inject({ method: 'POST', url: `/rooms/${roomId}/leave`, headers: bearer(tokB) })).statusCode, 200);
+  assert.equal((await app2.inject({ method: 'GET', url: `/rooms/${roomId}/members`, headers: bearer(tokB) })).statusCode, 403);
+  assert.equal((await app2.inject({ method: 'GET', url: '/rooms', headers: bearer(tokA) })).json().rooms[0].members, 2);
+
+  // dołączenie do nieistniejącego (ale poprawnego) pokoju = 404
+  const ghost = '00000000-0000-0000-0000-000000000000';
+  assert.equal((await app2.inject({ method: 'POST', url: `/rooms/${ghost}/join`, headers: bearer(tokA) })).statusCode, 404);
+});
+
 test('sejf E2E: zapis (authed) → odczyt po lookupId (bez auth); cudze konto nie nadpisze', async () => {
   // świeża baza, żeby móc zbootstrapować konto A
   const mem = newDb(); mem.public.none(schema);

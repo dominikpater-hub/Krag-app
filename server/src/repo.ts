@@ -232,6 +232,50 @@ export async function listListings(db: Queryable, region?: string, tag?: string)
   return rows.filter((r) => (!rl || String(r.region || '').toLowerCase().includes(rl)) && (!tg || String(r.tags || '').toLowerCase().includes(tg)));
 }
 
+/* Pokoje tematyczne (#6/2) — grupa bez klucza grupowego (E2E per-odbiorca po stronie klienta).
+ * Serwer trzyma tylko nazwę tematu i listę członków. */
+export async function createRoom(db: Queryable, creator: string, name: string) {
+  const nm = (name || '').trim().slice(0, 80);
+  if (!nm) throw httpError(400, 'Pusta nazwa pokoju');
+  const id = randomUUID();
+  await db.query('insert into rooms (id, name, created_by) values ($1,$2,$3)', [id, nm, creator]);
+  await db.query('insert into room_members (room_id, pseudonym) values ($1,$2)', [id, creator]);
+  return { id, name: nm };
+}
+export async function joinRoom(db: Queryable, roomId: string, pseudonym: string) {
+  const { rows } = await db.query('select id from rooms where id = $1', [roomId]);
+  if (!rows[0]) throw httpError(404, 'Nieznany pokój');
+  await db.query(
+    `insert into room_members (room_id, pseudonym) values ($1,$2)
+     on conflict (room_id, pseudonym) do nothing`,
+    [roomId, pseudonym],
+  );
+  return { ok: true };
+}
+export async function leaveRoom(db: Queryable, roomId: string, pseudonym: string) {
+  await db.query('delete from room_members where room_id = $1 and pseudonym = $2', [roomId, pseudonym]);
+  return { ok: true };
+}
+export async function isRoomMember(db: Queryable, roomId: string, pseudonym: string) {
+  const { rows } = await db.query('select 1 from room_members where room_id = $1 and pseudonym = $2', [roomId, pseudonym]);
+  return !!rows[0];
+}
+export async function roomMembers(db: Queryable, roomId: string) {
+  const { rows } = await db.query('select pseudonym from room_members where room_id = $1', [roomId]);
+  return rows.map((r) => r.pseudonym);
+}
+/** Lista pokojów z licznikiem członków (odnajdywalne po nazwie — filtr/zliczanie w JS dla pg-mem). */
+export async function listRooms(db: Queryable, q?: string) {
+  const { rows } = await db.query('select id, name, created_by, created_at from rooms order by created_at desc limit 200');
+  const { rows: mem } = await db.query('select room_id from room_members');
+  const counts: Record<string, number> = {};
+  for (const m of mem) counts[m.room_id] = (counts[m.room_id] || 0) + 1;
+  const needle = (q || '').trim().toLowerCase();
+  return rows
+    .filter((r) => !needle || String(r.name || '').toLowerCase().includes(needle))
+    .map((r) => ({ id: r.id, name: r.name, members: counts[r.id] || 0, createdAt: r.created_at }));
+}
+
 export interface HttpError extends Error { statusCode: number }
 export function httpError(statusCode: number, message: string): HttpError {
   const e = new Error(message) as HttpError;

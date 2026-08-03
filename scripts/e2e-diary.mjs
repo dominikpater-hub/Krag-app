@@ -47,11 +47,13 @@ async function main() {
   await page.selectOption('#d-marker', 'cd4');
   await page.fill('#d-val', '210'); await page.click('#d-add-result');
   await page.waitForFunction(() => /210/.test(document.querySelector('#d-results')?.textContent || ''), { timeout: 5000 });
-  // wynik CD4 #2 → wykres + trener (rośnie)
+  // wynik CD4 #2 → wykres + trener (rośnie). Czekaj aż DRUGI wynik faktycznie się przeliczy
+  // (pierwszy wpis już narysował svg i trenera, więc czekamy wprost na wartość 268).
   await page.fill('#d-val', '268'); await page.click('#d-add-result');
+  await page.waitForFunction(() => /268/.test(document.querySelector('#d-results')?.textContent || ''), { timeout: 5000 });
   await page.waitForFunction(() => document.querySelector('#d-chart svg'), { timeout: 5000 });
   ok(true, 'wyniki CD4 + wykres trajektorii');
-  await page.waitForFunction(() => /Trener|Immunity|Тренер/.test(document.querySelector('#coach-card')?.textContent || ''), { timeout: 5000 });
+  await page.waitForFunction(() => /Trener|Immunity|Тренер/.test(document.querySelector('#coach-card')?.textContent || '') && /268/.test(document.querySelector('#coach-card')?.textContent || ''), { timeout: 5000 });
   ok(/268/.test(await page.textContent('#coach-card')), 'trener odporności pojawia się i czyta ostatnie CD4');
 
   // wiremia poniżej progu → U=U w trenerze

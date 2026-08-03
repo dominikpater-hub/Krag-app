@@ -18,6 +18,8 @@ import { solvePow } from './lib/pow.js';
 import jsQR from './lib/jsqr.js';
 import { t, setLang, detectLang, translateDOM, LANG_NAMES } from './lib/i18n.js';
 import { knownFor, checkSubstance } from './lib/interactions.js';
+import { inviteUrl, parseInviteFromSearch } from './lib/invite.js';
+import { roomPeerKey, isRoomPeer, roomIdFromPeer, parseRoomPayload, fanout } from './lib/rooms.js';
 
 const LANGS = LANG_NAMES;
 
@@ -65,7 +67,7 @@ let poller = null;
 /* ---------- IndexedDB (v2): konto, dziennik, wątki, wiadomości ---------- */
 function db() {
   return new Promise((res, rej) => {
-    const r = indexedDB.open('krag-local', 2);
+    const r = indexedDB.open('krag-local', 3);
     r.onupgradeneeded = () => {
       const d = r.result;
       if (!d.objectStoreNames.contains('diary')) d.createObjectStore('diary', { keyPath: 'ts' });
@@ -75,6 +77,7 @@ function db() {
         ms.createIndex('peer', 'peer', { unique: false });
       }
       if (!d.objectStoreNames.contains('threads')) d.createObjectStore('threads', { keyPath: 'peer' });
+      if (!d.objectStoreNames.contains('rooms')) d.createObjectStore('rooms', { keyPath: 'roomId' }); // #6/2 pokoje
     };
     r.onsuccess = () => res(r.result);
     r.onerror = () => rej(r.error);
@@ -340,12 +343,25 @@ async function enterApp(opts = {}) {
       setDot('on');
       if (opts.pull) { try { await pullVault(); setSync('on'); } catch { /* brak sejfu — trudno */ } }
       startPolling();
+      await consumePendingInvite();              // link-zaproszenie: otwórz rozmowę, gdy klucze gotowe
     } catch (e) {
       setDot('off');                            // tryb lokalny (np. produkcja bez wpiętego backendu)
       console.warn('offline:', e && e.message);
     }
   })();
   if (!opts.background) await connect;
+}
+
+// Link-zaproszenie: ?k=<uchwyt> w URL → po wejściu otwórz rozmowę z tą osobą.
+let pendingInvite = null;
+async function consumePendingInvite() {
+  const peer = pendingInvite;
+  if (!peer) return;
+  pendingInvite = null;
+  try { history.replaceState(null, '', location.pathname); } catch { /* noop */ }
+  if (peer === account.pseudo) return;           // własny link — ignoruj
+  try { await sessionFor(peer); await openThread(peer); toast(t('inv.opened')); }
+  catch { toast(t('inv.notFound')); }
 }
 
 function startPolling() {
@@ -369,6 +385,17 @@ async function pullOnce() {
       text = await decrypt(key, envelope.unpack(env.ciphertext));
     } catch { text = '⚠️ nie udało się odszyfrować'; }
     const ts = env.at ? new Date(env.at).getTime() : Date.now();
+    // Wiadomość pokojowa? Ładunek niesie roomId — trafia do wątku pokoju, z podpisem nadawcy.
+    const rp = parseRoomPayload(text);
+    if (rp) {
+      const peer = roomPeerKey(rp.roomId);
+      await ensureRoom(rp.roomId);
+      const label = env.from.split(' #')[0] + ': ' + rp.text;
+      await put('messages', { id: env.id, peer, dir: 'in', text: label, ts });
+      await put('threads', { peer, ts });
+      if (currentPeer !== peer) unread.set(peer, (unread.get(peer) || 0) + 1);
+      continue;
+    }
     await put('messages', { id: env.id, peer: env.from, dir: 'in', text, ts });
     await put('threads', { peer: env.from, ts });
     if (currentPeer !== env.from) unread.set(env.from, (unread.get(env.from) || 0) + 1);
@@ -387,17 +414,20 @@ async function renderThreads() {
   }
   threads.sort((a, b) => (b.ts || 0) - (a.ts || 0));
   const msgs = await all('messages');
+  const rmap = {}; for (const r of await all('rooms')) rmap[r.roomId] = r;
   const lastByPeer = {};
   for (const m of msgs) {
     if (!lastByPeer[m.peer] || m.ts > lastByPeer[m.peer].ts) lastByPeer[m.peer] = m;
   }
-  box.innerHTML = threads.map((t) => {
-    const last = lastByPeer[t.peer];
+  box.innerHTML = threads.map((th) => {
+    const last = lastByPeer[th.peer];
     const preview = last ? (last.dir === 'out' ? 'Ty: ' : '') + last.text : t('app.newConvo');
-    const n = unread.get(t.peer) || 0;
-    const nm = t.peer.split(' #')[0];
-    return `<div class="thread" data-peer="${encodeURIComponent(t.peer)}">
-      <div><div class="nm">${escapeHtml(nm)}</div><div class="last">${escapeHtml(preview)}</div></div>
+    const n = unread.get(th.peer) || 0;
+    const room = isRoomPeer(th.peer);
+    const nm = room ? ((rmap[roomIdFromPeer(th.peer)]?.name) || t('room.one')) : th.peer.split(' #')[0];
+    const tag = room ? ` <span class="grouptag">${t('room.tag')}</span>` : '';
+    return `<div class="thread" data-peer="${encodeURIComponent(th.peer)}">
+      <div><div class="nm">${escapeHtml(nm)}${tag}</div><div class="last">${escapeHtml(preview)}</div></div>
       ${n ? `<span class="badge-n">${n}</span>` : ''}
     </div>`;
   }).join('');
@@ -410,7 +440,14 @@ async function openThread(peer) {
   currentPeer = peer;
   unread.set(peer, 0);
   await put('threads', { peer, ts: (await get('threads', peer))?.ts || Date.now() });
-  $('#thread-peer').textContent = peer.split(' #')[0];
+  if (isRoomPeer(peer)) {
+    const r = await get('rooms', roomIdFromPeer(peer));
+    $('#thread-peer').textContent = (r && r.name) || t('room.one');
+  } else {
+    $('#thread-peer').textContent = peer.split(' #')[0];
+  }
+  // Zgłoszenie 1:1 nie ma sensu w pokoju — ukryj.
+  const rep = $('#thread-report'); if (rep) rep.hidden = isRoomPeer(peer);
   show('thread');
   await renderMessages(peer);
   $('#msg-input').focus();
@@ -454,13 +491,26 @@ async function sendMessage() {
   await put('threads', { peer: currentPeer, ts });
   await renderMessages(currentPeer);
   try {
-    const key = await sessionFor(currentPeer);
-    const wire = envelope.pack(await encrypt(key, text));
-    await withAuth(() => api.sendEnvelope(currentPeer, wire));
+    if (isRoomPeer(currentPeer)) await sendRoomMessage(roomIdFromPeer(currentPeer), text);
+    else {
+      const key = await sessionFor(currentPeer);
+      const wire = envelope.pack(await encrypt(key, text));
+      await withAuth(() => api.sendEnvelope(currentPeer, wire));
+    }
   } catch (e) {
     await put('messages', { id, peer: currentPeer, dir: 'out', text: text + '  ⚠️ niewysłane', ts });
     await renderMessages(currentPeer);
   }
+}
+// Pokój: rozgłoszenie E2E per-odbiorca — szyfrujemy OSOBNO do każdego członka (bez klucza grupowego).
+async function sendRoomMessage(roomId, text) {
+  const { members } = await withAuth(() => api.roomMembers(roomId));
+  const sealFor = async (member, payload) => {
+    const key = await sessionFor(member);
+    return envelope.pack(await encrypt(key, payload));
+  };
+  const envs = await fanout({ roomId, members, self: account.pseudo, text }, sealFor);
+  for (const e of envs) { try { await withAuth(() => api.sendEnvelope(e.to, e.ciphertext)); } catch { /* jednego się nie dało — reszta idzie */ } }
 }
 $('#msg-send').addEventListener('click', sendMessage);
 $('#msg-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
@@ -509,6 +559,53 @@ $('#cat-remove').addEventListener('click', async () => {
 async function startChatWith(peer) {
   try { await sessionFor(peer); await openThread(peer); }
   catch (e) { $('#cat-err').textContent = e.message; }
+}
+
+/* ---------- Pokoje tematyczne (#6/2): grupy z E2E per-odbiorca ---------- */
+async function ensureRoom(roomId, name) {
+  const cur = await get('rooms', roomId);
+  if (!cur || (name && cur.name !== name)) await put('rooms', { roomId, name: (name || cur?.name || ''), ts: Date.now() });
+}
+$('#app-rooms').addEventListener('click', openRooms);
+$('#rooms-back').addEventListener('click', () => show('app'));
+$('#rooms-search').addEventListener('click', roomSearch);
+$('#rooms-f').addEventListener('keydown', (e) => { if (e.key === 'Enter') roomSearch(); });
+async function openRooms() { show('rooms'); await roomSearch(); }
+async function roomSearch() {
+  const box = $('#rooms-list'); $('#rooms-err').textContent = '';
+  try {
+    const mine = {}; for (const r of await all('rooms')) mine[r.roomId] = true;
+    const { rooms } = await withAuth(() => api.roomList($('#rooms-f').value.trim()));
+    if (!rooms.length) { box.innerHTML = `<div class="threads-empty">${t('room.none')}</div>`; return; }
+    box.innerHTML = rooms.map((r) => {
+      const joined = mine[r.id];
+      const cnt = t('room.count', { n: r.members });
+      const btn = joined
+        ? `<button class="btn ghost sm" data-open="${r.id}" data-name="${escapeHtml(r.name)}" style="width:auto;padding:8px 12px;margin:0">${t('room.open')}</button>`
+        : `<button class="btn ghost sm" data-join="${r.id}" data-name="${escapeHtml(r.name)}" style="width:auto;padding:8px 12px;margin:0">${t('room.join')}</button>`;
+      return `<div class="thread"><div style="min-width:0"><div class="nm">${escapeHtml(r.name)}</div><div class="last">${cnt}</div></div>${btn}</div>`;
+    }).join('');
+    box.querySelectorAll('[data-join]').forEach((e) => e.addEventListener('click', () => joinRoom(e.dataset.join, e.dataset.name)));
+    box.querySelectorAll('[data-open]').forEach((e) => e.addEventListener('click', () => openRoomThread(e.dataset.open, e.dataset.name)));
+  } catch { box.innerHTML = ''; $('#rooms-err').textContent = t('cat.offline'); }
+}
+$('#rooms-create').addEventListener('click', async () => {
+  const name = ($('#rooms-name').value || '').trim();
+  if (!name) { $('#rooms-err').textContent = t('room.needName'); return; }
+  try {
+    const { id } = await withAuth(() => api.roomCreate(name));
+    await ensureRoom(id, name);
+    $('#rooms-name').value = '';
+    await openRoomThread(id, name);
+  } catch { $('#rooms-err').textContent = t('cat.offline'); }
+});
+async function joinRoom(id, name) {
+  try { await withAuth(() => api.roomJoin(id)); await ensureRoom(id, name); await openRoomThread(id, name); }
+  catch { $('#rooms-err').textContent = t('cat.offline'); }
+}
+async function openRoomThread(id, name) {
+  await ensureRoom(id, name);
+  await openThread(roomPeerKey(id));
 }
 
 /* ---------- Dziennik (#7): wyniki+wykres, leki, wizyty, zdjęcia, notatki, trener (#8) ---------- */
@@ -751,6 +848,12 @@ function renderProfile() {
   } else {
     $('#pf-kc-qr').innerHTML = ''; $('#pf-kc-code').textContent = '(niedostępny na tym urządzeniu)';
   }
+  // Link-zaproszenie: udostępnij uchwyt jako link/QR (#6/2). Bez kluczy prywatnych, bez danych osobowych.
+  if (account.pseudo) {
+    const url = inviteUrl(location.origin, account.pseudo);
+    $('#pf-invite-qr').innerHTML = qrSvg(url);
+    $('#pf-invite-link').textContent = url;
+  }
   $('#pf-err').textContent = '';
 }
 $('#pf-save').addEventListener('click', async () => {
@@ -768,6 +871,13 @@ $('#pf-save').addEventListener('click', async () => {
 $('#pf-kc-copy').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText($('#pf-kc-code').textContent); toast(t('kc.copied')); }
   catch { /* zaznacz ręcznie */ }
+});
+$('#pf-invite-copy').addEventListener('click', async () => {
+  const url = inviteUrl(location.origin, account.pseudo || '');
+  try {
+    if (navigator.share) { await navigator.share({ title: 'Krąg', text: t('inv.shareText'), url }); }
+    else { await navigator.clipboard.writeText(url); toast(t('inv.copied')); }
+  } catch { try { await navigator.clipboard.writeText(url); toast(t('inv.copied')); } catch { /* ręcznie */ } }
 });
 
 function idaBubble(who, html, src) {
@@ -899,4 +1009,5 @@ if ('serviceWorker' in navigator) {
 setLang(detectLang());
 try { document.documentElement.lang = detectLang(); } catch { /* noop */ }
 translateDOM();
+pendingInvite = parseInviteFromSearch(location.search);   // link-zaproszenie (#6/2)
 tryRestore().catch((e) => { $('#boot-err').textContent = ''; console.warn('restore', e); });

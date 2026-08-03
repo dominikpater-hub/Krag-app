@@ -152,6 +152,36 @@ export function buildApp(db: Queryable, opts: { trustProxy?: boolean } = {}): Fa
     return repo.deleteListing(db, req.account!.pseudonym);
   });
 
+  // ——— Pokoje tematyczne (#6/2): grupa = E2E per-odbiorca. Serwer trzyma nazwę + członków. ———
+  app.get('/rooms', async (req) => {
+    await requireAuth(req);
+    const { q } = (req.query as any) || {};
+    return { rooms: await repo.listRooms(db, q) };
+  });
+  app.post('/rooms', async (req) => {
+    await requireAuth(req);
+    const { name } = (req.body as any) || {};
+    requireFields({ name });
+    return repo.createRoom(db, req.account!.pseudonym, name);
+  });
+  app.post('/rooms/:id/join', async (req) => {
+    await requireAuth(req);
+    const { id } = req.params as any;
+    return repo.joinRoom(db, id, req.account!.pseudonym);
+  });
+  app.post('/rooms/:id/leave', async (req) => {
+    await requireAuth(req);
+    const { id } = req.params as any;
+    return repo.leaveRoom(db, id, req.account!.pseudonym);
+  });
+  app.get('/rooms/:id/members', async (req) => {
+    await requireAuth(req);
+    const { id } = req.params as any;
+    // Listę odbiorców rozgłaszania widzi tylko członek pokoju.
+    if (!(await repo.isRoomMember(db, id, req.account!.pseudonym))) throw repo.httpError(403, 'Nie jesteś w tym pokoju');
+    return { members: await repo.roomMembers(db, id) };
+  });
+
   // ——— Moderacja (message franking) ———
   app.post('/reports', async (req) => {
     await requireAuth(req);

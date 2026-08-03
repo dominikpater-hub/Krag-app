@@ -81,3 +81,22 @@ create table if not exists listings (
   bio         text not null default '',
   updated_at  timestamptz not null default now()
 );
+
+-- Pokoje tematyczne (#6/2): grupa BEZ klucza grupowego. Serwer trzyma tylko nazwę tematu
+-- i listę członków (potrzebną do dołączania i do listy odbiorców rozgłaszania). Treść i to,
+-- „kto do kogo pisze w środku", są w ZASZYFROWANYCH kopertach 1:1 — nadawca szyfruje osobno
+-- do każdego członka (E2E per-odbiorca). Nazwa tematu jest jawna (jak w katalogu — pokój ma
+-- być odnajdywalny), NIE jest daną zdrowotną.
+create table if not exists rooms (
+  id          uuid primary key,
+  name        text not null,
+  created_by  text not null,                   -- pseudonim (uchwyt), nie tożsamość
+  created_at  timestamptz not null default now()
+);
+
+create table if not exists room_members (
+  room_id     uuid not null references rooms(id) on delete cascade,
+  pseudonym   text not null,
+  joined_at   timestamptz not null default now(),
+  primary key (room_id, pseudonym)
+);

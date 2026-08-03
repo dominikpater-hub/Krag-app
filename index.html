@@ -96,7 +96,8 @@
         <div class="klbl" data-i18n="app.loggedAs">Zalogowano jako</div>
         <div class="pseudo" id="me-pseudo" style="font-size:19px">…</div>
       </div>
-      <div style="display:flex;align-items:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="btn ghost sm" id="app-rooms" data-i18n="room.open2" style="width:auto;padding:8px 12px;margin:0">Pokoje</button>
         <button class="btn ghost sm" id="app-cat" data-i18n="cat.open" style="width:auto;padding:8px 12px;margin:0">Katalog</button>
         <span class="dot" id="conn-dot" title="•"></span>
       </div>
@@ -145,6 +146,31 @@
     <button class="btn ghost sm" id="cat-search" data-i18n="cat.search">Szukaj</button>
     <div id="cat-list" class="threads" style="margin-top:12px"></div>
     <div class="err" id="cat-err"></div>
+  </section>
+
+  <!-- POKOJE TEMATYCZNE (#6/2) -->
+  <section class="screen" id="s-rooms">
+    <div class="apphead">
+      <button class="iconbtn" id="rooms-back" aria-label="Rozmowy">‹</button>
+      <div>
+        <div class="klbl" data-i18n="app.threads">Rozmowy</div>
+        <div class="pseudo" data-i18n="room.title" style="font-size:19px">Pokoje tematyczne</div>
+      </div>
+      <span style="width:34px"></span>
+    </div>
+    <p class="muted" data-i18n="room.lead" style="margin-top:10px">Grupy wokół tematu. Wiadomości szyfrowane od końca do końca — osobno do każdej osoby.</p>
+
+    <div class="card">
+      <div class="klbl" data-i18n="room.create">Załóż pokój</div>
+      <input id="rooms-name" class="field" maxlength="80" data-i18n-ph="room.namePh" placeholder="np. Świeżo po diagnozie">
+      <button class="btn ghost sm" id="rooms-create" data-i18n="room.createBtn">Załóż</button>
+    </div>
+
+    <input id="rooms-f" class="field" data-i18n-ph="room.searchPh" placeholder="Szukaj pokoju" style="margin-top:12px">
+    <button class="btn ghost sm" id="rooms-search" data-i18n="cat.search">Szukaj</button>
+    <div id="rooms-list" class="threads" style="margin-top:12px"></div>
+    <div class="err" id="rooms-err"></div>
+    <p class="note" data-i18n="room.note" style="margin-top:8px">Nazwa pokoju jest jawna. Treść rozmów — nie.</p>
   </section>
 
   <!-- DZIENNIK -->
@@ -285,6 +311,16 @@
 
     <button class="btn" id="pf-save" data-i18n="pf.save">Zapisz i zsynchronizuj</button>
     <div class="err" id="pf-err"></div>
+
+    <details class="dev" open>
+      <summary data-i18n="inv.summary">Zaproś do rozmowy</summary>
+      <p class="muted" data-i18n="inv.p" style="margin-top:8px">Udostępnij link lub kod QR. Osoba otworzy aplikację i od razu zacznie z Tobą rozmowę. Link nie zawiera żadnych danych osobowych ani kluczy.</p>
+      <div class="card" style="align-items:center;text-align:center">
+        <div id="pf-invite-qr" class="kc-qr"></div>
+        <div class="mono" id="pf-invite-link" style="margin-top:12px;word-break:break-all;font-size:12px"></div>
+        <button class="btn ghost sm" id="pf-invite-copy" data-i18n="inv.share" style="width:auto;padding:8px 14px;margin-top:10px">Udostępnij link</button>
+      </div>
+    </details>
 
     <details class="dev">
       <summary data-i18n="pf.kcSummary">Twój Klucz Kręgu</summary>
