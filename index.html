@@ -13,48 +13,48 @@
   <!-- Ekran wejścia: bez zaproszeń. Passkey (Face ID/odcisk) · anonimowo · Klucz Kręgu -->
   <section class="screen on" id="s-welcome">
     <img src="enso.svg" class="logo" alt="Krąg" width="80" height="80">
-    <h1>Cześć. Jestem Ida.</h1>
-    <p>Towarzyszę osobom żyjącym z HIV i ich bliskim. Pomogę Ci znaleźć <b>sprawdzone informacje</b>, zrozumieć wyniki i być w kontakcie z ludźmi, którzy to znają.</p>
-    <p class="lbl">W Kręgu możesz</p>
+    <h1 data-i18n="w.h1">Cześć. Jestem Ida.</h1>
+    <p data-i18n-html="w.intro">Towarzyszę osobom żyjącym z HIV i ich bliskim.</p>
+    <p class="lbl" data-i18n="w.canDo">W Kręgu możesz</p>
     <ul class="benefits">
-      <li><span class="bi">📚</span> Uczyć się o HIV prostym językiem</li>
-      <li><span class="bi">📈</span> Prowadzić prywatną historię badań</li>
-      <li><span class="bi">💊</span> Pilnować leczenia</li>
-      <li><span class="bi">🤝</span> Pisać szyfrowane wiadomości do ludzi, którzy to rozumieją</li>
-      <li><span class="bi">◈</span> Zapytać mnie o wszystko</li>
+      <li><span class="bi">📚</span> <span data-i18n="w.b1">Uczyć się o HIV prostym językiem</span></li>
+      <li><span class="bi">📈</span> <span data-i18n="w.b2">Prowadzić prywatną historię badań</span></li>
+      <li><span class="bi">💊</span> <span data-i18n="w.b3">Pilnować leczenia</span></li>
+      <li><span class="bi">🤝</span> <span data-i18n="w.b4">Pisać szyfrowane wiadomości do ludzi, którzy to rozumieją</span></li>
+      <li><span class="bi">◈</span> <span data-i18n="w.b5">Zapytać mnie o wszystko</span></li>
     </ul>
-    <p class="muted">Prywatność jest tu domyślna, nie opcją do włączenia. To, co zapisujesz o swoim zdrowiu, zostaje zaszyfrowane na Twoim urządzeniu — i nikt w Kręgu tego nie widzi, także my.</p>
-    <button class="btn" id="go-passkey" hidden>Wejdź — Face ID lub odcisk</button>
-    <button class="btn" id="go-anon">Wejdź anonimowo</button>
-    <button class="btn ghost" id="go-login">Mam już konto</button>
+    <p class="muted" data-i18n="w.privacy">Prywatność jest tu domyślna, nie opcją do włączenia.</p>
+    <button class="btn" id="go-passkey" data-i18n="w.passkey" hidden>Wejdź — Face ID lub odcisk</button>
+    <button class="btn" id="go-anon" data-i18n="w.anon">Wejdź anonimowo</button>
+    <button class="btn ghost" id="go-login" data-i18n="w.have">Mam już konto</button>
     <div class="err" id="boot-err"></div>
   </section>
 
   <!-- Logowanie na nowym urządzeniu: passkey albo Klucz Kręgu -->
   <section class="screen" id="s-login">
     <img src="enso.svg" class="logo" alt="Krąg" width="72" height="72">
-    <h1>Mam już konto</h1>
-    <p class="muted">Odtwórz konto na tym urządzeniu — passkeyem (Face ID / odcisk) albo Kluczem Kręgu. Wszystko odszyfrowuje się <b>tutaj</b>; serwer nie widzi ani jednego, ani drugiego.</p>
-    <button class="btn" id="login-passkey" hidden>Zaloguj — Face ID lub odcisk</button>
-    <p class="lbl">albo Kluczem Kręgu</p>
-    <textarea id="login-keycode" class="field" rows="2" placeholder="krag1:…  (wklej albo zeskanuj)" autocomplete="off" spellcheck="false" style="resize:none"></textarea>
+    <h1 data-i18n="login.h1">Mam już konto</h1>
+    <p class="muted" data-i18n-html="login.p">Odtwórz konto na tym urządzeniu.</p>
+    <button class="btn" id="login-passkey" data-i18n="login.passkey" hidden>Zaloguj — Face ID lub odcisk</button>
+    <p class="lbl" data-i18n="login.orKc">albo Kluczem Kręgu</p>
+    <textarea id="login-keycode" class="field" rows="2" data-i18n-ph="login.ph" placeholder="krag1:…" autocomplete="off" spellcheck="false" style="resize:none"></textarea>
     <div class="err" id="login-err"></div>
-    <button class="btn" id="login-do">Zaloguj i zsynchronizuj</button>
-    <button class="btn ghost" data-back="welcome">Wróć</button>
+    <button class="btn" id="login-do" data-i18n="login.do">Zaloguj i zsynchronizuj</button>
+    <button class="btn ghost" data-back="welcome" data-i18n="back">Wróć</button>
   </section>
 
   <!-- Klucz Kręgu — pokazywany po założeniu konta -->
   <section class="screen" id="s-keycode">
     <img src="enso.svg" class="logo" alt="Krąg" width="72" height="72">
-    <h1>Twój Klucz Kręgu</h1>
-    <p class="muted">To sposób, by wejść na koncie z innego urządzenia albo je odzyskać. Zapisz go — zrzut ekranu lub menedżer haseł. <b>Nikt, także Krąg, go nie odtworzy.</b></p>
+    <h1 data-i18n="kc.h1">Twój Klucz Kręgu</h1>
+    <p class="muted" data-i18n-html="kc.p">To sposób, by wejść na koncie z innego urządzenia.</p>
     <div class="card" style="align-items:center;text-align:center">
       <div id="kc-qr" class="kc-qr"></div>
       <div class="mono" id="kc-code" style="margin-top:12px;word-break:break-all"></div>
-      <button class="btn ghost sm" id="kc-copy" style="width:auto;padding:8px 14px;margin-top:10px">Kopiuj klucz</button>
+      <button class="btn ghost sm" id="kc-copy" data-i18n="kc.copy" style="width:auto;padding:8px 14px;margin-top:10px">Kopiuj klucz</button>
     </div>
-    <label class="chk"><input type="checkbox" id="kc-ack"> Zapisałem/am Klucz Kręgu w bezpiecznym miejscu</label>
-    <button class="btn" id="kc-enter" disabled>Wejdź do Kręgu</button>
+    <label class="chk"><input type="checkbox" id="kc-ack"> <span data-i18n="kc.ack">Zapisałem/am Klucz Kręgu w bezpiecznym miejscu</span></label>
+    <button class="btn" id="kc-enter" data-i18n="kc.enter" disabled>Wejdź do Kręgu</button>
     <div class="err" id="kc-err"></div>
   </section>
 
@@ -62,19 +62,19 @@
   <section class="screen" id="s-ida">
     <div class="apphead">
       <div>
-        <div class="klbl">Krąg wiedzy</div>
-        <div class="pseudo" style="font-size:19px">Zapytaj Idę</div>
+        <div class="klbl" data-i18n="ida.kicker">Krąg wiedzy</div>
+        <div class="pseudo" data-i18n="ida.title" style="font-size:19px">Zapytaj Idę</div>
       </div>
-      <select id="ida-role" class="rolesel" title="Kim jesteś — to dobiera odpowiedzi">
-        <option value="plhiv">Żyję z HIV</option>
-        <option value="partner">Jestem partnerem/partnerką</option>
-        <option value="bliska">Jestem osobą bliską</option>
+      <select id="ida-role" class="rolesel" title="Ida">
+        <option value="plhiv" data-i18n="role.plhiv">Żyję z HIV</option>
+        <option value="partner" data-i18n="role.partner">Jestem partnerem/partnerką</option>
+        <option value="bliska" data-i18n="role.bliska">Jestem osobą bliską</option>
       </select>
     </div>
     <div id="ida-log" class="idalog"></div>
     <div class="composer">
-      <input id="ida-input" class="field" placeholder="Zapytaj o HIV, PrEP, leczenie, wyniki…" autocomplete="off">
-      <button class="sendbtn" id="ida-send" aria-label="Zapytaj">↑</button>
+      <input id="ida-input" class="field" data-i18n-ph="ida.ph" placeholder="Zapytaj…" autocomplete="off">
+      <button class="sendbtn" id="ida-send" aria-label="Ida">↑</button>
     </div>
   </section>
 
@@ -82,21 +82,21 @@
   <section class="screen" id="s-app">
     <div class="apphead">
       <div>
-        <div class="klbl">Zalogowano jako</div>
+        <div class="klbl" data-i18n="app.loggedAs">Zalogowano jako</div>
         <div class="pseudo" id="me-pseudo" style="font-size:19px">…</div>
       </div>
-      <span class="dot" id="conn-dot" title="połączenie"></span>
+      <span class="dot" id="conn-dot" title="•"></span>
     </div>
 
-    <div class="klbl" style="margin-top:18px">Rozmowy</div>
+    <div class="klbl" data-i18n="app.threads" style="margin-top:18px">Rozmowy</div>
     <div id="thread-list" class="threads"></div>
 
     <div class="card" style="margin-top:14px">
-      <div class="klbl">Rozpocznij rozmowę</div>
-      <p class="muted" style="margin:6px 0 0">Wpisz pseudonim osoby, którą znasz z Kręgu.</p>
-      <input id="peer-input" class="field" placeholder="Spokojna Rzeka #C3D4" autocomplete="off">
+      <div class="klbl" data-i18n="app.start">Rozpocznij rozmowę</div>
+      <p class="muted" data-i18n="app.startHint" style="margin:6px 0 0">Wpisz pseudonim osoby, którą znasz z Kręgu.</p>
+      <input id="peer-input" class="field" data-i18n-ph="app.peerPh" placeholder="Spokojna Rzeka #C3D4" autocomplete="off">
       <div class="err" id="peer-err"></div>
-      <button class="btn" id="start-thread">Otwórz rozmowę</button>
+      <button class="btn" id="start-thread" data-i18n="app.open">Otwórz rozmowę</button>
     </div>
   </section>
 
@@ -104,28 +104,28 @@
   <section class="screen" id="s-diary">
     <div class="apphead">
       <div>
-        <div class="klbl">Tylko to urządzenie</div>
-        <div class="pseudo" style="font-size:19px">Dziennik</div>
+        <div class="klbl" data-i18n="diary.kicker">Tylko to urządzenie</div>
+        <div class="pseudo" data-i18n="diary.title" style="font-size:19px">Dziennik</div>
       </div>
     </div>
-    <p class="muted" style="margin-top:12px">Wyniki, dawki, nastrój — cokolwiek chcesz mieć pod ręką. Nic z dziennika nie opuszcza tego telefonu.</p>
+    <p class="muted" data-i18n="diary.p" style="margin-top:12px">Wyniki, dawki, nastrój.</p>
     <div class="card" style="margin-top:6px">
-      <div class="klbl">Nowy wpis</div>
-      <input id="diary-note" class="field" placeholder="np. CD4 268, wiremia poniżej progu" autocomplete="off">
-      <button class="btn" id="diary-save">Zapisz w dzienniku</button>
+      <div class="klbl" data-i18n="diary.new">Nowy wpis</div>
+      <input id="diary-note" class="field" data-i18n-ph="diary.notePh" placeholder="np. CD4 268" autocomplete="off">
+      <button class="btn" id="diary-save" data-i18n="diary.save">Zapisz w dzienniku</button>
     </div>
     <div class="note" id="diary-list" style="margin-top:12px"></div>
 
     <details class="dev">
-      <summary>To urządzenie</summary>
+      <summary data-i18n="diary.device">To urządzenie</summary>
       <div class="card">
-        <div class="krow"><span>Konto (klucz lokalny)</span><b class="ok">na urządzeniu</b></div>
-        <div class="krow"><span>Dziennik zdrowia (IndexedDB)</span><b class="ok" id="diary-state">…</b></div>
-        <div class="krow"><span>Tryb offline (service worker)</span><b class="ok" id="sw-state">…</b></div>
-        <div class="krow"><span>Rozmowy 1:1 (E2E)</span><b class="ok">aktywne</b></div>
+        <div class="krow"><span data-i18n="diary.rAcc">Konto (klucz lokalny)</span><b class="ok" data-i18n="diary.rAccV">na urządzeniu</b></div>
+        <div class="krow"><span data-i18n="diary.rDiary">Dziennik zdrowia (IndexedDB)</span><b class="ok" id="diary-state">…</b></div>
+        <div class="krow"><span data-i18n="diary.rSw">Tryb offline (service worker)</span><b class="ok" id="sw-state">…</b></div>
+        <div class="krow"><span data-i18n="diary.rE2e">Rozmowy 1:1 (E2E)</span><b class="ok" data-i18n="diary.rE2eV">aktywne</b></div>
       </div>
-      <button class="btn ghost" id="diary-add">Dodaj przykładowy wpis</button>
-      <button class="btn ghost danger" id="wipe">Usuń wszystko z tego urządzenia</button>
+      <button class="btn ghost" id="diary-add" data-i18n="diary.sample">Dodaj przykładowy wpis</button>
+      <button class="btn ghost danger" id="wipe" data-i18n="diary.wipe">Usuń wszystko z tego urządzenia</button>
     </details>
   </section>
 
@@ -133,47 +133,47 @@
   <section class="screen" id="s-profile">
     <div class="apphead">
       <div>
-        <div class="klbl">Twój profil</div>
-        <div class="pseudo" style="font-size:19px">Profil</div>
+        <div class="klbl" data-i18n="pf.kicker">Twój profil</div>
+        <div class="pseudo" data-i18n="pf.title" style="font-size:19px">Profil</div>
       </div>
-      <span class="synctag" id="sync-state" title="stan synchronizacji">—</span>
+      <span class="synctag" id="sync-state" title="sync">—</span>
     </div>
-    <p class="muted" style="margin-top:12px">Profil jest szyfrowany Twoją frazą i synchronizuje się między urządzeniami. Serwer trzyma tylko nieczytelny szyfrogram.</p>
+    <p class="muted" data-i18n="pf.p" style="margin-top:12px">Profil jest szyfrowany Twoim kluczem i synchronizuje się między urządzeniami.</p>
 
     <div class="card">
-      <div class="klbl">Pseudonim (nazwa wyświetlana)</div>
+      <div class="klbl" data-i18n="pf.pseudo">Pseudonim (nazwa wyświetlana)</div>
       <input id="pf-pseudo" class="field" maxlength="32" autocomplete="off" spellcheck="false">
-      <div class="klbl" style="margin-top:14px">Adres w sieci (z klucza, niezmienny)</div>
+      <div class="klbl" data-i18n="pf.handle" style="margin-top:14px">Adres w sieci (z klucza, niezmienny)</div>
       <div class="mono" id="pf-handle" style="margin-top:4px">…</div>
     </div>
 
     <div class="card">
-      <div class="klbl">Język</div>
+      <div class="klbl" data-i18n="pf.lang">Język</div>
       <select id="pf-lang" class="rolesel" style="max-width:100%;width:100%;margin-top:8px"></select>
-      <div class="klbl" style="margin-top:14px">Kim jesteś w Kręgu</div>
+      <div class="klbl" data-i18n="pf.role" style="margin-top:14px">Kim jesteś w Kręgu</div>
       <select id="pf-role" class="rolesel" style="max-width:100%;width:100%;margin-top:8px">
-        <option value="plhiv">Żyję z HIV</option>
-        <option value="partner">Jestem partnerem/partnerką</option>
-        <option value="bliska">Jestem osobą bliską</option>
+        <option value="plhiv" data-i18n="role.plhiv">Żyję z HIV</option>
+        <option value="partner" data-i18n="role.partner">Jestem partnerem/partnerką</option>
+        <option value="bliska" data-i18n="role.bliska">Jestem osobą bliską</option>
       </select>
-      <div class="klbl" style="margin-top:14px">Jak mam się do Ciebie zwracać?</div>
+      <div class="klbl" data-i18n="pf.gram" style="margin-top:14px">Jak mam się do Ciebie zwracać?</div>
       <select id="pf-gram" class="rolesel" style="max-width:100%;width:100%;margin-top:8px">
-        <option value="n">Neutralnie (bezosobowo)</option>
-        <option value="f">W formie żeńskiej</option>
-        <option value="m">W formie męskiej</option>
+        <option value="n" data-i18n="gram.n">Neutralnie (bezosobowo)</option>
+        <option value="f" data-i18n="gram.f">W formie żeńskiej</option>
+        <option value="m" data-i18n="gram.m">W formie męskiej</option>
       </select>
     </div>
 
-    <button class="btn" id="pf-save">Zapisz i zsynchronizuj</button>
+    <button class="btn" id="pf-save" data-i18n="pf.save">Zapisz i zsynchronizuj</button>
     <div class="err" id="pf-err"></div>
 
     <details class="dev">
-      <summary>Twój Klucz Kręgu</summary>
-      <p class="muted" style="margin-top:8px">Sposób, by wejść na koncie z innego urządzenia albo je odzyskać. Zapisz go bezpiecznie. Nikt, także Krąg, go nie odtworzy.</p>
+      <summary data-i18n="pf.kcSummary">Twój Klucz Kręgu</summary>
+      <p class="muted" data-i18n="pf.kcP" style="margin-top:8px">Sposób, by wejść na koncie z innego urządzenia albo je odzyskać.</p>
       <div class="card" style="align-items:center;text-align:center">
         <div id="pf-kc-qr" class="kc-qr"></div>
         <div class="mono" id="pf-kc-code" style="margin-top:12px;word-break:break-all"></div>
-        <button class="btn ghost sm" id="pf-kc-copy" style="width:auto;padding:8px 14px;margin-top:10px">Kopiuj klucz</button>
+        <button class="btn ghost sm" id="pf-kc-copy" data-i18n="kc.copy" style="width:auto;padding:8px 14px;margin-top:10px">Kopiuj klucz</button>
       </div>
     </details>
   </section>
@@ -181,24 +181,24 @@
   <!-- WĄTEK (jedna rozmowa) -->
   <section class="screen" id="s-thread">
     <div class="apphead">
-      <button class="iconbtn" id="thread-back" aria-label="Wróć">‹</button>
+      <button class="iconbtn" id="thread-back" aria-label="Back">‹</button>
       <div class="pseudo" id="thread-peer" style="font-size:18px">…</div>
-      <button class="iconbtn" id="thread-report" title="Zgłoś / zablokuj">⚑</button>
+      <button class="iconbtn" id="thread-report" title="⚑">⚑</button>
     </div>
-    <div class="lock-note">🔒 Szyfrowane od końca do końca. Serwer nie czyta tych wiadomości.</div>
+    <div class="lock-note" data-i18n="th.lock">🔒 Szyfrowane od końca do końca.</div>
     <div id="msg-list" class="msgs"></div>
     <div class="composer">
-      <input id="msg-input" class="field" placeholder="Napisz…" autocomplete="off">
-      <button class="sendbtn" id="msg-send" aria-label="Wyślij">↑</button>
+      <input id="msg-input" class="field" data-i18n-ph="th.msgPh" placeholder="Napisz…" autocomplete="off">
+      <button class="sendbtn" id="msg-send" aria-label="↑">↑</button>
     </div>
   </section>
 
   <!-- Pasek nawigacji (widoczny na ekranach głównych) -->
   <nav class="tabbar" id="tabbar" hidden>
-    <button class="tab" data-tab="ida"><span class="ti">◈</span><span>Ida</span></button>
-    <button class="tab" data-tab="app"><span class="ti">💬</span><span>Rozmowy</span></button>
-    <button class="tab" data-tab="diary"><span class="ti">📓</span><span>Dziennik</span></button>
-    <button class="tab" data-tab="profile"><span class="ti">◉</span><span>Profil</span></button>
+    <button class="tab" data-tab="ida"><span class="ti">◈</span><span data-i18n="tab.ida">Ida</span></button>
+    <button class="tab" data-tab="app"><span class="ti">💬</span><span data-i18n="tab.app">Rozmowy</span></button>
+    <button class="tab" data-tab="diary"><span class="ti">📓</span><span data-i18n="tab.diary">Dziennik</span></button>
+    <button class="tab" data-tab="profile"><span class="ti">◉</span><span data-i18n="tab.profile">Profil</span></button>
   </nav>
 </div>
 <script type="module" src="app.js"></script>

@@ -75,7 +75,7 @@ async function main() {
   await A.selectOption('#pf-role', 'partner');
   await A.selectOption('#pf-gram', 'f');
   await A.click('#pf-save');
-  await A.waitForFunction(() => document.querySelector('#sync-state')?.textContent?.includes('zsynchronizowano'), { timeout: 10000 });
+  await A.waitForFunction(() => document.querySelector('#sync-state')?.classList.contains('on'), { timeout: 10000 });
   ok(true, 'A: profil zapisany i zsynchronizowany (sejf wypchnięty)');
 
   // ——— Urządzenie B: logowanie Kluczem Kręgu A ———

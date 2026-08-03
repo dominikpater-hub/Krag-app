@@ -1,8 +1,6 @@
-/* Krąg — E2E ścieżki passkey (Face ID / odcisk) przez wirtualny authenticator z PRF.
- * A: zakłada konto passkeyem → wchodzi. Potem czyścimy stan lokalny (jak nowe urządzenie
- * z tym samym, zsynchronizowanym passkeyem) i logujemy się passkeyem — konto się odtwarza.
- * Dowodzi: create+PRF → sekret → sejf; unlock+PRF → master → sejf → klucze. Serwer ślepy.
- * Uruchom: node scripts/e2e-passkey.mjs
+/* Krąg — E2E lokalizacji UI (PL/EN/UK/RU). Zmiana języka w profilu tłumaczy interfejs
+ * i wypowiedzi Idy; fakty medyczne zostają PO POLSKU z etykietą „źródło: polski".
+ * Uruchom: node scripts/e2e-i18n.mjs
  */
 import { spawn } from 'node:child_process';
 import http from 'node:http';
@@ -15,7 +13,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('/home/claude/.npm-global/lib/node_modules/playwright-core');
 
 const ROOT = join(fileURLToPath(import.meta.url), '..', '..');
-const API_PORT = 8102, WEB_PORT = 8104;   // WEB na localhost → rpId 'localhost' dla WebAuthn
+const API_PORT = 8130, WEB_PORT = 8131;
 const API = `http://localhost:${API_PORT}`, WEB = `http://localhost:${WEB_PORT}`;
 const CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.webmanifest': 'application/manifest+json', '.svg': 'image/svg+xml', '.png': 'image/png' };
@@ -47,53 +45,45 @@ async function main() {
   await startWeb(); log('static PWA na', WEB);
   await startApi(); log('dev-server (pg-mem) na', API);
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
-  const ctx = await browser.newContext();
+  const ctx = await browser.newContext({ locale: 'pl-PL' });
   const page = await ctx.newPage();
   await page.addInitScript((api) => { window.KRAG_API_BASE = api; }, API);
   page.on('pageerror', (e) => { console.log('  [pageerror]', e.message); fail++; });
-
-  // wirtualny authenticator z PRF (symuluje telefon z Face ID / odciskiem) — na sesji TEJ strony
-  const client = await ctx.newCDPSession(page);
-  await client.send('WebAuthn.enable');
-  await client.send('WebAuthn.addVirtualAuthenticator', {
-    options: { protocol: 'ctap2', transport: 'internal', hasResidentKey: true, hasUserVerification: true, hasPrf: true, automaticPresenceSimulation: true, isUserVerified: true },
-  });
-
   await page.goto(WEB);
-  ok(await page.isVisible('#go-passkey'), 'przycisk „Face ID / odcisk" widoczny (WebAuthn wykryty)');
-  await page.click('#go-passkey');
-  await page.waitForSelector('#s-keycode.on', { timeout: 20000 });
-  ok(true, 'passkey utworzony (PRF) → konto założone → pokazano Klucz Kręgu');
-  await page.check('#kc-ack');
-  await page.click('#kc-enter');
-  await page.waitForSelector('#s-ida.on', { timeout: 15000 });
-  await page.click('.tab[data-tab="profile"]');
-  await page.waitForSelector('#s-profile.on');
-  const handle = (await page.textContent('#pf-handle')).trim();
-  await page.fill('#pf-pseudo', 'Nocny Ton');
-  await page.selectOption('#pf-gram', 'm');
-  await page.click('#pf-save');
-  await page.waitForFunction(() => document.querySelector('#sync-state')?.classList.contains('on'), { timeout: 10000 });
-  ok(true, 'profil zapisany i zsynchronizowany');
 
-  // „Nowe urządzenie z tym samym passkeyem": czyścimy stan lokalny, ten sam authenticator zostaje.
-  await page.evaluate(() => new Promise((res) => { const r = indexedDB.deleteDatabase('krag-local'); r.onsuccess = r.onerror = () => res(); }));
-  await page.reload();
-  await page.waitForSelector('#s-welcome.on');
-  await page.click('#go-login');
-  await page.waitForSelector('#s-login.on');
-  ok(await page.isVisible('#login-passkey'), 'przycisk logowania passkeyem widoczny');
-  await page.click('#login-passkey');
+  ok((await page.textContent('#go-anon')) === 'Wejdź anonimowo', 'start po polsku (autodetekcja pl-PL)');
+  await page.click('#go-anon');
+  await page.waitForSelector('#s-keycode.on', { timeout: 20000 });
+  await page.check('#kc-ack'); await page.click('#kc-enter');
   await page.waitForSelector('#s-ida.on', { timeout: 15000 });
-  ok(true, 'zalogowano passkeyem (konto odtworzone z sejfu przez PRF)');
-  await page.click('.tab[data-tab="profile"]');
-  await page.waitForSelector('#s-profile.on');
-  ok((await page.inputValue('#pf-pseudo')) === 'Nocny Ton', 'profil zsynchronizowany przez passkey');
-  ok((await page.textContent('#pf-handle')).trim() === handle, 'ten sam adres sieciowy (klucze z sejfu)');
+
+  // przełącz na angielski
+  await page.click('.tab[data-tab="profile"]'); await page.waitForSelector('#s-profile.on');
+  await page.selectOption('#pf-lang', 'en');
+  await page.click('#pf-save');
+  await page.waitForFunction(() => document.querySelector('#sync-state')?.textContent?.includes('synced') || document.querySelector('#sync-state')?.textContent?.includes('✓'), { timeout: 10000 });
+  ok((await page.textContent('#pf-save')) === 'Save and sync', 'profil przetłumaczony na EN');
+  ok((await page.textContent('.tab[data-tab="ida"] span:last-child')) === 'Ida', 'zakładki po EN');
+
+  // Ida wita po angielsku i odpowiada, fakt PL z etykietą źródła
+  await page.click('.tab[data-tab="ida"]'); await page.waitForSelector('#s-ida.on');
+  await page.waitForFunction(() => /I am Ida/.test(document.querySelector('#ida-log .ida-msg.ida')?.innerHTML || ''), { timeout: 8000 });
+  ok(true, 'Ida wita po angielsku');
+  await page.fill('#ida-input', 'co to znaczy niewykrywalny'); await page.click('#ida-send');
+  await page.waitForFunction(() => document.querySelectorAll('#ida-log .ida-msg.ida').length >= 2, { timeout: 8000 });
+  const html = await page.evaluate(() => [...document.querySelectorAll('#ida-log .ida-msg.ida')].pop().innerHTML);
+  ok(/source: Polish/.test(html), 'poza PL: fakt oznaczony „source: Polish"');
+  ok(/niewykrywaln/i.test(html), 'sam fakt pozostaje po polsku (treść medyczna)');
+
+  // przełącz na ukraiński — sprawdź inny ekran
+  await page.click('.tab[data-tab="profile"]'); await page.waitForSelector('#s-profile.on');
+  await page.selectOption('#pf-lang', 'uk'); await page.click('#pf-save');
+  await page.waitForTimeout(300);
+  ok((await page.textContent('#pf-save')) === 'Зберегти та синхронізувати', 'profil przetłumaczony na UK');
 
   console.log(`\n=== ${pass} PASS · ${fail} FAIL ===`);
   await browser.close();
-  if (fail) throw new Error('E2E passkey nie przeszło');
+  if (fail) throw new Error('E2E i18n nie przeszło');
 }
 main().then(() => { killApi(); web?.close(); process.exit(0); })
   .catch((e) => { console.error('✖', e.message); killApi(); web?.close(); process.exit(1); });

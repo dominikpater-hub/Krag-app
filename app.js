@@ -15,8 +15,9 @@ import { fromSecretBytes, seal, open } from './lib/vault.js';
 import { newKeycode, parseKeycode, qrSvg, encodeKeycode } from './lib/keycode.js';
 import { passkeyAvailable, createPasskey, unlockPasskey } from './lib/passkey.js';
 import { solvePow } from './lib/pow.js';
+import { t, setLang, detectLang, translateDOM, LANG_NAMES } from './lib/i18n.js';
 
-const LANGS = { pl: 'polski', en: 'English', uk: 'українська', ru: 'русский' };
+const LANGS = LANG_NAMES;
 
 'use strict';
 const $ = (s) => document.querySelector(s);
@@ -48,7 +49,6 @@ const account = { authKeyPair: null, msgKeyPair: null, pubRaw: null, pseudo: nul
 // Profil: pseudonim (nazwa wyświetlana), język, rola. Synchronizowany E2E przez sejf (lib/vault.js).
 const profile = { pseudonym: null, lang: 'pl', role: 'plhiv', gram: 'n' };
 // Forma gramatyczna zwracania się do użytkownika (płeć językowa): f/m/neutralna.
-function gw({ m, f, n }) { return profile.gram === 'm' ? m : profile.gram === 'f' ? f : n; }
 function toast(msg) {
   let el = document.querySelector('#toast');
   if (!el) { el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; document.body.appendChild(el); }
@@ -349,7 +349,7 @@ async function renderThreads() {
   const threads = await all('threads');
   const box = $('#thread-list');
   if (!threads.length) {
-    box.innerHTML = '<div class="threads-empty">Brak rozmów. Zacznij od pseudonimu poniżej.</div>';
+    box.innerHTML = `<div class="threads-empty">${t('app.empty')}</div>`;
     return;
   }
   threads.sort((a, b) => (b.ts || 0) - (a.ts || 0));
@@ -360,7 +360,7 @@ async function renderThreads() {
   }
   box.innerHTML = threads.map((t) => {
     const last = lastByPeer[t.peer];
-    const preview = last ? (last.dir === 'out' ? 'Ty: ' : '') + last.text : 'Nowa rozmowa';
+    const preview = last ? (last.dir === 'out' ? 'Ty: ' : '') + last.text : t('app.newConvo');
     const n = unread.get(t.peer) || 0;
     const nm = t.peer.split(' #')[0];
     return `<div class="thread" data-peer="${encodeURIComponent(t.peer)}">
@@ -455,7 +455,7 @@ async function renderDiary() {
   const items = (await all('diary')).sort((a, b) => b.ts - a.ts);
   $('#diary-list').innerHTML = items.length
     ? items.map((i) => `• ${new Date(i.ts).toLocaleString('pl-PL')} — ${escapeHtml(i.note)}`).join('<br>')
-    : '<span style="color:var(--tx-3)">Dziennik jest pusty. Nic z niego nie opuszcza tego urządzenia.</span>';
+    : `<span style="color:var(--tx-3)">${t('diary.empty')}</span>`;
 }
 $('#diary-add').addEventListener('click', async () => {
   const s = ['CD4 268, wiremia poniżej progu', 'wieczorna dawka wzięta', 'nastrój: ok', 'wizyta umówiona'];
@@ -468,7 +468,7 @@ async function saveDiaryNote() {
   inp.value = '';
   await put('diary', { ts: Date.now(), note });
   await renderDiary();
-  toast(gw({ m: 'Zapisałeś wpis.', f: 'Zapisałaś wpis.', n: 'Wpis zapisany.' }));
+  toast(gwt('diary'));
 }
 $('#diary-save').addEventListener('click', saveDiaryNote);
 $('#diary-note').addEventListener('keydown', (e) => { if (e.key === 'Enter') saveDiaryNote(); });
@@ -489,16 +489,23 @@ async function initRole() {   // wołane z enterApp — wczytuje cały profil
 function applyProfile() {
   setRole(profile.role || 'plhiv');
   const rs = $('#ida-role'); if (rs) rs.value = profile.role || 'plhiv';
+  const prevLang = getI18nLang();
+  setLang(profile.lang || 'pl');
   try { document.documentElement.lang = profile.lang || 'pl'; } catch { /* noop */ }
+  translateDOM();                              // przetłumacz statyczny UI
+  if (prevLang !== (profile.lang || 'pl')) {   // zmiana języka → Ida przywita się na nowo
+    idaStarted = false; const log = $('#ida-log'); if (log) log.innerHTML = '';
+  }
   const nm = $('#me-pseudo'); if (nm) nm.textContent = profile.pseudonym || account.pseudo;
 }
+function getI18nLang() { try { return document.documentElement.lang || 'pl'; } catch { return 'pl'; } }
 async function persistProfile() {
   try { await put('account', { k: 'profile', v: { ...profile } }); } catch { /* noop */ }
 }
 function setSync(state) {
   const el = $('#sync-state'); if (!el) return;
   el.className = 'synctag ' + state;
-  el.textContent = state === 'on' ? '✓ zsynchronizowano' : state === 'sync' ? 'synchronizuję…' : state === 'off' ? 'offline' : '—';
+  el.textContent = state === 'on' ? t('sync.on') : state === 'sync' ? t('sync.syncing') : state === 'off' ? t('sync.off') : '—';
 }
 
 /* Zapis sejfu: {klucze JWK + profil} zaszyfrowane Kluczem Kręgu; serwer dostaje sam szyfrogram. */
@@ -551,8 +558,8 @@ $('#pf-save').addEventListener('click', async () => {
   await persistProfile();
   applyProfile();
   $('#pf-err').textContent = '';
-  toast(gw({ m: 'Zapisałeś profil.', f: 'Zapisałaś profil.', n: 'Profil zapisany.' }));
-  try { await backupVault(); } catch (e) { setSync('off'); $('#pf-err').textContent = 'Zapisano lokalnie, sync offline: ' + e.message; }
+  toast(gwt('prof'));
+  try { await backupVault(); } catch (e) { setSync('off'); }
 });
 $('#ida-role').addEventListener('change', async (e) => {
   profile.role = e.target.value; setRole(profile.role);
@@ -560,7 +567,7 @@ $('#ida-role').addEventListener('change', async (e) => {
   backupVault().catch(() => setSync('off'));
 });
 $('#pf-kc-copy').addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText($('#pf-kc-code').textContent); toast('Skopiowano Klucz Kręgu.'); }
+  try { await navigator.clipboard.writeText($('#pf-kc-code').textContent); toast(t('kc.copied')); }
   catch { /* zaznacz ręcznie */ }
 });
 
@@ -574,24 +581,26 @@ function idaBubble(who, html, src) {
   log.scrollTop = log.scrollHeight;
   return d;
 }
-function trustHtml(c) { const x = confBadge(c); return `<span class="trust ${x[0]}">${x[1]}</span>`; }
+function trustHtml(c) { const x = confBadge(c); return `<span class="trust ${x[0]}">${t('trust.' + x[0])}</span>`; }
+// toast zależny od płci językowej (M/Ż/neutralnie)
+function gwt(base) { const suf = profile.gram === 'm' ? 'M' : profile.gram === 'f' ? 'F' : 'N'; return t('toast.' + base + suf); }
 
 function crisisReply() {
-  const covered = CRISIS_LINE.langs.indexOf('pl') > -1;
+  const covered = CRISIS_LINE.langs.indexOf('pl') > -1;   // linia po polsku
   idaBubble('ida', `<div class="crisisbox">
-    <p>Zatrzymuję się tutaj, bo przeczytałam w tym coś ciężkiego. Nie jestem od tego, żeby to unieść — ale wiem, kto jest. Zostaję. Możesz pisać dalej.</p>
+    <p>${t('ida.crisis')}</p>
     <span class="num">${CRISIS_LINE.no}</span>
-    <div class="sub">${CRISIS_LINE.label}</div>
-    ${covered ? '' : `<p class="sub" style="margin-top:8px">Ta linia odpowiada po polsku. Pod numerem ${CRISIS_EU} poprosisz o tłumacza.</p>`}
+    <div class="sub">${t('ida.crisisLine')}</div>
+    ${covered && getI18nLang() === 'pl' ? '' : `<p class="sub" style="margin-top:8px">${t('ida.notYourLang', { eu: CRISIS_EU })}</p>`}
   </div>`);
 }
 function stopMedsReply() {
-  idaBubble('ida', `<p>To ważne, że o tym mówisz — i to jest rozmowa do przeprowadzenia z lekarzem prowadzącym, nie samodzielnie. Powody bywają różne: objawy uboczne, zmęczenie codziennością, koszty, wstyd. Każdy z nich da się z kimś omówić i każdy ma zwykle jakieś wyjście.</p>`);
+  idaBubble('ida', `<p>${t('ida.stopMeds')}</p>`);
 }
 function noCoverage() {
   const chips = `<div class="bchips">${MED_BLOCKS.map((b) => `<button class="chip sm" data-blk="${b}">${BLOCKNAME[b] || b}</button>`).join('')}</div>`;
-  const d = idaBubble('ida', `<b>Tego nie ma w bazie Kręgu, więc nie odpowiem.</b><br><br>Zapisuję pytanie jako lukę. Jeśli czegoś w bazie brakuje, to jest informacja dla osób, które ją prowadzą.<br><br><span style="color:var(--tx-3)">Mogę mówić o tym:</span>${chips}`,
-    `<span class="trust t4">poza pokryciem</span>zapisano jako luka`);
+  const d = idaBubble('ida', `${t('ida.noCover')}${chips}`,
+    `<span class="trust t4">${t('ida.gapTag')}</span>${t('ida.gapSaved')}`);
   d.querySelectorAll('[data-blk]').forEach((e) => e.addEventListener('click', () => openBlock(e.dataset.blk)));
 }
 function openBlock(b) {
@@ -605,17 +614,18 @@ function findFactsByBlock(b) {
   return FACTS.filter((f) => f.b === b).slice(0, 3);
 }
 function renderHit(hit) {
+  // Fakty medyczne zostają PO POLSKU (treść tylko z podpisem); poza PL dokładamy etykietę „źródło: polski".
   let body = hit.facts.map((f) => `<p>${f.w}</p>`).join('');
-  if (hit.unsure) body = `<div class="ctx">Nie jestem pewna, czy dobrze rozumiem — najbliżej mam to. Jeśli chodziło o coś innego, wybierz temat niżej.</div>` + body;
-  if (hit.bound) body = `<p><b>Nie odpowiem na pytanie o Twój własny wynik — i to jest celowe. To rozmowa z lekarzem, nie z bazą.</b></p>` + body;
-  if (!isPos() && (hit.block === 'uu' || hit.block === 'transmisja')) body = `<div class="ctx">odpowiedź dla osoby niezakażonej</div>` + body;
-  if (hit.follow) body = `<div class="ctx">w wątku: ${BLOCKNAME[hit.block] || hit.block}</div>` + body;
-  if (hit.block === 'pep' || hit.block === 'ekspozycja') body = `<div class="urg">To jest sytuacja z zegarem. Czytaj od razu:</div>` + body;
+  if (getI18nLang() !== 'pl') body = `<div class="ctx">${t('ida.srcPl')}</div>` + body;
+  if (hit.unsure) body = `<div class="ctx">${t('ida.unsure')}</div>` + body;
+  if (hit.bound) body = `<p><b>${t('ida.bound')}</b></p>` + body;
+  if (!isPos() && (hit.block === 'uu' || hit.block === 'transmisja')) body = `<div class="ctx">${t('ida.negctx')}</div>` + body;
+  if (hit.follow) body = `<div class="ctx">${t('ida.inThread')}${BLOCKNAME[hit.block] || hit.block}</div>` + body;
+  if (hit.block === 'pep' || hit.block === 'ekspozycja') body = `<div class="urg">${t('ida.clock')}</div>` + body;
   const uniq = {}; hit.facts.forEach((f) => { uniq[f.s] = f.c; });
   let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + escapeHtml(nm)).join('<br>');
-  const gate = (hit.facts[0] && hit.facts[0].gate)
-    ? `<div class="gatewarn">Blok medyczny — przed wydaniem wymaga podpisu lekarza. W tej wersji nikt tego jeszcze nie zatwierdził.</div>` : '';
-  src += `<br><span style="opacity:.75">Baza ${PROV.ed} · nikt z ludzi jeszcze tego nie sprawdził</span>`;
+  const gate = (hit.facts[0] && hit.facts[0].gate) ? `<div class="gatewarn">${t('ida.gate')}</div>` : '';
+  src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
   idaBubble('ida', body + gate, src);
 }
 function idaAsk(q) {
@@ -626,11 +636,11 @@ function idaAsk(q) {
   if (!hit) { setTimeout(noCoverage, 200); return; }
   setTimeout(() => renderHit(hit), 200);
 }
-const IDA_STARTERS = ['Co to znaczy niewykrywalny?', 'Jak działa PrEP?', 'Co robić po ryzyku?', 'Co znaczy CD4?', 'Czy muszę powiedzieć pracodawcy?'];
 function idaFirstOpen() {
   if (idaStarted) return;
   idaStarted = true;
-  idaBubble('ida', `<p>Cześć. Jestem Ida — towarzyszę Ci w Kręgu i odpowiadam z materiałów, które mam. Kiedy czegoś nie mam, mówię to wprost, zamiast zgadywać.</p><div class="starters">${IDA_STARTERS.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}</div>`);
+  const starters = ['ida.s1', 'ida.s2', 'ida.s3', 'ida.s4', 'ida.s5'].map((k) => t(k));
+  idaBubble('ida', `<p>${t('ida.hello')}</p><div class="starters">${starters.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}</div>`);
   $('#ida-log').querySelectorAll('[data-q]').forEach((e) => e.addEventListener('click', () => { const q = e.dataset.q; $('#ida-input').value = ''; idaAsk(q); }));
 }
 function sendIda() {
@@ -650,4 +660,8 @@ function fmt(ts) { return new Date(ts).toLocaleTimeString('pl-PL', { hour: '2-di
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 }
+// Język przed wejściem: autodetekcja z przeglądarki; po zalogowaniu nadpisze go profil.
+setLang(detectLang());
+try { document.documentElement.lang = detectLang(); } catch { /* noop */ }
+translateDOM();
 tryRestore().catch((e) => { $('#boot-err').textContent = ''; console.warn('restore', e); });
