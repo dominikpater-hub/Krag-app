@@ -56,6 +56,15 @@ async function main() {
   await page.waitForFunction(() => /Trener|Immunity|Тренер/.test(document.querySelector('#coach-card')?.textContent || '') && /268/.test(document.querySelector('#coach-card')?.textContent || ''), { timeout: 5000 });
   ok(/268/.test(await page.textContent('#coach-card')), 'trener odporności pojawia się i czyta ostatnie CD4');
 
+  // #1: framing wg researchu — adherencja jako dźwignia, „nie Twoja wina", brak oceny/prognozy
+  const coachTxt = await page.textContent('#coach-card');
+  ok(/regularne branie leków|Regularne/i.test(coachTxt) && /nie są Twoją winą/i.test(coachTxt), 'trener: adherencja #1 + framing bez winy');
+  ok(!/osiągnie|Twój wynik jest (dobry|zły|niepokojąc)/i.test(coachTxt) && /nie ocenia wyników ani ich nie przewiduje/i.test(coachTxt), 'trener: bez prognozy/oceny (granica MDR)');
+  // wsparcie psychiczne → „Porozmawiaj z Idą" przenosi do Idy
+  await page.click('#coach-talk'); await page.waitForSelector('#s-ida.on', { timeout: 5000 });
+  ok(true, 'trener: „Porozmawiaj z Idą" otwiera Idę');
+  await page.click('.tab[data-tab="diary"]'); await page.waitForSelector('#s-diary.on');
+
   // wiremia poniżej progu → U=U w trenerze
   await page.selectOption('#d-marker', 'vl');
   await page.fill('#d-val', '20'); await page.click('#d-add-result');

@@ -677,21 +677,34 @@ function renderPhotos(list) {
   box.querySelectorAll('[data-del]').forEach((e) => e.addEventListener('click', async () => { await del('diary', Number(e.dataset.del)); await renderDiary(); }));
 }
 // Trener odporności (#8, wpleciony) — na danych z dziennika, wspierający i NIEdiagnostyczny.
+// Zasady z researchu: pokazuje dane + ogólną wiedzę, NIE ocenia wyniku i NIE prognozuje
+// (granica wyrobu medycznego, MDR reguła 11). Adherencja = jedyna udowodniona „dźwignia".
+// „Samopoczucie ≠ CD4" mówimy wprost. Framing bez winy + wsparcie psychiczne z dostępem do Idy.
 function renderCoach(items) {
   const box = $('#coach-card'); if (!box) return;
   const cd4 = items.filter((i) => kind(i, 'result') && i.marker === 'cd4').sort((a, b) => (a.date || '').localeCompare(b.date || ''));
   const vl = items.filter((i) => kind(i, 'result') && i.marker === 'vl').sort((a, b) => (a.date || '').localeCompare(b.date || ''));
-  const hasMed = items.some((i) => kind(i, 'med'));
   if (!cd4.length && !vl.length) { box.innerHTML = ''; return; }
   const lines = [];
   if (cd4.length) {
-    const last = cd4[cd4.length - 1].v; lines.push(t('coach.cd4now', { v: last }));
-    if (cd4.length >= 2) lines.push(cd4[cd4.length - 1].v >= cd4[cd4.length - 2].v ? t('coach.rising') : t('coach.falling'));
-    if (last >= 500) lines.push(t('coach.m500')); else if (last >= 200) lines.push(t('coach.m200'));
+    const last = cd4[cd4.length - 1].v;
+    let line = t('coach.cd4now', { v: last });
+    if (cd4.length >= 2) {
+      const prev = cd4[cd4.length - 2].v;
+      line += ' ' + (last > prev ? t('coach.trendUp') : last < prev ? t('coach.trendDown') : t('coach.trendFlat'));
+    }
+    lines.push(line);
+    lines.push(t('coach.phases'));                              // fazy + „nie Twoja wina"
+    if (last >= 500) lines.push(t('coach.m500')); else if (last >= 200) lines.push(t('coach.m200'));  // kontekst, nie ocena
   }
   if (vl.length && vl[vl.length - 1].v < 50) lines.push(t('coach.uu'));
-  if (hasMed) lines.push(t('coach.adh'));
-  box.innerHTML = `<div class="coach"><h3>◈ ${t('coach.title')}</h3>${lines.map((l) => `<div class="mile"><span class="b">·</span> ${l}</div>`).join('')}<p style="margin:10px 0 0;font-size:12px;color:var(--tx-3)">${t('coach.note')}</p></div>`;
+  lines.push(t('coach.adh'));                                   // jedyna udowodniona dźwignia
+  lines.push(t('coach.wellbeing'));                             // samopoczucie ≠ CD4 (uczciwie)
+  box.innerHTML = `<div class="coach"><h3>◈ ${t('coach.title')}</h3>${lines.map((l) => `<div class="mile"><span class="b">·</span> ${l}</div>`).join('')}
+    <div class="coach-mind"><span>${t('coach.mind')}</span> <button class="linklike" id="coach-talk" type="button">${t('coach.mindCta')}</button></div>
+    <p style="margin:10px 0 0;font-size:12px;color:var(--tx-3)">${t('coach.note')}</p></div>`;
+  const talk = $('#coach-talk');
+  if (talk) talk.addEventListener('click', () => { show('ida'); idaFirstOpen(); });
 }
 
 // —— interakcje leków (#7) ——
