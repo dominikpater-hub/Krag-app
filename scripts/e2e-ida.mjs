@@ -87,10 +87,16 @@ async function main() {
   await page.click('.tab[data-tab="app"]'); await page.waitForSelector('#s-app.on');
   ok(await page.isVisible('#start-thread'), 'zakładka Rozmowy działa');
   await page.click('.tab[data-tab="diary"]'); await page.waitForSelector('#s-diary.on');
-  await page.fill('#diary-note', 'CD4 268, wiremia poniżej progu');
+  await page.fill('#diary-note', 'pierwszy tydzień za mną');
   await page.click('#diary-save');
-  await page.waitForFunction(() => /CD4 268/.test(document.querySelector('#diary-list')?.textContent || ''), { timeout: 5000 });
-  ok(true, 'zakładka Dziennik zapisuje wpis lokalnie');
+  await page.waitForFunction(() => /pierwszy tydzień/.test(document.querySelector('#d-notes')?.textContent || ''), { timeout: 5000 });
+  ok(true, 'zakładka Dziennik zapisuje notatkę lokalnie');
+  // strukturalny wynik + wykres trajektorii
+  await page.selectOption('#d-marker', 'cd4');
+  await page.fill('#d-val', '268');
+  await page.click('#d-add-result');
+  await page.waitForFunction(() => document.querySelector('#d-chart svg') && /CD4 · 268/.test(document.querySelector('#d-chart')?.textContent || ''), { timeout: 5000 });
+  ok(true, 'wynik CD4 + wykres trajektorii działają');
 
   console.log(`\n=== ${pass} PASS · ${fail} FAIL ===`);
   await browser.close();

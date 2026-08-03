@@ -445,34 +445,146 @@ $('#thread-report').addEventListener('click', async () => {
   } catch (e) { alert('Nie udało się wysłać zgłoszenia: ' + e.message); }
 });
 
-/* ---------- panel „to urządzenie” ---------- */
+/* ---------- Dziennik (#7): wyniki+wykres, leki, wizyty, zdjęcia, notatki, trener (#8) ---------- */
+async function del(store, key) {
+  const d = await db();
+  return new Promise((res, rej) => { const tx = d.transaction(store, 'readwrite'); tx.objectStore(store).delete(key); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); });
+}
 async function renderDiaryStatus() {
   const persisted = navigator.storage?.persisted ? await navigator.storage.persisted() : false;
-  $('#diary-state').textContent = 'gotowe' + (persisted ? ' · trwałe' : '');
-  $('#sw-state').textContent = ('serviceWorker' in navigator) ? 'aktywny' : 'niedostępny';
+  const ds = $('#diary-state'); if (ds) ds.textContent = 'ok' + (persisted ? ' · trwałe' : '');
+  const ss = $('#sw-state'); if (ss) ss.textContent = ('serviceWorker' in navigator) ? 'ok' : '—';
+  const dt = $('#d-date'); if (dt && !dt.value) dt.value = new Date().toISOString().slice(0, 10);
   await renderDiary();
 }
+const dstr = (v) => { try { return new Date(v).toLocaleDateString(undefined, { day: '2-digit', month: 'short' }); } catch { return v; } };
+const kind = (i, k) => (i.kind || 'note') === k;
+
 async function renderDiary() {
-  const items = (await all('diary')).sort((a, b) => b.ts - a.ts);
-  $('#diary-list').innerHTML = items.length
-    ? items.map((i) => `• ${new Date(i.ts).toLocaleString('pl-PL')} — ${escapeHtml(i.note)}`).join('<br>')
-    : `<span style="color:var(--tx-3)">${t('diary.empty')}</span>`;
+  const items = await all('diary');
+  renderResults(items);
+  renderCoach(items);
+  fill('#d-meds', items.filter((i) => kind(i, 'med')),
+    (m) => `<span><span class="v">${escapeHtml(m.name)}</span> <span class="sub">${escapeHtml(m.dose || '')}${m.time ? ' · ' + escapeHtml(m.time) : ''}</span></span>`);
+  fill('#d-visits', items.filter((i) => kind(i, 'visit')).sort((a, b) => (a.date || '').localeCompare(b.date || '')),
+    (v) => `<span><span class="v">${escapeHtml(v.title)}</span> <span class="sub">${escapeHtml(v.date || '')}</span></span>`);
+  fill('#d-notes', items.filter((i) => kind(i, 'note')).sort((a, b) => b.ts - a.ts),
+    (n) => `<span><span class="sub">${dstr(n.ts)}</span> ${escapeHtml(n.note)}</span>`);
+  renderPhotos(items.filter((i) => kind(i, 'photo')));
 }
-$('#diary-add').addEventListener('click', async () => {
-  const s = ['CD4 268, wiremia poniżej progu', 'wieczorna dawka wzięta', 'nastrój: ok', 'wizyta umówiona'];
-  await put('diary', { ts: Date.now(), note: s[Math.floor(Math.random() * s.length)] });
-  await renderDiary();
+function fill(sel, list, row) {
+  const box = $(sel); if (!box) return;
+  box.innerHTML = list.length
+    ? list.map((i) => `<div class="d-item">${row(i)}<span class="x" data-del="${i.ts}">${t('d.del')}</span></div>`).join('')
+    : `<div class="d-empty">${t('d.none')}</div>`;
+  box.querySelectorAll('[data-del]').forEach((e) => e.addEventListener('click', async () => { await del('diary', Number(e.dataset.del)); await renderDiary(); }));
+}
+function sparkline(series, color) {
+  const vs = series.map((p) => p.v), mn = Math.min(...vs), mx = Math.max(...vs), span = (mx - mn) || 1, n = series.length;
+  const xy = (p, i) => [n === 1 ? 50 : (i / (n - 1)) * 100, 28 - ((p.v - mn) / span) * 24];
+  const pts = series.map((p, i) => xy(p, i).map((z) => z.toFixed(1)).join(',')).join(' ');
+  const dots = series.map((p, i) => { const [x, y] = xy(p, i); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.7" fill="${color}"/>`; }).join('');
+  return `<svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:44px"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" vector-effect="non-scaling-stroke"/>${dots}</svg>`;
+}
+function renderResults(items) {
+  const res = items.filter((i) => kind(i, 'result'));
+  const box = $('#d-chart'); const list = $('#d-results');
+  const series = (mk) => res.filter((r) => r.marker === mk).sort((a, b) => (a.date || '').localeCompare(b.date || '')).map((r) => ({ v: r.v, date: r.date }));
+  const cd4 = series('cd4'), vl = series('vl');
+  let chart = '';
+  if (cd4.length) chart += sparkline(cd4, '#7E9B77') + `<div class="lg"><i><span class="sw" style="background:#7E9B77"></span>CD4 · ${cd4[cd4.length - 1].v}</i></div>`;
+  if (vl.length) { const last = vl[vl.length - 1].v; chart += sparkline(vl, '#C98A6B') + `<div class="lg"><i><span class="sw" style="background:#C98A6B"></span>VL · ${last < 50 ? t('d.undetectable') : last}</i></div>`; }
+  if (box) box.innerHTML = chart;
+  if (list) {
+    const rows = res.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    list.innerHTML = rows.length
+      ? rows.map((r) => `<div class="d-item"><span><span class="v">${r.marker === 'cd4' ? 'CD4' : 'VL'} ${r.marker === 'vl' && r.v < 50 ? t('d.undetectable') : r.v}</span> <span class="sub">${escapeHtml(r.date || '')}</span></span><span class="x" data-del="${r.ts}">${t('d.del')}</span></div>`).join('')
+      : `<div class="d-empty">${t('d.none')}</div>`;
+    list.querySelectorAll('[data-del]').forEach((e) => e.addEventListener('click', async () => { await del('diary', Number(e.dataset.del)); await renderDiary(); }));
+  }
+}
+function renderPhotos(list) {
+  const box = $('#d-photos'); if (!box) return;
+  box.innerHTML = list.sort((a, b) => b.ts - a.ts).map((p) =>
+    `<div class="ph"><img src="${p.img}" alt="badanie"><span class="x" data-del="${p.ts}">✕</span></div>`).join('');
+  box.querySelectorAll('[data-del]').forEach((e) => e.addEventListener('click', async () => { await del('diary', Number(e.dataset.del)); await renderDiary(); }));
+}
+// Trener odporności (#8, wpleciony) — na danych z dziennika, wspierający i NIEdiagnostyczny.
+function renderCoach(items) {
+  const box = $('#coach-card'); if (!box) return;
+  const cd4 = items.filter((i) => kind(i, 'result') && i.marker === 'cd4').sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+  const vl = items.filter((i) => kind(i, 'result') && i.marker === 'vl').sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+  const hasMed = items.some((i) => kind(i, 'med'));
+  if (!cd4.length && !vl.length) { box.innerHTML = ''; return; }
+  const lines = [];
+  if (cd4.length) {
+    const last = cd4[cd4.length - 1].v; lines.push(t('coach.cd4now', { v: last }));
+    if (cd4.length >= 2) lines.push(cd4[cd4.length - 1].v >= cd4[cd4.length - 2].v ? t('coach.rising') : t('coach.falling'));
+    if (last >= 500) lines.push(t('coach.m500')); else if (last >= 200) lines.push(t('coach.m200'));
+  }
+  if (vl.length && vl[vl.length - 1].v < 50) lines.push(t('coach.uu'));
+  if (hasMed) lines.push(t('coach.adh'));
+  box.innerHTML = `<div class="coach"><h3>◈ ${t('coach.title')}</h3>${lines.map((l) => `<div class="mile"><span class="b">·</span> ${l}</div>`).join('')}<p style="margin:10px 0 0;font-size:12px;color:var(--tx-3)">${t('coach.note')}</p></div>`;
+}
+
+// —— dodawanie wpisów ——
+function today() { return ($('#d-date') && $('#d-date').value) || new Date().toISOString().slice(0, 10); }
+$('#d-add-result').addEventListener('click', async () => {
+  const v = Number($('#d-val').value); if (!v && v !== 0) return;
+  await put('diary', { ts: Date.now(), kind: 'result', marker: $('#d-marker').value, v, date: today() });
+  $('#d-val').value = ''; await renderDiary(); toast(t('d.saved'));
+});
+$('#d-add-med').addEventListener('click', async () => {
+  const name = ($('#d-med-name').value || '').trim(); if (!name) return;
+  await put('diary', { ts: Date.now(), kind: 'med', name, dose: ($('#d-med-dose').value || '').trim(), time: $('#d-med-time').value || '' });
+  $('#d-med-name').value = ''; $('#d-med-dose').value = ''; await renderDiary(); toast(t('d.saved'));
+});
+$('#d-add-visit').addEventListener('click', async () => {
+  const title = ($('#d-visit-title').value || '').trim(); if (!title) return;
+  await put('diary', { ts: Date.now(), kind: 'visit', title, date: $('#d-visit-date').value || '' });
+  $('#d-visit-title').value = ''; await renderDiary(); toast(t('d.saved'));
+});
+async function fileToThumb(file) {
+  return new Promise((res) => {
+    const fr = new FileReader();
+    fr.onload = () => { const img = new Image(); img.onload = () => { const max = 1000; let w = img.width, h = img.height; if (w > max || h > max) { const k = Math.min(max / w, max / h); w = Math.round(w * k); h = Math.round(h * k); } const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(img, 0, 0, w, h); res(c.toDataURL('image/jpeg', 0.7)); }; img.src = fr.result; };
+    fr.readAsDataURL(file);
+  });
+}
+$('#d-photo-in').addEventListener('change', async (e) => {
+  const f = e.target.files && e.target.files[0]; if (!f) return;
+  const img = await fileToThumb(f);
+  await put('diary', { ts: Date.now(), kind: 'photo', img, caption: '' });
+  e.target.value = ''; await renderDiary(); toast(t('d.saved'));
 });
 async function saveDiaryNote() {
   const inp = $('#diary-note'); const note = (inp.value || '').trim();
   if (!note) return;
   inp.value = '';
-  await put('diary', { ts: Date.now(), note });
+  await put('diary', { ts: Date.now(), kind: 'note', note });
   await renderDiary();
   toast(gwt('diary'));
 }
 $('#diary-save').addEventListener('click', saveDiaryNote);
 $('#diary-note').addEventListener('keydown', (e) => { if (e.key === 'Enter') saveDiaryNote(); });
+
+// Dane demo (#3, zalążek) — bogaty, prezentowalny dziennik.
+$('#diary-add').addEventListener('click', async () => {
+  const day = 864e5, now = Date.now();
+  const iso = (d) => new Date(now - d * day).toISOString().slice(0, 10);
+  const seed = [
+    { kind: 'result', marker: 'cd4', v: 180, date: iso(180) }, { kind: 'result', marker: 'cd4', v: 214, date: iso(120) },
+    { kind: 'result', marker: 'cd4', v: 268, date: iso(60) }, { kind: 'result', marker: 'cd4', v: 322, date: iso(14) },
+    { kind: 'result', marker: 'vl', v: 48000, date: iso(180) }, { kind: 'result', marker: 'vl', v: 640, date: iso(120) },
+    { kind: 'result', marker: 'vl', v: 40, date: iso(60) }, { kind: 'result', marker: 'vl', v: 20, date: iso(14) },
+    { kind: 'med', name: 'Biktarvy', dose: '1 tabl.', time: '21:00' },
+    { kind: 'visit', title: 'Kontrola — poradnia zakaźna', date: iso(-30) },
+    { kind: 'note', note: 'Pierwszy miesiąc za mną. Jest lepiej.' },
+  ];
+  let ts = now;
+  for (const s of seed) { await put('diary', { ts: ts++, ...s }); }
+  await renderDiary(); toast(t('d.saved'));
+});
 $('#wipe').addEventListener('click', async () => { await wipe(); location.reload(); });
 
 /* ═══════════ IDA — baza wiedzy ═══════════

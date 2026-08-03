@@ -104,12 +104,72 @@
       </div>
     </div>
     <p class="muted" data-i18n="diary.p" style="margin-top:12px">Wyniki, dawki, nastrój.</p>
-    <div class="card" style="margin-top:6px">
-      <div class="klbl" data-i18n="diary.new">Nowy wpis</div>
-      <input id="diary-note" class="field" data-i18n-ph="diary.notePh" placeholder="np. CD4 268" autocomplete="off">
-      <button class="btn" id="diary-save" data-i18n="diary.save">Zapisz w dzienniku</button>
+
+    <!-- trener odporności (wpleciony, #8) — pojawia się gdy są wyniki -->
+    <div id="coach-card"></div>
+
+    <!-- Wyniki + wykres trajektorii -->
+    <div class="card">
+      <div class="klbl" data-i18n="d.results">Wyniki</div>
+      <div id="d-chart" class="d-chart"></div>
+      <div id="d-results" class="d-list"></div>
+      <div class="d-form">
+        <select id="d-marker" class="rolesel" style="width:100%">
+          <option value="cd4" data-i18n="d.cd4">CD4</option>
+          <option value="vl" data-i18n="d.vl">Wiremia</option>
+        </select>
+        <div class="d-row">
+          <input id="d-val" class="field" type="number" inputmode="numeric" data-i18n-ph="d.value" placeholder="Wartość">
+          <input id="d-date" class="field" type="date">
+        </div>
+        <button class="btn ghost sm" id="d-add-result" data-i18n="d.addResult">Dodaj wynik</button>
+      </div>
     </div>
-    <div class="note" id="diary-list" style="margin-top:12px"></div>
+
+    <!-- Leki -->
+    <div class="card">
+      <div class="klbl" data-i18n="d.meds">Leki</div>
+      <div id="d-meds" class="d-list"></div>
+      <div class="d-form">
+        <input id="d-med-name" class="field" data-i18n-ph="d.medName" placeholder="Nazwa leku">
+        <div class="d-row">
+          <input id="d-med-dose" class="field" data-i18n-ph="d.medDose" placeholder="Dawka">
+          <input id="d-med-time" class="field" type="time">
+        </div>
+        <button class="btn ghost sm" id="d-add-med" data-i18n="d.addMed">Dodaj lek</button>
+      </div>
+    </div>
+
+    <!-- Wizyty -->
+    <div class="card">
+      <div class="klbl" data-i18n="d.visits">Wizyty</div>
+      <div id="d-visits" class="d-list"></div>
+      <div class="d-form">
+        <input id="d-visit-title" class="field" data-i18n-ph="d.visitTitle" placeholder="Opis wizyty">
+        <div class="d-row">
+          <input id="d-visit-date" class="field" type="date">
+          <button class="btn ghost sm" id="d-add-visit" data-i18n="d.addVisit" style="white-space:nowrap">Dodaj wizytę</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zdjęcia badań -->
+    <div class="card">
+      <div class="klbl" data-i18n="d.photos">Zdjęcia badań</div>
+      <div id="d-photos" class="d-photos"></div>
+      <label class="btn ghost sm" for="d-photo-in" data-i18n="d.addPhoto" style="text-align:center">Wgraj zdjęcie</label>
+      <input id="d-photo-in" type="file" accept="image/*" hidden>
+    </div>
+
+    <!-- Notatki -->
+    <div class="card">
+      <div class="klbl" data-i18n="d.notes">Notatki</div>
+      <div id="d-notes" class="d-list"></div>
+      <div class="d-form">
+        <input id="diary-note" class="field" data-i18n-ph="diary.notePh" placeholder="np. samopoczucie" autocomplete="off">
+        <button class="btn ghost sm" id="diary-save" data-i18n="d.addNote">Dodaj notatkę</button>
+      </div>
+    </div>
 
     <details class="dev">
       <summary data-i18n="diary.device">To urządzenie</summary>

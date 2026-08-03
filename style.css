@@ -144,3 +144,33 @@ textarea.field{font-family:ui-monospace,Menlo,monospace;line-height:1.7}
 .kc-qr{width:200px;height:200px;background:var(--tx);border-radius:12px;padding:10px;display:flex;align-items:center;justify-content:center}
 .kc-qr svg{width:100%;height:100%;display:block}
 #kc-code{font-size:11px;color:var(--tx-3)}
+
+/* ——— Dziennik (#7) ——— */
+.d-list{margin:2px 0 10px}
+.d-item{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13.5px;color:var(--tx-2);padding:8px 0;border-bottom:1px solid var(--line)}
+.d-item:last-child{border-bottom:0}
+.d-item .v{color:var(--tx);font-weight:600}
+.d-item .sub{color:var(--tx-3);font-size:12px}
+.d-item .x{color:var(--tx-3);cursor:pointer;font-size:12px;flex:0 0 auto;padding:4px 6px}
+.d-item .x:hover{color:var(--warn)}
+.d-empty{color:var(--tx-3);font-size:12.5px;padding:6px 0}
+.d-form{margin-top:8px}
+.d-row{display:flex;gap:8px}
+.d-row .field{flex:1;min-width:0}
+.d-form .field,.d-form .rolesel{margin-top:8px}
+.btn.sm{padding:11px;font-size:14px;margin-top:10px}
+.d-chart{margin:6px 0 4px}
+.d-chart svg{width:100%;height:auto;display:block}
+.d-chart .lg{font-size:10px;letter-spacing:.04em;color:var(--tx-3);display:flex;gap:14px;margin-top:6px}
+.d-chart .lg i{font-style:normal;display:inline-flex;align-items:center;gap:5px}
+.d-chart .lg .sw{width:10px;height:3px;border-radius:2px;display:inline-block}
+.d-photos{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 10px}
+.d-photos .ph{position:relative;width:72px;height:72px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.d-photos .ph img{width:100%;height:100%;object-fit:cover}
+.d-photos .ph .x{position:absolute;top:2px;right:2px;background:rgba(18,22,30,.8);color:#fff;border-radius:8px;font-size:11px;padding:1px 5px;cursor:pointer}
+/* trener odporności */
+.coach{background:linear-gradient(180deg,rgba(126,155,119,.14),rgba(126,155,119,.05));border:1px solid rgba(126,155,119,.3);border-radius:16px;padding:16px;margin:6px 0 4px}
+.coach h3{margin:0 0 6px;font-size:15px;color:var(--tx);font-weight:600}
+.coach p{margin:0 0 8px;font-size:13.5px;color:var(--tx-2)}
+.coach .mile{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--tx-2);margin-top:6px}
+.coach .mile .b{color:var(--moss)}

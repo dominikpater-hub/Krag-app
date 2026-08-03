@@ -54,7 +54,7 @@ async function main() {
   // Dziennik zapisuje lokalnie
   await page.click('.tab[data-tab="diary"]'); await page.waitForSelector('#s-diary.on');
   await page.fill('#diary-note', 'wpis offline'); await page.click('#diary-save');
-  await page.waitForFunction(() => /wpis offline/.test(document.querySelector('#diary-list')?.textContent || ''), { timeout: 5000 });
+  await page.waitForFunction(() => /wpis offline/.test(document.querySelector('#d-notes')?.textContent || ''), { timeout: 5000 });
   ok(true, 'dziennik zapisuje lokalnie bez serwera');
 
   // Po restarcie konto się odtwarza (bez serwera)
