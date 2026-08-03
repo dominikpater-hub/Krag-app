@@ -66,7 +66,10 @@
         <div class="klbl" data-i18n="ida.kicker">Krąg wiedzy</div>
         <div class="pseudo" data-i18n="ida.title" style="font-size:19px">Zapytaj Idę</div>
       </div>
-      <button class="btn ghost sm" id="ida-lib" data-i18n="lib.open" style="width:auto;padding:8px 12px;margin:0">Biblioteka</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn ghost sm" id="ida-help" data-i18n="help.open" style="width:auto;padding:8px 12px;margin:0">Pomoc</button>
+        <button class="btn ghost sm" id="ida-lib" data-i18n="lib.open" style="width:auto;padding:8px 12px;margin:0">Biblioteka</button>
+      </div>
     </div>
     <div id="ida-log" class="idalog"></div>
     <div class="composer">
@@ -158,6 +161,45 @@
     <div class="err" id="cat-err"></div>
   </section>
 
+  <!-- POMOC (#1): prawdziwe numery i placówki -->
+  <section class="screen" id="s-help">
+    <div class="apphead">
+      <button class="iconbtn" id="help-back" aria-label="Ida">‹</button>
+      <div>
+        <div class="klbl" data-i18n="ida.kicker">Krąg wiedzy</div>
+        <div class="pseudo" data-i18n="help.title" style="font-size:19px">Pomoc</div>
+      </div>
+      <span style="width:34px"></span>
+    </div>
+    <p class="muted" data-i18n="help.lead" style="margin-top:10px">Prawdziwe numery i miejsca — wiele bezpłatnie i anonimowo.</p>
+
+    <a class="help-row urgent" href="tel:112">
+      <span class="hr-l"><b data-i18n="help.emergency">Nagły wypadek</b></span><span class="hr-n">112</span></a>
+    <a class="help-row" href="tel:800702222">
+      <span class="hr-l"><b data-i18n="help.crisis">Kryzys psychiczny (24/7)</b></span><span class="hr-n">800 70 2222</span></a>
+
+    <div class="help-row col">
+      <b data-i18n="help.hiv">Telefon Zaufania HIV/AIDS</b>
+      <span class="hr-d" data-i18n="help.hivHours">pon–pt 9:00–21:00</span>
+      <div class="hr-nums">
+        <a href="tel:800888448"><span class="hr-n">800 888 448</span> <span class="tag" data-i18n="help.free">bezpłatny</span></a>
+        <a href="tel:226928226"><span class="hr-n">22 692 82 26</span></a>
+      </div>
+    </div>
+
+    <a class="help-row" href="tel:116111">
+      <span class="hr-l"><b data-i18n="help.youth">Dzieci i młodzież (24/7)</b></span><span class="hr-n">116 111</span></a>
+    <a class="help-row" href="https://aids.gov.pl/pkd/" target="_blank" rel="noopener">
+      <span class="hr-l"><b data-i18n="help.test">Test HIV — bezpłatnie i anonimowo (PKD)</b></span><span class="hr-cta" data-i18n="help.testCta">Znajdź punkt (aids.gov.pl)</span></a>
+
+    <div class="help-row col">
+      <b data-i18n="help.pep">Po ryzykownym kontakcie (PEP)</b>
+      <span class="hr-d" data-i18n="help.pepD">Im szybciej, tym lepiej — do 48–72 h. Zgłoś się na SOR lub do szpitala zakaźnego.</span>
+    </div>
+
+    <p class="note" data-i18n="help.note" style="margin-top:12px">Numery mogą się zmieniać. Źródło: Krajowe Centrum ds. AIDS (aids.gov.pl).</p>
+  </section>
+
   <!-- POKOJE TEMATYCZNE (#6/2) -->
   <section class="screen" id="s-rooms">
     <div class="apphead">
@@ -187,11 +229,12 @@
   <section class="screen" id="s-diary">
     <div class="apphead">
       <div>
-        <div class="klbl" data-i18n="diary.kicker">Tylko to urządzenie</div>
+        <div class="klbl" data-i18n="diary.kicker">Twoje zdrowie</div>
         <div class="pseudo" data-i18n="diary.title" style="font-size:19px">Dziennik</div>
       </div>
     </div>
-    <p class="muted" data-i18n="diary.p" style="margin-top:12px">Wyniki, dawki, nastrój.</p>
+    <p class="muted" data-i18n="diary.p" style="margin-top:12px">Wyniki, leki, wizyty i badania w jednym miejscu.</p>
+    <p class="note" data-i18n="diary.priv" style="margin-top:2px">🔒 Zostaje na tym telefonie.</p>
 
     <!-- trener odporności (wpleciony, #8) — pojawia się gdy są wyniki -->
     <div id="coach-card"></div>
@@ -238,6 +281,22 @@
       </div>
       <div id="ix-out"></div>
       <p class="note" data-i18n="ix.note" style="margin-top:10px">Informacyjnie — potwierdź z lekarzem lub farmaceutą.</p>
+    </div>
+
+    <!-- Koinfekcje i inne badania (#2): HIV to nie tylko HIV -->
+    <div class="card">
+      <div class="klbl" data-i18n="d.cotests">Koinfekcje i inne badania</div>
+      <div id="ci-chips" class="bchips" style="margin:8px 0"></div>
+      <div id="d-cotests" class="d-list"></div>
+      <div class="d-form">
+        <input id="ci-name" class="field" maxlength="40" data-i18n-ph="d.cotestName" placeholder="Co badano" autocomplete="off">
+        <div class="d-row">
+          <input id="ci-result" class="field" maxlength="60" data-i18n-ph="d.cotestResult" placeholder="Wynik">
+          <input id="ci-date" class="field" type="date">
+        </div>
+        <button class="btn ghost sm" id="ci-add" data-i18n="d.addCotest">Dodaj badanie</button>
+      </div>
+      <p class="note" data-i18n="d.cotestHint" style="margin-top:8px">HIV to nie tylko HIV — śledź też koinfekcje i szczepienia.</p>
     </div>
 
     <!-- Wizyty -->

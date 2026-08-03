@@ -638,7 +638,11 @@ async function renderDiary() {
     (m) => `<span><span class="v">${escapeHtml(m.name)}</span> <span class="sub">${escapeHtml(m.dose || '')}${m.time ? ' · ' + escapeHtml(m.time) : ''}</span></span>`);
   fill('#d-visits', items.filter((i) => kind(i, 'visit')).sort((a, b) => (a.date || '').localeCompare(b.date || '')),
     (v) => `<span><span class="v">${escapeHtml(v.title)}</span> <span class="sub">${escapeHtml(v.date || '')}</span></span>`);
+  // #2 koinfekcje / inne badania: nazwa + wynik + data
+  fill('#d-cotests', items.filter((i) => kind(i, 'cotest')).sort((a, b) => (b.date || '').localeCompare(a.date || '')),
+    (c) => `<span><span class="v">${escapeHtml(c.name)}</span> ${c.result ? '<span class="sub">' + escapeHtml(c.result) + '</span>' : ''}${c.date ? ' <span class="sub">· ' + escapeHtml(c.date) + '</span>' : ''}</span>`);
   renderInteractions(items);
+  renderCoinfectionChips();
   fill('#d-notes', items.filter((i) => kind(i, 'note')).sort((a, b) => b.ts - a.ts),
     (n) => `<span><span class="sub">${dstr(n.ts)}</span> ${escapeHtml(n.note)}</span>`);
   renderPhotos(items.filter((i) => kind(i, 'photo')));
@@ -748,6 +752,18 @@ $('#d-add-visit').addEventListener('click', async () => {
   const title = ($('#d-visit-title').value || '').trim(); if (!title) return;
   await put('diary', { ts: Date.now(), kind: 'visit', title, date: $('#d-visit-date').value || '' });
   $('#d-visit-title').value = ''; await renderDiary(); toast(t('d.saved'));
+});
+// #2 koinfekcje/inne badania: szybkie podpowiedzi (chipy) + dodawanie
+function renderCoinfectionChips() {
+  const box = $('#ci-chips'); if (!box) return;
+  const chips = t('d.cotestChips').split(',').map((s) => s.trim()).filter(Boolean);
+  box.innerHTML = chips.map((c) => `<button class="chip sm" type="button" data-ci="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join('');
+  box.querySelectorAll('[data-ci]').forEach((e) => e.addEventListener('click', () => { $('#ci-name').value = e.dataset.ci; $('#ci-result').focus(); }));
+}
+$('#ci-add').addEventListener('click', async () => {
+  const name = ($('#ci-name').value || '').trim(); if (!name) return;
+  await put('diary', { ts: Date.now(), kind: 'cotest', name, result: ($('#ci-result').value || '').trim(), date: $('#ci-date').value || today() });
+  $('#ci-name').value = ''; $('#ci-result').value = ''; await renderDiary(); toast(t('d.saved'));
 });
 async function fileToThumb(file) {
   return new Promise((res) => {
@@ -987,8 +1003,12 @@ function idaFirstOpen() {
   if (idaStarted) return;
   idaStarted = true;
   const starters = ['ida.s1', 'ida.s2', 'ida.s3', 'ida.s4', 'ida.s5'].map((k) => t(k));
-  idaBubble('ida', `<p>${t('ida.hello')}</p><div class="starters">${starters.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}</div>`);
-  $('#ida-log').querySelectorAll('[data-q]').forEach((e) => e.addEventListener('click', () => { const q = e.dataset.q; $('#ida-input').value = ''; idaAsk(q); }));
+  // #1: dwie propozycje prowadzące wprost do Pomocy (numery, gdzie zrobić test).
+  const helpChips = `<button class="chip sm help" data-help="1">${escapeHtml(t('ida.help1'))}</button><button class="chip sm help" data-help="1">${escapeHtml(t('ida.help2'))}</button>`;
+  idaBubble('ida', `<p>${t('ida.hello')}</p><div class="starters">${starters.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}${helpChips}</div>`);
+  const log = $('#ida-log');
+  log.querySelectorAll('[data-q]').forEach((e) => e.addEventListener('click', () => { const q = e.dataset.q; $('#ida-input').value = ''; idaAsk(q); }));
+  log.querySelectorAll('[data-help]').forEach((e) => e.addEventListener('click', () => show('help')));
 }
 /* ——— Biblioteka wiedzy (#8): przeglądalne ścieżki → bloki → fakty ——— */
 function renderLibraryList() {
@@ -1025,6 +1045,9 @@ function openLibPath(id) {
 }
 $('#ida-lib').addEventListener('click', () => { show('library'); renderLibraryList(); });
 $('#lib-back').addEventListener('click', () => show('ida'));
+// #1 Pomoc: prawdziwe numery i placówki
+$('#ida-help').addEventListener('click', () => show('help'));
+$('#help-back').addEventListener('click', () => show('ida'));
 
 function sendIda() {
   const inp = $('#ida-input'); const q = (inp.value || '').trim();

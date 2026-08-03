@@ -109,6 +109,18 @@ async function main() {
   await page.waitForFunction(() => document.querySelector('#d-chart svg') && /CD4 · 268/.test(document.querySelector('#d-chart')?.textContent || ''), { timeout: 5000 });
   ok(true, 'wynik CD4 + wykres trajektorii działają');
 
+  // #1 Pomoc: propozycja w Idzie otwiera ekran z prawdziwymi numerami
+  await page.click('.tab[data-tab="ida"]'); await page.waitForSelector('#s-ida.on');
+  await page.click('#ida-log [data-help]');
+  await page.waitForSelector('#s-help.on', { timeout: 5000 });
+  const helpHtml = await page.innerHTML('#s-help');
+  ok(/tel:112/.test(helpHtml) && /800\s?70\s?2222|tel:800702222/.test(helpHtml) && /tel:800888448/.test(helpHtml), 'Pomoc: numery alarmowy/kryzys/HIV obecne i klikalne');
+  ok(/aids\.gov\.pl\/pkd/.test(helpHtml), 'Pomoc: link do PKD (gdzie zrobić test)');
+  await page.click('#help-back'); await page.waitForSelector('#s-ida.on');
+  // przycisk „Pomoc" w nagłówku Idy też otwiera ekran
+  await page.click('#ida-help'); await page.waitForSelector('#s-help.on', { timeout: 5000 });
+  ok(true, 'Pomoc: dostępna też z nagłówka Idy');
+
   console.log(`\n=== ${pass} PASS · ${fail} FAIL ===`);
   await browser.close();
   if (fail) throw new Error('E2E Idy nie przeszło');

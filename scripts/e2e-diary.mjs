@@ -96,6 +96,13 @@ async function main() {
   await page.waitForFunction(() => /Kontrola/.test(document.querySelector('#d-visits')?.textContent || ''), { timeout: 5000 });
   ok(true, 'wizyta dodana');
 
+  // #2 koinfekcje / inne badania: chip prefill + dodanie
+  await page.click('#ci-chips [data-ci="HCV"]');
+  ok((await page.inputValue('#ci-name')) === 'HCV', 'koinfekcje: chip HCV wypełnia nazwę');
+  await page.fill('#ci-result', 'ujemny'); await page.click('#ci-add');
+  await page.waitForFunction(() => /HCV/.test(document.querySelector('#d-cotests')?.textContent || '') && /ujemny/.test(document.querySelector('#d-cotests')?.textContent || ''), { timeout: 5000 });
+  ok(true, 'koinfekcje: HCV ujemny dodany do dziennika');
+
   // zdjęcie badania (upload)
   await page.setInputFiles('#d-photo-in', { name: 'wynik.png', mimeType: 'image/png', buffer: PNG });
   await page.waitForFunction(() => document.querySelector('#d-photos .ph img'), { timeout: 5000 });
