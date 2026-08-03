@@ -12,7 +12,7 @@
 <div class="app" id="app">
   <!-- Ekran wejścia: bez zaproszeń. Passkey (Face ID/odcisk) · anonimowo · Klucz Kręgu -->
   <section class="screen on" id="s-welcome">
-    <img src="enso.svg" class="logo" alt="Krąg" width="80" height="80">
+    <img src="enso-mark.svg" class="logo" alt="Krąg" width="80" height="80">
     <h1 data-i18n="w.h1">Cześć. Jestem Ida.</h1>
     <p data-i18n-html="w.intro">Towarzyszę osobom żyjącym z HIV i ich bliskim.</p>
     <p class="lbl" data-i18n="w.canDo">W Kręgu możesz</p>
@@ -32,12 +32,13 @@
 
   <!-- Logowanie na nowym urządzeniu: passkey albo Klucz Kręgu -->
   <section class="screen" id="s-login">
-    <img src="enso.svg" class="logo" alt="Krąg" width="72" height="72">
+    <img src="enso-mark.svg" class="logo" alt="Krąg" width="72" height="72">
     <h1 data-i18n="login.h1">Mam już konto</h1>
     <p class="muted" data-i18n-html="login.p">Odtwórz konto na tym urządzeniu.</p>
     <button class="btn" id="login-passkey" data-i18n="login.passkey" hidden>Zaloguj — Face ID lub odcisk</button>
     <p class="lbl" data-i18n="login.orKc">albo Kluczem Kręgu</p>
     <textarea id="login-keycode" class="field" rows="2" data-i18n-ph="login.ph" placeholder="krag1:…" autocomplete="off" spellcheck="false" style="resize:none"></textarea>
+    <button class="btn ghost sm" id="login-scan" data-i18n="login.scan" hidden>Zeskanuj kod QR</button>
     <div class="err" id="login-err"></div>
     <button class="btn" id="login-do" data-i18n="login.do">Zaloguj i zsynchronizuj</button>
     <button class="btn ghost" data-back="welcome" data-i18n="back">Wróć</button>
@@ -45,7 +46,7 @@
 
   <!-- Klucz Kręgu — pokazywany po założeniu konta -->
   <section class="screen" id="s-keycode">
-    <img src="enso.svg" class="logo" alt="Krąg" width="72" height="72">
+    <img src="enso-mark.svg" class="logo" alt="Krąg" width="72" height="72">
     <h1 data-i18n="kc.h1">Twój Klucz Kręgu</h1>
     <p class="muted" data-i18n-html="kc.p">To sposób, by wejść na koncie z innego urządzenia.</p>
     <div class="card" style="align-items:center;text-align:center">
@@ -274,6 +275,14 @@
       <button class="sendbtn" id="msg-send" aria-label="↑">↑</button>
     </div>
   </section>
+
+  <!-- Skaner QR (Klucz Kręgu) -->
+  <div id="scan-ov" class="scan-ov" hidden>
+    <video id="scan-vid" playsinline muted></video>
+    <div class="scan-frame"></div>
+    <p id="scan-msg" data-i18n="scan.hint">Skieruj aparat na kod QR</p>
+    <button class="btn ghost" id="scan-cancel" data-i18n="scan.cancel">Anuluj</button>
+  </div>
 
   <!-- Pasek nawigacji (widoczny na ekranach głównych) -->
   <nav class="tabbar" id="tabbar" hidden>

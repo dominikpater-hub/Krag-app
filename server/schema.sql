@@ -70,3 +70,14 @@ create table if not exists vault (
   ciphertext  text not null,                  -- base64(iv+ct); nieczytelne dla serwera
   updated_at  timestamptz not null default now()
 );
+
+-- Katalog (#6): OPT-IN ogłoszenia. Widoczne dla innych członków — użytkownik świadomie się
+-- ogłasza. Region jest SAMODZIELNIE podany i zgrubny (miasto/województwo), BEZ GPS. To zastępuje
+-- „osoby w pobliżu": grupowanie po okolicy bez lokalizacji urządzenia.
+create table if not exists listings (
+  pseudonym   text primary key,               -- klucz-pochodny uchwyt (nie tożsamość)
+  region      text not null default '',        -- np. „Warszawa", „mazowieckie" — bez GPS
+  tags        text not null default '',        -- np. „świeżo po diagnozie, PrEP"
+  bio         text not null default '',
+  updated_at  timestamptz not null default now()
+);

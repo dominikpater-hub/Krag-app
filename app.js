@@ -15,6 +15,7 @@ import { fromSecretBytes, seal, open } from './lib/vault.js';
 import { newKeycode, parseKeycode, qrSvg, encodeKeycode } from './lib/keycode.js';
 import { passkeyAvailable, createPasskey, unlockPasskey } from './lib/passkey.js';
 import { solvePow } from './lib/pow.js';
+import jsQR from './lib/jsqr.js';
 import { t, setLang, detectLang, translateDOM, LANG_NAMES } from './lib/i18n.js';
 import { knownFor, checkSubstance } from './lib/interactions.js';
 
@@ -256,6 +257,36 @@ $('#login-passkey').addEventListener('click', async () => {
     await loginWithMaster(masterBytes);
   } catch (e) { $('#login-err').textContent = 'Nie udało się: ' + e.message; btn.disabled = false; }
 });
+// —— skaner QR Klucza Kręgu ——
+if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { const b = $('#login-scan'); if (b) b.hidden = false; }
+let scanStream = null, scanRAF = null;
+function stopScan() {
+  const ov = $('#scan-ov'); if (ov) ov.hidden = true;
+  if (scanRAF) { cancelAnimationFrame(scanRAF); scanRAF = null; }
+  if (scanStream) { scanStream.getTracks().forEach((t) => t.stop()); scanStream = null; }
+}
+async function startScan() {
+  const ov = $('#scan-ov'), vid = $('#scan-vid'); $('#scan-msg').textContent = t('scan.hint'); ov.hidden = false;
+  try { scanStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }); }
+  catch { $('#scan-msg').textContent = t('scan.deny'); return; }
+  vid.srcObject = scanStream; try { await vid.play(); } catch { /* noop */ }
+  const cv = document.createElement('canvas'); const ctx = cv.getContext('2d', { willReadFrequently: true });
+  const tick = () => {
+    if (!scanStream) return;
+    if (vid.readyState >= 2 && vid.videoWidth) {
+      cv.width = vid.videoWidth; cv.height = vid.videoHeight;
+      ctx.drawImage(vid, 0, 0, cv.width, cv.height);
+      const img = ctx.getImageData(0, 0, cv.width, cv.height);
+      const res = jsQR(img.data, img.width, img.height);
+      if (res) { const bytes = parseKeycode(res.data); if (bytes) { $('#login-keycode').value = res.data; stopScan(); loginWithMaster(bytes).catch((e) => { $('#login-err').textContent = 'Nie udało się: ' + e.message; }); return; } }
+    }
+    scanRAF = requestAnimationFrame(tick);
+  };
+  scanRAF = requestAnimationFrame(tick);
+}
+$('#login-scan').addEventListener('click', startScan);
+$('#scan-cancel').addEventListener('click', stopScan);
+
 $('#login-do').addEventListener('click', async () => {
   const bytes = parseKeycode($('#login-keycode').value);
   if (!bytes) { $('#login-err').textContent = 'To nie wygląda na Klucz Kręgu (krag1:…).'; return; }

@@ -192,3 +192,13 @@ textarea.field{font-family:ui-monospace,Menlo,monospace;line-height:1.7}
 .lib-fact{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0}
 .lib-fact p{margin:0;font-size:14px;color:var(--tx)}
 #s-library{padding-bottom:20px}
+
+/* ——— skaner QR ——— */
+.scan-ov{position:fixed;inset:0;z-index:90;background:#0b0e13;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;padding:24px}
+.scan-ov[hidden]{display:none}
+.scan-ov video{width:100%;max-width:360px;aspect-ratio:1;object-fit:cover;border-radius:16px;background:#000}
+.scan-ov .scan-frame{position:absolute;width:min(72vw,300px);height:min(72vw,300px);
+  border:2px solid var(--moss);border-radius:16px;box-shadow:0 0 0 100vmax rgba(11,14,19,.55);pointer-events:none}
+.scan-ov p{color:var(--tx-2);font-size:13.5px;text-align:center;max-width:320px;z-index:1}
+.scan-ov .btn{max-width:320px;z-index:1}
