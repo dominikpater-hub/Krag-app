@@ -174,3 +174,10 @@ textarea.field{font-family:ui-monospace,Menlo,monospace;line-height:1.7}
 .coach p{margin:0 0 8px;font-size:13.5px;color:var(--tx-2)}
 .coach .mile{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--tx-2);margin-top:6px}
 .coach .mile .b{color:var(--moss)}
+
+/* ——— interakcje leków ——— */
+.ix-item{border-radius:12px;padding:11px 13px;margin-top:8px;font-size:13px;line-height:1.5}
+.ix-item.hi{background:rgba(201,138,107,.12);border:1px solid rgba(201,138,107,.4);color:#E6C3B0}
+.ix-item.med{background:rgba(217,164,65,.1);border:1px solid rgba(217,164,65,.3);color:#E6CD97}
+.ix-item.ok{background:rgba(126,155,119,.1);border:1px solid rgba(126,155,119,.3);color:var(--tx-2)}
+.ix-adv{margin-top:5px;font-size:12px;opacity:.85}

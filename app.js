@@ -16,6 +16,7 @@ import { newKeycode, parseKeycode, qrSvg, encodeKeycode } from './lib/keycode.js
 import { passkeyAvailable, createPasskey, unlockPasskey } from './lib/passkey.js';
 import { solvePow } from './lib/pow.js';
 import { t, setLang, detectLang, translateDOM, LANG_NAMES } from './lib/i18n.js';
+import { knownFor, checkSubstance } from './lib/interactions.js';
 
 const LANGS = LANG_NAMES;
 
@@ -468,6 +469,7 @@ async function renderDiary() {
     (m) => `<span><span class="v">${escapeHtml(m.name)}</span> <span class="sub">${escapeHtml(m.dose || '')}${m.time ? ' · ' + escapeHtml(m.time) : ''}</span></span>`);
   fill('#d-visits', items.filter((i) => kind(i, 'visit')).sort((a, b) => (a.date || '').localeCompare(b.date || '')),
     (v) => `<span><span class="v">${escapeHtml(v.title)}</span> <span class="sub">${escapeHtml(v.date || '')}</span></span>`);
+  renderInteractions(items);
   fill('#d-notes', items.filter((i) => kind(i, 'note')).sort((a, b) => b.ts - a.ts),
     (n) => `<span><span class="sub">${dstr(n.ts)}</span> ${escapeHtml(n.note)}</span>`);
   renderPhotos(items.filter((i) => kind(i, 'photo')));
@@ -526,6 +528,27 @@ function renderCoach(items) {
   if (hasMed) lines.push(t('coach.adh'));
   box.innerHTML = `<div class="coach"><h3>◈ ${t('coach.title')}</h3>${lines.map((l) => `<div class="mile"><span class="b">·</span> ${l}</div>`).join('')}<p style="margin:10px 0 0;font-size:12px;color:var(--tx-3)">${t('coach.note')}</p></div>`;
 }
+
+// —— interakcje leków (#7) ——
+function ixRow(h) {
+  return `<div class="ix-item ${h.sev === 'high' ? 'hi' : 'med'}"><div>${escapeHtml(h.msg)}</div><div class="ix-adv">${escapeHtml(h.adv)}</div></div>`;
+}
+function renderInteractions(items) {
+  const box = $('#ix-known'); if (!box) return;
+  const meds = items.filter((i) => kind(i, 'med')).map((m) => m.name);
+  if (!meds.length) { box.innerHTML = `<div class="d-empty">${t('ix.addMeds')}</div>`; return; }
+  const known = knownFor(meds, getI18nLang());
+  box.innerHTML = known.length ? `<div class="ctx">${t('ix.known')}</div>${known.map(ixRow).join('')}` : '';
+}
+async function runIxCheck() {
+  const q = ($('#ix-in').value || '').trim(); const out = $('#ix-out'); if (!out) return;
+  if (!q) { out.innerHTML = ''; return; }
+  const meds = (await all('diary')).filter((i) => kind(i, 'med')).map((m) => m.name);
+  const hits = checkSubstance(meds, q, getI18nLang());
+  out.innerHTML = hits.length ? hits.map(ixRow).join('') : `<div class="ix-item ok">${t('ix.none')}</div>`;
+}
+$('#ix-check').addEventListener('click', runIxCheck);
+$('#ix-in').addEventListener('keydown', (e) => { if (e.key === 'Enter') runIxCheck(); });
 
 // —— dodawanie wpisów ——
 function today() { return ($('#d-date') && $('#d-date').value) || new Date().toISOString().slice(0, 10); }
