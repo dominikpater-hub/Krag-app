@@ -96,7 +96,10 @@
         <div class="klbl" data-i18n="app.loggedAs">Zalogowano jako</div>
         <div class="pseudo" id="me-pseudo" style="font-size:19px">…</div>
       </div>
-      <span class="dot" id="conn-dot" title="•"></span>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="btn ghost sm" id="app-cat" data-i18n="cat.open" style="width:auto;padding:8px 12px;margin:0">Katalog</button>
+        <span class="dot" id="conn-dot" title="•"></span>
+      </div>
     </div>
 
     <div class="klbl" data-i18n="app.threads" style="margin-top:18px">Rozmowy</div>
@@ -109,6 +112,39 @@
       <div class="err" id="peer-err"></div>
       <button class="btn" id="start-thread" data-i18n="app.open">Otwórz rozmowę</button>
     </div>
+  </section>
+
+  <!-- KATALOG (#6) -->
+  <section class="screen" id="s-catalog">
+    <div class="apphead">
+      <button class="iconbtn" id="cat-back" aria-label="Rozmowy">‹</button>
+      <div>
+        <div class="klbl" data-i18n="app.threads">Rozmowy</div>
+        <div class="pseudo" data-i18n="cat.title" style="font-size:19px">Katalog Kręgu</div>
+      </div>
+      <span style="width:34px"></span>
+    </div>
+    <p class="muted" data-i18n="cat.lead" style="margin-top:10px">Ogłoś się i znajdź osoby z okolicy albo po temacie.</p>
+
+    <details class="dev" id="cat-mine-wrap" style="border-top:0;margin-top:6px;padding-top:0">
+      <summary data-i18n="cat.mine">Twoje ogłoszenie</summary>
+      <div class="card">
+        <input id="cat-region" class="field" maxlength="60" data-i18n-ph="cat.region" placeholder="Okolica">
+        <input id="cat-tags" class="field" maxlength="120" data-i18n-ph="cat.tags" placeholder="Tematy">
+        <input id="cat-bio" class="field" maxlength="300" data-i18n-ph="cat.bio" placeholder="O sobie">
+        <button class="btn ghost sm" id="cat-publish" data-i18n="cat.publish">Ogłoś się</button>
+        <button class="btn ghost sm danger" id="cat-remove" data-i18n="cat.remove" style="margin-top:8px">Usuń ogłoszenie</button>
+        <p class="note" data-i18n="cat.note" style="margin-top:8px">Widoczne dla członków. Bez GPS.</p>
+      </div>
+    </details>
+
+    <div class="d-row" style="margin-top:12px">
+      <input id="cat-f-region" class="field" data-i18n-ph="cat.fRegion" placeholder="Okolica">
+      <input id="cat-f-tag" class="field" data-i18n-ph="cat.fTag" placeholder="Temat">
+    </div>
+    <button class="btn ghost sm" id="cat-search" data-i18n="cat.search">Szukaj</button>
+    <div id="cat-list" class="threads" style="margin-top:12px"></div>
+    <div class="err" id="cat-err"></div>
   </section>
 
   <!-- DZIENNIK -->

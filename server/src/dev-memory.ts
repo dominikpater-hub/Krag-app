@@ -21,7 +21,7 @@ const app = buildApp(new Pool());
 app.addHook('onRequest', async (req, reply) => {
   reply.header('access-control-allow-origin', '*');
   reply.header('access-control-allow-headers', 'content-type,authorization');
-  reply.header('access-control-allow-methods', 'GET,POST,PUT,OPTIONS');
+  reply.header('access-control-allow-methods', 'GET,POST,PUT,DELETE,OPTIONS');
   if (req.method === 'OPTIONS') { reply.code(204).send(); }
 });
 

@@ -477,6 +477,40 @@ $('#thread-report').addEventListener('click', async () => {
   } catch (e) { alert('Nie udało się wysłać zgłoszenia: ' + e.message); }
 });
 
+/* ---------- Katalog (#6): opt-in ogłoszenia, okolica bez GPS, start rozmowy ---------- */
+$('#app-cat').addEventListener('click', openCatalog);
+$('#cat-back').addEventListener('click', () => show('app'));
+$('#cat-search').addEventListener('click', catSearch);
+$('#cat-f-region').addEventListener('keydown', (e) => { if (e.key === 'Enter') catSearch(); });
+$('#cat-f-tag').addEventListener('keydown', (e) => { if (e.key === 'Enter') catSearch(); });
+async function openCatalog() { show('catalog'); await catSearch(); }
+async function catSearch() {
+  const box = $('#cat-list'); $('#cat-err').textContent = '';
+  try {
+    const { listings } = await withAuth(() => api.catalogList($('#cat-f-region').value.trim(), $('#cat-f-tag').value.trim()));
+    if (!listings.length) { box.innerHTML = `<div class="threads-empty">${t('cat.none')}</div>`; return; }
+    box.innerHTML = listings.map((l) => {
+      const me = l.pseudonym === account.pseudo;
+      const nm = escapeHtml(l.pseudonym.split(' #')[0]);
+      const meta = [escapeHtml(l.region || ''), escapeHtml(l.tags || '')].filter(Boolean).join(' · ');
+      return `<div class="thread"><div style="min-width:0"><div class="nm">${nm} ${me ? `<span style="color:var(--tx-3);font-size:11px">${t('cat.you')}</span>` : ''}</div>${meta ? `<div class="last">${meta}</div>` : ''}${l.bio ? `<div class="last">${escapeHtml(l.bio)}</div>` : ''}</div>${me ? '' : `<button class="btn ghost sm" data-write="${encodeURIComponent(l.pseudonym)}" style="width:auto;padding:8px 12px;margin:0">${t('cat.write')}</button>`}</div>`;
+    }).join('');
+    box.querySelectorAll('[data-write]').forEach((e) => e.addEventListener('click', () => startChatWith(decodeURIComponent(e.dataset.write))));
+  } catch { box.innerHTML = ''; $('#cat-err').textContent = t('cat.offline'); }
+}
+$('#cat-publish').addEventListener('click', async () => {
+  try { await withAuth(() => api.catalogPut($('#cat-region').value.trim(), $('#cat-tags').value.trim(), $('#cat-bio').value.trim())); toast(t('d.saved')); await catSearch(); }
+  catch { $('#cat-err').textContent = t('cat.offline'); }
+});
+$('#cat-remove').addEventListener('click', async () => {
+  try { await withAuth(() => api.catalogDelete()); $('#cat-region').value = ''; $('#cat-tags').value = ''; $('#cat-bio').value = ''; toast(t('d.saved')); await catSearch(); }
+  catch { $('#cat-err').textContent = t('cat.offline'); }
+});
+async function startChatWith(peer) {
+  try { await sessionFor(peer); await openThread(peer); }
+  catch (e) { $('#cat-err').textContent = e.message; }
+}
+
 /* ---------- Dziennik (#7): wyniki+wykres, leki, wizyty, zdjęcia, notatki, trener (#8) ---------- */
 async function del(store, key) {
   const d = await db();

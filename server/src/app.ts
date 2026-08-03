@@ -136,6 +136,22 @@ export function buildApp(db: Queryable, opts: { trustProxy?: boolean } = {}): Fa
     return repo.putVault(db, lookupId, req.account!.id, ciphertext);
   });
 
+  // ——— Katalog (#6): opt-in ogłoszenia (widoczne dla członków) ———
+  app.get('/catalog', async (req) => {
+    await requireAuth(req);
+    const { region, tag } = (req.query as any) || {};
+    return { listings: await repo.listListings(db, region, tag) };
+  });
+  app.put('/catalog', async (req) => {
+    await requireAuth(req);
+    const { region, tags, bio } = (req.body as any) || {};
+    return repo.putListing(db, req.account!.pseudonym, region, tags, bio);
+  });
+  app.delete('/catalog', async (req) => {
+    await requireAuth(req);
+    return repo.deleteListing(db, req.account!.pseudonym);
+  });
+
   // ——— Moderacja (message franking) ———
   app.post('/reports', async (req) => {
     await requireAuth(req);

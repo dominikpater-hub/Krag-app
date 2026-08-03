@@ -152,6 +152,38 @@ test('otwarta rejestracja: bez PoW = 403; z poprawnym PoW = konto; duplikat = 40
   assert.equal(fake.statusCode, 403);
 });
 
+test('katalog: publikacja ogłoszenia, przeglądanie z filtrem okolicy/tematu, usunięcie', async () => {
+  const mem = newDb(); mem.public.none(schema);
+  const { Pool } = mem.adapters.createPg();
+  const app2 = buildApp(new Pool());
+  const login2 = async (pseudonym: string, kp: CryptoKeyPair) => {
+    const ch = await app2.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym } });
+    const v = await app2.inject({ method: 'POST', url: '/auth/verify', payload: { pseudonym, nonce: ch.json().nonce, signature: await sign(kp, ch.json().nonce) } });
+    return v.json().token as string;
+  };
+  const kpA = await genKey(); const A = 'Wschodni Wiatr #AAAA';
+  await app2.inject({ method: 'POST', url: '/accounts/bootstrap', payload: { pseudonym: A, publicKey: await rawPub(kpA) } });
+  const tokA = await login2(A, kpA);
+
+  // publikacja
+  const put = await app2.inject({ method: 'PUT', url: '/catalog', headers: bearer(tokA), payload: { region: 'Warszawa', tags: 'świeżo po diagnozie, PrEP', bio: 'Otwarty na rozmowę.' } });
+  assert.equal(put.statusCode, 200, put.body);
+  // wymaga auth
+  assert.equal((await app2.inject({ method: 'GET', url: '/catalog' })).statusCode, 401);
+  // przeglądanie (authed)
+  const all = await app2.inject({ method: 'GET', url: '/catalog', headers: bearer(tokA) });
+  assert.equal(all.json().listings.length, 1);
+  assert.equal(all.json().listings[0].pseudonym, A);
+  // filtr po okolicy
+  assert.equal((await app2.inject({ method: 'GET', url: '/catalog?region=warsz', headers: bearer(tokA) })).json().listings.length, 1);
+  assert.equal((await app2.inject({ method: 'GET', url: '/catalog?region=krakow', headers: bearer(tokA) })).json().listings.length, 0);
+  // filtr po temacie
+  assert.equal((await app2.inject({ method: 'GET', url: '/catalog?tag=prep', headers: bearer(tokA) })).json().listings.length, 1);
+  // usunięcie
+  await app2.inject({ method: 'DELETE', url: '/catalog', headers: bearer(tokA) });
+  assert.equal((await app2.inject({ method: 'GET', url: '/catalog', headers: bearer(tokA) })).json().listings.length, 0);
+});
+
 test('sejf E2E: zapis (authed) → odczyt po lookupId (bez auth); cudze konto nie nadpisze', async () => {
   // świeża baza, żeby móc zbootstrapować konto A
   const mem = newDb(); mem.public.none(schema);

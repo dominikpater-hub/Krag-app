@@ -213,6 +213,25 @@ export async function putVault(db: Queryable, lookupId: string, accountId: strin
   return { ok: true, updatedAt: new Date().toISOString() };
 }
 
+/* Katalog (#6) — opt-in ogłoszenia. Filtrowanie w JS (zgodność z pg-mem). */
+export async function putListing(db: Queryable, pseudonym: string, region: string, tags: string, bio: string) {
+  await db.query(
+    `insert into listings (pseudonym, region, tags, bio, updated_at) values ($1,$2,$3,$4, now())
+     on conflict (pseudonym) do update set region = excluded.region, tags = excluded.tags, bio = excluded.bio, updated_at = now()`,
+    [pseudonym, (region || '').slice(0, 60), (tags || '').slice(0, 120), (bio || '').slice(0, 300)],
+  );
+  return { ok: true };
+}
+export async function deleteListing(db: Queryable, pseudonym: string) {
+  await db.query('delete from listings where pseudonym = $1', [pseudonym]);
+  return { ok: true };
+}
+export async function listListings(db: Queryable, region?: string, tag?: string) {
+  const { rows } = await db.query('select pseudonym, region, tags, bio, updated_at from listings order by updated_at desc limit 200');
+  const rl = (region || '').trim().toLowerCase(), tg = (tag || '').trim().toLowerCase();
+  return rows.filter((r) => (!rl || String(r.region || '').toLowerCase().includes(rl)) && (!tg || String(r.tags || '').toLowerCase().includes(tg)));
+}
+
 export interface HttpError extends Error { statusCode: number }
 export function httpError(statusCode: number, message: string): HttpError {
   const e = new Error(message) as HttpError;
