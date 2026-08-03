@@ -83,6 +83,17 @@ async function main() {
   html = await lastIda(page);
   ok(/nie odpowiem/i.test(html) && /data-blk/.test(html), 'pytanie spoza bazy → „nie odpowiem" + podpowiedzi tematów');
 
+  // 3b) biblioteka wiedzy: otwórz, wejdź w ścieżkę, zobacz fakty
+  await page.click('#ida-lib');
+  await page.waitForSelector('#s-library.on');
+  await page.waitForFunction(() => document.querySelectorAll('#lib-body [data-path]').length > 3, { timeout: 5000 });
+  ok(true, 'biblioteka: lista ścieżek tematycznych');
+  await page.click('#lib-body [data-path]');
+  await page.waitForFunction(() => document.querySelector('#lib-body .lib-fact'), { timeout: 5000 });
+  ok(true, 'biblioteka: ścieżka → fakty z etykietą źródła');
+  await page.click('#lib-back');
+  await page.waitForSelector('#s-ida.on');
+
   // 4) rozmowy i dziennik nadal dostępne przez zakładki
   await page.click('.tab[data-tab="app"]'); await page.waitForSelector('#s-app.on');
   ok(await page.isVisible('#start-thread'), 'zakładka Rozmowy działa');

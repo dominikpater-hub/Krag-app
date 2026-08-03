@@ -10,7 +10,7 @@ import { generateAuthKeyPair, authPublicB64, signNonce, exportAuthKeyPair, impor
 import { generateKeyPair, publicKeyB64, deriveSessionKey, encrypt, decrypt, envelope, exportMsgKeyPair, importMsgKeyPair } from './lib/e2e.js';
 import { findFacts, resetThread, setRole, BLOCKNAME, confBadge, MED_BLOCKS, isPos, FACTS } from './lib/ida.js';
 import { risky, stopMeds, CRISIS_LINE, CRISIS_EU } from './lib/crisis.js';
-import { PROV } from './lib/knowledge.js';
+import { PROV, PATHS_DB } from './lib/knowledge.js';
 import { fromSecretBytes, seal, open } from './lib/vault.js';
 import { newKeycode, parseKeycode, qrSvg, encodeKeycode } from './lib/keycode.js';
 import { passkeyAvailable, createPasskey, unlockPasskey } from './lib/passkey.js';
@@ -777,6 +777,42 @@ function idaFirstOpen() {
   idaBubble('ida', `<p>${t('ida.hello')}</p><div class="starters">${starters.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}</div>`);
   $('#ida-log').querySelectorAll('[data-q]').forEach((e) => e.addEventListener('click', () => { const q = e.dataset.q; $('#ida-input').value = ''; idaAsk(q); }));
 }
+/* ——— Biblioteka wiedzy (#8): przeglądalne ścieżki → bloki → fakty ——— */
+function renderLibraryList() {
+  const P = getI18nLang(); const role = profile.role || 'plhiv';
+  const paths = PATHS_DB.filter((p) => !p.roles || p.roles.includes(role));
+  const body = $('#lib-body'); if (!body) return;
+  body.innerHTML = paths.map((p) => {
+    const nm = (p.n && (p.n[P] || p.n.pl)) || p.id;
+    const lead = (p.lead && (p.lead[P] || p.lead.pl)) || '';
+    const n = FACTS.filter((f) => p.blocks.indexOf(f.b) > -1).length;
+    return `<div class="libcard" data-path="${p.id}"><div class="lc-t">${escapeHtml(nm)}${p.urgent ? ' ⏱' : ''}</div><div class="lc-s">${escapeHtml(lead)}</div><div class="lc-n">${n} ${t('lib.facts')}</div></div>`;
+  }).join('');
+  body.querySelectorAll('[data-path]').forEach((e) => e.addEventListener('click', () => openLibPath(e.dataset.path)));
+}
+function openLibPath(id) {
+  const P = getI18nLang(); const p = PATHS_DB.find((x) => x.id === id); if (!p) return;
+  const nm = (p.n && (p.n[P] || p.n.pl)) || p.id;
+  let html = `<div class="libcard" data-lib-back="1"><div class="lc-t">‹ ${escapeHtml(nm)}</div></div>`;
+  if (P !== 'pl') html += `<div class="ctx">${t('ida.srcPl')}</div>`;
+  for (const b of p.blocks) {
+    const fs = FACTS.filter((f) => f.b === b);
+    if (!fs.length) continue;
+    html += `<div class="lib-block"><div class="klbl">${escapeHtml(BLOCKNAME[b] || b)}</div>`;
+    for (const f of fs) {
+      const x = confBadge(f.c);
+      const gate = f.gate ? `<div class="gatewarn">${t('ida.gate')}</div>` : '';
+      html += `<div class="lib-fact"><p>${f.w}</p>${gate}<div class="srcline"><span class="trust ${x[0]}">${t('trust.' + x[0])}</span>${escapeHtml(f.s)}</div></div>`;
+    }
+    html += '</div>';
+  }
+  const body = $('#lib-body'); body.innerHTML = html;
+  body.querySelector('[data-lib-back]').addEventListener('click', renderLibraryList);
+  window.scrollTo(0, 0);
+}
+$('#ida-lib').addEventListener('click', () => { show('library'); renderLibraryList(); });
+$('#lib-back').addEventListener('click', () => show('ida'));
+
 function sendIda() {
   const inp = $('#ida-input'); const q = (inp.value || '').trim();
   if (!q) return;

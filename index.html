@@ -65,12 +65,27 @@
         <div class="klbl" data-i18n="ida.kicker">Krąg wiedzy</div>
         <div class="pseudo" data-i18n="ida.title" style="font-size:19px">Zapytaj Idę</div>
       </div>
+      <button class="btn ghost sm" id="ida-lib" data-i18n="lib.open" style="width:auto;padding:8px 12px;margin:0">Biblioteka</button>
     </div>
     <div id="ida-log" class="idalog"></div>
     <div class="composer">
       <input id="ida-input" class="field" data-i18n-ph="ida.ph" placeholder="Zapytaj…" autocomplete="off">
       <button class="sendbtn" id="ida-send" aria-label="Ida">↑</button>
     </div>
+  </section>
+
+  <!-- BIBLIOTEKA WIEDZY (#8) -->
+  <section class="screen" id="s-library">
+    <div class="apphead">
+      <button class="iconbtn" id="lib-back" aria-label="Ida">‹</button>
+      <div>
+        <div class="klbl" data-i18n="ida.kicker">Krąg wiedzy</div>
+        <div class="pseudo" data-i18n="lib.title" style="font-size:19px">Biblioteka wiedzy</div>
+      </div>
+      <span style="width:34px"></span>
+    </div>
+    <p class="muted" data-i18n="lib.lead" style="margin-top:10px">Przeglądaj tematy albo zapytaj Idę.</p>
+    <div id="lib-body"></div>
   </section>
 
   <!-- ROZMOWY -->
