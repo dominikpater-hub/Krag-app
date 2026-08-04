@@ -21,6 +21,7 @@ import { t, setLang, detectLang, translateDOM, LANG_NAMES } from './lib/i18n.js'
 import { knownFor, checkSubstance } from './lib/interactions.js';
 import { inviteUrl, parseInviteFromSearch } from './lib/invite.js';
 import { parseLabValues, pickPrefill, ocrImage } from './lib/ocr.js';
+import { BACKUP_STORES, pickNew, makePayload, readPayload } from './lib/backup.js';
 import { roomPeerKey, isRoomPeer, roomIdFromPeer, parseRoomPayload, fanout } from './lib/rooms.js';
 
 const LANGS = LANG_NAMES;
@@ -430,7 +431,7 @@ async function renderThreads() {
     const n = unread.get(th.peer) || 0;
     const room = isRoomPeer(th.peer);
     const nm = room ? ((rmap[roomIdFromPeer(th.peer)]?.name) || t('room.one')) : th.peer.split(' #')[0];
-    const tag = room ? ` <span class="grouptag">${t('room.tag')}</span>` : '';
+    const tag = (room ? ` <span class="grouptag">${t('room.tag')}</span>` : '') + (th.buddy ? ` <span class="grouptag buddy">★ ${t('th.buddyTag')}</span>` : '');
     return `<div class="thread" data-peer="${encodeURIComponent(th.peer)}">
       <div><div class="nm">${escapeHtml(nm)}${tag}</div><div class="last">${escapeHtml(preview)}</div></div>
       ${n ? `<span class="badge-n">${n}</span>` : ''}
@@ -444,7 +445,11 @@ async function renderThreads() {
 async function openThread(peer) {
   currentPeer = peer;
   unread.set(peer, 0);
-  await put('threads', { peer, ts: (await get('threads', peer))?.ts || Date.now() });
+  const prev = await get('threads', peer);
+  await put('threads', { ...(prev || {}), peer, ts: prev?.ts || Date.now() });   // zachowaj m.in. flagę buddy
+  // #2: gwiazdka „buddy/mentor" tylko dla rozmów 1:1 (nie dla pokojów)
+  const bb = $('#thread-buddy');
+  if (bb) { bb.hidden = isRoomPeer(peer); bb.textContent = prev?.buddy ? '★' : '☆'; bb.classList.toggle('on', !!prev?.buddy); }
   if (isRoomPeer(peer)) {
     const r = await get('rooms', roomIdFromPeer(peer));
     $('#thread-peer').textContent = (r && r.name) || t('room.one');
@@ -520,6 +525,16 @@ async function sendRoomMessage(roomId, text) {
 $('#msg-send').addEventListener('click', sendMessage);
 $('#msg-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
 $('#thread-back').addEventListener('click', async () => { currentPeer = null; show('app'); await renderThreads(); });
+// #2: oznacz rozmówcę jako swojego buddy/mentora (lokalnie, tylko u Ciebie)
+$('#thread-buddy').addEventListener('click', async () => {
+  if (!currentPeer || isRoomPeer(currentPeer)) return;
+  const th = (await get('threads', currentPeer)) || { peer: currentPeer, ts: Date.now() };
+  th.buddy = !th.buddy;
+  await put('threads', th);
+  const bb = $('#thread-buddy'); bb.textContent = th.buddy ? '★' : '☆'; bb.classList.toggle('on', th.buddy);
+  toast(t(th.buddy ? 'th.buddyOn' : 'th.buddyOff'));
+  await renderThreads();
+});
 
 /* ---------- zgłoszenie / moderacja (K-26, wstępnie) ---------- */
 $('#thread-report').addEventListener('click', async () => {
@@ -545,21 +560,23 @@ async function openCatalog() { show('catalog'); await catSearch(); }
 async function catSearch() {
   const box = $('#cat-list'); $('#cat-err').textContent = '';
   try {
-    const { listings } = await withAuth(() => api.catalogList($('#cat-f-region').value.trim(), $('#cat-f-tag').value.trim()));
+    const { listings } = await withAuth(() => api.catalogList($('#cat-f-region').value.trim(), $('#cat-f-tag').value.trim(), $('#cat-f-mentor').checked));
     if (!listings.length) { box.innerHTML = `<div class="threads-empty">${t('cat.none')}</div>`; return; }
     box.innerHTML = listings.map((l) => {
       const me = l.pseudonym === account.pseudo;
       const nm = escapeHtml(l.pseudonym.split(' #')[0]);
+      const badge = l.mentor ? ` <span class="grouptag">${t('cat.mentorBadge')}</span>` : '';
       const meta = [escapeHtml(l.region || ''), escapeHtml(l.tags || '')].filter(Boolean).join(' · ');
-      return `<div class="thread"><div style="min-width:0"><div class="nm">${nm} ${me ? `<span style="color:var(--tx-3);font-size:11px">${t('cat.you')}</span>` : ''}</div>${meta ? `<div class="last">${meta}</div>` : ''}${l.bio ? `<div class="last">${escapeHtml(l.bio)}</div>` : ''}</div>${me ? '' : `<button class="btn ghost sm" data-write="${encodeURIComponent(l.pseudonym)}" style="width:auto;padding:8px 12px;margin:0">${t('cat.write')}</button>`}</div>`;
+      return `<div class="thread"><div style="min-width:0"><div class="nm">${nm}${badge} ${me ? `<span style="color:var(--tx-3);font-size:11px">${t('cat.you')}</span>` : ''}</div>${meta ? `<div class="last">${meta}</div>` : ''}${l.bio ? `<div class="last">${escapeHtml(l.bio)}</div>` : ''}</div>${me ? '' : `<button class="btn ghost sm" data-write="${encodeURIComponent(l.pseudonym)}" style="width:auto;padding:8px 12px;margin:0">${t('cat.write')}</button>`}</div>`;
     }).join('');
     box.querySelectorAll('[data-write]').forEach((e) => e.addEventListener('click', () => startChatWith(decodeURIComponent(e.dataset.write))));
   } catch { box.innerHTML = ''; $('#cat-err').textContent = t('cat.offline'); }
 }
 $('#cat-publish').addEventListener('click', async () => {
-  try { await withAuth(() => api.catalogPut($('#cat-region').value.trim(), $('#cat-tags').value.trim(), $('#cat-bio').value.trim())); toast(t('d.saved')); await catSearch(); }
+  try { await withAuth(() => api.catalogPut($('#cat-region').value.trim(), $('#cat-tags').value.trim(), $('#cat-bio').value.trim(), $('#cat-mentor').checked)); toast(t('d.saved')); await catSearch(); }
   catch { $('#cat-err').textContent = t('cat.offline'); }
 });
+$('#cat-f-mentor').addEventListener('change', catSearch);
 $('#cat-remove').addEventListener('click', async () => {
   try { await withAuth(() => api.catalogDelete()); $('#cat-region').value = ''; $('#cat-tags').value = ''; $('#cat-bio').value = ''; toast(t('d.saved')); await catSearch(); }
   catch { $('#cat-err').textContent = t('cat.offline'); }
@@ -887,6 +904,48 @@ async function pullVault() {
   const bundle = await open(ciphertext, key);
   if (bundle.profile) { Object.assign(profile, bundle.profile); await persistProfile(); applyProfile(); }
 }
+
+/* #5 Kopia zapasowa: dziennik żyje tylko na urządzeniu — czyszczenie cache go kasuje.
+ * Eksport/import zaszyfrowanego pliku (pieczęć Kluczem Kręgu). Serwer nie uczestniczy. */
+async function exportBackup() {
+  const msg = $('#bk-msg'); if (msg) msg.textContent = '';
+  if (!account.master) { if (msg) msg.textContent = t('bk.nokey'); return; }
+  try {
+    const by = {}; for (const s of BACKUP_STORES) by[s] = await all(s);
+    const { key } = await fromSecretBytes(account.master);
+    const ct = await seal(makePayload(by), key);
+    const blob = new Blob([JSON.stringify({ v: 1, kind: 'krag-vault', ct })], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'krag-kopia-' + new Date().toISOString().slice(0, 10) + '.krag';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    toast(t('d.saved'));
+  } catch { if (msg) msg.textContent = t('bk.err'); }
+}
+async function importBackup(file) {
+  const msg = $('#bk-msg'); if (msg) msg.textContent = '';
+  if (!file) return;
+  if (!account.master) { if (msg) msg.textContent = t('bk.nokey'); return; }
+  try {
+    const obj = JSON.parse(await file.text());
+    if (!obj || obj.kind !== 'krag-vault' || !obj.ct) { if (msg) msg.textContent = t('bk.badfile'); return; }
+    const { key } = await fromSecretBytes(account.master);
+    let payload;
+    try { payload = readPayload(await open(obj.ct, key)); }
+    catch { if (msg) msg.textContent = t('bk.badkey'); return; }
+    if (!payload) { if (msg) msg.textContent = t('bk.badfile'); return; }
+    let n = 0;
+    for (const s of BACKUP_STORES) {
+      const news = pickNew(s, await all(s), payload[s]);
+      for (const it of news) { await put(s, it); n++; }
+    }
+    if (msg) msg.textContent = n ? t('bk.done', { n }) : t('bk.empty');
+    await renderDiary(); await renderThreads();
+  } catch { if (msg) msg.textContent = t('bk.badfile'); }
+}
+$('#bk-export').addEventListener('click', exportBackup);
+$('#bk-import-in').addEventListener('change', (e) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; importBackup(f); });
 
 function renderProfile() {
   $('#pf-pseudo').value = profile.pseudonym || account.pseudo || '';

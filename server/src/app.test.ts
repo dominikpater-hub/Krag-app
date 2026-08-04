@@ -179,6 +179,12 @@ test('katalog: publikacja ogłoszenia, przeglądanie z filtrem okolicy/tematu, u
   assert.equal((await app2.inject({ method: 'GET', url: '/catalog?region=krakow', headers: bearer(tokA) })).json().listings.length, 0);
   // filtr po temacie
   assert.equal((await app2.inject({ method: 'GET', url: '/catalog?tag=prep', headers: bearer(tokA) })).json().listings.length, 1);
+  // #2 buddy/mentor: A nie jest mentorem → filtr mentor=1 pusty; po oznaczeniu → widoczny z flagą
+  assert.equal((await app2.inject({ method: 'GET', url: '/catalog?mentor=1', headers: bearer(tokA) })).json().listings.length, 0);
+  await app2.inject({ method: 'PUT', url: '/catalog', headers: bearer(tokA), payload: { region: 'Warszawa', tags: 'PrEP', bio: '', mentor: true } });
+  const mlist = (await app2.inject({ method: 'GET', url: '/catalog?mentor=1', headers: bearer(tokA) })).json().listings;
+  assert.equal(mlist.length, 1);
+  assert.equal(mlist[0].mentor, true);
   // usunięcie
   await app2.inject({ method: 'DELETE', url: '/catalog', headers: bearer(tokA) });
   assert.equal((await app2.inject({ method: 'GET', url: '/catalog', headers: bearer(tokA) })).json().listings.length, 0);

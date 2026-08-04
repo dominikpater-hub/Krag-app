@@ -139,13 +139,13 @@ export function buildApp(db: Queryable, opts: { trustProxy?: boolean } = {}): Fa
   // ——— Katalog (#6): opt-in ogłoszenia (widoczne dla członków) ———
   app.get('/catalog', async (req) => {
     await requireAuth(req);
-    const { region, tag } = (req.query as any) || {};
-    return { listings: await repo.listListings(db, region, tag) };
+    const { region, tag, mentor } = (req.query as any) || {};
+    return { listings: await repo.listListings(db, region, tag, mentor === '1' || mentor === 'true') };
   });
   app.put('/catalog', async (req) => {
     await requireAuth(req);
-    const { region, tags, bio } = (req.body as any) || {};
-    return repo.putListing(db, req.account!.pseudonym, region, tags, bio);
+    const { region, tags, bio, mentor } = (req.body as any) || {};
+    return repo.putListing(db, req.account!.pseudonym, region, tags, bio, !!mentor);
   });
   app.delete('/catalog', async (req) => {
     await requireAuth(req);

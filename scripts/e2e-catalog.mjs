@@ -66,6 +66,7 @@ async function main() {
   await A.page.fill('#cat-region', 'Warszawa');
   await A.page.fill('#cat-tags', 'świeżo po diagnozie, PrEP');
   await A.page.fill('#cat-bio', 'Otwarty na rozmowę.');
+  await A.page.check('#cat-mentor');                      // #2: oferuje się jako buddy/mentor
   await A.page.click('#cat-publish');
   await A.page.waitForFunction((ps) => (document.querySelector('#cat-list')?.textContent || '').includes(ps.split(' #')[0]), A.pseudo, { timeout: 8000 });
   ok(true, 'A: ogłoszenie opublikowane i widoczne u A');
@@ -80,9 +81,20 @@ async function main() {
   await B.page.waitForFunction(() => document.querySelector('#cat-list [data-write]'), { timeout: 8000 });
   ok(true, 'B: filtr po temacie „PrEP" działa');
 
+  // #2 filtr „tylko buddy/mentorzy" → A (mentor) widoczny z odznaką
+  await B.page.fill('#cat-f-tag', ''); await B.page.check('#cat-f-mentor');
+  await B.page.waitForFunction((ps) => [...document.querySelectorAll('#cat-list .thread')].some((th) => th.textContent.includes(ps) && /buddy/i.test(th.textContent)), A.pseudo.split(' #')[0], { timeout: 8000 });
+  ok(true, 'B: filtr buddy/mentor pokazuje A z odznaką „buddy"');
+  await B.page.uncheck('#cat-f-mentor'); await B.page.click('#cat-search');
+  await B.page.waitForFunction(() => document.querySelector('#cat-list [data-write]'), { timeout: 8000 });
+
   // B pisze do A z katalogu → otwiera się wątek
   await B.page.click('#cat-list [data-write]');
   await B.page.waitForSelector('#s-thread.on', { timeout: 10000 });
+  // #2 lokalna gwiazdka buddy w wątku 1:1
+  await B.page.click('#thread-buddy');
+  await B.page.waitForFunction(() => document.querySelector('#thread-buddy')?.textContent === '★', { timeout: 5000 });
+  ok(true, 'B: oznaczył rozmówcę gwiazdką buddy (lokalnie)');
   await B.page.fill('#msg-input', 'Cześć, widziałem Cię w katalogu.');
   await B.page.click('#msg-send');
   await B.page.waitForFunction((tx) => [...document.querySelectorAll('.msg.out')].some((m) => m.textContent.includes(tx)), 'katalogu', { timeout: 8000 });

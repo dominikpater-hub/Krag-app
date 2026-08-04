@@ -146,6 +146,7 @@
         <input id="cat-region" class="field" maxlength="60" data-i18n-ph="cat.region" placeholder="Okolica">
         <input id="cat-tags" class="field" maxlength="120" data-i18n-ph="cat.tags" placeholder="Tematy">
         <input id="cat-bio" class="field" maxlength="300" data-i18n-ph="cat.bio" placeholder="O sobie">
+        <label class="chk"><input type="checkbox" id="cat-mentor"> <span data-i18n="cat.mentorOffer">Mogę wspierać jako buddy/mentor</span></label>
         <button class="btn ghost sm" id="cat-publish" data-i18n="cat.publish">Ogłoś się</button>
         <button class="btn ghost sm danger" id="cat-remove" data-i18n="cat.remove" style="margin-top:8px">Usuń ogłoszenie</button>
         <p class="note" data-i18n="cat.note" style="margin-top:8px">Widoczne dla członków. Bez GPS.</p>
@@ -156,6 +157,7 @@
       <input id="cat-f-region" class="field" data-i18n-ph="cat.fRegion" placeholder="Okolica">
       <input id="cat-f-tag" class="field" data-i18n-ph="cat.fTag" placeholder="Temat">
     </div>
+    <label class="chk" style="margin-top:10px"><input type="checkbox" id="cat-f-mentor"> <span data-i18n="cat.mentorFilter">Tylko buddy/mentorzy</span></label>
     <button class="btn ghost sm" id="cat-search" data-i18n="cat.search">Szukaj</button>
     <div id="cat-list" class="threads" style="margin-top:12px"></div>
     <div class="err" id="cat-err"></div>
@@ -405,6 +407,19 @@
         <button class="btn ghost sm" id="pf-kc-copy" data-i18n="kc.copy" style="width:auto;padding:8px 14px;margin-top:10px">Kopiuj klucz</button>
       </div>
     </details>
+
+    <!-- Kopia zapasowa (#5): czyszczenie danych przeglądarki kasuje dziennik -->
+    <details class="dev">
+      <summary data-i18n="bk.summary">Kopia zapasowa (na wypadek utraty danych)</summary>
+      <p class="muted" data-i18n="bk.p" style="margin-top:8px">Dziennik żyje tylko na tym urządzeniu. Jeśli wyczyścisz dane przeglądarki, zniknie. Zapisz zaszyfrowaną kopię — otworzysz ją tylko swoim Kluczem Kręgu.</p>
+      <div class="card">
+        <button class="btn ghost sm" id="bk-export" data-i18n="bk.export">Zapisz kopię do pliku</button>
+        <label class="btn ghost sm" for="bk-import-in" data-i18n="bk.import" style="text-align:center;margin-top:8px">Wczytaj kopię z pliku</label>
+        <input id="bk-import-in" type="file" accept=".krag,application/octet-stream,application/json" hidden>
+        <div id="bk-msg" class="note" style="margin-top:8px"></div>
+        <p class="note" data-i18n="bk.warn" style="margin-top:6px">🔒 Plik jest zaszyfrowany. Trzymaj go w bezpiecznym miejscu.</p>
+      </div>
+    </details>
   </section>
 
   <!-- WĄTEK (jedna rozmowa) -->
@@ -412,6 +427,7 @@
     <div class="apphead">
       <button class="iconbtn" id="thread-back" aria-label="Back">‹</button>
       <div class="pseudo" id="thread-peer" style="font-size:18px">…</div>
+      <button class="iconbtn" id="thread-buddy" title="buddy" aria-label="buddy">☆</button>
       <button class="iconbtn" id="thread-report" title="⚑">⚑</button>
     </div>
     <div class="lock-note" data-i18n="th.lock">🔒 Szyfrowane od końca do końca.</div>

@@ -79,6 +79,7 @@ create table if not exists listings (
   region      text not null default '',        -- np. „Warszawa", „mazowieckie" — bez GPS
   tags        text not null default '',        -- np. „świeżo po diagnozie, PrEP"
   bio         text not null default '',
+  mentor      boolean not null default false,  -- #2: „mogę wspierać jako buddy/mentor"
   updated_at  timestamptz not null default now()
 );
 

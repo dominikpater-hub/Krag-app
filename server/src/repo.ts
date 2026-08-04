@@ -214,11 +214,11 @@ export async function putVault(db: Queryable, lookupId: string, accountId: strin
 }
 
 /* Katalog (#6) — opt-in ogłoszenia. Filtrowanie w JS (zgodność z pg-mem). */
-export async function putListing(db: Queryable, pseudonym: string, region: string, tags: string, bio: string) {
+export async function putListing(db: Queryable, pseudonym: string, region: string, tags: string, bio: string, mentor?: boolean) {
   await db.query(
-    `insert into listings (pseudonym, region, tags, bio, updated_at) values ($1,$2,$3,$4, now())
-     on conflict (pseudonym) do update set region = excluded.region, tags = excluded.tags, bio = excluded.bio, updated_at = now()`,
-    [pseudonym, (region || '').slice(0, 60), (tags || '').slice(0, 120), (bio || '').slice(0, 300)],
+    `insert into listings (pseudonym, region, tags, bio, mentor, updated_at) values ($1,$2,$3,$4,$5, now())
+     on conflict (pseudonym) do update set region = excluded.region, tags = excluded.tags, bio = excluded.bio, mentor = excluded.mentor, updated_at = now()`,
+    [pseudonym, (region || '').slice(0, 60), (tags || '').slice(0, 120), (bio || '').slice(0, 300), !!mentor],
   );
   return { ok: true };
 }
@@ -226,10 +226,12 @@ export async function deleteListing(db: Queryable, pseudonym: string) {
   await db.query('delete from listings where pseudonym = $1', [pseudonym]);
   return { ok: true };
 }
-export async function listListings(db: Queryable, region?: string, tag?: string) {
-  const { rows } = await db.query('select pseudonym, region, tags, bio, updated_at from listings order by updated_at desc limit 200');
+export async function listListings(db: Queryable, region?: string, tag?: string, mentorOnly?: boolean) {
+  const { rows } = await db.query('select pseudonym, region, tags, bio, mentor, updated_at from listings order by updated_at desc limit 200');
   const rl = (region || '').trim().toLowerCase(), tg = (tag || '').trim().toLowerCase();
-  return rows.filter((r) => (!rl || String(r.region || '').toLowerCase().includes(rl)) && (!tg || String(r.tags || '').toLowerCase().includes(tg)));
+  return rows.filter((r) => (!rl || String(r.region || '').toLowerCase().includes(rl))
+    && (!tg || String(r.tags || '').toLowerCase().includes(tg))
+    && (!mentorOnly || !!r.mentor));
 }
 
 /* Pokoje tematyczne (#6/2) — grupa bez klucza grupowego (E2E per-odbiorca po stronie klienta).

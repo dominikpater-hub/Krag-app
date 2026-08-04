@@ -117,6 +117,24 @@ async function main() {
   await page.waitForFunction(() => /333/.test(document.querySelector('#d-results')?.textContent || ''), { timeout: 5000 });
   ok(true, 'OCR: po potwierdzeniu wynik trafia do dziennika');
 
+  // #5 kopia zapasowa: eksport → usuń wpis → import przywraca (na wypadek czyszczenia cache)
+  await page.click('.tab[data-tab="profile"]'); await page.waitForSelector('#s-profile.on');
+  await page.evaluate(() => { const ds = [...document.querySelectorAll('#s-profile details')]; ds[ds.length - 1].open = true; });
+  const [dl] = await Promise.all([page.waitForEvent('download'), page.click('#bk-export')]);
+  const bpath = await dl.path();
+  ok(!!bpath, 'kopia: eksport zaszyfrowanego pliku');
+  await page.click('.tab[data-tab="diary"]'); await page.waitForSelector('#s-diary.on');
+  const beforeBk = await page.evaluate(() => document.querySelectorAll('#d-results .d-item').length);
+  await page.click('#d-results .d-item .x');
+  await page.waitForFunction((n) => document.querySelectorAll('#d-results .d-item').length < n, beforeBk, { timeout: 5000 });
+  await page.click('.tab[data-tab="profile"]'); await page.waitForSelector('#s-profile.on');
+  await page.evaluate(() => { const ds = [...document.querySelectorAll('#s-profile details')]; ds[ds.length - 1].open = true; });
+  await page.setInputFiles('#bk-import-in', bpath);
+  await page.waitForFunction(() => /wczytano|wpis/i.test(document.querySelector('#bk-msg')?.textContent || ''), { timeout: 8000 });
+  await page.click('.tab[data-tab="diary"]'); await page.waitForSelector('#s-diary.on');
+  await page.waitForFunction((n) => document.querySelectorAll('#d-results .d-item').length >= n, beforeBk, { timeout: 5000 });
+  ok(true, 'kopia: import przywrócił usunięty wynik (odporność na czyszczenie cache)');
+
   // usuwanie wyniku
   const before = await page.evaluate(() => document.querySelectorAll('#d-results .d-item').length);
   await page.click('#d-results .d-item .x');
