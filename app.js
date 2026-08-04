@@ -22,6 +22,7 @@ import { knownFor, checkSubstance } from './lib/interactions.js';
 import { inviteUrl, parseInviteFromSearch } from './lib/invite.js';
 import { parseLabValues, pickPrefill, ocrImage } from './lib/ocr.js';
 import { BACKUP_STORES, pickNew, makePayload, readPayload } from './lib/backup.js';
+import { buildDemoData } from './lib/demo-seed.js';
 import { roomPeerKey, isRoomPeer, roomIdFromPeer, parseRoomPayload, fanout } from './lib/rooms.js';
 
 'use strict';
@@ -317,6 +318,27 @@ async function loginWithMaster(masterBytes) {
   if (!profile.pseudonym) profile.pseudonym = account.pseudo;
   await persistAccount();
   await enterApp();
+}
+
+/* ---------- tryb DEMO (#3): produkcja = odbicie, z bogatymi danymi lokalnie ---------- */
+function demoMode() {
+  try {
+    return new URLSearchParams(location.search).get('demo') === '1'
+      || document.querySelector('meta[name="krag-demo"]')?.content === '1';
+  } catch { return false; }
+}
+async function startDemo() {
+  const kc = newKeycode(); account.master = kc.bytes;
+  await generateAccount();
+  profile.pseudonym = account.pseudo;
+  const data = buildDemoData(account.pseudo, Date.now());
+  for (const store of Object.keys(data)) for (const it of data[store]) await put(store, it);
+  await persistAccount();
+  document.body.classList.add('demo');
+  let b = document.querySelector('#demo-banner');
+  if (!b) { b = document.createElement('div'); b.id = 'demo-banner'; document.body.appendChild(b); }
+  b.textContent = t('demo.banner');
+  await enterApp({ background: true });   // offline; backend niepotrzebny
 }
 
 /* ---------- odtworzenie konta przy starcie ---------- */
@@ -1143,4 +1165,6 @@ setLang(detectLang());
 try { document.documentElement.lang = detectLang(); } catch { /* noop */ }
 translateDOM();
 pendingInvite = parseInviteFromSearch(location.search);   // link-zaproszenie (#6/2)
-tryRestore().catch((e) => { $('#boot-err').textContent = ''; console.warn('restore', e); });
+tryRestore()
+  .then((restored) => { if (!restored && demoMode()) return startDemo(); })
+  .catch((e) => { $('#boot-err').textContent = ''; console.warn('restore/demo', e); });
