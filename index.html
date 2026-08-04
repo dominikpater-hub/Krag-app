@@ -314,16 +314,14 @@
       </div>
     </div>
 
-    <!-- Zdjęcia badań + odczyt wyniku (#3/#5) -->
+    <!-- Zdjęcia badań: jeden przycisk — zapisuje zdjęcie I odczytuje z niego wyniki (#3/#5/#7) -->
     <div class="card">
       <div class="klbl" data-i18n="d.photos">Zdjęcia badań</div>
       <div id="d-photos" class="d-photos"></div>
-      <label class="btn ghost sm" for="d-ocr-in" data-i18n="d.scanResult" style="text-align:center">Odczytaj wynik ze zdjęcia</label>
-      <input id="d-ocr-in" type="file" accept="image/*" hidden>
-      <label class="btn ghost sm" for="d-photo-in" data-i18n="d.addPhoto" style="text-align:center;margin-top:8px">Wgraj zdjęcie</label>
+      <label class="btn ghost sm" for="d-photo-in" data-i18n="d.addPhoto" style="text-align:center">Wgraj zdjęcie badań</label>
       <input id="d-photo-in" type="file" accept="image/*" hidden>
       <div id="d-ocr-msg" class="note" style="margin-top:8px"></div>
-      <p class="note" data-i18n="d.photoHint" style="margin-top:6px">Zdjęcia trzymasz prywatnie na tym urządzeniu.</p>
+      <p class="note" data-i18n="d.photoHint" style="margin-top:6px">Wgraj zdjęcie wyniku — Ida spróbuje odczytać wartości do dziennika. Zdjęcie zostaje na tym telefonie.</p>
     </div>
 
     <!-- Notatki -->
@@ -336,17 +334,10 @@
       </div>
     </div>
 
-    <details class="dev">
-      <summary data-i18n="diary.device">To urządzenie</summary>
-      <div class="card">
-        <div class="krow"><span data-i18n="diary.rAcc">Konto (klucz lokalny)</span><b class="ok" data-i18n="diary.rAccV">na urządzeniu</b></div>
-        <div class="krow"><span data-i18n="diary.rDiary">Dziennik zdrowia (IndexedDB)</span><b class="ok" id="diary-state">…</b></div>
-        <div class="krow"><span data-i18n="diary.rSw">Tryb offline (service worker)</span><b class="ok" id="sw-state">…</b></div>
-        <div class="krow"><span data-i18n="diary.rE2e">Rozmowy 1:1 (E2E)</span><b class="ok" data-i18n="diary.rE2eV">aktywne</b></div>
-      </div>
-      <button class="btn ghost" id="diary-add" data-i18n="diary.sample">Dodaj przykładowy wpis</button>
-      <button class="btn ghost danger" id="wipe" data-i18n="diary.wipe">Usuń wszystko z tego urządzenia</button>
-    </details>
+    <div class="card" style="margin-top:14px;align-items:center">
+      <p class="note" data-i18n="diary.privLong" style="margin:0 0 8px;text-align:center">Wszystko w dzienniku zostaje na tym telefonie. Zrób kopię w Profilu, zanim wyczyścisz dane przeglądarki.</p>
+      <button class="btn ghost sm danger" id="wipe" data-i18n="diary.wipe" style="width:auto;padding:8px 14px">Usuń wszystko z tego urządzenia</button>
+    </div>
   </section>
 
   <!-- PROFIL -->
@@ -372,6 +363,7 @@
       <div class="klbl" data-i18n="pf.lang">Język</div>
       <select id="pf-lang" class="rolesel" style="max-width:100%;width:100%;margin-top:8px"></select>
       <p class="note" data-i18n="lang.note" style="margin-top:6px">Nie ma w pełni Twojego języka? Wybierz go — UI po angielsku, fakty po polsku, do czasu tłumaczenia.</p>
+      <button class="btn ghost sm" id="pf-lang-req" data-i18n="lang.req" style="width:auto;padding:6px 12px;margin-top:6px">Zgłoś brakujący język</button>
       <div class="klbl" data-i18n="pf.role" style="margin-top:14px">Kim jesteś w Kręgu</div>
       <select id="pf-role" class="rolesel" style="max-width:100%;width:100%;margin-top:8px">
         <option value="plhiv" data-i18n="role.plhiv">Żyję z HIV</option>
@@ -393,16 +385,6 @@
 
     <button class="btn" id="pf-save" data-i18n="pf.save">Zapisz i zsynchronizuj</button>
     <div class="err" id="pf-err"></div>
-
-    <details class="dev" open>
-      <summary data-i18n="inv.summary">Zaproś do rozmowy</summary>
-      <p class="muted" data-i18n="inv.p" style="margin-top:8px">Udostępnij link lub kod QR. Osoba otworzy aplikację i od razu zacznie z Tobą rozmowę. Link nie zawiera żadnych danych osobowych ani kluczy.</p>
-      <div class="card" style="align-items:center;text-align:center">
-        <div id="pf-invite-qr" class="kc-qr"></div>
-        <div class="mono" id="pf-invite-link" style="margin-top:12px;word-break:break-all;font-size:12px"></div>
-        <button class="btn ghost sm" id="pf-invite-copy" data-i18n="inv.share" style="width:auto;padding:8px 14px;margin-top:10px">Udostępnij link</button>
-      </div>
-    </details>
 
     <details class="dev">
       <summary data-i18n="pf.kcSummary">Twój Klucz Kręgu</summary>

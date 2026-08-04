@@ -19,7 +19,7 @@ import { solvePow } from './lib/pow.js';
 import jsQR from './lib/jsqr.js';
 import { t, setLang, detectLang, translateDOM, LANGS as LANG_LIST } from './lib/i18n.js';
 import { knownFor, checkSubstance } from './lib/interactions.js';
-import { inviteUrl, parseInviteFromSearch } from './lib/invite.js';
+import { parseInviteFromSearch } from './lib/invite.js';
 import { parseLabValues, pickPrefill, ocrImage } from './lib/ocr.js';
 import { BACKUP_STORES, pickNew, makePayload, readPayload } from './lib/backup.js';
 import { buildDemoData } from './lib/demo-seed.js';
@@ -357,6 +357,11 @@ async function tryRestore() {
 /* ---------- wejście do aplikacji ---------- */
 async function enterApp(opts = {}) {
   $('#me-pseudo').textContent = account.pseudo;
+  // #6/#8: kropka połączenia i znacznik sync mają sens tylko z backendem. Bez niego — ukryj,
+  // żeby nie straszyć wiecznym „offline". (API_BASE puste = produkcja/demo bez wpiętego serwera.)
+  const be = !!API_BASE;
+  const cd = $('#conn-dot'); if (cd) cd.style.display = be ? '' : 'none';
+  const ss = $('#sync-state'); if (ss) ss.style.display = be ? '' : 'none';
   await initRole();
   show('ida');
   idaFirstOpen();
@@ -810,26 +815,23 @@ async function fileToThumb(file) {
     fr.readAsDataURL(file);
   });
 }
+// #7: JEDEN przycisk — zapisuje zdjęcie badania I próbuje odczytać z niego WSZYSTKIE wyniki
+// (CD4 + wiremia) prosto do dziennika. OCR działa online; offline zostaje samo zdjęcie.
 $('#d-photo-in').addEventListener('change', async (e) => {
-  const f = e.target.files && e.target.files[0]; if (!f) return;
+  const f = e.target.files && e.target.files[0]; e.target.value = ''; if (!f) return;
+  const msg = $('#d-ocr-msg');
   const img = await fileToThumb(f);
   await put('diary', { ts: Date.now(), kind: 'photo', img, caption: '' });
-  e.target.value = ''; await renderDiary(); toast(t('d.saved'));
-});
-// #3/#5: odczyt wyniku ze zdjęcia. OCR NIGDY nie zapisuje sam — tylko prefill do potwierdzenia.
-$('#d-ocr-in').addEventListener('change', async (e) => {
-  const f = e.target.files && e.target.files[0]; e.target.value = ''; if (!f) return;
-  const msg = $('#d-ocr-msg'); if (msg) msg.textContent = t('d.ocrReading');
+  await renderDiary();
+  if (msg) msg.textContent = t('d.ocrReading');
   try {
-    const text = await ocrImage(f);
-    const pick = pickPrefill(parseLabValues(text));
-    if (!pick) { if (msg) msg.textContent = t('d.ocrNone'); return; }
-    $('#d-marker').value = pick.marker;
-    $('#d-val').value = String(pick.value);
-    if (msg) msg.textContent = '';
-    $('#d-val').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    $('#d-val').focus();
-    toast(t('d.ocrPrefilled'));                 // użytkownik sprawdza i klika „Dodaj wynik"
+    const v = parseLabValues(await ocrImage(f));
+    const added = [];
+    const base = Date.now();
+    if (v.cd4 != null) { await put('diary', { ts: base, kind: 'result', marker: 'cd4', v: v.cd4, date: today() }); added.push('CD4 ' + v.cd4); }
+    if (v.vl != null) { await put('diary', { ts: base + 1, kind: 'result', marker: 'vl', v: v.vl, date: today() }); added.push(t('d.vl') + ' ' + (v.vl < 50 ? t('d.undetectable') : v.vl)); }
+    await renderDiary();
+    if (msg) msg.textContent = added.length ? t('d.ocrAdded', { list: added.join(', ') }) : t('d.ocrNone');
   } catch (err) {
     if (msg) msg.textContent = t('d.ocrOffline');
   }
@@ -846,22 +848,6 @@ $('#diary-save').addEventListener('click', saveDiaryNote);
 $('#diary-note').addEventListener('keydown', (e) => { if (e.key === 'Enter') saveDiaryNote(); });
 
 // Dane demo (#3, zalążek) — bogaty, prezentowalny dziennik.
-$('#diary-add').addEventListener('click', async () => {
-  const day = 864e5, now = Date.now();
-  const iso = (d) => new Date(now - d * day).toISOString().slice(0, 10);
-  const seed = [
-    { kind: 'result', marker: 'cd4', v: 180, date: iso(180) }, { kind: 'result', marker: 'cd4', v: 214, date: iso(120) },
-    { kind: 'result', marker: 'cd4', v: 268, date: iso(60) }, { kind: 'result', marker: 'cd4', v: 322, date: iso(14) },
-    { kind: 'result', marker: 'vl', v: 48000, date: iso(180) }, { kind: 'result', marker: 'vl', v: 640, date: iso(120) },
-    { kind: 'result', marker: 'vl', v: 40, date: iso(60) }, { kind: 'result', marker: 'vl', v: 20, date: iso(14) },
-    { kind: 'med', name: 'Biktarvy', dose: '1 tabl.', time: '21:00' },
-    { kind: 'visit', title: 'Kontrola — poradnia zakaźna', date: iso(-30) },
-    { kind: 'note', note: 'Pierwszy miesiąc za mną. Jest lepiej.' },
-  ];
-  let ts = now;
-  for (const s of seed) { await put('diary', { ts: ts++, ...s }); }
-  await renderDiary(); toast(t('d.saved'));
-});
 $('#wipe').addEventListener('click', async () => { await wipe(); location.reload(); });
 
 /* ═══════════ IDA — baza wiedzy ═══════════
@@ -983,12 +969,6 @@ function renderProfile() {
   } else {
     $('#pf-kc-qr').innerHTML = ''; $('#pf-kc-code').textContent = '(niedostępny na tym urządzeniu)';
   }
-  // Link-zaproszenie: udostępnij uchwyt jako link/QR (#6/2). Bez kluczy prywatnych, bez danych osobowych.
-  if (account.pseudo) {
-    const url = inviteUrl(location.origin, account.pseudo);
-    $('#pf-invite-qr').innerHTML = qrSvg(url);
-    $('#pf-invite-link').textContent = url;
-  }
   $('#pf-err').textContent = '';
 }
 $('#pf-save').addEventListener('click', async () => {
@@ -1004,16 +984,15 @@ $('#pf-save').addEventListener('click', async () => {
   toast(gwt('prof'));
   try { await backupVault(); } catch (e) { setSync('off'); }
 });
+// #8: zgłoszenie zapotrzebowania na język (zapis lokalny; zsynchronizuje się, gdy będzie backend).
+$('#pf-lang-req').addEventListener('click', async () => {
+  const code = $('#pf-lang').value; const name = LANG_LIST.find((l) => l.code === code)?.name || code;
+  try { const cur = (await get('account', 'langReq'))?.v || []; if (!cur.includes(code)) cur.push(code); await put('account', { k: 'langReq', v: cur }); } catch { /* noop */ }
+  toast(t('lang.reqDone', { lang: name }));
+});
 $('#pf-kc-copy').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText($('#pf-kc-code').textContent); toast(t('kc.copied')); }
   catch { /* zaznacz ręcznie */ }
-});
-$('#pf-invite-copy').addEventListener('click', async () => {
-  const url = inviteUrl(location.origin, account.pseudo || '');
-  try {
-    if (navigator.share) { await navigator.share({ title: 'Krąg', text: t('inv.shareText'), url }); }
-    else { await navigator.clipboard.writeText(url); toast(t('inv.copied')); }
-  } catch { try { await navigator.clipboard.writeText(url); toast(t('inv.copied')); } catch { /* ręcznie */ } }
 });
 
 function idaBubble(who, html, src) {
@@ -1126,11 +1105,13 @@ function idaFirstOpen() {
   // #2: powitanie losowane z kilku wariantów, krótkie, bez powielania onboardingu.
   const hellos = t('ida.hellos').split('|').map((s) => s.trim()).filter(Boolean);
   const hi = hellos[Math.floor(Math.random() * hellos.length)] || t('ida.hello');
-  // Propozycje = najczęstsze pytania (bez numerów/placówek — te są pod „Pomoc" w nagłówku).
+  // Propozycje = najczęstsze pytania + JEDEN dymek do Pomocy (numery zaufania i placówki). #1
   const starters = ['ida.s1', 'ida.s2', 'ida.s3', 'ida.s4', 'ida.s5'].map((k) => t(k));
-  idaBubble('ida', `<p>${escapeHtml(hi)}</p><div class="starters">${starters.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}</div>`);
+  const helpChip = `<button class="chip sm help" type="button" data-help="1">${escapeHtml(t('ida.help1'))}</button>`;
+  idaBubble('ida', `<p>${escapeHtml(hi)}</p><div class="starters">${starters.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}${helpChip}</div>`);
   const log = $('#ida-log');
   log.querySelectorAll('[data-q]').forEach((e) => e.addEventListener('click', () => { const q = e.dataset.q; $('#ida-input').value = ''; idaAsk(q); }));
+  log.querySelectorAll('[data-help]').forEach((e) => e.addEventListener('click', () => show('help')));
 }
 /* ——— Biblioteka wiedzy (#8): przeglądalne ścieżki → bloki → fakty ——— */
 function renderLibraryList() {

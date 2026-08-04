@@ -93,15 +93,11 @@ async function main() {
   await A.page.waitForFunction((tx) => [...document.querySelectorAll('.msg.in')].some((m) => m.textContent.includes(tx)), 'dzięki', { timeout: 15000 });
   ok(true, 'A: dostał odpowiedź z pokoju');
 
-  // ——— LINK-ZAPROSZENIE ———
-  // Odczytaj link zaproszenia A z profilu (wróć z wątku pokoju do widoku z pasek nawigacji)
+  // ——— LINK-ZAPROSZENIE (deep-link nadal działa; UI generujące link usunięte z Profilu) ———
   await A.page.click('#thread-back'); await A.page.waitForSelector('#s-app.on');
-  await A.page.click('.tab[data-tab="profile"]'); await A.page.waitForSelector('#s-profile.on');
-  await A.page.waitForFunction(() => (document.querySelector('#pf-invite-link')?.textContent || '').includes('?k='));
-  const inviteUrl = (await A.page.textContent('#pf-invite-link')).trim();
-  ok(/\?k=[A-Za-z0-9\-_]+$/.test(inviteUrl), 'A: profil pokazuje link-zaproszenie (?k=…)');
-  // przepisz origin na nasz serwer testowy (profil używa location.origin przeglądarki)
-  const testUrl = WEB + inviteUrl.slice(inviteUrl.indexOf('/?'));
+  const { encodeInvite } = await import('../lib/invite.js');
+  const testUrl = WEB + '/?k=' + encodeInvite(A.pseudo);
+  ok(/\?k=[A-Za-z0-9\-_]+$/.test(testUrl), 'deep-link ?k= zbudowany z uchwytu A');
 
   // C otwiera link → po wejściu anonimowym od razu rozmowa z A (bez generycznego onboard:
   // link automatycznie przełącza z ekranu Idy na wątek, więc czekamy wprost na wątek).

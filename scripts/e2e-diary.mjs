@@ -103,19 +103,14 @@ async function main() {
   await page.waitForFunction(() => /HCV/.test(document.querySelector('#d-cotests')?.textContent || '') && /ujemny/.test(document.querySelector('#d-cotests')?.textContent || ''), { timeout: 5000 });
   ok(true, 'koinfekcje: HCV ujemny dodany do dziennika');
 
-  // zdjęcie badania (upload)
-  await page.setInputFiles('#d-photo-in', { name: 'wynik.png', mimeType: 'image/png', buffer: PNG });
+  // #7: JEDEN przycisk — wgranie zdjęcia zapisuje miniaturę I odczytuje z niego WSZYSTKIE wyniki
+  await page.setInputFiles('#d-photo-in', { name: 'lab.png', mimeType: 'image/png', buffer: PNG });
   await page.waitForFunction(() => document.querySelector('#d-photos .ph img'), { timeout: 5000 });
   ok(true, 'zdjęcie badania wgrane (miniatura)');
-
-  // #3/#5: odczyt wyniku ze zdjęcia → prefill formularza (OCR nie zapisuje sam)
-  await page.setInputFiles('#d-ocr-in', { name: 'lab.png', mimeType: 'image/png', buffer: PNG });
-  await page.waitForFunction(() => document.querySelector('#d-val')?.value === '333', { timeout: 8000 });
-  ok((await page.inputValue('#d-marker')) === 'cd4', 'OCR: rozpoznał CD4 i ustawił marker');
-  ok((await page.inputValue('#d-val')) === '333', 'OCR: wartość wpisana do formularza (do potwierdzenia)');
-  await page.click('#d-add-result');   // użytkownik potwierdza zapis
-  await page.waitForFunction(() => /333/.test(document.querySelector('#d-results')?.textContent || ''), { timeout: 5000 });
-  ok(true, 'OCR: po potwierdzeniu wynik trafia do dziennika');
+  await page.waitForFunction(() => /333/.test(document.querySelector('#d-results')?.textContent || ''), { timeout: 8000 });
+  const results = await page.textContent('#d-results');
+  ok(/333/.test(results), 'OCR: CD4 333 wczytane wprost do dziennika');
+  ok(/(poniżej progu|20)/.test(results), 'OCR: wiremia też wczytana (niewykrywalna)');
 
   // #5 kopia zapasowa: eksport → usuń wpis → import przywraca (na wypadek czyszczenia cache)
   await page.click('.tab[data-tab="profile"]'); await page.waitForSelector('#s-profile.on');
