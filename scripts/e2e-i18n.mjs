@@ -80,6 +80,13 @@ async function main() {
   await page.waitForTimeout(300);
   ok((await page.textContent('#pf-save')) === 'Зберегти та синхронізувати', 'profil przetłumaczony na UK');
 
+  // #4: język bez pełnego tłumaczenia (de) jest dostępny i spada na angielski (nie polski)
+  const hasDe = await page.$eval('#pf-lang', (s) => [...s.options].some((o) => o.value === 'de'));
+  ok(hasDe, 'selektor języka zawiera Deutsch (i inne do dopisania przez społeczność)');
+  await page.selectOption('#pf-lang', 'de'); await page.click('#pf-save');
+  await page.waitForFunction(() => document.querySelector('#pf-save')?.textContent === 'Save and sync', { timeout: 5000 });
+  ok((await page.textContent('#pf-save')) === 'Save and sync', 'de → UI po angielsku (fallback), nie po polsku');
+
   console.log(`\n=== ${pass} PASS · ${fail} FAIL ===`);
   await browser.close();
   if (fail) throw new Error('E2E i18n nie przeszło');

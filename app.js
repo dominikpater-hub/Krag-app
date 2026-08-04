@@ -17,14 +17,12 @@ import { newKeycode, parseKeycode, qrSvg, encodeKeycode } from './lib/keycode.js
 import { passkeyAvailable, createPasskey, unlockPasskey } from './lib/passkey.js';
 import { solvePow } from './lib/pow.js';
 import jsQR from './lib/jsqr.js';
-import { t, setLang, detectLang, translateDOM, LANG_NAMES } from './lib/i18n.js';
+import { t, setLang, detectLang, translateDOM, LANGS as LANG_LIST } from './lib/i18n.js';
 import { knownFor, checkSubstance } from './lib/interactions.js';
 import { inviteUrl, parseInviteFromSearch } from './lib/invite.js';
 import { parseLabValues, pickPrefill, ocrImage } from './lib/ocr.js';
 import { BACKUP_STORES, pickNew, makePayload, readPayload } from './lib/backup.js';
 import { roomPeerKey, isRoomPeer, roomIdFromPeer, parseRoomPayload, fanout } from './lib/rooms.js';
-
-const LANGS = LANG_NAMES;
 
 'use strict';
 const $ = (s) => document.querySelector(s);
@@ -951,7 +949,7 @@ function renderProfile() {
   $('#pf-pseudo').value = profile.pseudonym || account.pseudo || '';
   $('#pf-handle').textContent = account.pseudo || '—';
   const langSel = $('#pf-lang');
-  langSel.innerHTML = Object.entries(LANGS).map(([c, n]) => `<option value="${c}">${n}</option>`).join('');
+  langSel.innerHTML = LANG_LIST.map((l) => `<option value="${l.code}">${l.name}${l.covered ? '' : ' ' + t('lang.partial')}</option>`).join('');
   langSel.value = profile.lang || 'pl';
   $('#pf-role').value = profile.role || 'plhiv';
   $('#pf-gram').value = profile.gram || 'n';
