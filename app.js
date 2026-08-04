@@ -1064,11 +1064,14 @@ function idaAsk(q) {
   idaBubble('me', q);
   if (risky(q)) { setTimeout(crisisReply, 200); return; }
   if (stopMeds(q)) { setTimeout(stopMedsReply, 200); return; }
-  const emo = emotional(q);                               // wsparcie emocjonalne przed wiedzą
-  if (emo) { setTimeout(() => emoReply(emo), 200); return; }
+  // Pewne trafienie w wiedzę wygrywa (np. „boję się, że mnie zwolnią" → prawo).
+  // Emocje są fallbackiem, gdy nie ma pewnego faktu (np. „jestem samotny").
   const hit = findFacts(q);
-  if (!hit) { setTimeout(noCoverage, 200); return; }
-  setTimeout(() => renderHit(hit), 200);
+  if (hit && !hit.unsure) { setTimeout(() => renderHit(hit), 200); return; }
+  const emo = emotional(q);
+  if (emo) { setTimeout(() => emoReply(emo), 200); return; }
+  if (hit) { setTimeout(() => renderHit(hit), 200); return; }
+  setTimeout(noCoverage, 200);
 }
 function idaFirstOpen() {
   if (idaStarted) return;
