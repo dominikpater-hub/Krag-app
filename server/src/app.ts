@@ -3,6 +3,7 @@ import type { Queryable } from './db.ts';
 import * as repo from './repo.ts';
 import { verifySignature, newToken, newNonce, minutesFromNow } from './auth.ts';
 import { issue as powIssue, verify as powVerify } from './pow.ts';
+import { idaAnswer } from './ida-ai.ts';
 
 const SESSION_MINUTES = 60;
 const CHALLENGE_MINUTES = 5;
@@ -180,6 +181,14 @@ export function buildApp(db: Queryable, opts: { trustProxy?: boolean } = {}): Fa
     // Listę odbiorców rozgłaszania widzi tylko członek pokoju.
     if (!(await repo.isRoomMember(db, id, req.account!.pseudonym))) throw repo.httpError(403, 'Nie jesteś w tym pokoju');
     return { members: await repo.roomMembers(db, id) };
+  });
+
+  // ——— Ida Rozumie (LLM proxy): klient przysyła pytanie + wybrane fakty; klucz API tylko z env ———
+  app.post('/ida/ask', async (req) => {
+    await requireAuth(req);
+    const { q, facts, lang } = (req.body as any) || {};
+    requireFields({ q });
+    return idaAnswer({ q, facts, lang });
   });
 
   // ——— Moderacja (message franking) ———

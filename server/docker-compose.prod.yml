@@ -30,6 +30,8 @@ services:
       CORS_ORIGINS: ${CORS_ORIGINS:?ustaw origin PWA, np. https://projectkrag.vercel.app}
       POW_SECRET: ${POW_SECRET:?ustaw długi losowy sekret}
       POW_BITS: ${POW_BITS:-18}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}   # puste = „Ida Rozumie" wyłączona
+      IDA_MODEL: ${IDA_MODEL:-claude-haiku-4-5}
     expose:
       - "8080"
 

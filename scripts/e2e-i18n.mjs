@@ -64,10 +64,10 @@ async function main() {
   ok((await page.textContent('#pf-save')) === 'Save and sync', 'profil przetłumaczony na EN');
   ok((await page.textContent('.tab[data-tab="ida"] span:last-child')) === 'Ida', 'zakładki po EN');
 
-  // Ida wita po angielsku i odpowiada, fakt PL z etykietą źródła
+  // Ida wita po angielsku (jeden z wariantów) i odpowiada, fakt PL z etykietą źródła
   await page.click('.tab[data-tab="ida"]'); await page.waitForSelector('#s-ida.on');
-  await page.waitForFunction(() => /I am Ida/.test(document.querySelector('#ida-log .ida-msg.ida')?.innerHTML || ''), { timeout: 8000 });
-  ok(true, 'Ida wita po angielsku');
+  await page.waitForFunction(() => /(see you|glad you|talk about|ask me|What does)/i.test(document.querySelector('#ida-log')?.textContent || ''), { timeout: 8000 });
+  ok(true, 'Ida wita po angielsku (wariant powitania)');
   await page.fill('#ida-input', 'co to znaczy niewykrywalny'); await page.click('#ida-send');
   await page.waitForFunction(() => document.querySelectorAll('#ida-log .ida-msg.ida').length >= 2, { timeout: 8000 });
   const html = await page.evaluate(() => [...document.querySelectorAll('#ida-log .ida-msg.ida')].pop().innerHTML);

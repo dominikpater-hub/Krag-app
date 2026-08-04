@@ -129,6 +129,7 @@ body.demo{--demo-pad:24px}
 .chip.sm:hover{border-color:var(--moss);color:var(--tx)}
 .starters{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
 .chip.sm.help{border-color:rgba(126,155,119,.5);color:var(--moss)}
+.aitag{display:inline-block;background:rgba(126,155,119,.18);color:var(--moss);font-size:10px;font-weight:600;border-radius:6px;padding:1px 6px}
 
 /* ——— profil / synchronizacja ——— */
 .synctag{font-size:11px;color:var(--tx-3);border:1px solid var(--line);border-radius:9px;padding:4px 9px}

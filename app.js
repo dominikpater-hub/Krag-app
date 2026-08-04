@@ -8,7 +8,7 @@ import { API_BASE } from './config.js';
 import { makeClient } from './lib/api.js';
 import { generateAuthKeyPair, authPublicB64, signNonce, exportAuthKeyPair, importAuthKeyPair } from './lib/identity.js';
 import { generateKeyPair, publicKeyB64, deriveSessionKey, encrypt, decrypt, envelope, exportMsgKeyPair, importMsgKeyPair } from './lib/e2e.js';
-import { findFacts, resetThread, setRole, BLOCKNAME, confBadge, MED_BLOCKS, isPos, FACTS } from './lib/ida.js';
+import { findFacts, idaCandidates, resetThread, setRole, BLOCKNAME, confBadge, MED_BLOCKS, isPos, FACTS } from './lib/ida.js';
 import { risky, stopMeds, CRISIS_LINE, CRISIS_EU } from './lib/crisis.js';
 import { emotional } from './lib/emotion.js';
 import { PROV, PATHS_DB } from './lib/knowledge.js';
@@ -53,7 +53,7 @@ const api = makeClient(API_BASE);
 const account = { authKeyPair: null, msgKeyPair: null, pubRaw: null, pseudo: null, master: null };
 // master: 32 bajty „Klucza Kręgu" (bytes). Z niego wyprowadzamy sejf (lib/vault.js).
 // Profil: pseudonim (nazwa wyświetlana), język, rola. Synchronizowany E2E przez sejf (lib/vault.js).
-const profile = { pseudonym: null, lang: 'pl', role: 'plhiv', gram: 'n' };
+const profile = { pseudonym: null, lang: 'pl', role: 'plhiv', gram: 'n', ai: false };
 // Forma gramatyczna zwracania się do użytkownika (płeć językowa): f/m/neutralna.
 function toast(msg) {
   let el = document.querySelector('#toast');
@@ -975,6 +975,7 @@ function renderProfile() {
   langSel.value = profile.lang || 'pl';
   $('#pf-role').value = profile.role || 'plhiv';
   $('#pf-gram').value = profile.gram || 'n';
+  const aiBox = $('#pf-ai'); if (aiBox) aiBox.checked = !!profile.ai;
   if (account.master) {
     const code = encodeKeycode(account.master);
     $('#pf-kc-qr').innerHTML = qrSvg(code);
@@ -996,6 +997,7 @@ $('#pf-save').addEventListener('click', async () => {
   profile.lang = $('#pf-lang').value;
   profile.role = $('#pf-role').value;
   profile.gram = $('#pf-gram').value;
+  profile.ai = !!($('#pf-ai') && $('#pf-ai').checked);
   await persistProfile();
   applyProfile();
   $('#pf-err').textContent = '';
@@ -1080,18 +1082,43 @@ function renderHit(hit) {
   src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
   idaBubble('ida', body + gate, src);
 }
-function idaAsk(q) {
+async function idaAsk(q) {
   idaBubble('me', q);
   if (risky(q)) { setTimeout(crisisReply, 200); return; }
   if (stopMeds(q)) { setTimeout(stopMedsReply, 200); return; }
-  // Pewne trafienie w wiedzę wygrywa (np. „boję się, że mnie zwolnią" → prawo).
-  // Emocje są fallbackiem, gdy nie ma pewnego faktu (np. „jestem samotny").
+  // „Ida Rozumie" (opt-in): LLM rozumie i formułuje z NASZYCH faktów. Kryzys/leki już
+  // obsłużone lokalnie powyżej. Przy błędzie/offline/niepewności → cichy fallback lokalny.
+  if (profile.ai) {
+    const thinking = idaBubble('ida', `<span class="muted">${t('ai.thinking')}</span>`);
+    try {
+      const res = await withAuth(() => api.idaAsk(q, idaCandidates(q), getI18nLang()));
+      thinking.remove();
+      if (res && res.refer === 'crisis') { crisisReply(); return; }
+      if (res && res.confident && res.answer) { renderAi(res); return; }
+    } catch (e) { thinking.remove(); /* offline / ai-off → lokalnie */ }
+  }
+  // Lokalnie (regułowo): pewny fakt wygrywa; emocje fallback; inaczej „nie zmyślam".
   const hit = findFacts(q);
   if (hit && !hit.unsure) { setTimeout(() => renderHit(hit), 200); return; }
   const emo = emotional(q);
   if (emo) { setTimeout(() => emoReply(emo), 200); return; }
   if (hit) { setTimeout(() => renderHit(hit), 200); return; }
   setTimeout(noCoverage, 200);
+}
+// Render odpowiedzi „Ida Rozumie": tekst modelu (escapowany) + etykiety zaufania z użytych faktów.
+function renderAi(res) {
+  const used = (res.usedFactIds || []).map((id) => FACTS.find((f) => f.id === id)).filter(Boolean);
+  const uniq = {}; used.forEach((f) => { uniq[f.s] = f.c; });
+  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + escapeHtml(nm)).join('<br>');
+  src += `<br><span class="aitag">${t('ai.badge')}</span>`;
+  src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
+  const gate = used.some((f) => f.gate) ? `<div class="gatewarn">${t('ida.gate')}</div>` : '';
+  const body = escapeHtml(res.answer).replace(/\n/g, '<br>');
+  idaBubble('ida', body + gate, src);
+  if (res.refer === 'doctor' || res.refer === 'pomoc') {
+    const d = idaBubble('ida', `<div class="starters"><button class="chip sm help" type="button" data-ai-help="1">${escapeHtml(t('help.open'))}</button></div>`);
+    d.querySelectorAll('[data-ai-help]').forEach((e) => e.addEventListener('click', () => show('help')));
+  }
 }
 function idaFirstOpen() {
   if (idaStarted) return;
