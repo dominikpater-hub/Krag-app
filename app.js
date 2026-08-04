@@ -1096,13 +1096,14 @@ function idaAsk(q) {
 function idaFirstOpen() {
   if (idaStarted) return;
   idaStarted = true;
+  // #2: powitanie losowane z kilku wariantów, krótkie, bez powielania onboardingu.
+  const hellos = t('ida.hellos').split('|').map((s) => s.trim()).filter(Boolean);
+  const hi = hellos[Math.floor(Math.random() * hellos.length)] || t('ida.hello');
+  // Propozycje = najczęstsze pytania (bez numerów/placówek — te są pod „Pomoc" w nagłówku).
   const starters = ['ida.s1', 'ida.s2', 'ida.s3', 'ida.s4', 'ida.s5'].map((k) => t(k));
-  // #1: dwie propozycje prowadzące wprost do Pomocy (numery, gdzie zrobić test).
-  const helpChips = `<button class="chip sm help" data-help="1">${escapeHtml(t('ida.help1'))}</button><button class="chip sm help" data-help="1">${escapeHtml(t('ida.help2'))}</button>`;
-  idaBubble('ida', `<p>${t('ida.hello')}</p><div class="starters">${starters.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}${helpChips}</div>`);
+  idaBubble('ida', `<p>${escapeHtml(hi)}</p><div class="starters">${starters.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}</div>`);
   const log = $('#ida-log');
   log.querySelectorAll('[data-q]').forEach((e) => e.addEventListener('click', () => { const q = e.dataset.q; $('#ida-input').value = ''; idaAsk(q); }));
-  log.querySelectorAll('[data-help]').forEach((e) => e.addEventListener('click', () => show('help')));
 }
 /* ——— Biblioteka wiedzy (#8): przeglądalne ścieżki → bloki → fakty ——— */
 function renderLibraryList() {

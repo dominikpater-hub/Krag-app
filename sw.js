@@ -1,6 +1,6 @@
 /* Krąg — service worker (offline shell). Cache tylko statycznej powłoki;
    dane użytkownika NIE są tu cache'owane (żyją w IndexedDB). */
-const CACHE = 'krag-shell-v26';
+const CACHE = 'krag-shell-v27';
 const SHELL = ['./','./index.html','./style.css','./app.js','./config.js',
   './lib/api.js','./lib/identity.js','./lib/e2e.js','./manifest.webmanifest','./enso.svg','./enso-mark.svg',
   './lib/text.js','./lib/crisis.js','./lib/ida.js','./lib/knowledge.js','./lib/vault.js',

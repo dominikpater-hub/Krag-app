@@ -58,7 +58,8 @@ async function main() {
   await page.waitForSelector('#s-ida.on', { timeout: 20000 });
   ok(true, 'wejście ląduje na ekranie Idy');
   await page.waitForSelector('#ida-log .ida-msg.ida');
-  ok(/towarzysz/i.test(await lastIda(page)), 'Ida wita się słowem „towarzyszę" (nie „prowadzę")');
+  { const g = await lastIda(page);
+    ok(/data-q/.test(g) && /(zapyta|zaczynamy|porozmawiać|pytanie|widzie|jestem tu)/i.test(g), 'Ida wita krótko (wariant) + propozycje pytań, bez powielania onboardingu'); }
 
   // 1) odpowiedź z bazy: U=U → fakt + etykieta źródła + ostrzeżenie bramki
   await page.fill('#ida-input', 'co to znaczy niewykrywalny');
@@ -123,17 +124,14 @@ async function main() {
   await page.waitForFunction(() => document.querySelector('#d-chart svg') && /CD4 · 268/.test(document.querySelector('#d-chart')?.textContent || ''), { timeout: 5000 });
   ok(true, 'wynik CD4 + wykres trajektorii działają');
 
-  // #1 Pomoc: propozycja w Idzie otwiera ekran z prawdziwymi numerami
+  // #1 Pomoc: przycisk w nagłówku Idy otwiera ekran z prawdziwymi numerami
   await page.click('.tab[data-tab="ida"]'); await page.waitForSelector('#s-ida.on');
-  await page.click('#ida-log [data-help]');
+  await page.click('#ida-help');
   await page.waitForSelector('#s-help.on', { timeout: 5000 });
   const helpHtml = await page.innerHTML('#s-help');
   ok(/tel:112/.test(helpHtml) && /800\s?70\s?2222|tel:800702222/.test(helpHtml) && /tel:800888448/.test(helpHtml), 'Pomoc: numery alarmowy/kryzys/HIV obecne i klikalne');
   ok(/aids\.gov\.pl\/pkd/.test(helpHtml), 'Pomoc: link do PKD (gdzie zrobić test)');
-  await page.click('#help-back'); await page.waitForSelector('#s-ida.on');
-  // przycisk „Pomoc" w nagłówku Idy też otwiera ekran
-  await page.click('#ida-help'); await page.waitForSelector('#s-help.on', { timeout: 5000 });
-  ok(true, 'Pomoc: dostępna też z nagłówka Idy');
+  ok(true, 'Pomoc: dostępna z nagłówka Idy');
 
   console.log(`\n=== ${pass} PASS · ${fail} FAIL ===`);
   await browser.close();
