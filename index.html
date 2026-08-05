@@ -90,6 +90,18 @@
     </div>
     <p class="muted" data-i18n="lib.lead" style="margin-top:10px">Przeglądaj tematy albo zapytaj Idę.</p>
     <div id="lib-body"></div>
+
+    <!-- Interakcje leków (#5): narzędzie wiedzy — czyta Twoje leki z Dziennika -->
+    <div class="card" id="lib-ix" style="margin-top:14px">
+      <div class="klbl" data-i18n="ix.title">Interakcje leków</div>
+      <div id="ix-known" class="d-list"></div>
+      <div class="d-form">
+        <input id="ix-in" class="field" data-i18n-ph="ix.checkPh" placeholder="Sprawdź lek, suplement, jedzenie…" autocomplete="off">
+        <button class="btn ghost sm" id="ix-check" data-i18n="ix.check">Sprawdź</button>
+      </div>
+      <div id="ix-out"></div>
+      <p class="note" data-i18n="ix.note" style="margin-top:10px">Informacyjnie — potwierdź z lekarzem lub farmaceutą.</p>
+    </div>
   </section>
 
   <!-- ROZMOWY -->
@@ -295,18 +307,6 @@
       </div>
     </div>
 
-    <!-- Interakcje leków (#7) -->
-    <div class="card">
-      <div class="klbl" data-i18n="ix.title">Interakcje leków</div>
-      <div id="ix-known" class="d-list"></div>
-      <div class="d-form">
-        <input id="ix-in" class="field" data-i18n-ph="ix.checkPh" placeholder="Sprawdź lek, suplement, jedzenie…" autocomplete="off">
-        <button class="btn ghost sm" id="ix-check" data-i18n="ix.check">Sprawdź</button>
-      </div>
-      <div id="ix-out"></div>
-      <p class="note" data-i18n="ix.note" style="margin-top:10px">Informacyjnie — potwierdź z lekarzem lub farmaceutą.</p>
-    </div>
-
     <!-- Wizyty -->
     <div class="card">
       <div class="klbl" data-i18n="d.visits">Wizyty</div>
@@ -348,11 +348,11 @@
     <p class="muted" data-i18n="pf.p" style="margin-top:12px">Profil jest szyfrowany Twoim kluczem i synchronizuje się między urządzeniami.</p>
 
     <div class="card">
-      <div class="klbl" data-i18n="pf.pseudo">Pseudonim (nazwa wyświetlana)</div>
+      <div class="klbl" data-i18n="pf.pseudo">Twoja nazwa</div>
       <input id="pf-pseudo" class="field" maxlength="32" autocomplete="off" spellcheck="false">
-      <div class="klbl" data-i18n="pf.handle" style="margin-top:14px">Twój adres w Kręgu (na niego piszą do Ciebie)</div>
+      <div class="klbl" data-i18n="pf.handle" style="margin-top:14px">Twój adres w Kręgu — po nim inni Cię znajdują</div>
       <div class="mono" id="pf-handle" style="margin-top:4px">…</div>
-      <p class="note" data-i18n="pf.handleHint" style="margin-top:6px">Powstaje z Twojego klucza i nigdy się nie zmienia.</p>
+      <p class="note" data-i18n="pf.handleHint" style="margin-top:6px">Powstaje z Twojego klucza i nigdy się nie zmienia. Nazwę zmienisz, adres zostaje.</p>
     </div>
 
     <div class="card">

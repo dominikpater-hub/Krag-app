@@ -25,8 +25,9 @@ import { roomPeerKey, isRoomPeer, roomIdFromPeer, parseRoomPayload, fanout } fro
 import { put, get, all, requestPersist } from './lib/db.js';
 import { $, toast, escapeHtml, fmt, getI18nLang } from './lib/dom.js';
 import { show } from './lib/nav.js';
-import { initDiary, renderDiary, renderDiaryStatus } from './lib/diary.js';
+import { initDiary, renderDiary, renderDiaryStatus, refreshInteractions } from './lib/diary.js';
 import { wantsClinic, resolveClinics, resolveByCoords, CLINIC_CITIES } from './lib/clinics.js';
+import { srcUrl } from './lib/sources.js';
 
 'use strict';
 
@@ -775,6 +776,11 @@ function idaBubble(who, html, src) {
   return d;
 }
 function trustHtml(c) { const x = confBadge(c); return `<span class="trust ${x[0]}">${t('trust.' + x[0])}</span>`; }
+// Nazwa źródła jako link do strony źródłowej (jeśli znamy URL); inaczej zwykły tekst.
+function srcHtml(name) {
+  const u = srcUrl(name);
+  return u ? `<a href="${escapeHtml(u)}" target="_blank" rel="noopener" class="srclink">${escapeHtml(name)}</a>` : escapeHtml(name);
+}
 // toast zależny od płci językowej (M/Ż/neutralnie)
 function gwt(base) { const suf = profile.gram === 'm' ? 'M' : profile.gram === 'f' ? 'F' : 'N'; return t('toast.' + base + suf); }
 
@@ -825,7 +831,7 @@ function renderHit(hit) {
   if (hit.follow) body = `<div class="ctx">${t('ida.inThread')}${BLOCKNAME[hit.block] || hit.block}</div>` + body;
   if (hit.block === 'pep' || hit.block === 'ekspozycja') body = `<div class="urg">${t('ida.clock')}</div>` + body;
   const uniq = {}; hit.facts.forEach((f) => { uniq[f.s] = f.c; });
-  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + escapeHtml(nm)).join('<br>');
+  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + srcHtml(nm)).join('<br>');
   src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
   idaBubble('ida', body, src);
 }
@@ -883,7 +889,7 @@ async function idaAsk(q) {
 function renderAi(res) {
   const used = (res.usedFactIds || []).map((id) => FACTS.find((f) => f.id === id)).filter(Boolean);
   const uniq = {}; used.forEach((f) => { uniq[f.s] = f.c; });
-  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + escapeHtml(nm)).join('<br>');
+  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + srcHtml(nm)).join('<br>');
   src += `<br><span class="aitag">${t('ai.badge')}</span>`;
   src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
   const body = escapeHtml(res.answer).replace(/\n/g, '<br>');
@@ -974,6 +980,7 @@ function renderLibraryList() {
     return `<div class="libcard" data-path="${p.id}"><div class="lc-t">${escapeHtml(nm)}${p.urgent ? ' ⏱' : ''}</div><div class="lc-s">${escapeHtml(lead)}</div><div class="lc-n">${n} ${t('lib.facts')}</div></div>`;
   }).join('');
   body.querySelectorAll('[data-path]').forEach((e) => e.addEventListener('click', () => openLibPath(e.dataset.path)));
+  refreshInteractions();   // #5: narzędzie interakcji w Bibliotece (czyta leki z Dziennika)
 }
 function openLibPath(id) {
   const P = getI18nLang(); const p = PATHS_DB.find((x) => x.id === id); if (!p) return;
@@ -986,7 +993,7 @@ function openLibPath(id) {
     html += `<div class="lib-block"><div class="klbl">${escapeHtml(BLOCKNAME[b] || b)}</div>`;
     for (const f of fs) {
       const x = confBadge(f.c);
-      html += `<div class="lib-fact"><p>${f.w}</p><div class="srcline"><span class="trust ${x[0]}">${t('trust.' + x[0])}</span>${escapeHtml(f.s)}</div></div>`;
+      html += `<div class="lib-fact"><p>${f.w}</p><div class="srcline"><span class="trust ${x[0]}">${t('trust.' + x[0])}</span>${srcHtml(f.s)}</div></div>`;
     }
     html += '</div>';
   }

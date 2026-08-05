@@ -129,6 +129,10 @@ async function main() {
   await page.click('#lib-body [data-path]');
   await page.waitForFunction(() => document.querySelector('#lib-body .lib-fact'), { timeout: 5000 });
   ok(true, 'biblioteka: ścieżka → fakty z etykietą źródła');
+  // #3: nazwa źródła klikalna (link do strony źródłowej)
+  ok(await page.$('#lib-body a.srclink[href^="http"]') !== null, 'biblioteka: nazwa źródła jest klikalnym linkiem');
+  // #5: narzędzie interakcji leków przeniesione do Biblioteki
+  ok(await page.$('#lib-ix #ix-check') !== null, 'biblioteka: jest narzędzie „Interakcje leków"');
   await page.click('#lib-back');
   await page.waitForSelector('#s-ida.on');
 
