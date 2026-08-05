@@ -28,6 +28,7 @@ import { show } from './lib/nav.js';
 import { initDiary, renderDiary, renderDiaryStatus, refreshInteractions } from './lib/diary.js';
 import { wantsClinic, resolveClinics, resolveByCoords, CLINIC_CITIES } from './lib/clinics.js';
 import { srcUrl } from './lib/sources.js';
+import { factText, factTranslated } from './lib/facts-i18n.js';
 
 'use strict';
 
@@ -822,9 +823,10 @@ function findFactsByBlock(b) {
   return FACTS.filter((f) => f.b === b).slice(0, 3);
 }
 function renderHit(hit) {
-  // Fakty medyczne zostają PO POLSKU (treść tylko z podpisem); poza PL dokładamy etykietę „źródło: polski".
-  let body = hit.facts.map((f) => `<p>${f.w}</p>`).join('');
-  if (getI18nLang() !== 'pl') body = `<div class="ctx">${t('ida.srcPl')}</div>` + body;
+  // Fakty tłumaczone per język (display-only). Jeśli brak tłumaczenia danego faktu → PL + etykieta „źródło: polski".
+  const L = getI18nLang();
+  let body = hit.facts.map((f) => `<p>${factText(f, L)}</p>`).join('');
+  if (L !== 'pl' && hit.facts.some((f) => !factTranslated(f, L))) body = `<div class="ctx">${t('ida.srcPl')}</div>` + body;
   if (hit.unsure) body = `<div class="ctx">${t('ida.unsure')}</div>` + body;
   if (hit.bound) body = `<p><b>${t('ida.bound')}</b></p>` + body;
   if (!isPos() && (hit.block === 'uu' || hit.block === 'transmisja')) body = `<div class="ctx">${t('ida.negctx')}</div>` + body;
@@ -986,14 +988,15 @@ function openLibPath(id) {
   const P = getI18nLang(); const p = PATHS_DB.find((x) => x.id === id); if (!p) return;
   const nm = (p.n && (p.n[P] || p.n.pl)) || p.id;
   let html = `<div class="libcard" data-lib-back="1"><div class="lc-t">‹ ${escapeHtml(nm)}</div></div>`;
-  if (P !== 'pl') html += `<div class="ctx">${t('ida.srcPl')}</div>`;
+  const pathFacts = FACTS.filter((f) => p.blocks.includes(f.b));
+  if (P !== 'pl' && pathFacts.some((f) => !factTranslated(f, P))) html += `<div class="ctx">${t('ida.srcPl')}</div>`;
   for (const b of p.blocks) {
     const fs = FACTS.filter((f) => f.b === b);
     if (!fs.length) continue;
     html += `<div class="lib-block"><div class="klbl">${escapeHtml(BLOCKNAME[b] || b)}</div>`;
     for (const f of fs) {
       const x = confBadge(f.c);
-      html += `<div class="lib-fact"><p>${f.w}</p><div class="srcline"><span class="trust ${x[0]}">${t('trust.' + x[0])}</span>${srcHtml(f.s)}</div></div>`;
+      html += `<div class="lib-fact"><p>${factText(f, P)}</p><div class="srcline"><span class="trust ${x[0]}">${t('trust.' + x[0])}</span>${srcHtml(f.s)}</div></div>`;
     }
     html += '</div>';
   }

@@ -64,15 +64,15 @@ async function main() {
   ok((await page.textContent('#pf-save')) === 'Save and sync', 'profil przetłumaczony na EN');
   ok((await page.textContent('.tab[data-tab="ida"] span:last-child')) === 'Ida', 'zakładki po EN');
 
-  // Ida wita po angielsku (jeden z wariantów) i odpowiada, fakt PL z etykietą źródła
+  // Ida wita po angielsku i odpowiada — fakt jest TŁUMACZONY na angielski (#4), bez „source: Polish"
   await page.click('.tab[data-tab="ida"]'); await page.waitForSelector('#s-ida.on');
   await page.waitForFunction(() => /(see you|glad you|talk about|ask me|What does)/i.test(document.querySelector('#ida-log')?.textContent || ''), { timeout: 8000 });
   ok(true, 'Ida wita po angielsku (wariant powitania)');
   await page.fill('#ida-input', 'co to znaczy niewykrywalny'); await page.click('#ida-send');
   await page.waitForFunction(() => document.querySelectorAll('#ida-log .ida-msg.ida').length >= 2, { timeout: 8000 });
   const html = await page.evaluate(() => [...document.querySelectorAll('#ida-log .ida-msg.ida')].pop().innerHTML);
-  ok(/source: Polish/.test(html), 'poza PL: fakt oznaczony „source: Polish"');
-  ok(/niewykrywaln/i.test(html), 'sam fakt pozostaje po polsku (treść medyczna)');
+  ok(/undetectable|viral load/i.test(html), 'fakt przetłumaczony na angielski (nie po polsku)');
+  ok(!/source: Polish/.test(html) && !/niewykrywaln/i.test(html), 'brak etykiety „source: Polish" — fakt jest w języku UI');
 
   // przełącz na ukraiński — sprawdź inny ekran
   await page.click('.tab[data-tab="profile"]'); await page.waitForSelector('#s-profile.on');
@@ -89,12 +89,12 @@ async function main() {
   await page.selectOption('#pf-lang', 'de'); await page.click('#pf-save');
   await page.waitForFunction(() => document.querySelector('#pf-save')?.textContent === 'Speichern und synchronisieren', { timeout: 5000 });
   ok((await page.textContent('#pf-save')) === 'Speichern und synchronisieren', 'de → interfejs po niemiecku (pełne tłumaczenie)');
-  // fakt medyczny nadal po polsku, z etykietą źródła (reguła podpisu człowieka)
+  // #4: fakt medyczny jest teraz PO NIEMIECKU (tłumaczony), bez etykiety „źródło: polski"
   await page.click('.tab[data-tab="ida"]'); await page.waitForSelector('#s-ida.on');
   await page.fill('#ida-input', 'co to znaczy niewykrywalny'); await page.click('#ida-send');
   await page.waitForFunction(() => document.querySelectorAll('#ida-log .ida-msg.ida').length >= 2, { timeout: 8000 });
   const deHtml = await page.evaluate(() => [...document.querySelectorAll('#ida-log .ida-msg.ida')].pop().innerHTML);
-  ok(/niewykrywaln/i.test(deHtml), 'de: fakt medyczny nadal po polsku (treść z podpisem)');
+  ok(/nicht nachweisbar|Viruslast/i.test(deHtml) && !/niewykrywaln/i.test(deHtml), 'de: fakt medyczny przetłumaczony na niemiecki');
 
   console.log(`\n=== ${pass} PASS · ${fail} FAIL ===`);
   await browser.close();
