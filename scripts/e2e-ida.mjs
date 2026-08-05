@@ -112,6 +112,14 @@ async function main() {
   ok(/Śniadeckich 10/.test(html) && /tel:/.test(html), 'miasto „Kraków" → adres poradni + telefon (dane KC ds. AIDS)');
   ok(/gov\.pl/.test(html), 'adresy placówek mają źródło (KC ds. AIDS)');
 
+  // 5c) #3 „najbliższe placówki": miasto bez własnej poradni (Bytom) → wskazuje najbliższą (Chorzów)
+  const nB2 = await page.evaluate(() => document.querySelectorAll('#ida-log .ida-msg.ida').length);
+  await page.fill('#ida-input', 'gdzie do lekarza w Bytomiu');
+  await page.click('#ida-send');
+  await page.waitForFunction((n) => document.querySelectorAll('#ida-log .ida-msg.ida').length > n, nB2, { timeout: 8000 });
+  html = await lastIda(page);
+  ok(/Zjednoczenia 10/.test(html), 'miasto bez poradni (Bytom) → wskazuje najbliższą placówkę (Chorzów)');
+
   // 3b) biblioteka wiedzy: otwórz, wejdź w ścieżkę, zobacz fakty
   await page.click('#ida-lib');
   await page.waitForSelector('#s-library.on');

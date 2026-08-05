@@ -26,7 +26,7 @@ import { put, get, all, requestPersist } from './lib/db.js';
 import { $, toast, escapeHtml, fmt, getI18nLang } from './lib/dom.js';
 import { show } from './lib/nav.js';
 import { initDiary, renderDiary, renderDiaryStatus } from './lib/diary.js';
-import { wantsClinic, findClinics, CLINIC_CITIES } from './lib/clinics.js';
+import { wantsClinic, resolveClinics, resolveByCoords, CLINIC_CITIES } from './lib/clinics.js';
 
 'use strict';
 
@@ -821,13 +821,13 @@ async function idaAsk(q) {
   // (żeby „lekarza" nie trafiało w „lek"). Po ustaleniu miasta → konkretne adresy poradni.
   if (idaAwaitCity) {
     idaAwaitCity = false;
-    const found = findClinics(q);
-    if (found.length) { setTimeout(() => renderClinics(found), 180); return; }
+    const r = resolveClinics(q);
+    if (r.mode !== 'none') { setTimeout(() => renderClinics(r), 180); return; }
     setTimeout(clinicNone, 180); return;
   }
   if (wantsClinic(q)) {
-    const found = findClinics(q);
-    if (found.length) { setTimeout(() => renderClinics(found), 180); return; }
+    const r = resolveClinics(q);
+    if (r.mode !== 'none') { setTimeout(() => renderClinics(r), 180); return; }
     setTimeout(askClinicCity, 180); return;
   }
   // „Ida Rozumie" (opt-in): LLM rozumie i formułuje z NASZYCH faktów. Kryzys/leki już
@@ -869,35 +869,58 @@ function renderAi(res) {
     d.querySelectorAll('[data-ai-help]').forEach((e) => e.addEventListener('click', () => show('help')));
   }
 }
-// #3: ośrodki leczące HIV — po ustaleniu miasta. Adresy zostają po polsku (fakty),
-// zawsze z telefonem i prośbą o potwierdzenie (dane bywają nieaktualne).
-function renderClinics(groups) {
+// #3: ośrodki leczące HIV — po ustaleniu miasta LUB lokalizacji. Adresy zostają po polsku
+// (fakty), zawsze z telefonem i prośbą o potwierdzenie (dane bywają nieaktualne).
+function renderClinics(r) {
+  const groups = r.groups || [];
+  const near = r.mode === 'nearest' || r.mode === 'nearby';
   const body = groups.map((g) => {
     const items = g.list.map((c) => {
       const tel = c.tel.replace(/[^0-9+]/g, '');
       const kids = c.kids ? ` <span class="ctx" style="display:inline">(${t('ida.clinicKids')})</span>` : '';
       return `<p><b>${escapeHtml(c.name)}</b>${kids}<br>${escapeHtml(c.addr)}<br><a href="tel:${tel}">${escapeHtml(c.tel)}</a></p>`;
     }).join('');
-    return `<div class="klbl" style="margin-top:8px">${escapeHtml(g.city)}</div>${items}`;
+    const km = (near && typeof g.km === 'number') ? ` <span class="ctx" style="display:inline">· ~${g.km} km</span>` : '';
+    return `<div class="klbl" style="margin-top:8px">${escapeHtml(g.city)}${km}</div>${items}`;
   }).join('');
+  const intro = r.mode === 'nearest' ? t('ida.clinicNear', { city: r.city })
+    : r.mode === 'nearby' ? t('ida.clinicNearby') : t('ida.clinicIntro');
   const foot = `<p class="muted" style="margin-top:6px">${t('ida.clinicConfirm')}</p>`;
-  const d = idaBubble('ida', `<div class="ctx">${t('ida.clinicIntro')}</div>${body}${foot}
+  const d = idaBubble('ida', `<div class="ctx">${escapeHtml(intro)}</div>${body}${foot}
     <div class="starters"><button class="chip sm help" type="button" data-help="1">${escapeHtml(t('ida.clinicMore'))}</button></div>`,
   t('ida.clinicSrc'));
   d.querySelectorAll('[data-help]').forEach((e) => e.addEventListener('click', () => show('help')));
 }
+// Przycisk „najbliższe wg lokalizacji" — współrzędne liczone lokalnie, NIE opuszczają urządzenia.
+function geoChipHtml() {
+  return ('geolocation' in navigator)
+    ? `<button class="chip sm" type="button" data-geo="1">📍 ${escapeHtml(t('ida.clinicGeo'))}</button>` : '';
+}
+function wireCityChips(d) {
+  d.querySelectorAll('[data-city]').forEach((e) => e.addEventListener('click', () => { idaAwaitCity = true; $('#ida-input').value = ''; idaAsk(e.dataset.city); }));
+  d.querySelectorAll('[data-help]').forEach((e) => e.addEventListener('click', () => show('help')));
+  d.querySelectorAll('[data-geo]').forEach((e) => e.addEventListener('click', () => useGeoClinics()));
+}
+function useGeoClinics() {
+  idaAwaitCity = false;
+  const wait = idaBubble('ida', `<span class="muted">${t('ida.clinicLocating')}</span>`);
+  navigator.geolocation.getCurrentPosition(
+    (pos) => { wait.remove(); renderClinics(resolveByCoords(pos.coords.latitude, pos.coords.longitude)); },
+    () => { wait.remove(); const d = idaBubble('ida', `<p>${escapeHtml(t('ida.clinicGeoNo'))}</p><div class="starters">${CLINIC_CITIES.map((c) => `<button class="chip sm" data-city="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join('')}</div>`); idaAwaitCity = true; wireCityChips(d); },
+    { timeout: 10000, maximumAge: 600000 },
+  );
+}
 function askClinicCity() {
   const chips = CLINIC_CITIES.map((c) => `<button class="chip sm" data-city="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join('');
-  const d = idaBubble('ida', `<p>${escapeHtml(t('ida.clinicAsk'))}</p><div class="starters">${chips}</div>`);
+  const d = idaBubble('ida', `<p>${escapeHtml(t('ida.clinicAsk'))}</p><div class="starters">${geoChipHtml()}${chips}</div>`);
   idaAwaitCity = true;
-  d.querySelectorAll('[data-city]').forEach((e) => e.addEventListener('click', () => { idaAwaitCity = true; $('#ida-input').value = ''; idaAsk(e.dataset.city); }));
+  wireCityChips(d);
 }
 function clinicNone() {
   const chips = CLINIC_CITIES.map((c) => `<button class="chip sm" data-city="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join('');
-  const d = idaBubble('ida', `<p>${escapeHtml(t('ida.clinicNone'))}</p><div class="starters">${chips}<button class="chip sm help" type="button" data-help="1">${escapeHtml(t('ida.clinicMore'))}</button></div>`);
+  const d = idaBubble('ida', `<p>${escapeHtml(t('ida.clinicNone'))}</p><div class="starters">${geoChipHtml()}${chips}<button class="chip sm help" type="button" data-help="1">${escapeHtml(t('ida.clinicMore'))}</button></div>`);
   idaAwaitCity = true;
-  d.querySelectorAll('[data-city]').forEach((e) => e.addEventListener('click', () => { idaAwaitCity = true; $('#ida-input').value = ''; idaAsk(e.dataset.city); }));
-  d.querySelectorAll('[data-help]').forEach((e) => e.addEventListener('click', () => show('help')));
+  wireCityChips(d);
 }
 function idaFirstOpen() {
   if (idaStarted) return;
