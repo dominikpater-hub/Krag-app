@@ -61,14 +61,15 @@ async function main() {
   { const g = await lastIda(page);
     ok(/data-q/.test(g) && /(zapyta|zaczynamy|porozmawiać|pytanie|widzie|jestem tu)/i.test(g), 'Ida wita krótko (wariant) + propozycje pytań, bez powielania onboardingu'); }
 
-  // 1) odpowiedź z bazy: U=U → fakt + etykieta źródła + ostrzeżenie bramki
+  // 1) odpowiedź z bazy: U=U → fakt + odznaka ŹRÓDŁA (P0-5), bez „podpisu lekarza"
   await page.fill('#ida-input', 'co to znaczy niewykrywalny');
   await page.click('#ida-send');
   await page.waitForFunction(() => document.querySelectorAll('#ida-log .ida-msg.ida').length >= 2, { timeout: 8000 });
   let html = await lastIda(page);
   ok(/niewykrywaln|u\s*=\s*u|nie przenosi|niezaka/i.test(html), 'U=U → merytoryczny fakt w odpowiedzi');
-  ok(/srcline/.test(html) && /trust/.test(html), 'odpowiedź ma etykietę zaufania + źródło');
-  ok(/gatewarn/.test(html), 'blok medyczny niesie ostrzeżenie o braku podpisu lekarza');
+  ok(/srcline/.test(html) && /trust (official|verified|community)/.test(html), 'odpowiedź ma odznakę źródła (urzędowe/zweryfikowane/społeczność)');
+  ok(/trust official/.test(html) && /urzędowe/i.test(html), 'fakt z gov.pl → „urzędowe" (bez wymogu podpisu lekarza)');
+  ok(!/gatewarn|podpisu lekarza/.test(html), 'brak fałszywego ostrzeżenia „potrzebny podpis lekarza"');
 
   // 2) reakcja kryzysowa z WTRĄCONYM słowem (SEC-01) — musi pokazać numer
   await page.fill('#ida-input', 'nie chce mi się już żyć po tej diagnozie');

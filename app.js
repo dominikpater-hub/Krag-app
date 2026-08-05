@@ -826,9 +826,8 @@ function renderHit(hit) {
   if (hit.block === 'pep' || hit.block === 'ekspozycja') body = `<div class="urg">${t('ida.clock')}</div>` + body;
   const uniq = {}; hit.facts.forEach((f) => { uniq[f.s] = f.c; });
   let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + escapeHtml(nm)).join('<br>');
-  const gate = (hit.facts[0] && hit.facts[0].gate) ? `<div class="gatewarn">${t('ida.gate')}</div>` : '';
   src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
-  idaBubble('ida', body + gate, src);
+  idaBubble('ida', body, src);
 }
 let idaAwaitCity = false;   // #3: czekamy na miasto po pytaniu „gdzie do lekarza?"
 let idaHistory = [];        // #6: skrócona historia tur do ciągłości „Idy Rozumie" (sam tekst)
@@ -887,9 +886,8 @@ function renderAi(res) {
   let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + escapeHtml(nm)).join('<br>');
   src += `<br><span class="aitag">${t('ai.badge')}</span>`;
   src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
-  const gate = used.some((f) => f.gate) ? `<div class="gatewarn">${t('ida.gate')}</div>` : '';
   const body = escapeHtml(res.answer).replace(/\n/g, '<br>');
-  idaBubble('ida', body + gate, src);
+  idaBubble('ida', body, src);
   if (res.refer === 'doctor' || res.refer === 'pomoc') {
     const d = idaBubble('ida', `<div class="starters"><button class="chip sm help" type="button" data-ai-help="1">${escapeHtml(t('help.open'))}</button></div>`);
     d.querySelectorAll('[data-ai-help]').forEach((e) => e.addEventListener('click', () => show('help')));
@@ -988,8 +986,7 @@ function openLibPath(id) {
     html += `<div class="lib-block"><div class="klbl">${escapeHtml(BLOCKNAME[b] || b)}</div>`;
     for (const f of fs) {
       const x = confBadge(f.c);
-      const gate = f.gate ? `<div class="gatewarn">${t('ida.gate')}</div>` : '';
-      html += `<div class="lib-fact"><p>${f.w}</p>${gate}<div class="srcline"><span class="trust ${x[0]}">${t('trust.' + x[0])}</span>${escapeHtml(f.s)}</div></div>`;
+      html += `<div class="lib-fact"><p>${f.w}</p><div class="srcline"><span class="trust ${x[0]}">${t('trust.' + x[0])}</span>${escapeHtml(f.s)}</div></div>`;
     }
     html += '</div>';
   }
