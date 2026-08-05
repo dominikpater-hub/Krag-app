@@ -243,10 +243,10 @@
     <div class="card">
       <div class="klbl" data-i18n="d.photos">Zdjęcia badań</div>
       <div id="d-photos" class="d-photos"></div>
-      <label class="btn" for="d-photo-in" data-i18n="d.addPhoto" style="text-align:center">Wgraj zdjęcie badań</label>
+      <label class="btn" for="d-photo-in" data-i18n="d.addPhoto" style="text-align:center;margin-bottom:6px">Wgraj zdjęcie badań</label>
       <input id="d-photo-in" type="file" accept="image/*" hidden>
       <div id="d-ocr-msg" class="note" style="margin-top:8px"></div>
-      <p class="note" data-i18n="d.photoHint" style="margin-top:6px">Wgraj zdjęcie wyniku — Ida spróbuje odczytać wartości i wpisać je niżej. Sprawdź i popraw. Zdjęcie zostaje na tym telefonie.</p>
+      <p class="note" data-i18n="d.photoHint" style="margin-top:16px">Wgraj zdjęcie wyniku — Ida spróbuje odczytać wartości i wpisać je niżej. Sprawdź i popraw. Zdjęcie zostaje na tym telefonie.</p>
     </div>
 
     <!-- #4: Wyniki i badania — CD4/wiremia + koinfekcje/inne badania w JEDNYM miejscu -->
@@ -372,6 +372,14 @@
         <option value="f" data-i18n="gram.f">W formie żeńskiej</option>
         <option value="m" data-i18n="gram.m">W formie męskiej</option>
       </select>
+    </div>
+
+    <!-- Widoczność i wsparcie (buddy/mentor + odnajdywalność) — steruje ogłoszeniem w katalogu -->
+    <div class="card">
+      <div class="klbl" data-i18n="pf.visTitle">Widoczność</div>
+      <label class="chk" style="margin-top:10px"><input type="checkbox" id="pf-mentor"> <span data-i18n="cat.mentorOffer">Mogę wspierać jako buddy/mentor</span></label>
+      <label class="chk" style="margin-top:10px"><input type="checkbox" id="pf-discover"> <span data-i18n="pf.discover">Pozwól innym znaleźć mnie i napisać</span></label>
+      <p class="note" data-i18n="pf.discoverHint" style="margin-top:8px">Widoczne dla członków Kręgu, bez lokalizacji GPS. Okolicę i tematy dodasz w „Znajdź kogoś do rozmowy". Działa po wdrożeniu serwera.</p>
     </div>
 
     <button class="btn" id="pf-save" data-i18n="pf.save">Zapisz i zsynchronizuj</button>

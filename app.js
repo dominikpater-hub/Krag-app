@@ -522,7 +522,10 @@ $('#cat-back').addEventListener('click', () => show('app'));
 $('#cat-search').addEventListener('click', catSearch);
 $('#cat-f-region').addEventListener('keydown', (e) => { if (e.key === 'Enter') catSearch(); });
 $('#cat-f-tag').addEventListener('keydown', (e) => { if (e.key === 'Enter') catSearch(); });
-async function openCatalog() { show('catalog'); await catSearch(); }
+async function openCatalog() {
+  const m = $('#cat-mentor'); if (m) m.checked = !!profile.mentor;   // spójność z przełącznikiem w Profilu
+  show('catalog'); await catSearch();
+}
 async function catSearch() {
   const box = $('#cat-list'); $('#cat-err').textContent = '';
   try {
@@ -539,12 +542,15 @@ async function catSearch() {
   } catch { box.innerHTML = ''; $('#cat-err').textContent = t('cat.offline'); }
 }
 $('#cat-publish').addEventListener('click', async () => {
-  try { await withAuth(() => api.catalogPut($('#cat-region').value.trim(), $('#cat-tags').value.trim(), $('#cat-bio').value.trim(), $('#cat-mentor').checked)); toast(t('d.saved')); await catSearch(); }
-  catch { $('#cat-err').textContent = t('cat.offline'); }
+  try {
+    await withAuth(() => api.catalogPut($('#cat-region').value.trim(), $('#cat-tags').value.trim(), $('#cat-bio').value.trim(), $('#cat-mentor').checked));
+    profile.mentor = $('#cat-mentor').checked; profile.discover = true; await persistProfile();   // spójność z Profilem
+    toast(t('d.saved')); await catSearch();
+  } catch { $('#cat-err').textContent = t('cat.offline'); }
 });
 $('#cat-f-mentor').addEventListener('change', catSearch);
 $('#cat-remove').addEventListener('click', async () => {
-  try { await withAuth(() => api.catalogDelete()); $('#cat-region').value = ''; $('#cat-tags').value = ''; $('#cat-bio').value = ''; toast(t('d.saved')); await catSearch(); }
+  try { await withAuth(() => api.catalogDelete()); $('#cat-region').value = ''; $('#cat-tags').value = ''; $('#cat-bio').value = ''; profile.discover = false; await persistProfile(); toast(t('d.saved')); await catSearch(); }
   catch { $('#cat-err').textContent = t('cat.offline'); }
 });
 async function startChatWith(peer) {
@@ -711,6 +717,8 @@ function renderProfile() {
   langSel.value = profile.lang || 'pl';
   $('#pf-role').value = profile.role || 'plhiv';
   $('#pf-gram').value = profile.gram || 'n';
+  if ($('#pf-mentor')) $('#pf-mentor').checked = !!profile.mentor;
+  if ($('#pf-discover')) $('#pf-discover').checked = !!profile.discover;
   if (account.master) {
     const code = encodeKeycode(account.master);
     $('#pf-kc-qr').innerHTML = qrSvg(code);
@@ -726,11 +734,24 @@ $('#pf-save').addEventListener('click', async () => {
   profile.lang = $('#pf-lang').value;
   profile.role = $('#pf-role').value;
   profile.gram = $('#pf-gram').value;
+  profile.mentor = !!($('#pf-mentor') && $('#pf-mentor').checked);
+  profile.discover = !!($('#pf-discover') && $('#pf-discover').checked);
   await persistProfile();
   applyProfile();
   $('#pf-err').textContent = '';
   toast(gwt('prof'));
   try { await backupVault(); } catch (e) { setSync('off'); }
+  // Widoczność → ogłoszenie w katalogu (best-effort; działa tylko z backendem).
+  // Zachowujemy okolicę/tematy/bio z formularza katalogu, jeśli je wpisano.
+  if (API_BASE) {
+    try {
+      if (profile.discover) {
+        await withAuth(() => api.catalogPut(($('#cat-region')?.value || '').trim(), ($('#cat-tags')?.value || '').trim(), ($('#cat-bio')?.value || '').trim(), profile.mentor));
+      } else {
+        await withAuth(() => api.catalogDelete());
+      }
+    } catch (e) { /* offline / brak backendu → zapamiętane w profilu, zsynchronizuje się później */ }
+  }
 });
 // #8: zgłoszenie zapotrzebowania na język (zapis lokalny; zsynchronizuje się, gdy będzie backend).
 $('#pf-lang-req').addEventListener('click', async () => {

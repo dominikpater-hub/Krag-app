@@ -105,6 +105,24 @@ async function main() {
   await A.page.waitForSelector('#thread-list .thread', { timeout: 15000 });
   ok(true, 'A: dostał wiadomość zainicjowaną z katalogu');
 
+  // NOWE: przełączniki w PROFILU (buddy/mentor + „pozwól innym znaleźć mnie") publikują ogłoszenie
+  const C = await onboard(browser); log('C:', C.pseudo);
+  await C.page.click('.tab[data-tab="profile"]'); await C.page.waitForSelector('#s-profile.on');
+  ok(await C.page.$('#pf-mentor') && await C.page.$('#pf-discover'), 'Profil: są przełączniki buddy/mentor + widoczność');
+  await C.page.check('#pf-mentor'); await C.page.check('#pf-discover');
+  await C.page.click('#pf-save'); await C.page.waitForTimeout(500);
+  await C.page.click('.tab[data-tab="app"]'); await C.page.waitForSelector('#s-app.on'); await C.page.click('#app-cat'); await C.page.waitForSelector('#s-catalog.on');
+  await C.page.click('#cat-search');
+  await C.page.waitForFunction((ps) => [...document.querySelectorAll('#cat-list .thread')].some((th) => th.textContent.includes(ps) && /buddy/i.test(th.textContent)), C.pseudo.split(' #')[0], { timeout: 8000 });
+  ok(true, 'C: włączenie widoczności w Profilu → ogłoszenie z odznaką buddy w katalogu');
+  // wyłączenie widoczności → ogłoszenie znika
+  await C.page.click('#cat-back'); await C.page.waitForSelector('#s-app.on');
+  await C.page.click('.tab[data-tab="profile"]'); await C.page.waitForSelector('#s-profile.on');
+  await C.page.uncheck('#pf-discover'); await C.page.click('#pf-save'); await C.page.waitForTimeout(500);
+  await C.page.click('.tab[data-tab="app"]'); await C.page.waitForSelector('#s-app.on'); await C.page.click('#app-cat'); await C.page.waitForSelector('#s-catalog.on'); await C.page.click('#cat-search');
+  await C.page.waitForFunction((ps) => ![...document.querySelectorAll('#cat-list .thread .nm')].some((n) => n.textContent.includes(ps)), C.pseudo.split(' #')[0], { timeout: 8000 });
+  ok(true, 'C: wyłączenie widoczności w Profilu → ogłoszenie znika z katalogu');
+
   console.log(`\n=== ${pass} PASS · ${fail} FAIL ===`);
   await browser.close();
   if (fail) throw new Error('E2E katalogu nie przeszło');
