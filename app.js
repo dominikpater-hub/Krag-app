@@ -26,6 +26,7 @@ import { put, get, all, requestPersist } from './lib/db.js';
 import { $, toast, escapeHtml, fmt, getI18nLang } from './lib/dom.js';
 import { show } from './lib/nav.js';
 import { initDiary, renderDiary, renderDiaryStatus } from './lib/diary.js';
+import { wantsClinic, findClinics, CLINIC_CITIES } from './lib/clinics.js';
 
 'use strict';
 
@@ -376,6 +377,9 @@ async function pullOnce() {
 async function renderThreads() {
   const threads = await all('threads');
   const box = $('#thread-list');
+  // Kartę „Porozmawiaj z ludźmi" pokazujemy tylko na starcie (brak rozmów) — potem
+  // wejście do katalogu/pokoi jest w nagłówku (Znajdź/Pokoje), bez dublowania.
+  const disc = $('#disc-card'); if (disc) disc.hidden = threads.length > 0;
   if (!threads.length) {
     box.innerHTML = `<div class="threads-empty">${t('app.empty')}</div>`;
     return;
@@ -807,19 +811,39 @@ function renderHit(hit) {
   src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
   idaBubble('ida', body + gate, src);
 }
+let idaAwaitCity = false;   // #3: czekamy na miasto po pytaniu „gdzie do lekarza?"
+let idaHistory = [];        // #6: skrócona historia tur do ciągłości „Idy Rozumie" (sam tekst)
 async function idaAsk(q) {
   idaBubble('me', q);
   if (risky(q)) { setTimeout(crisisReply, 200); return; }
   if (stopMeds(q)) { setTimeout(stopMedsReply, 200); return; }
+  // #3: „gdzie do lekarza / gdzie się leczyć" — przechwytujemy PRZED silnikiem faktów
+  // (żeby „lekarza" nie trafiało w „lek"). Po ustaleniu miasta → konkretne adresy poradni.
+  if (idaAwaitCity) {
+    idaAwaitCity = false;
+    const found = findClinics(q);
+    if (found.length) { setTimeout(() => renderClinics(found), 180); return; }
+    setTimeout(clinicNone, 180); return;
+  }
+  if (wantsClinic(q)) {
+    const found = findClinics(q);
+    if (found.length) { setTimeout(() => renderClinics(found), 180); return; }
+    setTimeout(askClinicCity, 180); return;
+  }
   // „Ida Rozumie" (opt-in): LLM rozumie i formułuje z NASZYCH faktów. Kryzys/leki już
   // obsłużone lokalnie powyżej. Przy błędzie/offline/niepewności → cichy fallback lokalny.
   if (profile.ai) {
     const thinking = idaBubble('ida', `<span class="muted">${t('ai.thinking')}</span>`);
     try {
-      const res = await withAuth(() => api.idaAsk(q, idaCandidates(q), getI18nLang()));
+      // Ciągłość: przekazujemy skrócony kontekst sprzed bieżącego pytania (sam tekst, anonimowo).
+      const res = await withAuth(() => api.idaAsk(q, idaCandidates(q), getI18nLang(), idaHistory.slice(-6)));
       thinking.remove();
       if (res && res.refer === 'crisis') { crisisReply(); return; }
-      if (res && res.confident && res.answer) { renderAi(res); return; }
+      if (res && res.confident && res.answer) {
+        idaHistory.push({ role: 'user', text: q }, { role: 'ida', text: res.answer });
+        if (idaHistory.length > 12) idaHistory = idaHistory.slice(-12);
+        renderAi(res); return;
+      }
     } catch (e) { thinking.remove(); /* offline / ai-off → lokalnie */ }
   }
   // Lokalnie (regułowo): pewny fakt wygrywa; emocje fallback; inaczej „nie zmyślam".
@@ -845,6 +869,36 @@ function renderAi(res) {
     d.querySelectorAll('[data-ai-help]').forEach((e) => e.addEventListener('click', () => show('help')));
   }
 }
+// #3: ośrodki leczące HIV — po ustaleniu miasta. Adresy zostają po polsku (fakty),
+// zawsze z telefonem i prośbą o potwierdzenie (dane bywają nieaktualne).
+function renderClinics(groups) {
+  const body = groups.map((g) => {
+    const items = g.list.map((c) => {
+      const tel = c.tel.replace(/[^0-9+]/g, '');
+      const kids = c.kids ? ` <span class="ctx" style="display:inline">(${t('ida.clinicKids')})</span>` : '';
+      return `<p><b>${escapeHtml(c.name)}</b>${kids}<br>${escapeHtml(c.addr)}<br><a href="tel:${tel}">${escapeHtml(c.tel)}</a></p>`;
+    }).join('');
+    return `<div class="klbl" style="margin-top:8px">${escapeHtml(g.city)}</div>${items}`;
+  }).join('');
+  const foot = `<p class="muted" style="margin-top:6px">${t('ida.clinicConfirm')}</p>`;
+  const d = idaBubble('ida', `<div class="ctx">${t('ida.clinicIntro')}</div>${body}${foot}
+    <div class="starters"><button class="chip sm help" type="button" data-help="1">${escapeHtml(t('ida.clinicMore'))}</button></div>`,
+  t('ida.clinicSrc'));
+  d.querySelectorAll('[data-help]').forEach((e) => e.addEventListener('click', () => show('help')));
+}
+function askClinicCity() {
+  const chips = CLINIC_CITIES.map((c) => `<button class="chip sm" data-city="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join('');
+  const d = idaBubble('ida', `<p>${escapeHtml(t('ida.clinicAsk'))}</p><div class="starters">${chips}</div>`);
+  idaAwaitCity = true;
+  d.querySelectorAll('[data-city]').forEach((e) => e.addEventListener('click', () => { idaAwaitCity = true; $('#ida-input').value = ''; idaAsk(e.dataset.city); }));
+}
+function clinicNone() {
+  const chips = CLINIC_CITIES.map((c) => `<button class="chip sm" data-city="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join('');
+  const d = idaBubble('ida', `<p>${escapeHtml(t('ida.clinicNone'))}</p><div class="starters">${chips}<button class="chip sm help" type="button" data-help="1">${escapeHtml(t('ida.clinicMore'))}</button></div>`);
+  idaAwaitCity = true;
+  d.querySelectorAll('[data-city]').forEach((e) => e.addEventListener('click', () => { idaAwaitCity = true; $('#ida-input').value = ''; idaAsk(e.dataset.city); }));
+  d.querySelectorAll('[data-help]').forEach((e) => e.addEventListener('click', () => show('help')));
+}
 function idaFirstOpen() {
   if (idaStarted) return;
   idaStarted = true;
@@ -853,8 +907,10 @@ function idaFirstOpen() {
   const hi = hellos[Math.floor(Math.random() * hellos.length)] || t('ida.hello');
   // Propozycje = najczęstsze pytania + JEDEN dymek do Pomocy (numery zaufania i placówki). #1
   const starters = ['ida.s1', 'ida.s2', 'ida.s3', 'ida.s4', 'ida.s5'].map((k) => t(k));
+  // #3: dymek „Gdzie do lekarza?" → po ustaleniu miasta konkretne adresy poradni.
+  const docChip = `<button class="chip sm" data-q="${escapeHtml(t('ida.docChip'))}">${escapeHtml(t('ida.docChip'))}</button>`;
   const helpChip = `<button class="chip sm help" type="button" data-help="1">${escapeHtml(t('ida.help1'))}</button>`;
-  idaBubble('ida', `<p>${escapeHtml(hi)}</p><div class="starters">${starters.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}${helpChip}</div>`);
+  idaBubble('ida', `<p>${escapeHtml(hi)}</p><div class="starters">${starters.map((s) => `<button class="chip sm" data-q="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}${docChip}${helpChip}</div>`);
   const log = $('#ida-log');
   log.querySelectorAll('[data-q]').forEach((e) => e.addEventListener('click', () => { const q = e.dataset.q; $('#ida-input').value = ''; idaAsk(q); }));
   log.querySelectorAll('[data-help]').forEach((e) => e.addEventListener('click', () => show('help')));

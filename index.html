@@ -109,8 +109,8 @@
     <div class="klbl" data-i18n="app.threads" style="margin-top:18px">Rozmowy</div>
     <div id="thread-list" class="threads"></div>
 
-    <!-- Poznaj ludzi (discovery-first, #10): nie trzeba nikogo znać -->
-    <div class="card" style="margin-top:14px">
+    <!-- Poznaj ludzi (discovery-first, #10): nie trzeba nikogo znać. Chowane, gdy są już rozmowy. -->
+    <div class="card" id="disc-card" style="margin-top:14px">
       <div class="klbl" data-i18n="app.discover">Poznaj ludzi</div>
       <p class="muted" data-i18n="app.discoverP" style="margin:6px 0 12px">Krąg łączy osoby, które przez to przechodzą. Nie musisz nikogo znać — zacznij od okolicy albo tematu.</p>
       <button class="btn" id="disc-cat" data-i18n="app.findPeople">Znajdź osoby w okolicy albo po temacie</button>
@@ -198,8 +198,6 @@
       <b data-i18n="help.pep">Po ryzykownym kontakcie (PEP)</b>
       <span class="hr-d" data-i18n="help.pepD">Im szybciej, tym lepiej — do 48–72 h. Zgłoś się na SOR lub do szpitala zakaźnego.</span>
     </div>
-
-    <p class="note" data-i18n="help.note" style="margin-top:12px">Numery mogą się zmieniać. Źródło: Krajowe Centrum ds. AIDS (aids.gov.pl).</p>
   </section>
 
   <!-- POKOJE TEMATYCZNE (#6/2) -->
@@ -241,9 +239,19 @@
     <!-- trener odporności (wpleciony, #8) — pojawia się gdy są wyniki -->
     <div id="coach-card"></div>
 
-    <!-- Wyniki + wykres trajektorii -->
+    <!-- #4: Zdjęcie badań NAJPIERW — wgraj, a odczytane wartości wpadną do „Wyniki i badania" niżej -->
     <div class="card">
-      <div class="klbl" data-i18n="d.results">Wyniki</div>
+      <div class="klbl" data-i18n="d.photos">Zdjęcia badań</div>
+      <div id="d-photos" class="d-photos"></div>
+      <label class="btn" for="d-photo-in" data-i18n="d.addPhoto" style="text-align:center">Wgraj zdjęcie badań</label>
+      <input id="d-photo-in" type="file" accept="image/*" hidden>
+      <div id="d-ocr-msg" class="note" style="margin-top:8px"></div>
+      <p class="note" data-i18n="d.photoHint" style="margin-top:6px">Wgraj zdjęcie wyniku — Ida spróbuje odczytać wartości i wpisać je niżej. Sprawdź i popraw. Zdjęcie zostaje na tym telefonie.</p>
+    </div>
+
+    <!-- #4: Wyniki i badania — CD4/wiremia + koinfekcje/inne badania w JEDNYM miejscu -->
+    <div class="card">
+      <div class="klbl" data-i18n="d.results">Wyniki i badania</div>
       <div id="d-chart" class="d-chart"></div>
       <div id="d-results" class="d-list"></div>
       <div class="d-form">
@@ -257,6 +265,20 @@
         </div>
         <button class="btn ghost sm" id="d-add-result" data-i18n="d.addResult">Dodaj wynik</button>
       </div>
+
+      <!-- #2/#4: koinfekcje i inne badania w tej samej karcie -->
+      <div class="klbl sub" data-i18n="d.cotests" style="margin-top:16px">Inne badania i koinfekcje</div>
+      <div id="ci-chips" class="bchips" style="margin:8px 0"></div>
+      <div id="d-cotests" class="d-list"></div>
+      <div class="d-form">
+        <input id="ci-name" class="field" maxlength="40" data-i18n-ph="d.cotestName" placeholder="Co badano" autocomplete="off">
+        <div class="d-row">
+          <input id="ci-result" class="field" maxlength="60" data-i18n-ph="d.cotestResult" placeholder="Wynik">
+          <input id="ci-date" class="field" type="date">
+        </div>
+        <button class="btn ghost sm" id="ci-add" data-i18n="d.addCotest">Dodaj badanie</button>
+      </div>
+      <p class="note" data-i18n="d.cotestHint" style="margin-top:8px">HIV to nie tylko HIV — śledź też koinfekcje i szczepienia.</p>
     </div>
 
     <!-- Leki -->
@@ -285,22 +307,6 @@
       <p class="note" data-i18n="ix.note" style="margin-top:10px">Informacyjnie — potwierdź z lekarzem lub farmaceutą.</p>
     </div>
 
-    <!-- Koinfekcje i inne badania (#2): HIV to nie tylko HIV -->
-    <div class="card">
-      <div class="klbl" data-i18n="d.cotests">Koinfekcje i inne badania</div>
-      <div id="ci-chips" class="bchips" style="margin:8px 0"></div>
-      <div id="d-cotests" class="d-list"></div>
-      <div class="d-form">
-        <input id="ci-name" class="field" maxlength="40" data-i18n-ph="d.cotestName" placeholder="Co badano" autocomplete="off">
-        <div class="d-row">
-          <input id="ci-result" class="field" maxlength="60" data-i18n-ph="d.cotestResult" placeholder="Wynik">
-          <input id="ci-date" class="field" type="date">
-        </div>
-        <button class="btn ghost sm" id="ci-add" data-i18n="d.addCotest">Dodaj badanie</button>
-      </div>
-      <p class="note" data-i18n="d.cotestHint" style="margin-top:8px">HIV to nie tylko HIV — śledź też koinfekcje i szczepienia.</p>
-    </div>
-
     <!-- Wizyty -->
     <div class="card">
       <div class="klbl" data-i18n="d.visits">Wizyty</div>
@@ -312,16 +318,6 @@
           <button class="btn ghost sm" id="d-add-visit" data-i18n="d.addVisit" style="white-space:nowrap">Dodaj wizytę</button>
         </div>
       </div>
-    </div>
-
-    <!-- Zdjęcia badań: jeden przycisk — zapisuje zdjęcie I odczytuje z niego wyniki (#3/#5/#7) -->
-    <div class="card">
-      <div class="klbl" data-i18n="d.photos">Zdjęcia badań</div>
-      <div id="d-photos" class="d-photos"></div>
-      <label class="btn ghost sm" for="d-photo-in" data-i18n="d.addPhoto" style="text-align:center">Wgraj zdjęcie badań</label>
-      <input id="d-photo-in" type="file" accept="image/*" hidden>
-      <div id="d-ocr-msg" class="note" style="margin-top:8px"></div>
-      <p class="note" data-i18n="d.photoHint" style="margin-top:6px">Wgraj zdjęcie wyniku — Ida spróbuje odczytać wartości do dziennika. Zdjęcie zostaje na tym telefonie.</p>
     </div>
 
     <!-- Notatki -->

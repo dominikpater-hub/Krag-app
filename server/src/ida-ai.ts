@@ -9,7 +9,9 @@
 import { httpError } from './repo.ts';
 
 export interface Fact { id: string; text: string; src?: string }
-export interface AiInput { q: string; facts: Fact[]; lang?: string }
+/** Tura rozmowy (kontekst ciągłości). TYLKO tekst — bez pseudonimu, kluczy, dziennika. */
+export interface Turn { role: 'user' | 'ida'; text: string }
+export interface AiInput { q: string; facts: Fact[]; lang?: string; history?: Turn[] }
 export interface AiOut { answer: string; usedFactIds: string[]; confident: boolean; refer: 'crisis' | 'doctor' | 'pomoc' | null }
 /** Wstrzykiwalny wywoływacz modelu (test podaje atrapę). Zwraca surowy tekst (JSON). */
 export type CallModel = (p: { system: string; user: string }) => Promise<string>;
@@ -22,6 +24,7 @@ export function systemPrompt(lang = 'pl'): string {
     'Odpowiadasz WYŁĄCZNIE na podstawie podanych FAKTÓW (baza Kręgu, treść podpisana przez ludzi).',
     'Nie dodawaj wiedzy spoza faktów. Nie podawaj żadnych liczb, numerów telefonu ani linków, których nie ma w faktach.',
     'Jeśli fakty nie odpowiadają na pytanie: ustaw confident=false, a w answer napisz krótko, że nie masz tego w bazie i warto zajrzeć do „Pomoc".',
+    'Możesz dostać skrócony PRZEBIEG ROZMOWY — użyj go tylko po to, by zrozumieć, o co pyta użytkownik teraz (ciągłość). Odpowiadaj nadal wyłącznie z FAKTÓW.',
     'Nie diagnozuj, nie prognozuj, nie oceniaj konkretnych wyników użytkownika (to nie jest wyrób medyczny).',
     'Jeśli pytanie sugeruje myśli samobójcze/kryzys → refer="crisis". Jeśli wymaga decyzji medycznej/leczenia → refer="doctor". Jeśli pyta o numery/placówki → refer="pomoc". W innym razie refer=null.',
     `Pisz zwięźle i po ludzku w języku „${lang}", ale treści medyczne cytuj po polsku (źródło jest polskie).`,
@@ -29,9 +32,12 @@ export function systemPrompt(lang = 'pl'): string {
   ].join('\n');
 }
 
-export function userPrompt(q: string, facts: Fact[]): string {
+export function userPrompt(q: string, facts: Fact[], history: Turn[] = []): string {
   const list = facts.map((f) => `[${f.id}] ${f.text}${f.src ? ' (źródło: ' + f.src + ')' : ''}`).join('\n');
-  return `PYTANIE UŻYTKOWNIKA:\n${q}\n\nDOSTĘPNE FAKTY (używaj tylko tych; cytuj ich id w usedFactIds):\n${list || '(brak)'}`;
+  const ctx = history.length
+    ? 'PRZEBIEG ROZMOWY (kontekst, nie źródło faktów):\n' + history.map((h) => `${h.role === 'ida' ? 'Ida' : 'Użytkownik'}: ${h.text}`).join('\n') + '\n\n'
+    : '';
+  return `${ctx}PYTANIE UŻYTKOWNIKA:\n${q}\n\nDOSTĘPNE FAKTY (używaj tylko tych; cytuj ich id w usedFactIds):\n${list || '(brak)'}`;
 }
 
 /** Parsuj + waliduj odpowiedź modelu. usedFactIds zawężone do faktycznie podanych. */
@@ -79,9 +85,13 @@ function mockModel(): CallModel {
 export async function idaAnswer(input: AiInput, deps: { callModel?: CallModel } = {}): Promise<AiOut> {
   const q = String(input?.q || '').slice(0, 2000).trim();
   const facts: Fact[] = Array.isArray(input?.facts) ? input.facts.slice(0, 40).map((f) => ({ id: String(f.id), text: String(f.text || '').slice(0, 600), src: f.src ? String(f.src).slice(0, 120) : undefined })) : [];
+  // Ciągłość rozmowy: ostatnie ~6 tur, sam tekst, przycięte. Nic z tożsamości/dziennika.
+  const history: Turn[] = Array.isArray(input?.history)
+    ? input.history.slice(-6).map((h) => ({ role: h?.role === 'ida' ? 'ida' : 'user', text: String(h?.text || '').slice(0, 500) })).filter((h) => h.text)
+    : [];
   if (!q) throw httpError(400, 'Puste pytanie');
   const call = deps.callModel || (process.env.IDA_MOCK === '1' ? mockModel() : defaultAnthropic());
   if (!call) throw httpError(503, 'ai-off');   // brak klucza → funkcja wyłączona
-  const raw = await call({ system: systemPrompt(input.lang), user: userPrompt(q, facts) });
+  const raw = await call({ system: systemPrompt(input.lang), user: userPrompt(q, facts, history) });
   return validate(raw, new Set(facts.map((f) => f.id)));
 }

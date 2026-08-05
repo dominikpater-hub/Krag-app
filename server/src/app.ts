@@ -186,9 +186,9 @@ export function buildApp(db: Queryable, opts: { trustProxy?: boolean } = {}): Fa
   // ——— Ida Rozumie (LLM proxy): klient przysyła pytanie + wybrane fakty; klucz API tylko z env ———
   app.post('/ida/ask', async (req) => {
     await requireAuth(req);
-    const { q, facts, lang } = (req.body as any) || {};
+    const { q, facts, lang, history } = (req.body as any) || {};
     requireFields({ q });
-    return idaAnswer({ q, facts, lang });
+    return idaAnswer({ q, facts, lang, history });
   });
 
   // ——— Moderacja (message franking) ———

@@ -98,6 +98,20 @@ async function main() {
   html = await lastIda(page);
   ok(/szczepie|koinfekc|wzw|gruzlic|kila/i.test(html) && !/nie mam tego w bazie/i.test(html), 'HPV → fakt o koinfekcjach/szczepieniach, nie odmowa');
 
+  // 5b) #3 „Gdzie do lekarza?" → Ida pyta o miasto → po podaniu miasta konkretny adres poradni
+  await page.fill('#ida-input', 'gdzie do lekarza?');
+  await page.click('#ida-send');
+  await page.waitForFunction(() => /mieście|data-city/i.test([...document.querySelectorAll('#ida-log .ida-msg.ida')].pop()?.innerHTML || ''), { timeout: 8000 });
+  html = await lastIda(page);
+  ok(/data-city/.test(html), '„gdzie do lekarza" → Ida pyta o miasto (chipy miast)');
+  const nBefore = await page.evaluate(() => document.querySelectorAll('#ida-log .ida-msg.ida').length);
+  await page.fill('#ida-input', 'Kraków');
+  await page.click('#ida-send');
+  await page.waitForFunction((n) => document.querySelectorAll('#ida-log .ida-msg.ida').length > n, nBefore, { timeout: 8000 });
+  html = await lastIda(page);
+  ok(/Śniadeckich 10/.test(html) && /tel:/.test(html), 'miasto „Kraków" → adres poradni + telefon (dane KC ds. AIDS)');
+  ok(/gov\.pl/.test(html), 'adresy placówek mają źródło (KC ds. AIDS)');
+
   // 3b) biblioteka wiedzy: otwórz, wejdź w ścieżkę, zobacz fakty
   await page.click('#ida-lib');
   await page.waitForSelector('#s-library.on');

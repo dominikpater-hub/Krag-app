@@ -62,7 +62,9 @@ async function main() {
 
   // Zapytaj — teraz idzie przez /ida/ask (atrapa) → ugruntowana odpowiedź z etykietą AI
   await page.click('.tab[data-tab="ida"]'); await page.waitForSelector('#s-ida.on');
-  await page.fill('#ida-input', 'gdzie mam iść do lekarza po diagnozie'); await page.click('#ida-send');
+  // Uwaga: pytania „gdzie do lekarza" przechwytuje teraz lokalny finder placówek (#3),
+  // więc do testu ścieżki AI używamy pytania wiedzowego (U=U).
+  await page.fill('#ida-input', 'co to znaczy niewykrywalny'); await page.click('#ida-send');
   await page.waitForFunction(() => /aitag/.test(document.querySelector('#ida-log')?.innerHTML || ''), { timeout: 10000 });
   const html = await page.innerHTML('#ida-log');
   ok(/aitag/.test(html), 'AI włączone → odpowiedź oznaczona etykietą „AI"');
