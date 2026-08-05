@@ -80,12 +80,21 @@ async function main() {
   await page.waitForTimeout(300);
   ok((await page.textContent('#pf-save')) === 'Зберегти та синхронізувати', 'profil przetłumaczony na UK');
 
-  // #4: język bez pełnego tłumaczenia (de) jest dostępny i spada na angielski (nie polski)
+  // #4: języki sąsiadów są teraz w PEŁNI przetłumaczone (de/cs/sk/be/lt) — nie fallback na angielski
   const hasDe = await page.$eval('#pf-lang', (s) => [...s.options].some((o) => o.value === 'de'));
-  ok(hasDe, 'selektor języka zawiera Deutsch (i inne do dopisania przez społeczność)');
+  ok(hasDe, 'selektor języka zawiera Deutsch (język sąsiada, w pełni przetłumaczony)');
+  // selektor nie ma już dopisku „(interfejs po angielsku)" — wszystkie z listy są pełne
+  const noPartial = await page.$eval('#pf-lang', (s) => ![...s.options].some((o) => o.textContent.includes('(')));
+  ok(noPartial, 'brak dopisku „(interfejs po angielsku)" — wszystkie języki z listy są pełne');
   await page.selectOption('#pf-lang', 'de'); await page.click('#pf-save');
-  await page.waitForFunction(() => document.querySelector('#pf-save')?.textContent === 'Save and sync', { timeout: 5000 });
-  ok((await page.textContent('#pf-save')) === 'Save and sync', 'de → UI po angielsku (fallback), nie po polsku');
+  await page.waitForFunction(() => document.querySelector('#pf-save')?.textContent === 'Speichern und synchronisieren', { timeout: 5000 });
+  ok((await page.textContent('#pf-save')) === 'Speichern und synchronisieren', 'de → interfejs po niemiecku (pełne tłumaczenie)');
+  // fakt medyczny nadal po polsku, z etykietą źródła (reguła podpisu człowieka)
+  await page.click('.tab[data-tab="ida"]'); await page.waitForSelector('#s-ida.on');
+  await page.fill('#ida-input', 'co to znaczy niewykrywalny'); await page.click('#ida-send');
+  await page.waitForFunction(() => document.querySelectorAll('#ida-log .ida-msg.ida').length >= 2, { timeout: 8000 });
+  const deHtml = await page.evaluate(() => [...document.querySelectorAll('#ida-log .ida-msg.ida')].pop().innerHTML);
+  ok(/niewykrywaln/i.test(deHtml), 'de: fakt medyczny nadal po polsku (treść z podpisem)');
 
   console.log(`\n=== ${pass} PASS · ${fail} FAIL ===`);
   await browser.close();
