@@ -50,26 +50,19 @@ async function main() {
   await page.goto(WEB);
   await page.click('#go-anon'); await page.waitForSelector('#s-ida.on', { timeout: 20000 });
 
-  // AI domyślnie WYŁĄCZone: brak etykiety AI, działa lokalnie
-  await page.fill('#ida-input', 'co to znaczy niewykrywalny'); await page.click('#ida-send');
-  await page.waitForFunction(() => document.querySelectorAll('#ida-log .ida-msg.ida').length >= 2, { timeout: 8000 });
-  ok(!/aitag/.test(await page.innerHTML('#ida-log')), 'AI domyślnie wyłączone (brak etykiety AI)');
-
-  // Włącz „Ida Rozumie" w Profilu
-  await page.click('.tab[data-tab="profile"]'); await page.waitForSelector('#s-profile.on');
-  await page.check('#pf-ai'); await page.click('#pf-save');
-  await page.waitForTimeout(300);
-
-  // Zapytaj — teraz idzie przez /ida/ask (atrapa) → ugruntowana odpowiedź z etykietą AI
-  await page.click('.tab[data-tab="ida"]'); await page.waitForSelector('#s-ida.on');
-  // Uwaga: pytania „gdzie do lekarza" przechwytuje teraz lokalny finder placówek (#3),
-  // więc do testu ścieżki AI używamy pytania wiedzowego (U=U).
+  // Ida rozumie OD RAZU: jest backend (atrapa modelu), więc pytanie wiedzowe idzie przez
+  // /ida/ask bez żadnego przełącznika. Uwaga: „gdzie do lekarza" przechwytuje lokalny
+  // finder placówek (#3), więc testujemy pytaniem wiedzowym (U=U).
   await page.fill('#ida-input', 'co to znaczy niewykrywalny'); await page.click('#ida-send');
   await page.waitForFunction(() => /aitag/.test(document.querySelector('#ida-log')?.innerHTML || ''), { timeout: 10000 });
   const html = await page.innerHTML('#ida-log');
-  ok(/aitag/.test(html), 'AI włączone → odpowiedź oznaczona etykietą „AI"');
-  ok(/faktów Kręgu|Circle facts/.test(html), 'odpowiedź AT ugruntowana (nota o faktach)');
+  ok(/aitag/.test(html), 'Ida rozumie od razu → odpowiedź z etykietą „AI" (bez przełącznika)');
+  ok(/faktów Kręgu|Circle facts/.test(html), 'odpowiedź AI ugruntowana (nota o faktach)');
   ok(/trust/.test(html), 'AI: etykiety zaufania z użytych faktów');
+
+  // W profilu NIE ma już przełącznika „Ida Rozumie" (Ida rozumie od początku)
+  await page.click('.tab[data-tab="profile"]'); await page.waitForSelector('#s-profile.on');
+  ok(!(await page.$('#pf-ai')), 'brak przełącznika „Ida Rozumie" w profilu');
 
   console.log(`\n=== ${pass} PASS · ${fail} FAIL ===`);
   await browser.close();

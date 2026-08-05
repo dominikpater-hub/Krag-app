@@ -45,7 +45,7 @@ const api = makeClient(API_BASE);
 const account = { authKeyPair: null, msgKeyPair: null, pubRaw: null, pseudo: null, master: null };
 // master: 32 bajty „Klucza Kręgu" (bytes). Z niego wyprowadzamy sejf (lib/vault.js).
 // Profil: pseudonim (nazwa wyświetlana), język, rola. Synchronizowany E2E przez sejf (lib/vault.js).
-const profile = { pseudonym: null, lang: 'pl', role: 'plhiv', gram: 'n', ai: false };
+const profile = { pseudonym: null, lang: 'pl', role: 'plhiv', gram: 'n' };
 // Forma gramatyczna zwracania się do użytkownika (płeć językowa): f/m/neutralna.
 const sessionKeys = new Map();   // peer -> CryptoKey (AES-GCM)
 const unread = new Map();        // peer -> liczba nieprzeczytanych
@@ -711,7 +711,6 @@ function renderProfile() {
   langSel.value = profile.lang || 'pl';
   $('#pf-role').value = profile.role || 'plhiv';
   $('#pf-gram').value = profile.gram || 'n';
-  const aiBox = $('#pf-ai'); if (aiBox) aiBox.checked = !!profile.ai;
   if (account.master) {
     const code = encodeKeycode(account.master);
     $('#pf-kc-qr').innerHTML = qrSvg(code);
@@ -727,7 +726,6 @@ $('#pf-save').addEventListener('click', async () => {
   profile.lang = $('#pf-lang').value;
   profile.role = $('#pf-role').value;
   profile.gram = $('#pf-gram').value;
-  profile.ai = !!($('#pf-ai') && $('#pf-ai').checked);
   await persistProfile();
   applyProfile();
   $('#pf-err').textContent = '';
@@ -830,10 +828,17 @@ async function idaAsk(q) {
     if (r.mode !== 'none') { setTimeout(() => renderClinics(r), 180); return; }
     setTimeout(askClinicCity, 180); return;
   }
-  // „Ida Rozumie" (opt-in): LLM rozumie i formułuje z NASZYCH faktów. Kryzys/leki już
-  // obsłużone lokalnie powyżej. Przy błędzie/offline/niepewności → cichy fallback lokalny.
-  if (profile.ai) {
-    const thinking = idaBubble('ida', `<span class="muted">${t('ai.thinking')}</span>`);
+  // Ida rozumie „od razu": gdy jest backend, formułuje z NASZYCH faktów przez model
+  // (anonimowo — tylko tekst pytania + fakty + kontekst; bez pseudonimu/kluczy/dziennika).
+  // Kryzys/leki/placówki obsłużone lokalnie powyżej. Bez backendu / przy błędzie →
+  // cichy fallback do silnika regułowego (Ida i tak odpowiada, najlepiej jak umie).
+  if (API_BASE) {
+    // Wskaźnik „Myślę…" celowo NIE jest wiadomością Idy (.ida-msg) — to ulotny status,
+    // znika po odpowiedzi/fallbacku i nie liczy się jako odpowiedź.
+    const thinking = document.createElement('div');
+    thinking.className = 'ida-thinking';
+    thinking.innerHTML = `<span class="muted">${t('ai.thinking')}</span>`;
+    const log0 = $('#ida-log'); log0.appendChild(thinking); log0.scrollTop = log0.scrollHeight;
     try {
       // Ciągłość: przekazujemy skrócony kontekst sprzed bieżącego pytania (sam tekst, anonimowo).
       const res = await withAuth(() => api.idaAsk(q, idaCandidates(q), getI18nLang(), idaHistory.slice(-6)));
