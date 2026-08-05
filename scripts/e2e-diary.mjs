@@ -81,20 +81,15 @@ async function main() {
   await page.waitForFunction(() => /Biktarvy/.test(document.querySelector('#d-meds')?.textContent || ''), { timeout: 5000 });
   ok(true, 'lek dodany');
 
-  // #5: interakcje żyją teraz w BIBLIOTECE — otwieramy ją (czyta leki z Dziennika)
-  await page.click('.tab[data-tab="ida"]'); await page.waitForSelector('#s-ida.on');
-  await page.click('#ida-lib'); await page.waitForSelector('#s-library.on');
-  // interakcje: Biktarvy (INSTI) → proaktywnie kationy; check „wapń" trafia, „paracetamol" nie
+  // #7: interakcje AUTOMATYCZNIE dla dodanego leku (Biktarvy = INSTI) — bez wpisywania
   await page.waitForFunction(() => /kation|calcium|integraz|integrase|wapń|Calcium/i.test(document.querySelector('#ix-known')?.textContent || ''), { timeout: 5000 });
-  ok(true, 'interakcje w Bibliotece: proaktywna flaga dla schematu z INSTI');
+  ok(true, 'interakcje: auto-flaga dla dodanego leku (INSTI → kationy), bez wpisywania');
   await page.fill('#ix-in', 'wapń z witaminą D'); await page.click('#ix-check');
   await page.waitForFunction(() => document.querySelector('#ix-out .ix-item.hi'), { timeout: 5000 });
   ok(true, 'check „wapń" → flaga interakcji (kationy)');
   await page.fill('#ix-in', 'paracetamol'); await page.click('#ix-check');
   await page.waitForFunction(() => document.querySelector('#ix-out .ix-item.ok'), { timeout: 5000 });
   ok(true, 'check „paracetamol" → brak znanej interakcji (uczciwie)');
-  await page.click('#lib-back'); await page.waitForSelector('#s-ida.on');
-  await page.click('.tab[data-tab="diary"]'); await page.waitForSelector('#s-diary.on');
 
   // wizyta
   await page.fill('#d-visit-title', 'Kontrola'); await page.click('#d-add-visit');

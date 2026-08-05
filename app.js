@@ -25,7 +25,7 @@ import { roomPeerKey, isRoomPeer, roomIdFromPeer, parseRoomPayload, fanout } fro
 import { put, get, all, requestPersist } from './lib/db.js';
 import { $, toast, escapeHtml, fmt, getI18nLang } from './lib/dom.js';
 import { show } from './lib/nav.js';
-import { initDiary, renderDiary, renderDiaryStatus, refreshInteractions } from './lib/diary.js';
+import { initDiary, renderDiary, renderDiaryStatus } from './lib/diary.js';
 import { wantsClinic, resolveClinics, resolveByCoords, CLINIC_CITIES } from './lib/clinics.js';
 import { srcUrl } from './lib/sources.js';
 import { factText, factTranslated } from './lib/facts-i18n.js';
@@ -982,7 +982,6 @@ function renderLibraryList() {
     return `<div class="libcard" data-path="${p.id}"><div class="lc-t">${escapeHtml(nm)}${p.urgent ? ' ⏱' : ''}</div><div class="lc-s">${escapeHtml(lead)}</div><div class="lc-n">${n} ${t('lib.facts')}</div></div>`;
   }).join('');
   body.querySelectorAll('[data-path]').forEach((e) => e.addEventListener('click', () => openLibPath(e.dataset.path)));
-  refreshInteractions();   // #5: narzędzie interakcji w Bibliotece (czyta leki z Dziennika)
 }
 function openLibPath(id) {
   const P = getI18nLang(); const p = PATHS_DB.find((x) => x.id === id); if (!p) return;
