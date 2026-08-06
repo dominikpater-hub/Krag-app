@@ -8,7 +8,7 @@
     "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/app.test.ts src/integration.test.ts",
+    "test": "tsx --test src/app.test.ts src/integration.test.ts src/ratelimit.test.ts",
     "test:browser": "node ../scripts/e2e-browser.mjs",
     "dev:memory": "tsx src/dev-memory.ts",
     "migrate": "tsx src/migrate.ts"

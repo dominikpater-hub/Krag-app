@@ -4,19 +4,25 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { newDb } from 'pg-mem';
-import { buildApp } from './app.ts';
+import { buildApp, type RateLimits } from './app.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const schema = readFileSync(join(here, '..', 'schema.sql'), 'utf8');
 
 let app: ReturnType<typeof buildApp>;
 
-before(() => {
+/** Świeża instancja (własna baza w pamięci). limits: nadpisania liczników S-1. */
+function freshApp(limits?: RateLimits) {
   const mem = newDb();
   mem.public.none(schema);
   const { Pool } = mem.adapters.createPg();
-  app = buildApp(new Pool());
-});
+  return buildApp(new Pool(), { limits });
+}
+
+// Wspólna instancja: limity podniesione, żeby zestaw testów nie wpadał we własne bramki S-1.
+const ROOMY = { authIp: 10_000, authHandle: 10_000, registerIp: 10_000, ida: 10_000, join: 10_000, keys: 10_000 };
+
+before(() => { app = freshApp(ROOMY); });
 
 // ——— pomocnicze: prawdziwe klucze P-256, jak w kliencie ———
 async function genKey() {
@@ -122,11 +128,69 @@ test('pełny przepływ: bootstrap → zaproszenie → rejestracja → klucze →
   assert.equal(bad.statusCode, 401);
 });
 
-test('bezpieczeństwo: brak tokenu jest odrzucany, nieznany pseudonim = 404', async () => {
+test('bezpieczeństwo: brak tokenu jest odrzucany', async () => {
   const noTok = await app.inject({ method: 'POST', url: '/invites' });
   assert.equal(noTok.statusCode, 401);
-  const ch = await app.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: 'Nikt #0000' } });
-  assert.equal(ch.statusCode, 404);
+});
+
+/* S-1: dawniej /auth/challenge zwracało 404 „Nieznany pseudonim" dla nieistniejącego konta,
+ * a 200 {nonce} dla istniejącego — czyli ktokolwiek mógł sprawdzić, czy dany uchwyt ma konto
+ * w Kręgu. W tej populacji to przesłanka o statusie zdrowotnym. Odpowiedzi muszą być
+ * NIEODRÓŻNIALNE. Poprzednia wersja tego testu utrwalała podatność (assert 404). */
+test('S-1: /auth/challenge nie zdradza, czy uchwyt ma konto', async () => {
+  const a = freshApp(ROOMY);
+  const kp = await genKey();
+  const real = 'Ciepły Wiatr #S101';
+  const boot = await a.inject({ method: 'POST', url: '/accounts/bootstrap',
+    payload: { pseudonym: real, publicKey: await rawPub(kp) } });
+  assert.equal(boot.statusCode, 200, boot.body);
+
+  const known = await a.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: real } });
+  const unknown = await a.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: 'Nikt Nieznany #0000' } });
+  assert.equal(known.statusCode, unknown.statusCode, 'ten sam kod odpowiedzi');
+  assert.equal(known.statusCode, 200);
+  assert.deepEqual(Object.keys(known.json()).sort(), Object.keys(unknown.json()).sort(), 'ten sam kształt odpowiedzi');
+  assert.ok(unknown.json().nonce, 'nieistniejący uchwyt też dostaje wyzwanie (ślepe)');
+});
+
+test('S-1: ślepe wyzwanie nie loguje, a błąd jest nieodróżnialny od złego podpisu', async () => {
+  const a = freshApp(ROOMY);
+  const kp = await genKey();
+  const real = 'Spokojna Rzeka #S102';
+  const boot = await a.inject({ method: 'POST', url: '/accounts/bootstrap',
+    payload: { pseudonym: real, publicKey: await rawPub(kp) } });
+  assert.equal(boot.statusCode, 200, boot.body);
+
+  const ghost = 'Duch Nieistniejacy #0000';
+  const chG = await a.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: ghost } });
+  const vGhost = await a.inject({ method: 'POST', url: '/auth/verify',
+    payload: { pseudonym: ghost, nonce: chG.json().nonce, signature: await sign(kp, chG.json().nonce) } });
+  assert.equal(vGhost.statusCode, 401, 'konto-widmo nie dostaje sesji');
+
+  const obcy = await genKey();
+  const chR = await a.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: real } });
+  const vBad = await a.inject({ method: 'POST', url: '/auth/verify',
+    payload: { pseudonym: real, nonce: chR.json().nonce, signature: await sign(obcy, chR.json().nonce) } });
+  assert.equal(vBad.statusCode, vGhost.statusCode);
+  assert.equal(vBad.json().error, vGhost.json().error, 'ten sam komunikat — brak wyroczni');
+});
+
+test('S-1: limit chroni przed uporczywym odpytywaniem o JEDEN uchwyt', async () => {
+  const a = freshApp({ authHandle: 3, authIp: 10_000 });
+  const target = 'Sprawdzany Uchwyt #S103';
+  let limited = false;
+  for (let i = 0; i < 8; i++) {
+    const r = await a.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: target } });
+    if (r.statusCode === 429) { limited = true; assert.ok(r.headers['retry-after'], 'jest Retry-After'); break; }
+  }
+  assert.ok(limited, 'po kilku próbach ten sam uchwyt musi zostać przytrzymany');
+});
+
+test('S-1: limit uchwytu nie blokuje INNYCH uchwytów (koszyki niezależne)', async () => {
+  const a = freshApp({ authHandle: 2, authIp: 10_000 });
+  for (let i = 0; i < 3; i++) await a.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: 'Jeden #0001' } });
+  const inny = await a.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: 'Drugi #0002' } });
+  assert.equal(inny.statusCode, 200, 'inny uchwyt działa normalnie');
 });
 
 test('otwarta rejestracja: bez PoW = 403; z poprawnym PoW = konto; duplikat = 409', async () => {
