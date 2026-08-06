@@ -50,11 +50,14 @@ export function buildApp(
   const limits = {
     authIp: createLimiter({ windowMs: 10 * MIN, max: L.authIp ?? envInt('KRAG_RL_AUTH_IP', 20) }),
     authHandle: createLimiter({ windowMs: 10 * MIN, max: L.authHandle ?? envInt('KRAG_RL_AUTH_HANDLE', 5) }),
-    /* Od S-2 fazy 2 dołączenie do pokoju zakłada osobne konto (tożsamość pokojowa), więc
-     * ten limit musi mieścić normalne używanie aplikacji. Do tego operatorzy komórkowi
-     * dzielą jeden adres między wielu ludzi (CGNAT) — zbyt ciasny limit odciąłby
-     * niewinnych. Realną ceną za konto jest dowód pracy; to jest zapora na zalew. */
-    registerIp: createLimiter({ windowMs: 60 * MIN, max: L.registerIp ?? envInt('KRAG_RL_REGISTER_IP', 30) }),
+    /* DECYZJA właściciela 2026-08-06: limit rejestracji per IP WYŁĄCZONY (0).
+     * Powód: od S-2 fazy 2 dołączenie do pokoju zakłada osobne konto (tożsamość pokojowa),
+     * a operatorzy komórkowi dzielą jeden adres między wielu abonentów (CGNAT) — taki limit
+     * trafiał głównie w przypadkowe osoby, a nie w napastnika (ten ma pulę adresów i VPN).
+     * Zaporą zostaje DOWÓD PRACY przy zakładaniu konta oraz limity per KONTO na /ida/ask
+     * (koszt modelu), /rooms/:id/join i /keys/:pseudonym.
+     * Włączenie z powrotem: KRAG_RL_REGISTER_IP=30 — bez zmian w kodzie. */
+    registerIp: createLimiter({ windowMs: 60 * MIN, max: L.registerIp ?? envInt('KRAG_RL_REGISTER_IP', 0) }),
     idaAcct: createLimiter({ windowMs: 10 * MIN, max: L.ida ?? envInt('KRAG_RL_IDA', 30) }),
     joinAcct: createLimiter({ windowMs: 60 * MIN, max: L.join ?? envInt('KRAG_RL_JOIN', 20) }),
     keysAcct: createLimiter({ windowMs: 10 * MIN, max: L.keys ?? envInt('KRAG_RL_KEYS', 60) }),

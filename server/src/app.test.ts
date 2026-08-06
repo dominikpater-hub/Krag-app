@@ -512,3 +512,24 @@ test('S-2: przedziały wielkości pokoju', async () => {
   assert.equal(sizeBucket(20), 'some');
   assert.equal(sizeBucket(21), 'many');
 });
+
+/* Decyzja właściciela 2026-08-06: rejestracja bez limitu na adres IP. Zaporą zostaje
+ * dowód pracy przy zakładaniu konta i limity per KONTO (koszt modelu, żniwo pokojów). */
+test('S-1: rejestracja domyślnie bez limitu per IP, ale nadal wymaga dowodu pracy', async () => {
+  const { createHash } = await import('node:crypto');
+  const lzb = (hex: string) => { let n = 0; for (const ch of hex) { const v = parseInt(ch, 16); if (v === 0) { n += 4; continue; } n += Math.clz32(v) - 28; break; } return n; };
+  const solve = (challenge: string, bits: number) => { for (let i = 0; ; i++) { if (lzb(createHash('sha256').update(`${challenge}:${i}`).digest('hex')) >= bits) return String(i); } };
+
+  const a = freshApp();   // BEZ nadpisań — sprawdzamy realne wartości domyślne
+  for (let i = 0; i < 8; i++) {
+    const kp = await genKey();
+    const { challenge, bits } = (await a.inject({ method: 'GET', url: '/pow' })).json();
+    const r = await a.inject({ method: 'POST', url: '/accounts/register',
+      payload: { pseudonym: `Ktoś Nowy #N${String(i).padStart(3, '0')}`, publicKey: await rawPub(kp), pow: { challenge, nonce: solve(challenge, bits) } } });
+    assert.equal(r.statusCode, 200, `rejestracja ${i + 1} nie może być zdławiona: ${r.body}`);
+  }
+  const kp = await genKey();
+  const bezPow = await a.inject({ method: 'POST', url: '/accounts/register',
+    payload: { pseudonym: 'Bez Dowodu #N999', publicKey: await rawPub(kp) } });
+  assert.equal(bezPow.statusCode, 403, 'dowód pracy zostaje jedyną zaporą');
+});

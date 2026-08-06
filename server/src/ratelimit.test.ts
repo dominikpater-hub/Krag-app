@@ -59,3 +59,20 @@ test('envInt: bierze wartość z env, odrzuca śmieci', () => {
   assert.equal(envInt('KRAG_TEST_RL', 7), 7, 'ujemna → domyślna');
   delete process.env.KRAG_TEST_RL;
 });
+
+/* Decyzja właściciela 2026-08-06: limit rejestracji per IP wyłączony (KRAG_RL_REGISTER_IP=0).
+ * Wyłączenie musi być prawdziwym przejściem — bez liczenia i bez zajmowania pamięci. */
+test('max = 0 wyłącza limit całkowicie', () => {
+  const lim = createLimiter({ windowMs: 1000, max: 0 });
+  for (let i = 0; i < 1000; i++) assert.ok(lim.check('ktokolwiek'), 'przepuszcza bez końca');
+  assert.equal(lim.retryAfter('ktokolwiek'), 0);
+  assert.equal(lim.size(), 0, 'wyłączony licznik nie trzyma nic w pamięci');
+});
+
+test('envInt: 0 jest prawidłową wartością i znaczy „wyłącz"', () => {
+  process.env.KRAG_TEST_RL0 = '0';
+  assert.equal(envInt('KRAG_TEST_RL0', 30), 0, 'nie wraca do domyślnej — 0 jest intencją');
+  process.env.KRAG_TEST_RL0 = '';
+  assert.equal(envInt('KRAG_TEST_RL0', 30), 30, 'pusty = brak ustawienia → domyślna');
+  delete process.env.KRAG_TEST_RL0;
+});

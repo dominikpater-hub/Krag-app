@@ -26,6 +26,11 @@ export interface LimiterOptions {
 }
 
 export function createLimiter({ windowMs, max, now = () => Date.now() }: LimiterOptions): Limiter {
+  // max <= 0 → limit WYŁĄCZONY. Przepuszczamy wszystko i nie trzymamy nic w pamięci,
+  // żeby wyłączony licznik nie był ukrytym kosztem.
+  if (max <= 0) {
+    return { check: () => true, retryAfter: () => 0, reset: () => {}, size: () => 0 };
+  }
   const hits = new Map<string, number[]>();
   let lastSweep = now();
 
@@ -62,10 +67,11 @@ export function createLimiter({ windowMs, max, now = () => Date.now() }: Limiter
   };
 }
 
-/** Odczyt liczby z env z bezpiecznym domyślnym (np. KRAG_RL_AUTH_MAX). */
+/** Odczyt liczby z env z bezpiecznym domyślnym (np. KRAG_RL_AUTH_IP).
+ *  0 jest wartością PRAWIDŁOWĄ i znaczy „wyłącz ten limit". */
 export function envInt(name: string, fallback: number): number {
   const raw = process.env[name];
-  if (!raw) return fallback;
+  if (raw === undefined || raw === '') return fallback;
   const n = Number(raw);
-  return Number.isFinite(n) && n > 0 ? Math.floor(n) : fallback;
+  return Number.isFinite(n) && n >= 0 ? Math.floor(n) : fallback;
 }
