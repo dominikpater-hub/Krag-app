@@ -951,10 +951,28 @@ function renderHit(hit) {
   if (!isPos() && (hit.block === 'uu' || hit.block === 'transmisja')) body = `<div class="ctx">${t('ida.negctx')}</div>` + body;
   if (hit.follow) body = `<div class="ctx">${t('ida.inThread')}${BLOCKNAME[hit.block] || hit.block}</div>` + body;
   if (hit.block === 'pep' || hit.block === 'ekspozycja') body = `<div class="urg">${t('ida.clock')}</div>` + body;
-  const uniq = {}; hit.facts.forEach((f) => { uniq[f.s] = f.c; });
+  idaBubble('ida', body, srcLine(hit.facts, L));
+}
+/* R-1a: stopka źródeł. Trzy rzeczy, które wcześniej były nieuczciwe:
+ * 1. Blok „granice" to NIE jest fakt medyczny, tylko zasada samego Kręgu (źródło „Projekt
+ *    Krąg"). Plakietka najniższego poziomu sugerowała „może niepewne", podczas gdy o
+ *    własnym działaniu jesteśmy najlepszym możliwym źródłem. Kategoria, nie wiarygodność.
+ * 2. Tłumaczenie maszynowe NIE dziedziczy autorytetu źródła — wiarygodność dotyczy
+ *    oryginału po polsku (R-1c). Wcześniej przetłumaczony fakt nosił tę samą plakietkę
+ *    i nic nie mówiło, że to tłumaczenie maszynowe.
+ * 3. Stopka „nikt z ludzi jeszcze tego nie sprawdził" przeczyła plakietce „urzędowe"
+ *    i decyzji P0-5 (o wiarygodności rozstrzyga autorytet źródła, nie podpis człowieka). */
+function srcLine(facts, L) {
+  if (facts.length && facts.every((f) => f.b === 'granice')) {
+    return `<span class="trust rule">${escapeHtml(t('trust.rule'))}</span>`;
+  }
+  const uniq = {}; facts.forEach((f) => { uniq[f.s] = f.c; });
   let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + srcHtml(nm)).join('<br>');
-  src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
-  idaBubble('ida', body, src);
+  if (L !== 'pl' && facts.some((f) => factTranslated(f, L))) {
+    src += `<br><span class="mtag">${escapeHtml(t('ida.mt'))}</span>`;
+  }
+  src += `<br><span style="opacity:.75">${t('ida.base', { ed: PROV.ed })}</span>`;
+  return src;
 }
 // K-3 „trend": dzielisz się własnym wynikiem bez pytania o ocenę/decyzję — to NIE jest
 // interpretacja medyczna (decyzja właściciela 2026-08-06). Ida nigdy nie ocenia liczby,
@@ -1028,7 +1046,7 @@ function renderAi(res) {
   const uniq = {}; used.forEach((f) => { uniq[f.s] = f.c; });
   let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + srcHtml(nm)).join('<br>');
   src += `<br><span class="aitag">${t('ai.badge')}</span>`;
-  src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
+  src += `<br><span style="opacity:.75">${t('ida.base', { ed: PROV.ed })}</span>`;
   const body = escapeHtml(res.answer).replace(/\n/g, '<br>');
   idaBubble('ida', body, src);
   if (res.refer === 'doctor' || res.refer === 'pomoc') {
@@ -1136,6 +1154,8 @@ function openLibPath(id) {
   let html = `<div class="libcard" data-lib-back="1"><div class="lc-t">‹ ${escapeHtml(nm)}</div></div>`;
   const pathFacts = FACTS.filter((f) => p.blocks.includes(f.b));
   if (P !== 'pl' && pathFacts.some((f) => !factTranslated(f, P))) html += `<div class="ctx">${t('ida.srcPl')}</div>`;
+  // R-1c: tłumaczenie maszynowe nie dziedziczy autorytetu — wiarygodność dotyczy oryginału.
+  if (P !== 'pl' && pathFacts.some((f) => factTranslated(f, P))) html += `<div class="ctx">${t('ida.mt')}</div>`;
   for (const b of p.blocks) {
     const fs = FACTS.filter((f) => f.b === b);
     if (!fs.length) continue;

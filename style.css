@@ -118,6 +118,10 @@ body.demo{--demo-pad:24px}
 .trust.official{background:rgba(126,155,119,.20);color:var(--moss)}
 .trust.verified{background:rgba(126,155,119,.12);color:var(--moss)}
 .trust.community{background:rgba(201,138,107,.16);color:var(--warn)}
+/* R-1a: „zasada Kręgu" to kategoria, nie poziom wiarygodności — neutralnie, bez ostrzeżenia. */
+.trust.rule{background:rgba(255,255,255,.07);color:var(--tx-2)}
+/* R-1c: znacznik tłumaczenia maszynowego — informacja, nie alarm. */
+.mtag{font-size:10px;letter-spacing:.02em;color:var(--tx-3);font-style:italic}
 .srclink{color:var(--tx-2);text-decoration:underline;text-underline-offset:2px}
 .srclink:hover{color:var(--moss)}
 .ctx{font-size:11px;letter-spacing:.02em;color:var(--tx-3);margin-bottom:8px;font-style:italic}
