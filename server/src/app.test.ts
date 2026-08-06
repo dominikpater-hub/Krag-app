@@ -283,7 +283,7 @@ test('pokoje: utworzenie → dołączenie → lista członków (tylko członek) 
   // lista pokojów pokazuje 1 członka; filtr po nazwie działa
   const list = await app2.inject({ method: 'GET', url: '/rooms', headers: bearer(tokB) });
   assert.equal(list.json().rooms.length, 1);
-  assert.equal(list.json().rooms[0].members, 1);
+  assert.equal(list.json().rooms[0].size, 'few');   // S-2: przedział zamiast dokładnego licznika
   assert.equal((await app2.inject({ method: 'GET', url: '/rooms?q=diagnoz', headers: bearer(tokB) })).json().rooms.length, 1);
   assert.equal((await app2.inject({ method: 'GET', url: '/rooms?q=xyz', headers: bearer(tokB) })).json().rooms.length, 0);
 
@@ -302,12 +302,12 @@ test('pokoje: utworzenie → dołączenie → lista członków (tylko członek) 
   assert.deepEqual(mem2.json().members.slice().sort(), [A, B, C].slice().sort());
 
   // licznik członków = 3
-  assert.equal((await app2.inject({ method: 'GET', url: '/rooms', headers: bearer(tokA) })).json().rooms[0].members, 3);
+  assert.equal((await app2.inject({ method: 'GET', url: '/rooms', headers: bearer(tokA) })).json().rooms[0].size, 'few');
 
   // B wychodzi → nie widzi już listy członków, licznik = 2
   assert.equal((await app2.inject({ method: 'POST', url: `/rooms/${roomId}/leave`, headers: bearer(tokB) })).statusCode, 200);
   assert.equal((await app2.inject({ method: 'GET', url: `/rooms/${roomId}/members`, headers: bearer(tokB) })).statusCode, 403);
-  assert.equal((await app2.inject({ method: 'GET', url: '/rooms', headers: bearer(tokA) })).json().rooms[0].members, 2);
+  assert.equal((await app2.inject({ method: 'GET', url: '/rooms', headers: bearer(tokA) })).json().rooms[0].size, 'few');
 
   // dołączenie do nieistniejącego (ale poprawnego) pokoju = 404
   const ghost = '00000000-0000-0000-0000-000000000000';
@@ -359,4 +359,156 @@ test('sejf E2E: zapis (authed) → odczyt po lookupId (bez auth); cudze konto ni
 
   // nieistniejący sejf = 404
   assert.equal((await app2.inject({ method: 'GET', url: '/vault/nope' })).statusCode, 404);
+});
+
+/* ——— Audyt S-2: pokoje otwarte/na klucz, katalog, usuwanie ———
+ * Dziura: dołączał kto chciał, a katalog wydawał dokładne liczniki → wejście do pokoju
+ * „Świeżo po diagnozie" dawało pełną listę uchwytów. Decyzja właściciela 2026-08-06:
+ * pokoje ZOSTAJĄ domyślnie otwarte (prywatności broni tożsamość pokojowa po stronie
+ * klienta), a klucz jest DODATKIEM założyciela. Serwer musi ten dodatek egzekwować. */
+
+/** Zestaw testowy: świeża instancja + dwa zalogowane konta (A = założyciel, B = obcy). */
+async function twoAccounts(a: ReturnType<typeof buildApp>) {
+  const kpA = await genKey(); const A = 'Zalozyciel Pokoju #R001';
+  await a.inject({ method: 'POST', url: '/accounts/bootstrap', payload: { pseudonym: A, publicKey: await rawPub(kpA) } });
+  const logIn = async (ps: string, kp: CryptoKeyPair) => {
+    const ch = await a.inject({ method: 'POST', url: '/auth/challenge', payload: { pseudonym: ps } });
+    const v = await a.inject({ method: 'POST', url: '/auth/verify',
+      payload: { pseudonym: ps, nonce: ch.json().nonce, signature: await sign(kp, ch.json().nonce) } });
+    return v.json().token as string;
+  };
+  const tokA = await logIn(A, kpA);
+  const inv = await a.inject({ method: 'POST', url: '/invites', headers: bearer(tokA) });
+  const kpB = await genKey(); const B = 'Obcy Przybysz #R002';
+  await a.inject({ method: 'POST', url: '/invites/redeem',
+    payload: { code: inv.json().code, pseudonym: B, publicKey: await rawPub(kpB) } });
+  const tokB = await logIn(B, kpB);
+  return { A, B, tokA, tokB };
+}
+
+test('S-2: pokój domyślnie otwarty i widoczny (decyzja właściciela)', async () => {
+  const a = freshApp(ROOMY);
+  const { tokA, tokB } = await twoAccounts(a);
+  const cr = await a.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA), payload: { name: 'Poranna kawa' } });
+  assert.equal(cr.statusCode, 200, cr.body);
+  assert.equal(cr.json().visibility, 'listed');
+  assert.equal(cr.json().entry, 'open');
+  const join = await a.inject({ method: 'POST', url: `/rooms/${cr.json().id}/join`, headers: bearer(tokB) });
+  assert.equal(join.statusCode, 200, 'otwarty pokój wpuszcza bez klucza');
+});
+
+test('S-2: pokój na klucz odrzuca wejście bez klucza i wpuszcza z kluczem', async () => {
+  const a = freshApp(ROOMY);
+  const { B, tokA, tokB } = await twoAccounts(a);
+  const cr = await a.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA),
+    payload: { name: 'Wąski krąg', visibility: 'hidden', entry: 'key' } });
+  const roomId = cr.json().id as string;
+
+  const bez = await a.inject({ method: 'POST', url: `/rooms/${roomId}/join`, headers: bearer(tokB) });
+  assert.equal(bez.statusCode, 403, 'bez klucza nie wchodzi');
+
+  const key = await a.inject({ method: 'POST', url: `/rooms/${roomId}/keys`, headers: bearer(tokA), payload: { maxUses: 1, days: 7 } });
+  assert.equal(key.statusCode, 200, key.body);
+  const code = key.json().code as string;
+  assert.match(code, /^KRAG-POK-[A-Z0-9]{4}-[A-Z0-9]{4}$/);
+
+  const zKluczem = await a.inject({ method: 'POST', url: '/rooms/join', headers: bearer(tokB), payload: { code } });
+  assert.equal(zKluczem.statusCode, 200, zKluczem.body);
+  assert.equal(zKluczem.json().roomId, roomId);
+  const mem = await a.inject({ method: 'GET', url: `/rooms/${roomId}/members`, headers: bearer(tokB) });
+  assert.ok(mem.json().members.includes(B));
+});
+
+test('S-2: klucz jednorazowy nie działa drugi raz', async () => {
+  const a = freshApp(ROOMY);
+  const { tokA, tokB } = await twoAccounts(a);
+  const cr = await a.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA), payload: { name: 'Raz a dobrze', entry: 'key' } });
+  const key = await a.inject({ method: 'POST', url: `/rooms/${cr.json().id}/keys`, headers: bearer(tokA), payload: { maxUses: 1 } });
+  const code = key.json().code as string;
+  assert.equal((await a.inject({ method: 'POST', url: '/rooms/join', headers: bearer(tokB), payload: { code } })).statusCode, 200);
+  const drugi = await a.inject({ method: 'POST', url: '/rooms/join', headers: bearer(tokA), payload: { code } });
+  assert.equal(drugi.statusCode, 404, 'zużyty klucz jest nieważny');
+});
+
+test('S-2: pokój ukryty nie pojawia się w katalogu', async () => {
+  const a = freshApp(ROOMY);
+  const { tokA, tokB } = await twoAccounts(a);
+  await a.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA), payload: { name: 'Widoczny' } });
+  await a.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA), payload: { name: 'Niewidzialny', visibility: 'hidden', entry: 'key' } });
+  const list = (await a.inject({ method: 'GET', url: '/rooms', headers: bearer(tokB) })).json().rooms;
+  assert.equal(list.length, 1);
+  assert.equal(list[0].name, 'Widoczny');
+  assert.equal((await a.inject({ method: 'GET', url: '/rooms?q=Niewidzialny', headers: bearer(tokB) })).json().rooms.length, 0,
+    'ukrytego nie da się znaleźć nawet po nazwie');
+});
+
+test('S-2: katalog podaje przedział, nie dokładny licznik', async () => {
+  const a = freshApp(ROOMY);
+  const { tokA, tokB } = await twoAccounts(a);
+  const cr = await a.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA), payload: { name: 'Ilu nas tu' } });
+  await a.inject({ method: 'POST', url: `/rooms/${cr.json().id}/join`, headers: bearer(tokB) });
+  const row = (await a.inject({ method: 'GET', url: '/rooms', headers: bearer(tokB) })).json().rooms[0];
+  assert.equal(row.size, 'few');
+  assert.equal(row.members, undefined, 'dokładny licznik NIE wychodzi z serwera');
+});
+
+test('S-2: klucze wystawia tylko założyciel', async () => {
+  const a = freshApp(ROOMY);
+  const { tokA, tokB } = await twoAccounts(a);
+  const cr = await a.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA), payload: { name: 'Mój pokój', entry: 'key' } });
+  const obcy = await a.inject({ method: 'POST', url: `/rooms/${cr.json().id}/keys`, headers: bearer(tokB), payload: {} });
+  assert.equal(obcy.statusCode, 403);
+});
+
+test('S-2: usunięcie członka rotuje klucze — nie wróci starym', async () => {
+  const a = freshApp(ROOMY);
+  const { B, tokA, tokB } = await twoAccounts(a);
+  const cr = await a.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA), payload: { name: 'Z rotacją', entry: 'key' } });
+  const roomId = cr.json().id as string;
+  const code = (await a.inject({ method: 'POST', url: `/rooms/${roomId}/keys`, headers: bearer(tokA), payload: { maxUses: 10 } })).json().code;
+  assert.equal((await a.inject({ method: 'POST', url: '/rooms/join', headers: bearer(tokB), payload: { code } })).statusCode, 200);
+
+  const rm = await a.inject({ method: 'POST', url: `/rooms/${roomId}/remove`, headers: bearer(tokA), payload: { pseudonym: B } });
+  assert.equal(rm.statusCode, 200, rm.body);
+  const powrot = await a.inject({ method: 'POST', url: '/rooms/join', headers: bearer(tokB), payload: { code } });
+  assert.equal(powrot.statusCode, 404, 'stary klucz unieważniony przez rotację');
+});
+
+test('S-2: odwołany klucz przestaje działać', async () => {
+  const a = freshApp(ROOMY);
+  const { tokA, tokB } = await twoAccounts(a);
+  const cr = await a.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA), payload: { name: 'Do odwołania', entry: 'key' } });
+  const roomId = cr.json().id as string;
+  const k = await a.inject({ method: 'POST', url: `/rooms/${roomId}/keys`, headers: bearer(tokA), payload: { maxUses: 5 } });
+  await a.inject({ method: 'DELETE', url: `/rooms/${roomId}/keys/${k.json().id}`, headers: bearer(tokA) });
+  assert.equal((await a.inject({ method: 'POST', url: '/rooms/join', headers: bearer(tokB), payload: { code: k.json().code } })).statusCode, 404);
+});
+
+test('S-2: zły klucz i nieistniejący klucz dają ten sam komunikat (brak wyroczni)', async () => {
+  const a = freshApp(ROOMY);
+  const { tokA, tokB } = await twoAccounts(a);
+  const cr = await a.inject({ method: 'POST', url: '/rooms', headers: bearer(tokA), payload: { name: 'Cichy', visibility: 'hidden', entry: 'key' } });
+  const k = await a.inject({ method: 'POST', url: `/rooms/${cr.json().id}/keys`, headers: bearer(tokA), payload: { maxUses: 1 } });
+  await a.inject({ method: 'DELETE', url: `/rooms/${cr.json().id}/keys/${k.json().id}`, headers: bearer(tokA) });
+  const zuzyty = await a.inject({ method: 'POST', url: '/rooms/join', headers: bearer(tokB), payload: { code: k.json().code } });
+  const zmyslony = await a.inject({ method: 'POST', url: '/rooms/join', headers: bearer(tokB), payload: { code: 'KRAG-POK-ZZZZ-ZZZZ' } });
+  assert.equal(zuzyty.statusCode, zmyslony.statusCode);
+  assert.equal(zuzyty.json().error, zmyslony.json().error);
+});
+
+test('S-2: kod klucza nie trafia do bazy jawnie (tylko skrót)', async () => {
+  const { hashRoomCode } = await import('./repo.ts');
+  assert.equal(hashRoomCode('krag-pok-abcd-efgh'), hashRoomCode('KRAG-POK-ABCD-EFGH'), 'wielkość liter bez znaczenia');
+  assert.match(hashRoomCode('KRAG-POK-ABCD-EFGH'), /^[0-9a-f]{64}$/);
+  assert.notEqual(hashRoomCode('KRAG-POK-ABCD-EFGH'), 'KRAG-POK-ABCD-EFGH');
+});
+
+test('S-2: przedziały wielkości pokoju', async () => {
+  const { sizeBucket } = await import('./repo.ts');
+  assert.equal(sizeBucket(0), 'empty');
+  assert.equal(sizeBucket(1), 'few');
+  assert.equal(sizeBucket(5), 'few');
+  assert.equal(sizeBucket(6), 'some');
+  assert.equal(sizeBucket(20), 'some');
+  assert.equal(sizeBucket(21), 'many');
 });

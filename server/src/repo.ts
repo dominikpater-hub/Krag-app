@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { randomUUID, createHash } from 'node:crypto';
 import type { Queryable } from './db.ts';
 
 const MAX_ACTIVE_INVITES = 5;
@@ -236,23 +236,139 @@ export async function listListings(db: Queryable, region?: string, tag?: string,
 
 /* Pokoje tematyczne (#6/2) — grupa bez klucza grupowego (E2E per-odbiorca po stronie klienta).
  * Serwer trzyma tylko nazwę tematu i listę członków. */
-export async function createRoom(db: Queryable, creator: string, name: string) {
+export type RoomVisibility = 'listed' | 'hidden';
+export type RoomEntry = 'open' | 'key';
+
+export async function createRoom(
+  db: Queryable, creator: string, name: string,
+  opts: { visibility?: RoomVisibility; entry?: RoomEntry } = {},
+) {
   const nm = (name || '').trim().slice(0, 80);
   if (!nm) throw httpError(400, 'Pusta nazwa pokoju');
+  // Domyślnie otwarty i widoczny (decyzja 2026-08-06) — prywatności broni tożsamość pokojowa.
+  const visibility: RoomVisibility = opts.visibility === 'hidden' ? 'hidden' : 'listed';
+  const entry: RoomEntry = opts.entry === 'key' ? 'key' : 'open';
   const id = randomUUID();
-  await db.query('insert into rooms (id, name, created_by) values ($1,$2,$3)', [id, nm, creator]);
+  await db.query('insert into rooms (id, name, created_by, visibility, entry) values ($1,$2,$3,$4,$5)',
+    [id, nm, creator, visibility, entry]);
   await db.query('insert into room_members (room_id, pseudonym) values ($1,$2)', [id, creator]);
-  return { id, name: nm };
+  return { id, name: nm, visibility, entry };
 }
-export async function joinRoom(db: Queryable, roomId: string, pseudonym: string) {
-  const { rows } = await db.query('select id from rooms where id = $1', [roomId]);
-  if (!rows[0]) throw httpError(404, 'Nieznany pokój');
+
+export async function getRoom(db: Queryable, roomId: string) {
+  const { rows } = await db.query('select id, name, created_by, visibility, entry from rooms where id = $1', [roomId]);
+  return rows[0] ?? null;
+}
+
+async function addMember(db: Queryable, roomId: string, pseudonym: string) {
   await db.query(
     `insert into room_members (room_id, pseudonym) values ($1,$2)
      on conflict (room_id, pseudonym) do nothing`,
     [roomId, pseudonym],
   );
+}
+
+/** Wejście bez klucza — dozwolone WYŁĄCZNIE dla pokojów otwartych (S-2). */
+export async function joinRoom(db: Queryable, roomId: string, pseudonym: string) {
+  const room = await getRoom(db, roomId);
+  if (!room) throw httpError(404, 'Nieznany pokój');
+  if (room.entry === 'key') throw httpError(403, 'Ten pokój wymaga klucza wejściowego');
+  await addMember(db, roomId, pseudonym);
+  return { ok: true, roomId, name: room.name };
+}
+
+/* ——— Klucze wejściowe (S-2) ——— */
+const KEY_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';   // bez I/O/0/1 — czytelne przy przepisywaniu
+function keyChunk(n: number) {
+  let s = '';
+  for (let i = 0; i < n; i++) s += KEY_ALPHABET[Math.floor(Math.random() * KEY_ALPHABET.length)];
+  return s;
+}
+/** Kod jest jawny TYLKO w odpowiedzi na wystawienie; w bazie leży wyłącznie skrót. */
+export function hashRoomCode(code: string) {
+  return createHash('sha256').update(String(code).trim().toUpperCase()).digest('hex');
+}
+
+export async function createRoomKey(
+  db: Queryable, roomId: string, founder: string,
+  opts: { maxUses?: number; days?: number } = {},
+) {
+  const room = await getRoom(db, roomId);
+  if (!room) throw httpError(404, 'Nieznany pokój');
+  // Decyzja właściciela: klucze wystawia WYŁĄCZNIE założyciel.
+  if (room.created_by !== founder) throw httpError(403, 'Klucze wystawia tylko założyciel pokoju');
+  const maxUses = Math.min(Math.max(Math.floor(opts.maxUses ?? 1), 1), 100);
+  const days = Math.min(Math.max(Math.floor(opts.days ?? 7), 1), 90);
+  // Kod nie zawiera nazwy pokoju — przechwycony klucz nie zdradza tematu.
+  const code = `KRAG-POK-${keyChunk(4)}-${keyChunk(4)}`;
+  const id = randomUUID();
+  const expires = new Date(Date.now() + days * 86_400_000);
+  await db.query(
+    'insert into room_keys (id, room_id, code_hash, created_by, max_uses, expires_at) values ($1,$2,$3,$4,$5,$6)',
+    [id, roomId, hashRoomCode(code), founder, maxUses, expires],
+  );
+  return { id, code, maxUses, expiresAt: expires.toISOString() };
+}
+
+export async function listRoomKeys(db: Queryable, roomId: string, founder: string) {
+  const room = await getRoom(db, roomId);
+  if (!room) throw httpError(404, 'Nieznany pokój');
+  if (room.created_by !== founder) throw httpError(403, 'Tylko założyciel pokoju');
+  const { rows } = await db.query(
+    'select id, max_uses, used, expires_at, revoked_at, created_at from room_keys where room_id = $1 order by created_at desc',
+    [roomId],
+  );
+  // Bez code_hash — nie ma powodu, żeby wychodził poza bazę.
+  return rows.map((r) => ({
+    id: r.id, maxUses: r.max_uses, used: r.used,
+    expiresAt: r.expires_at, revokedAt: r.revoked_at, createdAt: r.created_at,
+  }));
+}
+
+export async function revokeRoomKey(db: Queryable, roomId: string, keyId: string, founder: string) {
+  const room = await getRoom(db, roomId);
+  if (!room) throw httpError(404, 'Nieznany pokój');
+  if (room.created_by !== founder) throw httpError(403, 'Tylko założyciel pokoju');
+  await db.query('update room_keys set revoked_at = now() where id = $1 and room_id = $2 and revoked_at is null',
+    [keyId, roomId]);
   return { ok: true };
+}
+
+/** Unieważnia WSZYSTKIE klucze pokoju (np. po usunięciu członka). */
+export async function rotateRoomKeys(db: Queryable, roomId: string) {
+  await db.query('update room_keys set revoked_at = now() where room_id = $1 and revoked_at is null', [roomId]);
+  return { ok: true };
+}
+
+/** Wejście kluczem — BEZ znajomości id pokoju (pokoju ukrytego nie da się odgadnąć). */
+export async function joinRoomWithKey(db: Queryable, code: string, pseudonym: string) {
+  const { rows } = await db.query('select id, room_id from room_keys where code_hash = $1', [hashRoomCode(code)]);
+  const key = rows[0];
+  // Jeden komunikat dla „nie ma / wygasł / odwołany / zużyty" — bez wyroczni o istnieniu pokoju.
+  const FAIL = 'Klucz nieważny';
+  if (!key) throw httpError(404, FAIL);
+  // Zużycie i walidacja w JEDNYM update — dwa równoległe wejścia nie przekroczą max_uses.
+  const upd = await db.query(
+    `update room_keys set used = used + 1
+     where id = $1 and revoked_at is null and expires_at > now() and used < max_uses`,
+    [key.id],
+  );
+  if (!upd.rowCount) throw httpError(404, FAIL);
+  const room = await getRoom(db, key.room_id);
+  if (!room) throw httpError(404, FAIL);
+  await addMember(db, room.id, pseudonym);
+  return { ok: true, roomId: room.id, name: room.name };
+}
+
+/** Usunięcie członka przez założyciela. Rotuje klucze, żeby usunięty nie wrócił starym. */
+export async function removeRoomMember(db: Queryable, roomId: string, founder: string, pseudonym: string) {
+  const room = await getRoom(db, roomId);
+  if (!room) throw httpError(404, 'Nieznany pokój');
+  if (room.created_by !== founder) throw httpError(403, 'Tylko założyciel pokoju');
+  if (pseudonym === founder) throw httpError(400, 'Założyciel nie usuwa sam siebie');
+  await db.query('delete from room_members where room_id = $1 and pseudonym = $2', [roomId, pseudonym]);
+  await rotateRoomKeys(db, roomId);
+  return { ok: true, rotated: true };
 }
 export async function leaveRoom(db: Queryable, roomId: string, pseudonym: string) {
   await db.query('delete from room_members where room_id = $1 and pseudonym = $2', [roomId, pseudonym]);
@@ -266,16 +382,31 @@ export async function roomMembers(db: Queryable, roomId: string) {
   const { rows } = await db.query('select pseudonym from room_members where room_id = $1', [roomId]);
   return rows.map((r) => r.pseudonym);
 }
-/** Lista pokojów z licznikiem członków (odnajdywalne po nazwie — filtr/zliczanie w JS dla pg-mem). */
+/* S-2: dokładny licznik członków pozwalał obserwować przyrost pokoju i wnioskować
+ * o dołączeniu konkretnej osoby („było 12, jest 13, właśnie po tym jak jej powiedziałem").
+ * Katalog podaje więc PRZEDZIAŁ. Dokładną listę widzi tylko członek (roomMembers). */
+export type RoomSize = 'empty' | 'few' | 'some' | 'many';
+export function sizeBucket(n: number): RoomSize {
+  if (n <= 0) return 'empty';
+  if (n <= 5) return 'few';
+  if (n <= 20) return 'some';
+  return 'many';
+}
+
+/** Katalog pokojów. Pokoje ukryte NIE są zwracane — dla nieposiadających klucza nie istnieją. */
 export async function listRooms(db: Queryable, q?: string) {
-  const { rows } = await db.query('select id, name, created_by, created_at from rooms order by created_at desc limit 200');
+  const { rows } = await db.query('select id, name, created_by, visibility, entry, created_at from rooms order by created_at desc limit 200');
   const { rows: mem } = await db.query('select room_id from room_members');
   const counts: Record<string, number> = {};
   for (const m of mem) counts[m.room_id] = (counts[m.room_id] || 0) + 1;
   const needle = (q || '').trim().toLowerCase();
   return rows
+    .filter((r) => r.visibility !== 'hidden')
     .filter((r) => !needle || String(r.name || '').toLowerCase().includes(needle))
-    .map((r) => ({ id: r.id, name: r.name, members: counts[r.id] || 0, createdAt: r.created_at }));
+    .map((r) => ({
+      id: r.id, name: r.name, entry: r.entry,
+      size: sizeBucket(counts[r.id] || 0), createdAt: r.created_at,
+    }));
 }
 
 export interface HttpError extends Error { statusCode: number }

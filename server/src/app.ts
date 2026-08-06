@@ -212,15 +212,49 @@ export function buildApp(
   });
   app.post('/rooms', async (req) => {
     await requireAuth(req);
-    const { name } = (req.body as any) || {};
+    const { name, visibility, entry } = (req.body as any) || {};
     requireFields({ name });
-    return repo.createRoom(db, req.account!.pseudonym, name);
+    return repo.createRoom(db, req.account!.pseudonym, name, { visibility, entry });
   });
+  // Wejście bez klucza — repo odrzuci, jeśli pokój wymaga klucza.
   app.post('/rooms/:id/join', async (req) => {
     await requireAuth(req);
-    gate(limits.joinAcct, 'a:' + req.account!.id);   // S-2 (część 1): hamuje żniwo list członków
+    gate(limits.joinAcct, 'a:' + req.account!.id);   // hamuje żniwo list członków
     const { id } = req.params as any;
     return repo.joinRoom(db, id, req.account!.pseudonym);
+  });
+  // Wejście kluczem — BEZ id w ścieżce: pokoju ukrytego kandydat nie zna.
+  app.post('/rooms/join', async (req) => {
+    await requireAuth(req);
+    gate(limits.joinAcct, 'a:' + req.account!.id);   // klucze też trzeba chronić przed zgadywaniem
+    const { code } = (req.body as any) || {};
+    requireFields({ code });
+    return repo.joinRoomWithKey(db, code, req.account!.pseudonym);
+  });
+  // ——— Klucze wejściowe: wystawia WYŁĄCZNIE założyciel (decyzja właściciela) ———
+  app.post('/rooms/:id/keys', async (req) => {
+    await requireAuth(req);
+    const { id } = req.params as any;
+    const { maxUses, days } = (req.body as any) || {};
+    // Kod jawny wraca TYLKO tutaj i tylko raz — w bazie jest sam skrót.
+    return repo.createRoomKey(db, id, req.account!.pseudonym, { maxUses, days });
+  });
+  app.get('/rooms/:id/keys', async (req) => {
+    await requireAuth(req);
+    const { id } = req.params as any;
+    return { keys: await repo.listRoomKeys(db, id, req.account!.pseudonym) };
+  });
+  app.delete('/rooms/:id/keys/:keyId', async (req) => {
+    await requireAuth(req);
+    const { id, keyId } = req.params as any;
+    return repo.revokeRoomKey(db, id, keyId, req.account!.pseudonym);
+  });
+  app.post('/rooms/:id/remove', async (req) => {
+    await requireAuth(req);
+    const { id } = req.params as any;
+    const { pseudonym } = (req.body as any) || {};
+    requireFields({ pseudonym });
+    return repo.removeRoomMember(db, id, req.account!.pseudonym, pseudonym);
   });
   app.post('/rooms/:id/leave', async (req) => {
     await requireAuth(req);

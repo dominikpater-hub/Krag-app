@@ -215,7 +215,17 @@
     <div class="card">
       <div class="klbl" data-i18n="room.create">Załóż pokój</div>
       <input id="rooms-name" class="field" maxlength="80" data-i18n-ph="room.namePh" placeholder="np. Świeżo po diagnozie">
+      <!-- S-2: pokój jest domyślnie otwarty. Klucz to DODATEK dla założyciela. -->
+      <label class="chk" style="margin-top:10px"><input type="checkbox" id="rooms-keyed"> <span data-i18n="room.keyedOpt">Tylko dla osób z kluczem</span></label>
+      <p class="muted" data-i18n="room.keyedHint" style="margin:2px 0 8px">Pokój nie pojawi się na liście. Wejdą tylko osoby, którym dasz klucz.</p>
       <button class="btn ghost sm" id="rooms-create" data-i18n="room.createBtn">Załóż</button>
+    </div>
+
+    <!-- Wejście kluczem: bez znajomości pokoju — ukrytego nie da się wyszukać. -->
+    <div class="card">
+      <div class="klbl" data-i18n="room.haveKey">Mam klucz do pokoju</div>
+      <input id="rooms-key" class="field" data-i18n-ph="room.keyPh" placeholder="KRAG-POK-…" autocomplete="off" spellcheck="false">
+      <button class="btn ghost sm" id="rooms-usekey" data-i18n="room.useKey">Wejdź kluczem</button>
     </div>
 
     <input id="rooms-f" class="field" data-i18n-ph="room.searchPh" placeholder="Szukaj pokoju" style="margin-top:12px">

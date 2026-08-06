@@ -578,7 +578,9 @@ async function roomSearch() {
     if (!rooms.length) { box.innerHTML = `<div class="threads-empty">${t('room.none')}</div>`; return; }
     box.innerHTML = rooms.map((r) => {
       const joined = mine[r.id];
-      const cnt = t('room.count', { n: r.members });
+      // S-2: serwer podaje PRZEDZIAŁ (empty/few/some/many), nie dokładny licznik — dokładna
+      // liczba pozwalała obserwować przyrost pokoju i wnioskować o czyimś dołączeniu.
+      const cnt = t('room.size.' + (r.size || 'empty')) + (r.entry === 'key' ? ' · ' + t('room.keyed') : '');
       const btn = joined
         ? `<button class="btn ghost sm" data-open="${r.id}" data-name="${escapeHtml(r.name)}" style="width:auto;padding:8px 12px;margin:0">${t('room.open')}</button>`
         : `<button class="btn ghost sm" data-join="${r.id}" data-name="${escapeHtml(r.name)}" style="width:auto;padding:8px 12px;margin:0">${t('room.join')}</button>`;
@@ -591,13 +593,51 @@ async function roomSearch() {
 $('#rooms-create').addEventListener('click', async () => {
   const name = ($('#rooms-name').value || '').trim();
   if (!name) { $('#rooms-err').textContent = t('room.needName'); return; }
+  // S-2: „na klucz" implikuje ukrycie w katalogu — inaczej pokój tylko kusi, a nie wpuszcza.
+  const keyed = !!$('#rooms-keyed').checked;
   try {
-    const { id } = await withAuth(() => api.roomCreate(name));
+    const { id } = await withAuth(() => api.roomCreate(name, keyed ? 'hidden' : 'listed', keyed ? 'key' : 'open'));
     await ensureRoom(id, name);
-    $('#rooms-name').value = '';
+    $('#rooms-name').value = ''; $('#rooms-keyed').checked = false;
     await openRoomThread(id, name);
+    if (keyed) await issueRoomKey(id);   // założyciel od razu dostaje pierwszy klucz do rozdania
   } catch { $('#rooms-err').textContent = t('cat.offline'); }
 });
+// Wejście kluczem — nie wymaga znajomości pokoju (ukrytego nie da się wyszukać).
+$('#rooms-usekey').addEventListener('click', async () => {
+  const code = ($('#rooms-key').value || '').trim();
+  $('#rooms-err').textContent = '';
+  if (!code) { $('#rooms-err').textContent = t('room.needKey'); return; }
+  try {
+    const r = await withAuth(() => api.roomJoinWithKey(code));
+    $('#rooms-key').value = '';
+    await ensureRoom(r.roomId, r.name);
+    await openRoomThread(r.roomId, r.name);
+  } catch (e) {
+    // Serwer celowo nie mówi, czy klucz nie istnieje, wygasł, czy został zużyty.
+    $('#rooms-err').textContent = /40[34]/.test(String(e && e.message)) ? t('room.badKey') : t('cat.offline');
+  }
+});
+/** Wystawia klucz (tylko założyciel) i pokazuje kod RAZ — w bazie leży sam skrót. */
+async function issueRoomKey(roomId) {
+  try {
+    const k = await withAuth(() => api.roomKeyCreate(roomId, 1, 7));
+    idaToastKey(k.code);
+  } catch { toast(t('cat.offline')); }
+}
+function idaToastKey(code) {
+  const d = document.createElement('div');
+  d.className = 'keybox';
+  d.innerHTML = `<div class="klbl">${escapeHtml(t('room.keyReady'))}</div><code>${escapeHtml(code)}</code>`
+    + `<p class="muted">${escapeHtml(t('room.keyOnce'))}</p>`
+    + `<button class="btn ghost sm" data-copy="1">${escapeHtml(t('room.keyCopy'))}</button>`
+    + `<button class="btn ghost sm" data-close="1">${escapeHtml(t('back'))}</button>`;
+  document.body.appendChild(d);
+  d.querySelector('[data-copy]').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(code); toast(t('room.keyCopied')); } catch { /* brak schowka */ }
+  });
+  d.querySelector('[data-close]').addEventListener('click', () => d.remove());
+}
 async function joinRoom(id, name) {
   try { await withAuth(() => api.roomJoin(id)); await ensureRoom(id, name); await openRoomThread(id, name); }
   catch { $('#rooms-err').textContent = t('cat.offline'); }

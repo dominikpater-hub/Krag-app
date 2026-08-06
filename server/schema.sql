@@ -101,3 +101,29 @@ create table if not exists room_members (
   joined_at   timestamptz not null default now(),
   primary key (room_id, pseudonym)
 );
+
+-- ——— Audyt S-2: dwie NIEZALEŻNE osie zamiast jednego „otwarty/zamknięty" ———
+--   visibility: czy pokój widać w katalogu ('listed' | 'hidden')
+--   entry:      jak się wchodzi ('open' = każdy | 'key' = trzeba klucza)
+-- DECYZJA właściciela 2026-08-06: domyślnie pokoje są OTWARTE i widoczne, bo prywatności
+-- broni TOŻSAMOŚĆ OSOBNA DLA POKOJU (patrz claude/PROJEKT-POKOJE-S2), a nie zamykanie drzwi.
+-- Klucz jest DODATKIEM dla założyciela, który chce węższego kręgu.
+alter table rooms add column if not exists visibility text not null default 'listed';
+alter table rooms add column if not exists entry      text not null default 'open';
+
+-- Klucze wejściowe. Model zdolności („co masz"), nie tożsamości („kim jesteś") — przy
+-- anonimowych kontach prośba o akceptację nie niesie akceptującemu żadnej informacji.
+-- W bazie TYLKO skrót kodu: wyciek bazy nie daje działających kluczy (inaczej niż dług S-4).
+create table if not exists room_keys (
+  id          uuid primary key,
+  room_id     uuid not null references rooms(id) on delete cascade,
+  code_hash   text not null,
+  created_by  text not null,
+  max_uses    int  not null default 1,
+  used        int  not null default 0,
+  expires_at  timestamptz not null,
+  revoked_at  timestamptz,
+  created_at  timestamptz not null default now()
+);
+create index if not exists room_keys_room on room_keys(room_id);
+create index if not exists room_keys_hash on room_keys(code_hash);
