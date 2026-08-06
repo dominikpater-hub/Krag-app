@@ -6,7 +6,7 @@
  */
 import { API_BASE } from './config.js';
 import { makeClient } from './lib/api.js';
-import { generateAuthKeyPair, authPublicB64, signNonce, exportAuthKeyPair, importAuthKeyPair } from './lib/identity.js';
+import { generateAuthKeyPair, authPublicB64, signNonce, exportAuthKeyPair, importAuthKeyPair, pseudoFrom } from './lib/identity.js';
 import { generateKeyPair, publicKeyB64, deriveSessionKey, encrypt, decrypt, envelope, exportMsgKeyPair, importMsgKeyPair } from './lib/e2e.js';
 import { findFacts, idaCandidates, resetThread, setRole, BLOCKNAME, confBadge, MED_BLOCKS, isPos, FACTS, boundVariant } from './lib/ida.js';
 import { risky, stopMeds, CRISIS_LINE, CRISIS_EU } from './lib/crisis.js';
@@ -22,6 +22,7 @@ import { parseInviteFromSearch } from './lib/invite.js';
 import { BACKUP_STORES, pickNew, makePayload, readPayload } from './lib/backup.js';
 import { buildDemoData } from './lib/demo-seed.js';
 import { roomPeerKey, isRoomPeer, roomIdFromPeer, parseRoomPayload, fanout } from './lib/rooms.js';
+import { createRoomIdentity, packRoomIdentity, unpackRoomIdentity, registerRoomIdentity } from './lib/roomid.js';
 import { put, get, all, requestPersist } from './lib/db.js';
 import { $, toast, escapeHtml, fmt, getI18nLang } from './lib/dom.js';
 import { show } from './lib/nav.js';
@@ -55,12 +56,7 @@ let currentPeer = null;
 let poller = null;
 
 /* ---------- konto: klucz + pseudonim ---------- */
-const ADJ = ['Cichy', 'Spokojny', 'Wschodni', 'Jasny', 'Ciepły', 'Nocny', 'Daleki', 'Miękki'];
-const NOU = ['Świt', 'Rzeka', 'Wiatr', 'Brzeg', 'Kamień', 'Ogród', 'Ton', 'Światło'];
-function hex(bytes, n) { return Array.from(bytes.slice(0, n)).map((b) => b.toString(16).padStart(2, '0')).join(''); }
-function pseudoFrom(hash) {
-  return `${ADJ[hash[0] % ADJ.length]} ${NOU[hash[1] % NOU.length]} #${hex(hash.slice(2), 2).toUpperCase()}`;
-}
+// pseudoFrom mieszka w lib/identity.js — tożsamości pokojowe (S-2) tworzą nazwy tak samo.
 async function generateAccount() {
   account.authKeyPair = await generateAuthKeyPair();               // ECDSA — logowanie
   account.msgKeyPair = await generateKeyPair();                    // ECDH — wiadomości
@@ -94,12 +90,70 @@ async function publishMyKeys() {
   const pk = await publicKeyB64(account.msgKeyPair);
   await withAuth(() => api.publishKeys(pk, pk, []));
 }
-async function sessionFor(peer) {
-  if (sessionKeys.has(peer)) return sessionKeys.get(peer);
-  const bundle = await withAuth(() => api.fetchKeys(peer));
-  const key = await deriveSessionKey(account.msgKeyPair, bundle.identityKey);
-  sessionKeys.set(peer, key);
+/* ——— Tożsamości (audyt S-2, faza 2) ———
+ * Konto główne i tożsamość pokojowa mają ten sam kształt: uchwyt, klucze i WŁASNY klient
+ * API z własnym tokenem. Serwer bierze nadawcę koperty z sesji, więc żeby w pokoju
+ * występować pod inną nazwą, trzeba mieć osobną sesję — sama etykieta by nie wystarczyła.
+ * Założyciel pokoju zostaje przy uchwycie głównym (decyzja właściciela 2026-08-06). */
+const roomIdents = new Map();   // roomId → tożsamość pokojowa (z własnym klientem)
+
+function mainIdent() {
+  return { pseudo: account.pseudo, authKeyPair: account.authKeyPair, msgKeyPair: account.msgKeyPair, client: api, isMain: true };
+}
+async function identLogin(ident) {
+  if (ident.isMain) return login();
+  return ident.client.login(ident.pseudo, (n) => signNonce(ident.authKeyPair, n));
+}
+/** withAuth dla dowolnej tożsamości — przy wygasłej sesji loguje TĘ tożsamość i ponawia. */
+async function withIdent(ident, op) {
+  try { return await op(); }
+  catch (e) {
+    if (/Sesja|Brak tokenu|401/.test(String(e.message))) { await identLogin(ident); return op(); }
+    throw e;
+  }
+}
+/** Klucz sesji E2E liczony kluczem TEJ tożsamości — więc cache też jest per tożsamość. */
+async function sessionForIdent(ident, peer) {
+  const ck = ident.pseudo + '|' + peer;
+  if (sessionKeys.has(ck)) return sessionKeys.get(ck);
+  const bundle = await withIdent(ident, () => ident.client.fetchKeys(peer));
+  const key = await deriveSessionKey(ident.msgKeyPair, bundle.identityKey);
+  sessionKeys.set(ck, key);
   return key;
+}
+async function sessionFor(peer) { return sessionForIdent(mainIdent(), peer); }
+
+/** Nowa tożsamość + konto na serwerze. Jeszcze nie związana z pokojem: przy wejściu
+ *  kluczem numer pokoju poznajemy dopiero z odpowiedzi serwera. */
+async function newRegisteredIdent() {
+  const ident = await createRoomIdentity();
+  ident.client = makeClient(API_BASE);
+  await registerRoomIdentity({ client: ident.client, ident, solve: solvePow, sign: signNonce });
+  return ident;
+}
+async function bindRoomIdent(roomId, ident) {
+  await put('roomids', await packRoomIdentity(roomId, ident));
+  roomIdents.set(roomId, ident);
+}
+/** Tożsamość, pod którą występuję w tym pokoju: pokojowa, a gdy jej nie ma — główna
+ *  (tak jest u założyciela, który jest gospodarzem pod swoim uchwytem). */
+async function identForRoom(roomId) {
+  if (roomIdents.has(roomId)) return roomIdents.get(roomId);
+  const rec = await get('roomids', roomId);
+  if (!rec) return mainIdent();
+  const ident = await unpackRoomIdentity(rec);
+  ident.client = makeClient(API_BASE);
+  try { await identLogin(ident); } catch { /* offline — zaloguje się przy pierwszym żądaniu */ }
+  roomIdents.set(roomId, ident);
+  return ident;
+}
+/** Wszystkie tożsamości pokojowe — każda ma WŁASNĄ skrzynkę kopert do odebrania. */
+async function allRoomIdents() {
+  const out = [];
+  for (const rec of await all('roomids')) {
+    try { const i = await identForRoom(rec.roomId); if (!i.isMain) out.push(i); } catch { /* pomiń uszkodzoną */ }
+  }
+  return out;
 }
 
 /* ---------- przepływ wejścia (bez zaproszeń: passkey · anonimowo · Klucz Kręgu) ---------- */
@@ -345,14 +399,27 @@ function startPolling() {
   poller = setInterval(tick, 4000);
 }
 
+/* S-2 faza 2: każda tożsamość ma WŁASNĄ skrzynkę — konto główne dostaje rozmowy 1:1,
+ * a tożsamości pokojowe wiadomości ze swoich pokojów. Odbieramy po kolei ze wszystkich. */
 async function pullOnce() {
-  const { envelopes } = await withAuth(() => api.pullEnvelopes());
-  if (!envelopes.length) return;
+  let touched = await pullFor(mainIdent());
+  for (const ident of await allRoomIdents()) {
+    try { touched = (await pullFor(ident)) || touched; } catch { /* jedna skrzynka padła — reszta idzie */ }
+  }
+  if (!touched) return;
+  await renderThreads();
+  if (currentPeer) await renderMessages(currentPeer);
+}
+/** Odbiór dla jednej tożsamości. Zwraca true, gdy coś doszło (trzeba przerysować). */
+async function pullFor(ident) {
+  const { envelopes } = await withIdent(ident, () => ident.client.pullEnvelopes());
+  if (!envelopes.length) return false;
   for (const env of envelopes) {
     if (await get('messages', env.id)) continue;           // dedupe
     let text;
     try {
-      const key = await sessionFor(env.from);
+      // Klucz sesji liczy się kluczem TEJ tożsamości — inaczej nie odszyfrujemy.
+      const key = await sessionForIdent(ident, env.from);
       text = await decrypt(key, envelope.unpack(env.ciphertext));
     } catch { text = '⚠️ nie udało się odszyfrować'; }
     const ts = env.at ? new Date(env.at).getTime() : Date.now();
@@ -371,8 +438,7 @@ async function pullOnce() {
     await put('threads', { peer: env.from, ts });
     if (currentPeer !== env.from) unread.set(env.from, (unread.get(env.from) || 0) + 1);
   }
-  await renderThreads();
-  if (currentPeer) await renderMessages(currentPeer);
+  return true;
 }
 
 /* ---------- lista wątków ---------- */
@@ -482,13 +548,15 @@ async function sendMessage() {
 }
 // Pokój: rozgłoszenie E2E per-odbiorca — szyfrujemy OSOBNO do każdego członka (bez klucza grupowego).
 async function sendRoomMessage(roomId, text) {
-  const { members } = await withAuth(() => api.roomMembers(roomId));
+  // S-2 faza 2: w pokoju występuję pod tożsamością pokojową (albo główną, gdy jestem założycielem).
+  const ident = await identForRoom(roomId);
+  const { members } = await withIdent(ident, () => ident.client.roomMembers(roomId));
   const sealFor = async (member, payload) => {
-    const key = await sessionFor(member);
+    const key = await sessionForIdent(ident, member);
     return envelope.pack(await encrypt(key, payload));
   };
-  const envs = await fanout({ roomId, members, self: account.pseudo, text }, sealFor);
-  for (const e of envs) { try { await withAuth(() => api.sendEnvelope(e.to, e.ciphertext)); } catch { /* jednego się nie dało — reszta idzie */ } }
+  const envs = await fanout({ roomId, members, self: ident.pseudo, text }, sealFor);
+  for (const e of envs) { try { await withIdent(ident, () => ident.client.sendEnvelope(e.to, e.ciphertext)); } catch { /* jednego się nie dało — reszta idzie */ } }
 }
 $('#msg-send').addEventListener('click', sendMessage);
 $('#msg-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
@@ -609,7 +677,10 @@ $('#rooms-usekey').addEventListener('click', async () => {
   $('#rooms-err').textContent = '';
   if (!code) { $('#rooms-err').textContent = t('room.needKey'); return; }
   try {
-    const r = await withAuth(() => api.roomJoinWithKey(code));
+    // Tożsamość powstaje przed wejściem; numer pokoju poznajemy dopiero z odpowiedzi.
+    const ident = await newRegisteredIdent();
+    const r = await withIdent(ident, () => ident.client.roomJoinWithKey(code));
+    await bindRoomIdent(r.roomId, ident);
     $('#rooms-key').value = '';
     await ensureRoom(r.roomId, r.name);
     await openRoomThread(r.roomId, r.name);
@@ -638,9 +709,17 @@ function idaToastKey(code) {
   });
   d.querySelector('[data-close]').addEventListener('click', () => d.remove());
 }
+/* S-2 faza 2: dołączamy JUŻ jako tożsamość pokojowa — konto tworzymy PRZED wejściem,
+ * bo serwer zapisuje na liście członków tego, kto wysyła żądanie. Gdyby wejść kontem
+ * głównym i dopiero potem „przebrać się", uchwyt główny i tak trafiłby na listę. */
 async function joinRoom(id, name) {
-  try { await withAuth(() => api.roomJoin(id)); await ensureRoom(id, name); await openRoomThread(id, name); }
-  catch { $('#rooms-err').textContent = t('cat.offline'); }
+  try {
+    const ident = await newRegisteredIdent();
+    await withIdent(ident, () => ident.client.roomJoin(id));
+    await bindRoomIdent(id, ident);
+    await ensureRoom(id, name);
+    await openRoomThread(id, name);
+  } catch { $('#rooms-err').textContent = t('cat.offline'); }
 }
 async function openRoomThread(id, name) {
   await ensureRoom(id, name);

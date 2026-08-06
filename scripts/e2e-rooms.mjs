@@ -93,6 +93,21 @@ async function main() {
   await A.page.waitForFunction((tx) => [...document.querySelectorAll('.msg.in')].some((m) => m.textContent.includes(tx)), 'dzięki', { timeout: 15000 });
   ok(true, 'A: dostał odpowiedź z pokoju');
 
+  /* S-2 faza 2: SEDNO — B dołączył pod tożsamością POKOJOWĄ, więc jego uchwyt GŁÓWNY
+   * nie może pojawić się ani na liście członków, ani jako podpis wiadomości u A.
+   * Bez tego cała faza 2 byłaby tylko etykietą, a nie realną ochroną. */
+  const aIn = await A.page.textContent('#msg-list');
+  ok(!aIn.includes(B.pseudo.split(' #')[0] + ' #'),
+    'B występuje w pokoju pod tożsamością pokojową (brak uchwytu głównego u A)');
+  const bRoomId = await B.page.evaluate(async () => {
+    const d = await new Promise((res, rej) => { const r = indexedDB.open('krag-local', 4); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+    return new Promise((res) => { const rq = d.transaction('roomids', 'readonly').objectStore('roomids').getAll(); rq.onsuccess = () => res(rq.result || []); });
+  });
+  ok(bRoomId.length === 1 && bRoomId[0].pseudo && bRoomId[0].pseudo !== B.pseudo,
+    'B ma zapisaną tożsamość pokojową, różną od uchwytu głównego: ' + (bRoomId[0] && bRoomId[0].pseudo));
+  ok(!!(bRoomId[0] && bRoomId[0].auth && bRoomId[0].msg),
+    'tożsamość pokojowa ma własne klucze (logowanie + wiadomości)');
+
   // ——— LINK-ZAPROSZENIE (deep-link nadal działa; UI generujące link usunięte z Profilu) ———
   await A.page.click('#thread-back'); await A.page.waitForSelector('#s-app.on');
   const { encodeInvite } = await import('../lib/invite.js');
