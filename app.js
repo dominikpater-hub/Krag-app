@@ -8,7 +8,7 @@ import { API_BASE } from './config.js';
 import { makeClient } from './lib/api.js';
 import { generateAuthKeyPair, authPublicB64, signNonce, exportAuthKeyPair, importAuthKeyPair } from './lib/identity.js';
 import { generateKeyPair, publicKeyB64, deriveSessionKey, encrypt, decrypt, envelope, exportMsgKeyPair, importMsgKeyPair } from './lib/e2e.js';
-import { findFacts, idaCandidates, resetThread, setRole, BLOCKNAME, confBadge, MED_BLOCKS, isPos, FACTS } from './lib/ida.js';
+import { findFacts, idaCandidates, resetThread, setRole, BLOCKNAME, confBadge, MED_BLOCKS, isPos, FACTS, boundVariant } from './lib/ida.js';
 import { risky, stopMeds, CRISIS_LINE, CRISIS_EU } from './lib/crisis.js';
 import { emotional } from './lib/emotion.js';
 import { PROV, PATHS_DB } from './lib/knowledge.js';
@@ -828,7 +828,7 @@ function renderHit(hit) {
   let body = hit.facts.map((f) => `<p>${factText(f, L)}</p>`).join('');
   if (L !== 'pl' && hit.facts.some((f) => !factTranslated(f, L))) body = `<div class="ctx">${t('ida.srcPl')}</div>` + body;
   if (hit.unsure) body = `<div class="ctx">${t('ida.unsure')}</div>` + body;
-  if (hit.bound) body = `<p><b>${t('ida.bound')}</b></p>` + body;
+  if (hit.bound) body = `<p><b>${t(hit.boundKind === 'decide' ? 'ida.boundDecide' : 'ida.boundJudge')}</b></p>` + body;
   if (!isPos() && (hit.block === 'uu' || hit.block === 'transmisja')) body = `<div class="ctx">${t('ida.negctx')}</div>` + body;
   if (hit.follow) body = `<div class="ctx">${t('ida.inThread')}${BLOCKNAME[hit.block] || hit.block}</div>` + body;
   if (hit.block === 'pep' || hit.block === 'ekspozycja') body = `<div class="urg">${t('ida.clock')}</div>` + body;
@@ -837,12 +837,28 @@ function renderHit(hit) {
   src += `<br><span style="opacity:.75">${t('ida.baseUnverified', { ed: PROV.ed })}</span>`;
   idaBubble('ida', body, src);
 }
+// K-3 „trend": dzielisz się własnym wynikiem bez pytania o ocenę/decyzję — to NIE jest
+// interpretacja medyczna (decyzja właściciela 2026-08-06). Ida nigdy nie ocenia liczby,
+// ale docenia, że wracasz i się sprawdzasz; chip prowadzi do dzienniczka (realna funkcja,
+// bez obietnicy automatycznego zapisu — patrz audyt #1, prawda w UI).
+function trendReply() {
+  const d = idaBubble('ida', `<p>${t('ida.trendReply')}</p><div class="starters"><button class="chip sm" type="button" data-ai-diary="1">${escapeHtml(t('ida.trendDiary'))}</button></div>`);
+  d.querySelectorAll('[data-ai-diary]').forEach((e) => e.addEventListener('click', () => show('diary')));
+}
+
 let idaAwaitCity = false;   // #3: czekamy na miasto po pytaniu „gdzie do lekarza?"
 let idaHistory = [];        // #6: skrócona historia tur do ciągłości „Idy Rozumie" (sam tekst)
 async function idaAsk(q) {
   idaBubble('me', q);
   if (risky(q)) { setTimeout(crisisReply, 200); return; }
   if (stopMeds(q)) { setTimeout(stopMedsReply, 200); return; }
+  // K-3 (audyt #2, doprecyzowane z właścicielem 2026-08-06): granica wyrobu medycznego sprawdzana
+  // PRZED AI, tak samo jak kryzys i odstawienie leków — żeby AI nigdy nie oceniało wyniku ani nie
+  // sugerowało zmiany leczenia. 'trend' (samo dzielenie się wynikiem, bez pytania o ocenę/decyzję)
+  // to NIE jest interpretacja medyczna — dostaje ciepłą odpowiedź trenerki, nigdy AI.
+  const bv = boundVariant(q);
+  if (bv === 'trend') { setTimeout(trendReply, 200); return; }
+  if (bv === 'judge' || bv === 'decide') { setTimeout(() => renderHit(findFacts(q)), 200); return; }
   // #3: „gdzie do lekarza / gdzie się leczyć" — przechwytujemy PRZED silnikiem faktów
   // (żeby „lekarza" nie trafiało w „lek"). Po ustaleniu miasta → konkretne adresy poradni.
   if (idaAwaitCity) {
