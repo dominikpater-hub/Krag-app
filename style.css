@@ -219,6 +219,10 @@ textarea.field{font-family:ui-monospace,Menlo,monospace;line-height:1.7}
 .lib-block{margin:14px 0}
 .lib-fact{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0}
 .lib-fact p{margin:0;font-size:14px;color:var(--tx)}
+.libcard-info{border-style:dashed}
+.lib-article{padding:4px 2px 8px}
+.lib-article p{margin:0 0 12px;font-size:14px;line-height:1.55;color:var(--tx)}
+.lib-article strong{color:var(--tx);font-weight:600}
 #s-library{padding-bottom:20px}
 
 /* ——— skaner QR ——— */

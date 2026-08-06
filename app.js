@@ -975,13 +975,25 @@ function renderLibraryList() {
   const P = getI18nLang(); const role = profile.role || 'plhiv';
   const paths = PATHS_DB.filter((p) => !p.roles || p.roles.includes(role));
   const body = $('#lib-body'); if (!body) return;
-  body.innerHTML = paths.map((p) => {
+  const cards = paths.map((p) => {
     const nm = (p.n && (p.n[P] || p.n.pl)) || p.id;
     const lead = (p.lead && (p.lead[P] || p.lead.pl)) || '';
     const n = FACTS.filter((f) => p.blocks.indexOf(f.b) > -1).length;
     return `<div class="libcard" data-path="${p.id}"><div class="lc-t">${escapeHtml(nm)}${p.urgent ? ' ⏱' : ''}</div><div class="lc-s">${escapeHtml(lead)}</div><div class="lc-n">${n} ${t('lib.facts')}</div></div>`;
   }).join('');
+  // #audyt-1: statyczna karta „Prywatność w Kręgu" — pełny opis, bez plakietek zaufania (to nie fakt medyczny)
+  const privCard = `<div class="libcard libcard-info" data-lib-static="privacy"><div class="lc-t">🔒 ${escapeHtml(t('lib.privacy'))}</div><div class="lc-s">${escapeHtml(t('lib.privacyLead'))}</div></div>`;
+  body.innerHTML = cards + privCard;
   body.querySelectorAll('[data-path]').forEach((e) => e.addEventListener('click', () => openLibPath(e.dataset.path)));
+  body.querySelector('[data-lib-static="privacy"]').addEventListener('click', openPrivacy);
+}
+// #audyt-1: statyczny artykuł prywatności (osobny od faktów — bez plakietek/licznika)
+function openPrivacy() {
+  const body = $('#lib-body'); if (!body) return;
+  body.innerHTML = `<div class="libcard" data-lib-back="1"><div class="lc-t">‹ ${escapeHtml(t('priv.title'))}</div></div>`
+    + `<div class="lib-article">${t('priv.body')}</div>`;
+  body.querySelector('[data-lib-back]').addEventListener('click', renderLibraryList);
+  window.scrollTo(0, 0);
 }
 function openLibPath(id) {
   const P = getI18nLang(); const p = PATHS_DB.find((x) => x.id === id); if (!p) return;
