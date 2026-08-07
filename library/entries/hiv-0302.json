@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0302",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "koinf-hcv",
+  "topic": "WZW C przy HIV — przebieg",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0302#v1",
+      "entryId": "hiv-0302",
+      "language": "pl",
+      "content": {
+        "summary": "Przy koinfekcji z HIV organizm rzadziej radzi sobie z HCV sam: samoistna eliminacja zdarza się u około 5 procent zakażonych, wobec 15 do 30 procent przy samym HCV. Włóknienie wątroby postępuje też szybciej. To argument za leczeniem, nie za czekaniem.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "DHHS / Clinicalinfo.HIV.gov",
+            "retrievedAt": "2026-07-26"
+          }
+        ]
+      },
+      "source": {
+        "id": "dhhs-oi",
+        "type": "GUIDELINE",
+        "reference": "DHHS / Clinicalinfo.HIV.gov",
+        "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/hepatitis-c-virus",
+        "retrievedAt": "2026-07-26"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "PUBLIC_DOMAIN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "1faa9f6e86ab587b"
+    }
+  ],
+  "currentVersion": "hiv-0302#v1"
+}

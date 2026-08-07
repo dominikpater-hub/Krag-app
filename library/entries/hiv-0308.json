@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0308",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "koinf-hbv",
+  "topic": "WZW B — skala",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0308#v1",
+      "entryId": "hiv-0308",
+      "language": "pl",
+      "content": {
+        "summary": "Z przewlekłym zakażeniem wirusem zapalenia wątroby typu B żyje na świecie około 240 milionów osób. To zakażenie, przed którym istnieje szczepionka — i to jedna z niewielu rzeczy w tej dziedzinie, którą można załatwić raz.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "WHO — HIV guidelines and recommendations",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "who",
+        "type": "GUIDELINE",
+        "reference": "WHO — HIV guidelines and recommendations",
+        "locator": "https://www.who.int/news-room/fact-sheets/detail/hepatitis-b",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "6598cbc52863d465"
+    }
+  ],
+  "currentVersion": "hiv-0308#v1"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0304",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "koinf-hcv",
+  "topic": "WZW C — interakcje lekowe",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0304#v1",
+      "entryId": "hiv-0304",
+      "language": "pl",
+      "content": {
+        "summary": "Nie wszystkie połączenia są bezpieczne: efawirenz istotnie obniża stężenie glekaprewiru, pibrentaswiru i welpataswiru, więc jednoczesne stosowanie jest problematyczne. To rzecz do sprawdzenia przez lekarza przed startem leczenia wątroby, nie do samodzielnej decyzji.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "DHHS / Clinicalinfo.HIV.gov",
+            "retrievedAt": "2026-07-26"
+          }
+        ]
+      },
+      "source": {
+        "id": "dhhs-oi",
+        "type": "GUIDELINE",
+        "reference": "DHHS / Clinicalinfo.HIV.gov",
+        "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/hepatitis-c-virus",
+        "retrievedAt": "2026-07-26"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "PUBLIC_DOMAIN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "514509f05586a6c7"
+    }
+  ],
+  "currentVersion": "hiv-0304#v1"
+}

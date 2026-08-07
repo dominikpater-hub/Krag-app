@@ -620,6 +620,18 @@
       "carrier": "url",
       "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7656978/",
       "retrievedAt": "2026-07-26"
+    },
+    "ecdc": {
+      "title": "ECDC — European Centre for Disease Prevention and Control",
+      "authority": "Europejskie Centrum ds. Zapobiegania i Kontroli Chorób",
+      "kind": "OFFICIAL_PAGE",
+      "edition": "2025",
+      "language": "en",
+      "rights": "QUOTE_ONLY",
+      "rightsNote": "Agencja UE. Materiały do cytowania z przypisem; część na licencji otwartej — sprawdzać per dokument.",
+      "carrier": "url",
+      "locator": "https://www.ecdc.europa.eu/en/hiv-aids",
+      "retrievedAt": "2026-08-07"
     }
   },
   "$changelog": "2026-08-07: korekta rodzajów (PKD EXPERT_NOTE, GdziePoLek SPECIALIST_DB, prasa branżowa PRESS_TRADE) — dotąd tylko w katalogu wiedzy projektu, pipeline czytał starą wersję. Uzupełnione lokalizatory tam, gdzie dały się ustalić bez zgadywania."

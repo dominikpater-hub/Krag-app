@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0317",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "koinf-hpv",
+  "topic": "HPV odbytu",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0317#v1",
+      "entryId": "hiv-0317",
+      "language": "pl",
+      "content": {
+        "summary": "Zakażenie wysokoonkogennymi typami HPV w odbycie jest u mężczyzn mających seks z mężczyznami częste, a u tych żyjących z HIV — wyraźnie częstsze. Dlatego u części osób zaleca się badanie przesiewowe w kierunku zmian przedrakowych odbytu.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "DHHS / Clinicalinfo.HIV.gov",
+            "retrievedAt": "2026-07-26"
+          }
+        ]
+      },
+      "source": {
+        "id": "dhhs-oi",
+        "type": "GUIDELINE",
+        "reference": "DHHS / Clinicalinfo.HIV.gov",
+        "locator": "https://clinicalinfo.hiv.gov/sites/default/files/guidelines/documents/adult-adolescent-oi/human-papillomavirus-adult-adolescent-oi.pdf",
+        "retrievedAt": "2026-07-26"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "PUBLIC_DOMAIN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "8d5c992cb0db4a64"
+    }
+  ],
+  "currentVersion": "hiv-0317#v1"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0326",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "koinf-sti",
+  "topic": "kiła oczna i neurokiła",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0326#v1",
+      "entryId": "hiv-0326",
+      "language": "pl",
+      "content": {
+        "summary": "Kiłę oczną leczy się tak jak zajęcie układu nerwowego, niezależnie od wyniku badania płynu mózgowo-rdzeniowego. Pogorszenie widzenia u osoby z HIV i kiłą to sytuacja pilna, nie coś do odłożenia na następną wizytę.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "DHHS / Clinicalinfo.HIV.gov",
+            "retrievedAt": "2026-07-26"
+          }
+        ]
+      },
+      "source": {
+        "id": "dhhs-oi",
+        "type": "GUIDELINE",
+        "reference": "DHHS / Clinicalinfo.HIV.gov",
+        "locator": "https://clinicalinfo.hiv.gov/sites/default/files/guidelines/documents/adult-adolescent-oi/syphilis-adult-adolescent-oi.pdf",
+        "retrievedAt": "2026-07-26"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "PUBLIC_DOMAIN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "59bc0455b606e1f1"
+    }
+  ],
+  "currentVersion": "hiv-0326#v1"
+}

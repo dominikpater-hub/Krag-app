@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0344",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "wspolistniejace",
+  "topic": "koinfekcje a odbudowa odporności",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0344#v1",
+      "entryId": "hiv-0344",
+      "language": "pl",
+      "content": {
+        "summary": "Nieleczone koinfekcje — zwłaszcza HCV, HBV i cytomegalia — są jednym z czynników, przez które CD4 odbudowuje się wolniej mimo niewykrywalnej wiremii. To jeden z niewielu elementów tej układanki, na który da się realnie wpłynąć.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "DHHS / Clinicalinfo.HIV.gov",
+            "retrievedAt": "2026-07-26"
+          }
+        ]
+      },
+      "source": {
+        "id": "dhhs-suboptimal-2025",
+        "type": "GUIDELINE",
+        "reference": "DHHS / Clinicalinfo.HIV.gov",
+        "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/suboptimal-cd4-cell-recovery",
+        "retrievedAt": "2026-07-26"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "PUBLIC_DOMAIN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "563ab05c7d37403c"
+    }
+  ],
+  "currentVersion": "hiv-0344#v1"
+}

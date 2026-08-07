@@ -1,0 +1,406 @@
+{
+  "$comment": "Koinfekcje i choroby współistniejące. Ziarno z deep researchu 2026-08-07, krok 2/7 planu z review/MAPOWANIE-7-RAPORTOW-2026-08-07. NIC stąd nie jest zweryfikowane przez człowieka — migrator ustawia verifiedBy:null i status DRAFT. Warstwa czysto kliniczna: progi CD4, interakcje lekowe, dawki. Bez podpisu zakaźnika nie ma prawa iść dalej niż DRAFT.",
+  "edition": "hiv-2026-08-koinfekcje",
+  "language": "pl",
+  "provenance": "AI_RESEARCH",
+  "facts": [
+    {
+      "id": "hiv-0301",
+      "block": "koinf-hcv",
+      "topic": "WZW C — skala i wyleczalność",
+      "why": "Wirusowe zapalenie wątroby typu C jest dziś chorobą wyleczalną: leki bezpośrednio działające przeciwwirusowo usuwają wirusa u ponad 95 procent leczonych. Na świecie żyje z przewlekłym HCV około 47 milionów osób, a większość o tym nie wie.",
+      "source": "who",
+      "locator": "https://www.who.int/news-room/fact-sheets/detail/hepatitis-c",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0302",
+      "block": "koinf-hcv",
+      "topic": "WZW C przy HIV — przebieg",
+      "why": "Przy koinfekcji z HIV organizm rzadziej radzi sobie z HCV sam: samoistna eliminacja zdarza się u około 5 procent zakażonych, wobec 15 do 30 procent przy samym HCV. Włóknienie wątroby postępuje też szybciej. To argument za leczeniem, nie za czekaniem.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/hepatitis-c-virus",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0303",
+      "block": "koinf-hcv",
+      "topic": "WZW C — leczenie razem z ARV",
+      "why": "Leki z grupy NRTI — abakawir, emtrycytabina, lamiwudyna i tenofowir alafenamid — można bezpiecznie łączyć ze wszystkimi zalecanymi schematami przeciw HCV. Koinfekcja nie oznacza, że trzeba wybierać, którą chorobę leczyć.",
+      "source": "nih-dhhs",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/hepatitis-c-virushiv-coinfection",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0304",
+      "block": "koinf-hcv",
+      "topic": "WZW C — interakcje lekowe",
+      "why": "Nie wszystkie połączenia są bezpieczne: efawirenz istotnie obniża stężenie glekaprewiru, pibrentaswiru i welpataswiru, więc jednoczesne stosowanie jest problematyczne. To rzecz do sprawdzenia przez lekarza przed startem leczenia wątroby, nie do samodzielnej decyzji.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/hepatitis-c-virus",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0305",
+      "block": "koinf-hcv",
+      "topic": "WZW C — zmiana schematu ARV",
+      "why": "Jeśli schemat antyretrowirusowy trzeba zmienić pod kątem leczenia wątroby, start leczenia HCV odkłada się o co najmniej 2 tygodnie. Powrót do poprzedniego schematu też następuje nie wcześniej niż 2 tygodnie po zakończeniu leczenia HCV.",
+      "source": "nih-dhhs",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/hepatitis-c-virushiv-coinfection",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0306",
+      "block": "koinf-hcv",
+      "topic": "WZW C w Polsce — kto płaci",
+      "why": "W Polsce leczenie przewlekłego WZW C u osób osadzonych w zakładach karnych realizowane jest jako moduł Rządowego Programu Polityki Zdrowotnej dotyczącego leczenia antyretrowirusowego, finansowany od 2023 roku przez NFZ.",
+      "source": "mz-pl",
+      "locator": "https://www.gov.pl/web/zdrowie/rzadowy-program-polityki-zdrowotnej-leczenie-antyretrowirusowe-osob-zyjacych-z-wirusem-hiv-w-polsce-na-lata-2022-2026",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0307",
+      "block": "koinf-hcv",
+      "topic": "WZW C — wczesne leczenie",
+      "why": "Z powodu częstych zakażeń HCV wśród mężczyzn mających seks z mężczyznami polskie zalecenia mówią o leczeniu już we wczesnej fazie zakażenia, żeby przerwać łańcuch przenoszenia. Wczesne leczenie chroni nie tylko wątrobę.",
+      "source": "ptn-aids-2025",
+      "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=36",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0308",
+      "block": "koinf-hbv",
+      "topic": "WZW B — skala",
+      "why": "Z przewlekłym zakażeniem wirusem zapalenia wątroby typu B żyje na świecie około 240 milionów osób. To zakażenie, przed którym istnieje szczepionka — i to jedna z niewielu rzeczy w tej dziedzinie, którą można załatwić raz.",
+      "source": "who",
+      "locator": "https://www.who.int/news-room/fact-sheets/detail/hepatitis-b",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0309",
+      "block": "koinf-hbv",
+      "topic": "WZW B przy HIV — częstość",
+      "why": "Koinfekcja HBV dotyczy według wytycznych 5 do 15 procent osób żyjących z HIV. Przy współzakażeniu przewlekłe WZW B szybciej prowadzi do marskości i raka wątroby niż u osób bez HIV — dlatego bada się je na starcie opieki.",
+      "source": "nih-dhhs",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/coinfections-hepatitis-b-virus-hiv",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0310",
+      "block": "koinf-hbv",
+      "topic": "WZW B — po co supresja",
+      "why": "Utrzymanie niewykrywalnego materiału genetycznego HBV przez rok wiązało się z 58 procent mniejszym ryzykiem raka wątrobowokomórkowego. Leczenie WZW B ma więc sens niezależnie od tego, że wiremia HIV jest już niewykrywalna.",
+      "source": "nih-dhhs",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/coinfections-hepatitis-b-virus-hiv",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0311",
+      "block": "koinf-hbv",
+      "topic": "WZW B a leczenie WZW C",
+      "why": "Leczenie wątroby przeciw HCV może obudzić uśpione zakażenie HBV. Dlatego osoba z koinfekcją HIV i HBV, która zaczyna leczenie HCV, powinna w tym momencie mieć schemat antyretrowirusowy działający także na HBV.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/hepatitis-b-virus",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0312",
+      "block": "koinf-hbv",
+      "topic": "WZW B a dobór schematu ARV",
+      "why": "Przy koinfekcji z HBV nie stosuje się terapii dwulekowej. Potrzebny jest schemat zawierający tenofowir razem z emtrycytabiną lub lamiwudyną, bo te leki działają jednocześnie na oba wirusy. To jeden z powodów, dla których HBV bada się przed wyborem terapii.",
+      "source": "ptn-aids-2025",
+      "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=239",
+      "confidence": "OFFICIAL",
+      "review": "2026-11-07"
+    },
+    {
+      "id": "hiv-0313",
+      "block": "koinf-hbv",
+      "topic": "WZW B — profilaktyka po ekspozycji",
+      "why": "W polskiej profilaktyce poekspozycyjnej WZW B u dorosłych stosuje się swoistą immunoglobulinę podaną domięśniowo do 48 godzin po ekspozycji. U partnerów seksualnych osoby z ostrym WZW B okno jest dłuższe i sięga 14 dni.",
+      "source": "ptn-aids-2025",
+      "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=44",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0314",
+      "block": "koinf-hbv",
+      "topic": "WZW B a PrEP",
+      "why": "Osobie zaczynającej PrEP podaje się szczepienie przeciw WZW B, gdy poziom przeciwciał jest niski. Kto ma aktywne zakażenie HBV, powinien brać PrEP w schemacie ciągłym — przerwanie tenofowiru grozi zaostrzeniem zapalenia wątroby.",
+      "source": "ptn-aids-2025",
+      "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=34",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0315",
+      "block": "koinf-hpv",
+      "topic": "HPV a rak szyjki macicy",
+      "why": "Kobiety żyjące z HIV są sześciokrotnie bardziej narażone na rozwój raka szyjki macicy niż populacja ogólna. To jeden z powodów, dla których badania cytologiczne przy HIV robi się częściej niż standardowo.",
+      "source": "who",
+      "locator": "https://www.who.int/news-room/fact-sheets/detail/cervical-cancer",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0316",
+      "block": "koinf-hpv",
+      "topic": "HPV — szczepionka",
+      "why": "Szczepionka dziewięciowalentna chroni przed dziewięcioma typami wirusa brodawczaka ludzkiego odpowiedzialnymi za większość nowotworów szyjki macicy, pochwy, sromu i odbytu oraz za brodawki płciowe.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/sites/default/files/guidelines/documents/adult-adolescent-oi/human-papillomavirus-adult-adolescent-oi.pdf",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0317",
+      "block": "koinf-hpv",
+      "topic": "HPV odbytu",
+      "why": "Zakażenie wysokoonkogennymi typami HPV w odbycie jest u mężczyzn mających seks z mężczyznami częste, a u tych żyjących z HIV — wyraźnie częstsze. Dlatego u części osób zaleca się badanie przesiewowe w kierunku zmian przedrakowych odbytu.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/sites/default/files/guidelines/documents/adult-adolescent-oi/human-papillomavirus-adult-adolescent-oi.pdf",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0318",
+      "block": "koinf-hpv",
+      "topic": "HPV — leczenie zmian przedrakowych",
+      "why": "Badanie ANCHOR pokazało, że leczenie zmian przedrakowych wysokiego stopnia w odbycie zmniejsza ryzyko rozwoju raka u osób z HIV po 35 roku życia, w porównaniu z samą obserwacją. To argument za badaniem przesiewowym, a nie za czekaniem na objawy.",
+      "source": "hivguidelines-ny",
+      "locator": "https://www.hivguidelines.org/guideline/hiv-anal-dysplasia/",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0319",
+      "block": "koinf-hpv",
+      "topic": "HPV — kto powinien się zaszczepić",
+      "why": "Szczepienie przeciw HPV zaleca się osobom żyjącym z HIV w wieku od 9 do 45 lat, niezależnie od liczby CD4, w schemacie trzydawkowym. Wcześniejszy kontakt z jednym typem wirusa nie odbiera sensu ochronie przed pozostałymi.",
+      "source": "hivguidelines-ny",
+      "locator": "https://www.hivguidelines.org/guideline/hiv-hpv/",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0320",
+      "block": "koinf-tb",
+      "topic": "gruźlica — dlaczego to najważniejsza koinfekcja",
+      "why": "Gruźlica pozostaje na świecie główną przyczyną zgonów wśród osób żyjących z HIV. Osoba z HIV jest wielokrotnie bardziej narażona na rozwinięcie czynnej gruźlicy niż osoba bez HIV — i dlatego bada się ją na starcie opieki.",
+      "source": "who",
+      "locator": "https://www.who.int/teams/global-hiv-hepatitis-and-stis-programmes/hiv/treatment/tuberculosis-hiv",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0321",
+      "block": "koinf-tb",
+      "topic": "gruźlica — leczenie zapobiegawcze",
+      "why": "Leczenie zapobiegawcze gruźlicy połączone z terapią antyretrowirusową zmniejsza liczbę zgonów z powodu gruźlicy u osób z HIV o około 80 procent. Samo leczenie zapobiegawcze, bez ART, obniża śmiertelność o mniej więcej 37 do 40 procent.",
+      "source": "cdc",
+      "locator": "https://www.cdc.gov/global-hiv-tb/php/resources/tb-preventive-treatment-factsheet.html",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0322",
+      "block": "koinf-tb",
+      "topic": "gruźlica — interakcje z ARV",
+      "why": "Krótkie schematy zapobiegawcze z ryfapentyną nie są zalecane u osób, które wymagają dolutegrawiru dwa razy na dobę, ze względu na interakcje. Dobór schematu przeciwgruźliczego zawsze uwzględnia to, co bierzesz na HIV.",
+      "source": "nih-dhhs",
+      "locator": "https://clinicalinfo.hiv.gov/sites/default/files/guidelines/documents/adult-adolescent-arv/coinfections-tuberculosis-tb-adult-adolescent-arv.pdf",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0323",
+      "block": "koinf-tb",
+      "topic": "gruźlica — kiedy zacząć ARV",
+      "why": "Przy rozpoznaniu gruźlicy leczenie antyretrowirusowe zaczyna się jak najszybciej, w ciągu 8 tygodni od startu leczenia przeciwgruźliczego. Gdy CD4 wynosi 50 lub mniej — w ciągu 2 tygodni. Kolejność ma znaczenie i ustala ją lekarz.",
+      "source": "who",
+      "locator": "https://www.ncbi.nlm.nih.gov/books/NBK569317/",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0324",
+      "block": "koinf-tb",
+      "topic": "gruźlicze zapalenie opon",
+      "why": "W gruźliczym zapaleniu opon mózgowo-rdzeniowych jest odwrotnie: start leczenia antyretrowirusowego odkłada się o co najmniej 4 tygodnie, bo zbyt wczesne włączenie grozi ciężkim zespołem rekonstytucji immunologicznej.",
+      "source": "nih-dhhs",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/initiation-antiretroviral-therapy",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0325",
+      "block": "koinf-sti",
+      "topic": "kiła — leczenie",
+      "why": "Penicylina podawana w zastrzyku jest lekiem pierwszego wyboru we wszystkich stadiach kiły. Preparat, dawka i czas leczenia zależą od stadium i objawów — to nie jest choroba, którą leczy się tabletką z apteki.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/sites/default/files/guidelines/documents/adult-adolescent-oi/syphilis-adult-adolescent-oi.pdf",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0326",
+      "block": "koinf-sti",
+      "topic": "kiła oczna i neurokiła",
+      "why": "Kiłę oczną leczy się tak jak zajęcie układu nerwowego, niezależnie od wyniku badania płynu mózgowo-rdzeniowego. Pogorszenie widzenia u osoby z HIV i kiłą to sytuacja pilna, nie coś do odłożenia na następną wizytę.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/sites/default/files/guidelines/documents/adult-adolescent-oi/syphilis-adult-adolescent-oi.pdf",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0327",
+      "block": "koinf-sti",
+      "topic": "kiła — alternatywa dla penicyliny",
+      "why": "Przy uczuleniu na penicylinę w zajęciu układu nerwowego rozważa się ceftriakson przez 10 do 14 dni, ale dowody są ograniczone i decyzję podejmuje się wspólnie z pacjentem. Odczulanie na penicylinę bywa lepszym wyjściem.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/sites/default/files/guidelines/documents/adult-adolescent-oi/syphilis-adult-adolescent-oi.pdf",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0328",
+      "block": "koinf-sti",
+      "topic": "badania przed PrEP",
+      "why": "Przed rozpoczęciem PrEP polskie zalecenia mówią o badaniu w kierunku kiły i WZW C oraz o badaniu molekularnym na chlamydię i rzeżączkę pobranym z trzech miejsc: gardła, odbytu i cewki lub przedsionka pochwy. Wymaz tylko z jednego miejsca przeoczy większość zakażeń.",
+      "source": "ptn-aids-2025",
+      "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=34",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0329",
+      "block": "koinf-sti",
+      "topic": "doksycyklina po ekspozycji",
+      "why": "Polskie zalecenia dopuszczają rozważenie profilaktyki bakteryjnych chorób przenoszonych drogą płciową: dwie tabletki doksycykliny przyjęte do 72 godzin po kontakcie seksualnym. Nie działa to na HIV — od tego jest PEP.",
+      "source": "ptn-aids-2025",
+      "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=45",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0330",
+      "block": "koinf-inne",
+      "topic": "WZW A — ogniska",
+      "why": "W latach 2016 i 2017 przez Europę przeszło ognisko wirusowego zapalenia wątroby typu A dotyczące głównie mężczyzn mających seks z mężczyznami — 17 krajów zgłosiło wtedy ponad cztery tysiące przypadków. WZW A przenosi się także drogą kontaktów seksualnych.",
+      "source": "ecdc",
+      "locator": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6205254/",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0331",
+      "block": "koinf-inne",
+      "topic": "WZW A — szczepienie",
+      "why": "Szczepienie przeciw WZW A jest podstawowym sposobem zapobiegania w ogniskach wśród mężczyzn mających seks z mężczyznami. To dwie dawki i ochrona na lata — szczepienie zalecane osobom żyjącym z HIV niezależnie od ognisk.",
+      "source": "ecdc",
+      "locator": "https://www.ecdc.europa.eu/en/news-events/vaccination-main-prevention-measure-address-hepatitis-outbreaks-among-men-who-have-sex",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0332",
+      "block": "koinf-inne",
+      "topic": "mpox — kiedy jest groźny",
+      "why": "U osób z zaawansowanym niedoborem odporności mpox przebiega znacznie ciężej: martwicze zmiany skórne, zajęcie płuc i posocznica zdarzają się dużo częściej przy niskim CD4 niż przy zachowanej odporności.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/mpox",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0333",
+      "block": "koinf-inne",
+      "topic": "mpox — postępowanie",
+      "why": "Osoba z HIV i wysokim ryzykiem ciężkiego przebiegu mpox — przy CD4 poniżej 200 albo innej ciężkiej immunosupresji — powinna dostać ukierunkowane leczenie przeciwwirusowe, a jeśli nie jest jeszcze leczona na HIV, natychmiast zacząć terapię antyretrowirusową.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/mpox",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0334",
+      "block": "koinf-inne",
+      "topic": "CMV — kiedy staje się chorobą",
+      "why": "Wirus cytomegalii nosi w sobie większość dorosłych i u osoby z zachowaną odpornością nie robi nic. Chorobą narządową staje się dopiero przy głębokim niedoborze odporności, typowo przy CD4 poniżej 50. Dodatni wynik przeciwciał sam w sobie nie oznacza choroby.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/cytomegalovirus",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0335",
+      "block": "koinf-inne",
+      "topic": "CMV — co zmieniło leczenie",
+      "why": "Po wprowadzeniu skutecznego leczenia antyretrowirusowego liczba nowych zachorowań na narządową postać cytomegalii spadła o ponad 95 procent. Zapalenie siatkówki wywołane przez CMV, kiedyś jedna z częstszych przyczyn utraty wzroku przy AIDS, stało się rzadkością.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/cytomegalovirus",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0336",
+      "block": "koinf-inne",
+      "topic": "CMV — profilaktyka wtórna",
+      "why": "U osoby, która przebyła zapalenie siatkówki wywołane przez CMV, profilaktykę wznawia się, gdy CD4 spadnie poniżej 100. To jeden z powodów, dla których warto znać swój najniższy historyczny wynik, a nie tylko bieżący.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-pediatric-opportunistic-infections/cytomegalovirus",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0337",
+      "block": "koinf-inne",
+      "topic": "kryptokokoza",
+      "why": "Rutynowej profilaktyki kryptokokozy u osób bez dodatniego testu na antygen kryptokokowy się nie zaleca — mimo że leki przeciwgrzybicze zmniejszają jej częstość przy CD4 poniżej 100. Powodem jest brak dowodu na wydłużenie życia oraz interakcje lekowe.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/cryptococcosis",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0338",
+      "block": "koinf-inne",
+      "topic": "mięsak Kaposiego",
+      "why": "Przy łagodnej i umiarkowanej skórnej postaci mięsaka Kaposiego samo rozpoczęcie leczenia antyretrowirusowego bywa wystarczające do poprawy — choć na początku zmiany mogą przejściowo się nasilić w ramach zespołu rekonstytucji immunologicznej.",
+      "source": "nih-dhhs",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/initiation-antiretroviral-therapy",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0339",
+      "block": "koinf-inne",
+      "topic": "rekonstytucja immunologiczna — czy przerywać leczenie",
+      "why": "W trakcie zespołu rekonstytucji immunologicznej leczenia antyretrowirusowego się nie przerywa, o ile nie ma powikłań zagrażających życiu. Nasilenie objawów po starcie leków nie jest sygnałem, że leki nie działają — ale trzeba je zgłosić lekarzowi.",
+      "source": "nih-dhhs",
+      "locator": "https://clinicalinfo.hiv.gov/sites/default/files/guidelines/documents/adult-adolescent-arv/coinfections-tuberculosis-tb-adult-adolescent-arv.pdf",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0340",
+      "block": "koinf-inne",
+      "topic": "rekonstytucja immunologiczna — kiedy poczekać z ARV",
+      "why": "Przy niektórych zakażeniach oportunistycznych, zwłaszcza kryptokokowym i gruźliczym zapaleniu opon, natychmiastowe rozpoczęcie leczenia antyretrowirusowego zwiększa ryzyko ciężkiej reakcji zapalnej. Krótkie odłożenie startu, pod ścisłą kontrolą, bywa wtedy bezpieczniejsze.",
+      "source": "nih-dhhs",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/initiation-antiretroviral-therapy",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0341",
+      "block": "koinf-inne",
+      "topic": "interakcje przy koinfekcjach",
+      "why": "Między lekami przeciw HCV a NRTI i inhibitorami integrazy istnieje bardzo niewiele istotnych interakcji — te klasy zwykle da się bezpiecznie łączyć. Problem zaczyna się przy innych klasach i przy lekach spoza leczenia zakażeń.",
+      "source": "nhc",
+      "locator": "https://www.hepatitisc.uw.edu/go/key-populations-situations/treatment-hiv-coinfection/core-concept/all",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0342",
+      "block": "leczenie-pl",
+      "topic": "badanie genetyczne przed abakawirem",
+      "why": "Wariant genetyczny HLA-B*5701 ma w Polsce około 4,7 procent osób żyjących z HIV. U nosicieli abakawir jest przeciwwskazany, bo grozi ciężką reakcją nadwrażliwości — dlatego badanie wykonuje się przed włączeniem tego leku, a nie po.",
+      "source": "ptn-aids-2025",
+      "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=25",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0343",
+      "block": "leczenie-pl",
+      "topic": "leki na CMV w Polsce",
+      "why": "Nowsze leki przeciw cytomegalii — marybawir i letermowir — są w Polsce refundowane wyłącznie w programach dla biorców przeszczepów, nie we wskazaniu związanym z HIV. Przy chorobie narządowej CMV stosuje się starsze leczenie.",
+      "source": "mz-pl",
+      "locator": "https://www.gov.pl/web/zdrowie/obwieszczenia-ministra-zdrowia-lista-lekow-refundowanych",
+      "confidence": "OFFICIAL",
+      "review": "2026-11-07"
+    },
+    {
+      "id": "hiv-0344",
+      "block": "wspolistniejace",
+      "topic": "koinfekcje a odbudowa odporności",
+      "why": "Nieleczone koinfekcje — zwłaszcza HCV, HBV i cytomegalia — są jednym z czynników, przez które CD4 odbudowuje się wolniej mimo niewykrywalnej wiremii. To jeden z niewielu elementów tej układanki, na który da się realnie wpłynąć.",
+      "source": "dhhs-suboptimal-2025",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/suboptimal-cd4-cell-recovery",
+      "confidence": "OFFICIAL"
+    }
+  ]
+}

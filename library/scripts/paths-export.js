@@ -81,7 +81,16 @@ const PATHS = [
   { id: 'kontekst', roles: ['plhiv', 'partner', 'bliska'],
     n: { pl: 'Szerszy obraz', en: 'The wider picture' },
     lead: { pl: 'Skala w Polsce i dokąd zmierzają badania.', en: 'The scale in Poland and where research is heading.' },
-    blocks: ['epidemiologia', 'wyleczenie'] }
+    blocks: ['epidemiologia', 'wyleczenie'] },
+
+  /* Koinfekcje (2026-08-07). Osobna ścieżka, a nie doklejenie do „terapii" — bo to nie jest
+     ciąg dalszy leczenia HIV, tylko drugi front, który część osób prowadzi równolegle.
+     Kolejność bloków to kolejność częstości pytań: wątroba pierwsza. */
+  { id: 'koinfekcje', roles: ['plhiv'],
+    n: { pl: 'Koinfekcje', en: 'Co-infections' },
+    lead: { pl: 'Wątroba, choroby przenoszone drogą płciową, gruźlica — co się bada i dlaczego.',
+            en: 'Liver, sexually transmitted infections, tuberculosis — what gets tested and why.' },
+    blocks: ['koinf-hcv', 'koinf-hbv', 'koinf-sti', 'koinf-hpv', 'koinf-tb', 'koinf-inne'] }
 ];
 
 /* Bloku granic nie ma w żadnej ścieżce — to nie jest materiał do nauki,
