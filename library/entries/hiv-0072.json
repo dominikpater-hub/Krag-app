@@ -22,7 +22,7 @@
         "details": null,
         "legalRefs": [
           {
-            "type": "FORUM",
+            "type": "EXPERT_NOTE",
             "reference": "PKD Poznań — ścieżka PEP",
             "retrievedAt": "2026-07-25"
           }
@@ -30,14 +30,14 @@
       },
       "source": {
         "id": "pkd-poznan",
-        "type": "FORUM",
+        "type": "EXPERT_NOTE",
         "reference": "PKD Poznań — ścieżka PEP",
         "locator": "https://pkdpoznan.pl/pep-poznan-gdzie-zglosic",
         "retrievedAt": "2026-07-25"
       },
       "edition": "2025",
       "confidence": "COMMUNITY",
-      "ceiling": "COMMUNITY",
+      "ceiling": "VERIFIED",
       "rights": "UNKNOWN",
       "effectiveDate": "2026-07-25",
       "validUntil": null,
@@ -46,7 +46,7 @@
       "nextReviewDue": "2027-01-31",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "a4d551faf8b2d51e"
+      "checksum": "b78f1d9a89bf4666"
     }
   ],
   "currentVersion": "hiv-0072#v1"

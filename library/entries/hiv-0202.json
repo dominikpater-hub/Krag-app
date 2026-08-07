@@ -32,7 +32,7 @@
         "id": "pmc-1435908",
         "type": "RESEARCH_REPORT",
         "reference": "PubMed Central",
-        "locator": "",
+        "locator": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1435908/",
         "retrievedAt": "2026-07-26"
       },
       "edition": "",
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "9c821df48c0f967b"
+      "checksum": "90f0dae2ebe73a83"
     }
   ],
   "currentVersion": "hiv-0202#v1"

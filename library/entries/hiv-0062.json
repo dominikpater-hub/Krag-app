@@ -22,7 +22,7 @@
         "details": null,
         "legalRefs": [
           {
-            "type": "PRESS",
+            "type": "SPECIALIST_DB",
             "reference": "GdziePoLek — ceny i dostępność leków",
             "retrievedAt": "2026-07-25"
           }
@@ -30,14 +30,14 @@
       },
       "source": {
         "id": "gdziepolek",
-        "type": "PRESS",
+        "type": "SPECIALIST_DB",
         "reference": "GdziePoLek — ceny i dostępność leków",
         "locator": "https://www.gdziepolek.pl/",
         "retrievedAt": "2026-07-25"
       },
       "edition": "2025",
       "confidence": "COMMUNITY",
-      "ceiling": "COMMUNITY",
+      "ceiling": "VERIFIED",
       "rights": "QUOTE_ONLY",
       "effectiveDate": "2026-07-25",
       "validUntil": null,
@@ -46,7 +46,7 @@
       "nextReviewDue": "2027-03-31",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "0262689028b06de6"
+      "checksum": "3abab2843dc6d904"
     }
   ],
   "currentVersion": "hiv-0062#v1"

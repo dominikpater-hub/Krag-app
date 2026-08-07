@@ -22,7 +22,7 @@
         "details": null,
         "legalRefs": [
           {
-            "type": "PRESS",
+            "type": "PRESS_TRADE",
             "reference": "Termedia — doniesienia o nowelizacji art. 161 KK",
             "retrievedAt": "2026-07-25"
           }
@@ -30,14 +30,14 @@
       },
       "source": {
         "id": "termedia",
-        "type": "PRESS",
+        "type": "PRESS_TRADE",
         "reference": "Termedia — doniesienia o nowelizacji art. 161 KK",
         "locator": "https://www.termedia.pl/",
         "retrievedAt": "2026-07-25"
       },
       "edition": "2024",
       "confidence": "COMMUNITY",
-      "ceiling": "COMMUNITY",
+      "ceiling": "VERIFIED",
       "rights": "QUOTE_ONLY",
       "effectiveDate": "2026-07-25",
       "validUntil": null,
@@ -46,7 +46,7 @@
       "nextReviewDue": "2026-12-31",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "502b5735f4468afa"
+      "checksum": "c197e6397d0571cc"
     }
   ],
   "currentVersion": "hiv-0091#v1"

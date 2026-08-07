@@ -32,7 +32,7 @@
         "id": "dhhs-oi",
         "type": "GUIDELINE",
         "reference": "DHHS / Clinicalinfo.HIV.gov",
-        "locator": "",
+        "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections",
         "retrievedAt": "2026-07-26"
       },
       "edition": "2025",
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "b7189a764b66fc11"
+      "checksum": "1e34943391168687"
     }
   ],
   "currentVersion": "hiv-0214#v1"

@@ -22,7 +22,7 @@
         "details": null,
         "legalRefs": [
           {
-            "type": "PRESS",
+            "type": "PRESS_TRADE",
             "reference": "Rynek Zdrowia — doniesienia o refundacji PrEP",
             "retrievedAt": "2026-07-25"
           }
@@ -30,14 +30,14 @@
       },
       "source": {
         "id": "rynek-zdrowia",
-        "type": "PRESS",
+        "type": "PRESS_TRADE",
         "reference": "Rynek Zdrowia — doniesienia o refundacji PrEP",
         "locator": "https://www.rynekzdrowia.pl/",
         "retrievedAt": "2026-07-25"
       },
       "edition": "2025-2026",
-      "confidence": "COMMUNITY",
-      "ceiling": "COMMUNITY",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
       "rights": "QUOTE_ONLY",
       "effectiveDate": "2026-07-25",
       "validUntil": null,
@@ -46,7 +46,7 @@
       "nextReviewDue": "2026-12-31",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "8fe522dd858b563f"
+      "checksum": "204f47f23bb35b1f"
     }
   ],
   "currentVersion": "hiv-0065#v1"

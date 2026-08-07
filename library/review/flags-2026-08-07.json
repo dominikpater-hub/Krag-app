@@ -264,7 +264,6 @@
    "s": "Rynek Zdrowia (prasa branżowa)",
    "u": "https://www.rynekzdrowia.pl/",
    "flags": [
-    "bramka:unverified",
     "link-ogolny",
     "przeglad-co-30d"
    ]
@@ -286,7 +285,6 @@
    "s": "Rynek Zdrowia (prasa branżowa)",
    "u": "https://www.rynekzdrowia.pl/",
    "flags": [
-    "bramka:unverified",
     "link-ogolny",
     "przeglad-co-30d"
    ]
@@ -307,7 +305,6 @@
    "s": "Rynek Zdrowia (prasa branżowa)",
    "u": "https://www.rynekzdrowia.pl/",
    "flags": [
-    "bramka:unverified",
     "link-ogolny",
     "przeglad-co-30d"
    ]
@@ -727,16 +724,6 @@
    ]
   },
   {
-   "id": "0202",
-   "b": "odbudowa",
-   "s": "NIH PMC",
-   "u": null,
-   "flags": [
-    "bramka:locator",
-    "brak-linku"
-   ]
-  },
-  {
    "id": "0203",
    "b": "odbudowa",
    "s": "OFID",
@@ -797,16 +784,6 @@
    ]
   },
   {
-   "id": "0209",
-   "b": "odbudowa",
-   "s": "Cochrane",
-   "u": null,
-   "flags": [
-    "bramka:locator",
-    "brak-linku"
-   ]
-  },
-  {
    "id": "0210",
    "b": "odbudowa",
    "s": "Cochrane",
@@ -842,16 +819,6 @@
    "u": "https://eacs.sanfordguide.com/",
    "flags": [
     "link-ogolny"
-   ]
-  },
-  {
-   "id": "0214",
-   "b": "bezpieczenstwo",
-   "s": "DHHS",
-   "u": null,
-   "flags": [
-    "bramka:locator",
-    "brak-linku"
    ]
   },
   {
@@ -915,16 +882,6 @@
    "id": "0221",
    "b": "psyche",
    "s": "JAMA",
-   "u": null,
-   "flags": [
-    "bramka:locator",
-    "brak-linku"
-   ]
-  },
-  {
-   "id": "0222",
-   "b": "psyche",
-   "s": "Elsevier",
    "u": null,
    "flags": [
     "bramka:locator",

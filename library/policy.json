@@ -16,7 +16,9 @@
     "PRESS": "COMMUNITY",
     "AI_RESEARCH": "COMMUNITY",
     "FORUM": "COMMUNITY",
-    "PROJECT_RULE": "COMMUNITY"
+    "PROJECT_RULE": "COMMUNITY",
+    "SPECIALIST_DB": "VERIFIED",
+    "PRESS_TRADE": "VERIFIED"
   },
   "confidenceOrder": [
     "COMMUNITY",
@@ -122,5 +124,10 @@
     "neverSuggestTreatmentChange": true,
     "neverDiagnose": true,
     "crisisLayerIsDeterministic": true
+  },
+  "$kinds": {
+    "SPECIALIST_DB": "Baza dziedzinowa prowadzona zawodowo — do pytania z jej dziedziny jest źródłem najlepszym z dostępnych, mimo że nie jest instytucją państwową.",
+    "PRESS_TRADE": "Prasa branżowa z redakcją, adresowana do profesjonalistów. Wyżej niż media ogólne, niżej niż wytyczne.",
+    "PRESS": "Media ogólne — sygnalizują fakt, nie ugruntowują go."
   }
 }

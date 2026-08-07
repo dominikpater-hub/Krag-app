@@ -32,13 +32,13 @@
         "id": "cochrane-exercise",
         "type": "RESEARCH_REPORT",
         "reference": "Cochrane / BMC Infectious Diseases",
-        "locator": "",
+        "locator": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4845358/",
         "retrievedAt": "2026-07-26"
       },
       "edition": "",
       "confidence": "VERIFIED",
       "ceiling": "VERIFIED",
-      "rights": "QUOTE_ONLY",
+      "rights": "OPEN_LICENSE",
       "effectiveDate": "2026-07-25",
       "validUntil": null,
       "verifiedAt": null,
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "c42b739192ebcd10"
+      "checksum": "202b4b4d2f1caa9b"
     }
   ],
   "currentVersion": "hiv-0209#v1"

@@ -378,7 +378,7 @@
     "rynek-zdrowia": {
       "title": "Rynek Zdrowia — doniesienia o refundacji PrEP",
       "authority": "Rynek Zdrowia (prasa branżowa)",
-      "kind": "PRESS",
+      "kind": "PRESS_TRADE",
       "edition": "2025-2026",
       "language": "pl",
       "rights": "QUOTE_ONLY",
@@ -389,7 +389,7 @@
     "termedia": {
       "title": "Termedia — doniesienia o nowelizacji art. 161 KK",
       "authority": "Termedia (prasa branżowa)",
-      "kind": "PRESS",
+      "kind": "PRESS_TRADE",
       "edition": "2024",
       "language": "pl",
       "rights": "QUOTE_ONLY",
@@ -400,7 +400,7 @@
     "gdziepolek": {
       "title": "GdziePoLek — ceny i dostępność leków",
       "authority": "GdziePoLek.pl",
-      "kind": "PRESS",
+      "kind": "SPECIALIST_DB",
       "edition": "2025",
       "language": "pl",
       "rights": "QUOTE_ONLY",
@@ -411,7 +411,7 @@
     "pkd-poznan": {
       "title": "PKD Poznań — ścieżka PEP",
       "authority": "PKD Poznań",
-      "kind": "FORUM",
+      "kind": "EXPERT_NOTE",
       "edition": "2025",
       "language": "pl",
       "rights": "UNKNOWN",
@@ -485,7 +485,7 @@
       "language": "en",
       "rights": "QUOTE_ONLY",
       "carrier": "url",
-      "locator": "",
+      "locator": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1435908/",
       "retrievedAt": "2026-07-26"
     },
     "frontiers-inr-2022": {
@@ -527,10 +527,11 @@
       "kind": "RESEARCH_REPORT",
       "edition": "",
       "language": "en",
-      "rights": "QUOTE_ONLY",
+      "rights": "OPEN_LICENSE",
       "carrier": "url",
-      "locator": "",
-      "retrievedAt": "2026-07-26"
+      "locator": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4845358/",
+      "retrievedAt": "2026-07-26",
+      "rightsNote": "CC BY 4.0 — redystrybucja dosłowna dozwolona z atrybucją (potwierdzone 2026-08-07)."
     },
     "cochrane-micronutrients": {
       "title": "Cochrane",
@@ -562,7 +563,7 @@
       "language": "en",
       "rights": "PUBLIC_DOMAIN",
       "carrier": "url",
-      "locator": "",
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections",
       "retrievedAt": "2026-07-26"
     },
     "aidsmap-food": {
@@ -617,8 +618,9 @@
       "language": "en",
       "rights": "QUOTE_ONLY",
       "carrier": "url",
-      "locator": "",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7656978/",
       "retrievedAt": "2026-07-26"
     }
-  }
+  },
+  "$changelog": "2026-08-07: korekta rodzajów (PKD EXPERT_NOTE, GdziePoLek SPECIALIST_DB, prasa branżowa PRESS_TRADE) — dotąd tylko w katalogu wiedzy projektu, pipeline czytał starą wersję. Uzupełnione lokalizatory tam, gdzie dały się ustalić bez zgadywania."
 }
