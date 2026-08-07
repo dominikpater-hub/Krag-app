@@ -314,7 +314,15 @@ async function loginWithMaster(masterBytes) {
   await enterApp();
 }
 
-/* ---------- tryb DEMO (#3): produkcja = odbicie, z bogatymi danymi lokalnie ---------- */
+/* ---------- tryb DEMO (#3): produkcja = odbicie, z bogatymi danymi lokalnie ----------
+ * Audyt K-1: paczka wiedzy niesie `demo: true`, a ta flaga nie włącza żadnej ramy.
+ * ROZSTRZYGNIĘCIE (2026-08-06): flaga w paczce to POZOSTAŁOŚĆ po etapie makiety i celowo
+ * NIE jest tu czytana. Powód: 223 fakty mają realne źródła (PTN AIDS, EACS, gov.pl,
+ * KC ds. AIDS), więc baner „przykładowe dane" byłby NIEPRAWDĄ — a nieprawda w UI jest
+ * gorsza niż niespójna flaga (lekcja z audytu #1). „Demo" opisuje SPOSÓB URUCHOMIENIA
+ * (zasiane konto i rozmowy do pokazania aplikacji), nie jakość wiedzy.
+ * Usunięcie samej flagi należy do paczki, czyli do pipeline'u P-1 — nie edytujemy
+ * lib/knowledge.js ręcznie. */
 function demoMode() {
   try {
     return new URLSearchParams(location.search).get('demo') === '1'
