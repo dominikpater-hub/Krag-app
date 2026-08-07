@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0218",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "bezpieczenstwo",
+  "topic": "codzienne środki ostrożności",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0218#v1",
+      "entryId": "hiv-0218",
+      "language": "pl",
+      "content": {
+        "summary": "Przy niskim CD4 sens mają: mycie rąk, rękawiczki przy sprzątaniu po zwierzęciu, dobrze wysmażone mięso i jajka, mycie warzyw oraz konsultacja przed dalszą podróżą. Oddawanie zwierzęcia nie jest zalecane — liczy się higiena, nie pozbycie się psa czy kota.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "EXPERT_NOTE",
+            "reference": "aidsmap",
+            "retrievedAt": "2026-07-26"
+          }
+        ]
+      },
+      "source": {
+        "id": "aidsmap-food",
+        "type": "EXPERT_NOTE",
+        "reference": "aidsmap",
+        "locator": "",
+        "retrievedAt": "2026-07-26"
+      },
+      "edition": "",
+      "confidence": "COMMUNITY",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "e1348e0282d87e24"
+    }
+  ],
+  "currentVersion": "hiv-0218#v1"
+}

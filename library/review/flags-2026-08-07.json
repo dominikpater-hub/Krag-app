@@ -1,0 +1,1333 @@
+{
+ "generatedAt": "2026-08-07",
+ "basis": [
+  "Audyt aktualności DELTA 2026-08-06",
+  "Raport sourcingowy 223 faktów",
+  "CMV 2025-2026"
+ ],
+ "flags": [
+  {
+   "id": "0003",
+   "b": "transmisja",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0005",
+   "b": "transmisja",
+   "s": "Centers for Disease Control and Prevention (US)",
+   "u": "https://www.cdc.gov/hiv/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0018",
+   "b": "przebieg",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0022",
+   "b": "leczenie",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0023",
+   "b": "leczenie",
+   "s": "University of Washington / HRSA",
+   "u": "https://www.hiv.uw.edu/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0024",
+   "b": "leczenie",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0026",
+   "b": "leczenie",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0027",
+   "b": "uu",
+   "s": "Centers for Disease Control and Prevention (US)",
+   "u": "https://www.cdc.gov/hiv/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0028",
+   "b": "uu",
+   "s": "HIV i-Base",
+   "u": "https://i-base.info/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0029",
+   "b": "uu",
+   "s": "NAM Publications",
+   "u": "https://www.aidsmap.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0030",
+   "b": "uu",
+   "s": "Prevention Access Campaign",
+   "u": "https://preventionaccess.org/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0034",
+   "b": "uu",
+   "s": "NIH / DHHS (US)",
+   "u": "https://clinicalinfo.hiv.gov/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0037",
+   "b": "ciaza",
+   "s": "NIH / DHHS (US)",
+   "u": "https://clinicalinfo.hiv.gov/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0039",
+   "b": "ciaza",
+   "s": "NIH / DHHS (US)",
+   "u": "https://clinicalinfo.hiv.gov/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0045",
+   "b": "wyleczenie",
+   "s": "amfAR",
+   "u": "https://www.amfar.org/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0046",
+   "b": "wyleczenie",
+   "s": "International AIDS Society",
+   "u": "https://www.iasociety.org/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0047",
+   "b": "wyleczenie",
+   "s": "amfAR",
+   "u": "https://www.amfar.org/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0048",
+   "b": "wyleczenie",
+   "s": "International AIDS Society",
+   "u": "https://www.iasociety.org/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0049",
+   "b": "wyleczenie",
+   "s": "NAM Publications",
+   "u": "https://www.aidsmap.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0050",
+   "b": "wyleczenie",
+   "s": "amfAR",
+   "u": "https://www.amfar.org/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0051",
+   "b": "prep",
+   "s": "Centers for Disease Control and Prevention (US)",
+   "u": "https://www.cdc.gov/hiv/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0052",
+   "b": "prep",
+   "s": "UCSF",
+   "u": "https://prep.ucsf.edu/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0054",
+   "b": "prep",
+   "s": "UCSF",
+   "u": "https://prep.ucsf.edu/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0055",
+   "b": "prep",
+   "s": "Gilead Sciences / FDA",
+   "u": "https://www.gilead.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0056",
+   "b": "prep",
+   "s": "New England Journal of Medicine",
+   "u": "https://www.nejm.org/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0057",
+   "b": "prep",
+   "s": "New England Journal of Medicine",
+   "u": "https://www.nejm.org/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0059",
+   "b": "prep",
+   "s": "Centers for Disease Control and Prevention (US)",
+   "u": "https://www.cdc.gov/hiv/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0060",
+   "b": "prep",
+   "s": "Centers for Disease Control and Prevention (US)",
+   "u": "https://www.cdc.gov/hiv/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0061",
+   "b": "prep-pl",
+   "s": "Rynek Zdrowia (prasa branżowa)",
+   "u": "https://www.rynekzdrowia.pl/",
+   "flags": [
+    "bramka:unverified",
+    "link-ogolny",
+    "przeglad-co-30d"
+   ]
+  },
+  {
+   "id": "0062",
+   "b": "prep-pl",
+   "s": "GdziePoLek.pl",
+   "u": "https://www.gdziepolek.pl/",
+   "flags": [
+    "bramka:unverified",
+    "link-ogolny",
+    "przeglad-co-30d"
+   ]
+  },
+  {
+   "id": "0063",
+   "b": "prep-pl",
+   "s": "Rynek Zdrowia (prasa branżowa)",
+   "u": "https://www.rynekzdrowia.pl/",
+   "flags": [
+    "bramka:unverified",
+    "link-ogolny",
+    "przeglad-co-30d"
+   ]
+  },
+  {
+   "id": "0064",
+   "b": "prep-pl",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-30d"
+   ]
+  },
+  {
+   "id": "0065",
+   "b": "prep-pl",
+   "s": "Rynek Zdrowia (prasa branżowa)",
+   "u": "https://www.rynekzdrowia.pl/",
+   "flags": [
+    "bramka:unverified",
+    "link-ogolny",
+    "przeglad-co-30d"
+   ]
+  },
+  {
+   "id": "0066",
+   "b": "pep",
+   "s": "Zjednoczenie Pozytywni w Tęczy",
+   "u": "https://pozytywniwteczy.pl/",
+   "flags": [
+    "bramka:rights",
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0067",
+   "b": "pep",
+   "s": "Polskie Towarzystwo Naukowe AIDS",
+   "u": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0068",
+   "b": "pep",
+   "s": "Polskie Towarzystwo Naukowe AIDS",
+   "u": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0069",
+   "b": "pep",
+   "s": "Polskie Towarzystwo Naukowe AIDS",
+   "u": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0070",
+   "b": "pep",
+   "s": "gov.pl",
+   "u": "https://www.gov.pl/attachment/3bd23c7a-e64a-485b-8122-6a0be4f91103",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0071",
+   "b": "pep",
+   "s": "Stowarzyszenie „Jeden Świat\"",
+   "u": "https://jedenswiat.org.pl/",
+   "flags": [
+    "bramka:unverified",
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0072",
+   "b": "pep",
+   "s": "PKD Poznań",
+   "u": "https://pkdpoznan.pl/pep-poznan-gdzie-zglosic",
+   "flags": [
+    "bramka:unverified",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0073",
+   "b": "pep",
+   "s": "PKD Poznań",
+   "u": "https://pkdpoznan.pl/pep-poznan-gdzie-zglosic",
+   "flags": [
+    "bramka:unverified",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0074",
+   "b": "pep",
+   "s": "PKD Poznań",
+   "u": "https://pkdpoznan.pl/pep-poznan-gdzie-zglosic",
+   "flags": [
+    "bramka:unverified",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0075",
+   "b": "testowanie",
+   "s": "Polskie Towarzystwo Naukowe AIDS",
+   "u": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0076",
+   "b": "testowanie",
+   "s": "Polskie Towarzystwo Naukowe AIDS",
+   "u": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0077",
+   "b": "testowanie",
+   "s": "Polskie Towarzystwo Naukowe AIDS",
+   "u": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0078",
+   "b": "testowanie",
+   "s": "Polskie Towarzystwo Naukowe AIDS",
+   "u": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0079",
+   "b": "testowanie",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0080",
+   "b": "testowanie",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0081",
+   "b": "testowanie",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0082",
+   "b": "testowanie",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0088",
+   "b": "prawo",
+   "s": "Ustawodawca RP",
+   "u": "https://isap.sejm.gov.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0089",
+   "b": "prawo",
+   "s": "Ustawodawca RP",
+   "u": "https://isap.sejm.gov.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0090",
+   "b": "prawo",
+   "s": "Ustawodawca RP",
+   "u": "https://isap.sejm.gov.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0091",
+   "b": "prawo",
+   "s": "Termedia (prasa branżowa)",
+   "u": "https://www.termedia.pl/",
+   "flags": [
+    "bramka:unverified",
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0092",
+   "b": "prawo",
+   "s": "UNAIDS",
+   "u": "https://www.unaids.org/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0093",
+   "b": "prawo",
+   "s": "Parlament Europejski i Rada UE",
+   "u": "https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX%3A32016R0679",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0094",
+   "b": "prawo",
+   "s": "Polskie Towarzystwo Naukowe AIDS",
+   "u": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0095",
+   "b": "prawo",
+   "s": "International Labour Organization",
+   "u": "https://www.ilo.org/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0096",
+   "b": "prawo",
+   "s": "Ustawodawca RP",
+   "u": "https://isap.sejm.gov.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0097",
+   "b": "prawo",
+   "s": "Ustawodawca RP",
+   "u": "https://isap.sejm.gov.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0098",
+   "b": "leczenie-pl",
+   "s": "Ministerstwo Zdrowia",
+   "u": "https://www.gov.pl/web/zdrowie",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-180d"
+   ]
+  },
+  {
+   "id": "0099",
+   "b": "leczenie-pl",
+   "s": "Ministerstwo Zdrowia",
+   "u": "https://www.gov.pl/web/zdrowie",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-180d"
+   ]
+  },
+  {
+   "id": "0100",
+   "b": "leczenie-pl",
+   "s": "Narodowy Fundusz Zdrowia",
+   "u": "https://www.nfz.gov.pl/",
+   "flags": [
+    "link-ogolny",
+    "przeglad-co-180d"
+   ]
+  },
+  {
+   "id": "0101",
+   "b": "stygma",
+   "s": "Fundacja Edukacji Społecznej",
+   "u": "https://www.fes.edu.pl/zyjezhiv",
+   "flags": [
+    "bramka:rights"
+   ]
+  },
+  {
+   "id": "0102",
+   "b": "stygma",
+   "s": "naTemat.pl",
+   "u": "https://natemat.pl/",
+   "flags": [
+    "bramka:unverified",
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0103",
+   "b": "stygma",
+   "s": "Stowarzyszenie „Jeden Świat\"",
+   "u": "https://jedenswiat.org.pl/",
+   "flags": [
+    "bramka:rights",
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0104",
+   "b": "stygma",
+   "s": "Fundacja Edukacji Społecznej",
+   "u": "https://www.fes.edu.pl/zyjezhiv",
+   "flags": [
+    "bramka:rights"
+   ]
+  },
+  {
+   "id": "0105",
+   "b": "stygma",
+   "s": "Mijas M. i in., Seksuologia Polska 2017",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0106",
+   "b": "epidemiologia",
+   "s": "NIZP-PZH",
+   "u": "https://wwwold.pzh.gov.pl/oldpage/epimeld/hiv_aids/2024.htm",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0107",
+   "b": "epidemiologia",
+   "s": "NIZP-PZH",
+   "u": "https://wwwold.pzh.gov.pl/oldpage/epimeld/hiv_aids/2024.htm",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0108",
+   "b": "epidemiologia",
+   "s": "Polskie Towarzystwo Naukowe AIDS",
+   "u": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0109",
+   "b": "epidemiologia",
+   "s": "Polskie Towarzystwo Naukowe AIDS",
+   "u": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+   "flags": [
+    "przeglad-co-365d"
+   ]
+  },
+  {
+   "id": "0110",
+   "b": "granice",
+   "s": "Projekt Krąg",
+   "u": "GENESIS-KRAG.md",
+   "flags": [
+    "bramka:unverified"
+   ]
+  },
+  {
+   "id": "0111",
+   "b": "granice",
+   "s": "Projekt Krąg",
+   "u": "GENESIS-KRAG.md",
+   "flags": [
+    "bramka:unverified"
+   ]
+  },
+  {
+   "id": "0112",
+   "b": "granice",
+   "s": "Projekt Krąg",
+   "u": "GENESIS-KRAG.md",
+   "flags": [
+    "bramka:unverified"
+   ]
+  },
+  {
+   "id": "0201",
+   "b": "odbudowa",
+   "s": "OFID",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0202",
+   "b": "odbudowa",
+   "s": "NIH PMC",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0203",
+   "b": "odbudowa",
+   "s": "OFID",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0204",
+   "b": "odbudowa",
+   "s": "Frontiers",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0205",
+   "b": "odbudowa",
+   "s": "DHHS",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0206",
+   "b": "odbudowa",
+   "s": "JAC",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0207",
+   "b": "odbudowa",
+   "s": "DHHS",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0208",
+   "b": "odbudowa",
+   "s": "DHHS",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0209",
+   "b": "odbudowa",
+   "s": "Cochrane",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0210",
+   "b": "odbudowa",
+   "s": "Cochrane",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0211",
+   "b": "odbudowa",
+   "s": "Lancet",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0212",
+   "b": "bezpieczenstwo",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0213",
+   "b": "bezpieczenstwo",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0214",
+   "b": "bezpieczenstwo",
+   "s": "DHHS",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0215",
+   "b": "bezpieczenstwo",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0216",
+   "b": "bezpieczenstwo",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0217",
+   "b": "bezpieczenstwo",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0218",
+   "b": "bezpieczenstwo",
+   "s": "NAM",
+   "u": null,
+   "flags": [
+    "bramka:unverified",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0219",
+   "b": "psyche",
+   "s": "BMJ",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0220",
+   "b": "psyche",
+   "s": "PLOS",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0221",
+   "b": "psyche",
+   "s": "JAMA",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0222",
+   "b": "psyche",
+   "s": "Elsevier",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0223",
+   "b": "pierwsze-dni",
+   "s": "Lancet",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0224",
+   "b": "pierwsze-dni",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0226",
+   "b": "pierwsze-dni",
+   "s": "BMJ",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0227",
+   "b": "dlugoterminowo",
+   "s": "Lancet",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "0228",
+   "b": "dlugoterminowo",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "0230",
+   "b": "dlugoterminowo",
+   "s": "European AIDS Clinical Society",
+   "u": "https://eacs.sanfordguide.com/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0001",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0002",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0003",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0004",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0005",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0006",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0007",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0008",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0009",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0010",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0011",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0012",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0013",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0014",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0015",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0016",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0017",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0018",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0019",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0020",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0021",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0022",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0023",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0024",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0025",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0026",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0027",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "pkd-0028",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "wsp-0002",
+   "b": "miejsca",
+   "s": "Krajowe Centrum ds. AIDS",
+   "u": "https://www.hiv-aids.edu.pl/",
+   "flags": [
+    "link-ogolny"
+   ]
+  },
+  {
+   "id": "wsp-0003",
+   "b": "miejsca",
+   "s": "różne organizacje",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "wsp-0004",
+   "b": "miejsca",
+   "s": "różne organizacje",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "wsp-0005",
+   "b": "miejsca",
+   "s": "różne organizacje",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "wsp-0006",
+   "b": "miejsca",
+   "s": "różne organizacje",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "wsp-0007",
+   "b": "miejsca",
+   "s": "różne organizacje",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "wsp-0008",
+   "b": "miejsca",
+   "s": "różne organizacje",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "wsp-0009",
+   "b": "miejsca",
+   "s": "różne organizacje",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  },
+  {
+   "id": "wsp-0010",
+   "b": "miejsca",
+   "s": "różne organizacje",
+   "u": null,
+   "flags": [
+    "bramka:locator",
+    "brak-linku"
+   ]
+  }
+ ]
+}

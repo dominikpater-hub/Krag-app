@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0224",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "pierwsze-dni",
+  "topic": "tempo — co jest pilne, a co nie",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0224#v1",
+      "entryId": "hiv-0224",
+      "language": "pl",
+      "content": {
+        "summary": "Leczenie antyretrowirusowe zaczyna się szybko po diagnozie, ale nie w trybie nagłym jak PEP. Jest czas na badania wyjściowe i rozmowę z lekarzem — pilne jest umówienie się do poradni, nie podejmowanie wszystkich decyzji naraz.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "EACS Guidelines v13.0",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "eacs-13",
+        "type": "GUIDELINE",
+        "reference": "EACS Guidelines v13.0",
+        "locator": "https://eacs.sanfordguide.com/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "13.0 (2025)",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "503d6597be9b2671"
+    }
+  ],
+  "currentVersion": "hiv-0224#v1"
+}

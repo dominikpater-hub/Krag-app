@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0019",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "przebieg",
+  "topic": "późne rozpoznania",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0019#v1",
+      "entryId": "hiv-0019",
+      "language": "pl",
+      "content": {
+        "summary": "W Polsce w grudniu 2024 roku średnia liczba CD4 przy rozpoznaniu AIDS wynosiła 71 — to bardzo późne rozpoznania.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Zakażenia HIV i zachorowania na AIDS w Polsce — 2024",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "nizp-pzh-2024",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Zakażenia HIV i zachorowania na AIDS w Polsce — 2024",
+        "locator": "https://wwwold.pzh.gov.pl/oldpage/epimeld/hiv_aids/2024.htm",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2024",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-12-31",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "7fd2294f8a418a7c"
+    }
+  ],
+  "currentVersion": "hiv-0019#v1"
+}

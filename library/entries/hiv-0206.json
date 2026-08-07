@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0206",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "odbudowa",
+  "topic": "wskaźnik CD4/CD8",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0206#v1",
+      "entryId": "hiv-0206",
+      "language": "pl",
+      "content": {
+        "summary": "Stosunek CD4 do CD8 bywa lepszym wskaźnikiem przewlekłego stanu zapalnego niż samo CD4. Bywa niski nawet wtedy, gdy CD4 wróciło powyżej 500, i wiąże się z ryzykiem chorób niezwiązanych z AIDS.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "RESEARCH_REPORT",
+            "reference": "Journal of Antimicrobial Chemotherapy",
+            "retrievedAt": "2026-07-26"
+          }
+        ]
+      },
+      "source": {
+        "id": "jac-cd4cd8",
+        "type": "RESEARCH_REPORT",
+        "reference": "Journal of Antimicrobial Chemotherapy",
+        "locator": "",
+        "retrievedAt": "2026-07-26"
+      },
+      "edition": "",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "54b2992d0b47d8f5"
+    }
+  ],
+  "currentVersion": "hiv-0206#v1"
+}

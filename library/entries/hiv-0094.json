@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0094",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "prawo",
+  "topic": "tajemnica lekarska",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "prawnik",
+  "versions": [
+    {
+      "id": "hiv-0094#v1",
+      "entryId": "hiv-0094",
+      "language": "pl",
+      "content": {
+        "summary": "Status HIV jest objęty tajemnicą lekarską.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "Zasady opieki nad osobami żyjącymi z HIV. Zalecenia PTN AIDS 2025",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "ptn-aids-2025",
+        "type": "GUIDELINE",
+        "reference": "Zasady opieki nad osobami żyjącymi z HIV. Zalecenia PTN AIDS 2025",
+        "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "a9ab854107a1f11a"
+    }
+  ],
+  "currentVersion": "hiv-0094#v1"
+}

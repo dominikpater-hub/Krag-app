@@ -1,0 +1,68 @@
+{
+  "id": "wsp-0005",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "miejsca",
+  "topic": "ORGANIZACJA",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "wsp-0005#v1",
+      "entryId": "wsp-0005",
+      "language": "pl",
+      "content": {
+        "summary": "Zjednoczenie Pozytywni w Tęczy",
+        "actions": [],
+        "rights": [],
+        "warnings": [
+          "Organizacja osób żyjących z HIV. Materiały o PEP i wsparciu."
+        ],
+        "details": {
+          "placeKind": "ORGANIZACJA",
+          "city": null,
+          "voivodeship": null,
+          "address": null,
+          "phone": [],
+          "hours": null,
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": "https://pozytywniwteczy.pl",
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "FORUM",
+            "reference": "Dane kontaktowe organizacji pozarządowych (strony własne)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "ngo-kontakt",
+        "type": "FORUM",
+        "reference": "Dane kontaktowe organizacji pozarządowych (strony własne)",
+        "locator": null,
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "2026-07",
+      "confidence": "COMMUNITY",
+      "ceiling": "COMMUNITY",
+      "rights": "UNKNOWN",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-27",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "80d03fdad42e94dc"
+    }
+  ],
+  "currentVersion": "wsp-0005#v1"
+}

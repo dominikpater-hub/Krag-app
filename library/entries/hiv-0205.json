@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0205",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "odbudowa",
+  "topic": "czego nie robi się przy słabej odbudowie",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0205#v1",
+      "entryId": "hiv-0205",
+      "language": "pl",
+      "content": {
+        "summary": "Przy niewykrywalnej wiremii i słabo rosnącym CD4 nie dokłada się kolejnych leków ani nie zmienia schematu wyłącznie po to, by podnieść limfocyty — wytyczne odradzają to wprost. Interleukina-2 podnosi CD4, ale w dużych badaniach nie zmniejszyła ryzyka zachorowania ani zgonu.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "DHHS / Clinicalinfo.HIV.gov",
+            "retrievedAt": "2026-07-26"
+          }
+        ]
+      },
+      "source": {
+        "id": "dhhs-suboptimal-2025",
+        "type": "GUIDELINE",
+        "reference": "DHHS / Clinicalinfo.HIV.gov",
+        "locator": "",
+        "retrievedAt": "2026-07-26"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "PUBLIC_DOMAIN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "66df8aeafddad2b9"
+    }
+  ],
+  "currentVersion": "hiv-0205#v1"
+}

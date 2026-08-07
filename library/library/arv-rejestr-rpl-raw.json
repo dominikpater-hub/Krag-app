@@ -1,0 +1,878 @@
+[
+{
+"n": "AKVIR FORTE o smaku truskawkowym",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "500 mg/5 ml",
+"postac": "Syrop",
+"sub": [
+"Inosinum pranobexum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/39535/leaflet"
+},
+{
+"n": "Abacavir + Lamivudine Accord",
+"inn": "Abacavirum + Lamivudinum",
+"atc": "J05AR02",
+"moc": "600 mg + 300 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Abacaviri hydrochloridum",
+"Lamivudinum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/34249/leaflet"
+},
+{
+"n": "Akvir",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "500 mg",
+"postac": "Tabletki",
+"sub": [
+"Inosinum pranobexum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/40708/leaflet"
+},
+{
+"n": "Aptivus",
+"inn": "Tipranavirum",
+"atc": "J05AE09",
+"moc": "250 mg",
+"postac": "Kapsułki miękkie",
+"sub": [
+"Tipranavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Atazanavir Accord",
+"inn": "Atazanavirum",
+"atc": "J05AE08",
+"moc": "150 mg",
+"postac": "Kapsułki twarde",
+"sub": [
+"Atazanavirum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/39901/leaflet"
+},
+{
+"n": "Baraclude",
+"inn": "Entecavirum",
+"atc": "J05AF10",
+"moc": "0,5 mg",
+"postac": "Tabletki powlekane",
+"sub": [],
+"ulotka": ""
+},
+{
+"n": "Biktarvy",
+"inn": "Bictegravirum natricum + Emtricitabinum + Tenofovirum alafenamidum fumaras",
+"atc": "J05AR20",
+"moc": "50 mg + 200 mg + 25 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Bictegravirum",
+"Emtricitabinum",
+"Tenofovirum alafenamidum"
+],
+"ulotka": ""
+},
+{
+"n": "Celsentri",
+"inn": "Maravirocum",
+"atc": "J05AX09",
+"moc": "150 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Maraviroc"
+],
+"ulotka": ""
+},
+{
+"n": "Combivir",
+"inn": "Lamivudinum + Zidovudinum",
+"atc": "J05AR01",
+"moc": "150 mg + 300 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Lamivudinum",
+"Zidovudinum"
+],
+"ulotka": ""
+},
+{
+"n": "Darunavir Accord",
+"inn": "Darunavirum",
+"atc": "J05AE10",
+"moc": "75 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Darunavirum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/40753/leaflet"
+},
+{
+"n": "Delstrigo",
+"inn": "Doravirinum + Lamivudinum + Tenofovirum disoproxilum",
+"atc": "J05AR24",
+"moc": "100 mg + 300 mg + 245 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Doravirinum",
+"Lamivudinum",
+"Tenofovirum disoproxilum"
+],
+"ulotka": ""
+},
+{
+"n": "Descovy",
+"inn": "Emtricitabinum + Tenofoviri alafenamidum",
+"atc": "J05AR17",
+"moc": "200 mg + 10 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Emtricitabinum",
+"Tenofovirum alafenamidum fumaras"
+],
+"ulotka": ""
+},
+{
+"n": "Dovato",
+"inn": "Dolutegravirum + Lamivudinum",
+"atc": "J05AR25",
+"moc": "50 mg + 300 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Dolutegravirum",
+"Lamivudinum"
+],
+"ulotka": ""
+},
+{
+"n": "Edurant",
+"inn": "Rilpivirinum",
+"atc": "J05AG05",
+"moc": "25 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Rilpivirini hydrochloridum"
+],
+"ulotka": ""
+},
+{
+"n": "Efavirenz + Emtricitabine + Tenofovir disoproxil Aurovitas",
+"inn": "Efavirenzum + Emtricitabinum + Tenofovirum disoproxilum",
+"atc": "J05AR06",
+"moc": "600 mg + 200 mg + 245 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Efavirenzum",
+"Emtricitabinum",
+"Tenofovirum disoproxilum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/41171/leaflet"
+},
+{
+"n": "Efavirenz/Emtricitabine/Tenofovir disoproxil Krka",
+"inn": "Efavirenzum + Emtricitabinum + Tenofovirum disoproxilum",
+"atc": "J05AR06",
+"moc": "600 mg + 200 mg + 245 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Efavirenzum",
+"Emtricitabine",
+"Tenofovirum disoproxilum"
+],
+"ulotka": ""
+},
+{
+"n": "Eloprine",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "500 mg",
+"postac": "Tabletki",
+"sub": [
+"Inosinum pranobexum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/32805/leaflet"
+},
+{
+"n": "Emtricitabine + Tenofovir disoproxil Aurovitas",
+"inn": "Emtricitabinum + Tenofovirum disoproxilum",
+"atc": "J05AR03",
+"moc": "200 mg + 245 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Emtricitabinum",
+"Tenofovirum disoproxilum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/43192/leaflet"
+},
+{
+"n": "Emtricitabine/Rilpivirine/Tenofovir Alafenamide Viatris",
+"inn": "Emtricitabinum + Rilpivirinum + Tenofovirum alafenamidum",
+"atc": "J05AR19",
+"moc": "200 mg + 25 mg + 25 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Emtricitabinum",
+"Rilpivirinum",
+"Tenofovirum alafenamidum"
+],
+"ulotka": ""
+},
+{
+"n": "Emtricitabine/Tenofovir alafenamide Viatris",
+"inn": "Emtricitabinum + Tenofovirum alafenamidum",
+"atc": "J05AR17",
+"moc": "200 mg + 10 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Emtricitabinum",
+"Tenofovirum alafenamidum"
+],
+"ulotka": ""
+},
+{
+"n": "Emtriva",
+"inn": "Emtricitabinum",
+"atc": "J05AF09",
+"moc": "200 mg",
+"postac": "Kapsułki twarde",
+"sub": [
+"Emtricitabinum"
+],
+"ulotka": ""
+},
+{
+"n": "Entecavir Accord",
+"inn": "Entecavirum monohydricum",
+"atc": "J05AF10",
+"moc": "0,5 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Entecavirum monohydricum"
+],
+"ulotka": ""
+},
+{
+"n": "Entekavir Adamed",
+"inn": "Entecavirum",
+"atc": "J05AF10",
+"moc": "0,5 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Entecavirum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/38704/leaflet"
+},
+{
+"n": "Epivir",
+"inn": "Lamivudinum",
+"atc": "J05AF05",
+"moc": "150 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Lamivudinum"
+],
+"ulotka": ""
+},
+{
+"n": "Eviplera",
+"inn": "Emtricitabinum + Rilpivirinum + Tenofovirum disoproxilum",
+"atc": "J05AR08",
+"moc": "200 mg + 25 mg + 245 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Emtricitabinum",
+"Rilpivirini hydrochloridum",
+"Tenofovirum disoproxilum"
+],
+"ulotka": ""
+},
+{
+"n": "Evotaz",
+"inn": "Atazanavirum + Cobicistatum",
+"atc": "J05AR15",
+"moc": "300 mg + 150 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Atazanavirum",
+"Cobicistatum"
+],
+"ulotka": ""
+},
+{
+"n": "Fuzeon",
+"inn": "Enfuvirtidum",
+"atc": "J05AX07",
+"moc": "90 mg/ml",
+"postac": "Proszek i rozpuszczalnik do sporządzania roztworu do wstrzykiwań",
+"sub": [
+"Enfuvirtidum"
+],
+"ulotka": ""
+},
+{
+"n": "Genvoya",
+"inn": "Elvitegravirum + Cobicistatum + Emtricitabinum + Tenofovirum alafenamidum",
+"atc": "J05AR18",
+"moc": "150 mg + 150 mg + 200 mg + 10 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Cobicistatum",
+"Elvitegravirum",
+"Emtricitabinum",
+"Tenofovirum alafenamidum"
+],
+"ulotka": ""
+},
+{
+"n": "Groprinosin",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "500 mg",
+"postac": "Tabletki",
+"sub": [
+"Inosinum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/9187/leaflet"
+},
+{
+"n": "Hepcludex",
+"inn": "Bulevirtidum",
+"atc": "J05AX28",
+"moc": "2 mg",
+"postac": "Proszek do sporządzania roztworu do wstrzykiwań",
+"sub": [
+"Bulevirtidum"
+],
+"ulotka": ""
+},
+{
+"n": "IMMUVI Forte",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "1000 mg",
+"postac": "Proszek do sporządzania roztworu doustnego w saszetce",
+"sub": [
+"Inosinum pranobexum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/46698/leaflet"
+},
+{
+"n": "Intelence",
+"inn": "Etravirinum",
+"atc": "J05AG04",
+"moc": "100 mg",
+"postac": "Tabletki",
+"sub": [
+"Etravirinum"
+],
+"ulotka": ""
+},
+{
+"n": "Inuprin",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "50 mg/ml",
+"postac": "Syrop",
+"sub": [
+"Inosinum pranobexum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/40315/leaflet"
+},
+{
+"n": "Invirase",
+"inn": "Saquinavirum",
+"atc": "J05AE01",
+"moc": "500 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Saquinavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Isoprinosine",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "500 mg",
+"postac": "Tabletki",
+"sub": [
+"Inosinum pranobexum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/3233/leaflet"
+},
+{
+"n": "Juluca",
+"inn": "Dolutegravirum + Rilpivirini hydrochloridum",
+"atc": "J05AR21",
+"moc": "50 mg + 25 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Dolutegravirum",
+"Rilpivirini hydrochloridum"
+],
+"ulotka": ""
+},
+{
+"n": "Kaletra",
+"inn": "Lopinavirum + Ritonavirum",
+"atc": "J05AR10",
+"moc": "(80 mg + 20 mg)/ml",
+"postac": "Roztwór doustny",
+"sub": [
+"Lopinavirum",
+"Ritonavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Kivexa",
+"inn": "Abacavirum + Lamivudinum",
+"atc": "J05AR02",
+"moc": "600 mg + 300 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Abacavirum",
+"Lamivudinum"
+],
+"ulotka": ""
+},
+{
+"n": "Lamivudine + Zidovudine Accord",
+"inn": "Lamivudinum + Zidovudinum",
+"atc": "J05AR01",
+"moc": "150 mg + 300 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Lamivudinum",
+"Zidovudinum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/38976/leaflet"
+},
+{
+"n": "Livtencity",
+"inn": "Maribavirum",
+"atc": "J05AX10",
+"moc": "200 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Maribavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Lopinavir/Ritonavir Viatris",
+"inn": "Lopinavirum + Ritonavirum",
+"atc": "J05AR10",
+"moc": "100 mg + 25 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Lopinavirum",
+"Ritonavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Neosine",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "250 mg/5 ml",
+"postac": "Syrop",
+"sub": [
+"Inosinum pranobexum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/23873/leaflet"
+},
+{
+"n": "Nevirapine Accord",
+"inn": "Nevirapinum",
+"atc": "J05AG01",
+"moc": "400 mg",
+"postac": "Tabletki o przedłużonym uwalnianiu",
+"sub": [
+"Nevirapinum anhydricum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/34914/leaflet"
+},
+{
+"n": "Norvir",
+"inn": "Ritonavirum",
+"atc": "J05AE03",
+"moc": "100 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Ritonavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Odefsey",
+"inn": "Emtricitabinum + Rilpivirini hydrochloridum + Tenofoviri alafenamidum",
+"atc": "J05AR19",
+"moc": "200 mg + 25 mg + 25 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Emtricitabinum",
+"Rylpivirini hydrochloridum",
+"Tenofovirum alafenamidum"
+],
+"ulotka": ""
+},
+{
+"n": "Paxlovid",
+"inn": "Nirmatrelvirum + Ritonavirum",
+"atc": "J05AE30",
+"moc": "150 mg + 100 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Nirmatrelvirum",
+"Ritonavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Pifeltro",
+"inn": "Doravirinum",
+"atc": "J05AG06",
+"moc": "100 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Doravirinum"
+],
+"ulotka": ""
+},
+{
+"n": "Pranosin",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "50 mg/ml",
+"postac": "Syrop",
+"sub": [
+"Inosinum pranobexum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/35197/leaflet"
+},
+{
+"n": "Prevymis",
+"inn": "Letermovirum",
+"atc": "J05AX18",
+"moc": "240 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Letermovirum"
+],
+"ulotka": ""
+},
+{
+"n": "Prezista",
+"inn": "Darunavirum",
+"atc": "J05AE10",
+"moc": "400 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Darunavirum"
+],
+"ulotka": ""
+},
+{
+"n": "REKAMBYS",
+"inn": "Rilpivirinum",
+"atc": "J05AG05",
+"moc": "600 mg",
+"postac": "Zawiesina do wstrzykiwań o przedłużonym uwalnianiu",
+"sub": [
+"Rilpivirinum"
+],
+"ulotka": ""
+},
+{
+"n": "Retrovir",
+"inn": "Zidovudinum",
+"atc": "J05AF01",
+"moc": "50 mg/5 ml",
+"postac": "Roztwór doustny",
+"sub": [
+"Zidovudinum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/8133/leaflet"
+},
+{
+"n": "Reyataz",
+"inn": "Atazanaviri sulfas",
+"atc": "J05AE08",
+"moc": "100 mg",
+"postac": "Kapsułki twarde",
+"sub": [
+"Atazanaviri sulfas"
+],
+"ulotka": ""
+},
+{
+"n": "Rezolsta",
+"inn": "Darunavirum + Cobicistatum",
+"atc": "J05AR14",
+"moc": "800 mg + 150 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Cobicistatum",
+"Darunavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Ritonavir Accord",
+"inn": "Ritonavirum",
+"atc": "J05AE03",
+"moc": "100 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Ritonavirum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/37475/leaflet"
+},
+{
+"n": "Rukobia",
+"inn": "Fostemsavirum",
+"atc": "J05AX29",
+"moc": "600 mg",
+"postac": "Tabletki o przedłużonym uwalnianiu",
+"sub": [
+"Fostemsavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Stocrin",
+"inn": "Efavirenzum",
+"atc": "J05AG03",
+"moc": "600 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Efavirenzum"
+],
+"ulotka": ""
+},
+{
+"n": "Stribild",
+"inn": "Elvitegravirum + Cobicistatum + Emtricitabinum + Tenofovirum disoproxilum",
+"atc": "J05AR09",
+"moc": "150 mg + 150 mg + 200 mg + 245 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Cobicistatum",
+"Elvitegravirum",
+"Emtricitabinum",
+"Tenofovirum disoproxilum"
+],
+"ulotka": ""
+},
+{
+"n": "Sunlenca",
+"inn": "Lenacapavirum",
+"atc": "J05AX31",
+"moc": "464 mg",
+"postac": "Roztwór do wstrzykiwań",
+"sub": [
+"Lenacapavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Sustiva",
+"inn": "Efavirenzum",
+"atc": "J05AG03",
+"moc": "50 mg",
+"postac": "Kapsułki twarde",
+"sub": [
+"Efavirenzum"
+],
+"ulotka": ""
+},
+{
+"n": "Symtuza",
+"inn": "Darunavirum + Cobicistatum + Emtricitabinum + Tenofovirum alafenamidum",
+"atc": "J05AR22",
+"moc": "800 mg + 150 mg + 200 mg + 10 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Cobicistatum",
+"Darunavirum",
+"Emtricitabinum",
+"Tenofovirum alafenamidum"
+],
+"ulotka": ""
+},
+{
+"n": "Tecovirimat SIGA",
+"inn": "Tecovirimatum monohydricum",
+"atc": "J05AX24",
+"moc": "200 mg",
+"postac": "Kapsułki twarde",
+"sub": [
+"Tecovirimatum monohydricum"
+],
+"ulotka": ""
+},
+{
+"n": "Telzir",
+"inn": "Fosamprenavirum",
+"atc": "J05AE07",
+"moc": "700 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Fosamprenavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Tenofovir Polpharma",
+"inn": "Tenofovirum disoproxilum",
+"atc": "J05AF07",
+"moc": "245 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Tenofovirum disoproxilum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/36850/leaflet"
+},
+{
+"n": "Triumeq",
+"inn": "Dolutegravirum + Abacavirum + Lamivudinum",
+"atc": "J05AR13",
+"moc": "50 mg + 600 mg + 300 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Abacavirum",
+"Dolutegravirum",
+"Lamivudinum"
+],
+"ulotka": ""
+},
+{
+"n": "Trizivir",
+"inn": "Abacavirum + Lamivudinum + Zidovudinum",
+"atc": "J05AR04",
+"moc": "300 mg + 150 mg + 300 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Abacaviri sulfas",
+"Lamivudinum",
+"Zidovudinum"
+],
+"ulotka": ""
+},
+{
+"n": "Truvada",
+"inn": "Emtricitabinum + Tenofovirum disoproxilum",
+"atc": "J05AR03",
+"moc": "200 mg + 245 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Emtricitabinum",
+"Tenofovirum disoproxilum"
+],
+"ulotka": ""
+},
+{
+"n": "Vemlidy",
+"inn": "Tenofovirum alafenamidum",
+"atc": "J05AF13",
+"moc": "25 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Tenofovirum alafenamidum"
+],
+"ulotka": ""
+},
+{
+"n": "Viramune",
+"inn": "Nevirapinum",
+"atc": "J05AG01",
+"moc": "50 mg/5 ml",
+"postac": "Zawiesina doustna",
+"sub": [
+"Nevirapinum"
+],
+"ulotka": ""
+},
+{
+"n": "Viread",
+"inn": "Tenofovirum disoproxilum",
+"atc": "J05AF07",
+"moc": "245 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Tenofovirum disoproxilum"
+],
+"ulotka": ""
+},
+{
+"n": "Virumed",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "1000 mg",
+"postac": "Proszek do sporządzania roztworu doustnego w saszetce",
+"sub": [
+"Inosinum pranobexum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/46673/leaflet"
+},
+{
+"n": "Viruzine Forte",
+"inn": "Inosinum pranobexum",
+"atc": "J05AX05",
+"moc": "500 mg/5 ml",
+"postac": "Syrop",
+"sub": [
+"Inosinum pranobexum"
+],
+"ulotka": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/41943/leaflet"
+},
+{
+"n": "Xofluza",
+"inn": "Baloxaviri marboxilum",
+"atc": "J05AX25",
+"moc": "20 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Baloxaviri marboxilum"
+],
+"ulotka": ""
+},
+{
+"n": "Yeytuo",
+"inn": "Lenacapavirum",
+"atc": "J05AX31",
+"moc": "464 mg",
+"postac": "Roztwór do wstrzykiwań",
+"sub": [
+"Lenacapavirum"
+],
+"ulotka": ""
+},
+{
+"n": "Zeffix",
+"inn": "Lamivudinum",
+"atc": "J05AF05",
+"moc": "5 mg/ml",
+"postac": "Roztwór doustny",
+"sub": [
+"Lamivudinum"
+],
+"ulotka": ""
+},
+{
+"n": "Ziagen",
+"inn": "Abacaviri sulfas",
+"atc": "J05AF06",
+"moc": "300 mg",
+"postac": "Tabletki powlekane",
+"sub": [
+"Abacaviri sulfas"
+],
+"ulotka": ""
+}
+]

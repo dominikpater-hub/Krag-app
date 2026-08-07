@@ -1,0 +1,69 @@
+{
+  "id": "arv-0001",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "PORADNIA_ARV",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "arv-0001#v1",
+      "entryId": "arv-0001",
+      "language": "pl",
+      "content": {
+        "summary": "Wojewódzki Szpital Zakaźny — Poradnia Profilaktyczno-Lecznicza— ul. Wolska 37, 01-201 Warszawa tel. 22 335 81 01, 22 335 81 02 (pn, czw 9:00–16:00; wt, śr, pt 7:30–15:00)",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": {
+          "placeKind": "PORADNIA_ARV",
+          "city": "Warszawa",
+          "voivodeship": "mazowieckie",
+          "address": "ul. Wolska 37, 01-201 Warszawa",
+          "phone": [
+            "22 335 81 01",
+            "22 335 81 02"
+          ],
+          "hours": "pn, czw 9:00–16:00; wt, śr, pt 7:30–15:00",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-01-23",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "9318b04e1182a2f8"
+    }
+  ],
+  "currentVersion": "arv-0001#v1"
+}

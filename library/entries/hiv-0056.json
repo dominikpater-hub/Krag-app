@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0056",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "prep",
+  "topic": "lenakapawir",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0056#v1",
+      "entryId": "hiv-0056",
+      "language": "pl",
+      "content": {
+        "summary": "W badaniu PURPOSE 1, wśród kobiet, lenakapawir dał zero zakażeń.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "RESEARCH_REPORT",
+            "reference": "PURPOSE 1 / PURPOSE 2 — badania lenakapawiru",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "purpose-nejm",
+        "type": "RESEARCH_REPORT",
+        "reference": "PURPOSE 1 / PURPOSE 2 — badania lenakapawiru",
+        "locator": "https://www.nejm.org/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2024",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "0c11774f8273f3d2"
+    }
+  ],
+  "currentVersion": "hiv-0056#v1"
+}

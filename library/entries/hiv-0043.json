@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0043",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "wspolistniejace",
+  "topic": "szczepienia",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0043#v1",
+      "entryId": "hiv-0043",
+      "language": "pl",
+      "content": {
+        "summary": "Osobom żyjącym z HIV zaleca się szereg szczepień, między innymi przeciw WZW A i B, pneumokokom, grypie, COVID-19 i HPV.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "Zasady opieki nad osobami żyjącymi z HIV. Zalecenia PTN AIDS 2025",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "ptn-aids-2025",
+        "type": "GUIDELINE",
+        "reference": "Zasady opieki nad osobami żyjącymi z HIV. Zalecenia PTN AIDS 2025",
+        "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "efb75453e00dcf6a"
+    }
+  ],
+  "currentVersion": "hiv-0043#v1"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "arv-0005",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "PORADNIA_ARV",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "arv-0005#v1",
+      "entryId": "arv-0005",
+      "language": "pl",
+      "content": {
+        "summary": "Poradnia Diagnostyki i Leczenia Nabytych Niedoborów Odporności— ul. Zjednoczenia 10, 41-500 Chorzów tel. 32 346 36 19, 32 346 36 20 (pn, czw, pt 8:00–15:35; wt, śr 8:00–18:00)",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": {
+          "placeKind": "PORADNIA_ARV",
+          "city": "Chorzów",
+          "voivodeship": "śląskie",
+          "address": "ul. Zjednoczenia 10, 41-500 Chorzów",
+          "phone": [
+            "32 346 36 19",
+            "32 346 36 20"
+          ],
+          "hours": "pn, czw, pt 8:00–15:35; wt, śr 8:00–18:00",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-01-23",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "04781b62aa3405b7"
+    }
+  ],
+  "currentVersion": "arv-0005#v1"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0103",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "stygma",
+  "topic": "język",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "osoba żyjąca z HIV / organizacja mandatowa",
+  "versions": [
+    {
+      "id": "hiv-0103#v1",
+      "entryId": "hiv-0103",
+      "language": "pl",
+      "content": {
+        "summary": "Nie mów „ofiara AIDS\" ani „grupy ryzyka\". Mów o ryzykownych zachowaniach, nie o grupach ludzi.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "EXPERT_NOTE",
+            "reference": "Stowarzyszenie „Jeden Świat\" — materiały o PEP i języku",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "jedenswiat",
+        "type": "EXPERT_NOTE",
+        "reference": "Stowarzyszenie „Jeden Świat\" — materiały o PEP i języku",
+        "locator": "https://jedenswiat.org.pl/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "UNKNOWN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "ed45b4b581368831"
+    }
+  ],
+  "currentVersion": "hiv-0103#v1"
+}

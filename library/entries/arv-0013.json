@@ -1,0 +1,68 @@
+{
+  "id": "arv-0013",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "PORADNIA_ARV",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "arv-0013#v1",
+      "entryId": "arv-0013",
+      "language": "pl",
+      "content": {
+        "summary": "Poradnia Nabytych Zaburzeń Odporności— ul. Kniaziewicza 1/5, 91-347 Łódź tel. 42 251 61 24 (pn, wt 7:30–18:00; śr, pt 7:30–15:00; czw 7:30–16:00)",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": {
+          "placeKind": "PORADNIA_ARV",
+          "city": "Łódź",
+          "voivodeship": "łódzkie",
+          "address": "ul. Kniaziewicza 1/5, 91-347 Łódź",
+          "phone": [
+            "42 251 61 24"
+          ],
+          "hours": "pn, wt 7:30–18:00; śr, pt 7:30–15:00; czw 7:30–16:00",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "TAKZE_DZIECI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-01-23",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "2aa79bd03adb8c86"
+    }
+  ],
+  "currentVersion": "arv-0013#v1"
+}

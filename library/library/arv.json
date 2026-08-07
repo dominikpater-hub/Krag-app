@@ -1,0 +1,552 @@
+{
+ "$comment": "Lista leków ARV z Rejestru Produktów Leczniczych, przefiltrowana allowlistą ATC (D2). Wyklucza inozynę pranobeks i leki nie-HIV (HBV, CMV, grypa, COVID). provenance: OFFICIAL_LIST, do potwierdzenia z aktualnym RPL.",
+ "edition": "rpl-2026-07",
+ "provenance": "OFFICIAL_LIST",
+ "drugs": [
+  {
+   "n": "Abacavir + Lamivudine Accord",
+   "inn": "Abacavirum + Lamivudinum",
+   "atc": "J05AR02",
+   "moc": "600 mg + 300 mg",
+   "sub": [
+    "Abacaviri hydrochloridum",
+    "Lamivudinum"
+   ]
+  },
+  {
+   "n": "Aptivus",
+   "inn": "Tipranavirum",
+   "atc": "J05AE09",
+   "moc": "250 mg",
+   "sub": [
+    "Tipranavirum"
+   ]
+  },
+  {
+   "n": "Atazanavir Accord",
+   "inn": "Atazanavirum",
+   "atc": "J05AE08",
+   "moc": "150 mg",
+   "sub": [
+    "Atazanavirum"
+   ]
+  },
+  {
+   "n": "Biktarvy",
+   "inn": "Bictegravirum natricum + Emtricitabinum + Tenofovirum alafenamidum fumaras",
+   "atc": "J05AR20",
+   "moc": "50 mg + 200 mg + 25 mg",
+   "sub": [
+    "Bictegravirum",
+    "Emtricitabinum",
+    "Tenofovirum alafenamidum"
+   ]
+  },
+  {
+   "n": "Celsentri",
+   "inn": "Maravirocum",
+   "atc": "J05AX09",
+   "moc": "150 mg",
+   "sub": [
+    "Maraviroc"
+   ]
+  },
+  {
+   "n": "Combivir",
+   "inn": "Lamivudinum + Zidovudinum",
+   "atc": "J05AR01",
+   "moc": "150 mg + 300 mg",
+   "sub": [
+    "Lamivudinum",
+    "Zidovudinum"
+   ]
+  },
+  {
+   "n": "Darunavir Accord",
+   "inn": "Darunavirum",
+   "atc": "J05AE10",
+   "moc": "75 mg",
+   "sub": [
+    "Darunavirum"
+   ]
+  },
+  {
+   "n": "Delstrigo",
+   "inn": "Doravirinum + Lamivudinum + Tenofovirum disoproxilum",
+   "atc": "J05AR24",
+   "moc": "100 mg + 300 mg + 245 mg",
+   "sub": [
+    "Doravirinum",
+    "Lamivudinum",
+    "Tenofovirum disoproxilum"
+   ]
+  },
+  {
+   "n": "Descovy",
+   "inn": "Emtricitabinum + Tenofoviri alafenamidum",
+   "atc": "J05AR17",
+   "moc": "200 mg + 10 mg",
+   "sub": [
+    "Emtricitabinum",
+    "Tenofovirum alafenamidum fumaras"
+   ]
+  },
+  {
+   "n": "Dovato",
+   "inn": "Dolutegravirum + Lamivudinum",
+   "atc": "J05AR25",
+   "moc": "50 mg + 300 mg",
+   "sub": [
+    "Dolutegravirum",
+    "Lamivudinum"
+   ]
+  },
+  {
+   "n": "Edurant",
+   "inn": "Rilpivirinum",
+   "atc": "J05AG05",
+   "moc": "25 mg",
+   "sub": [
+    "Rilpivirini hydrochloridum"
+   ]
+  },
+  {
+   "n": "Efavirenz + Emtricitabine + Tenofovir disoproxil Aurovitas",
+   "inn": "Efavirenzum + Emtricitabinum + Tenofovirum disoproxilum",
+   "atc": "J05AR06",
+   "moc": "600 mg + 200 mg + 245 mg",
+   "sub": [
+    "Efavirenzum",
+    "Emtricitabinum",
+    "Tenofovirum disoproxilum"
+   ]
+  },
+  {
+   "n": "Efavirenz/Emtricitabine/Tenofovir disoproxil Krka",
+   "inn": "Efavirenzum + Emtricitabinum + Tenofovirum disoproxilum",
+   "atc": "J05AR06",
+   "moc": "600 mg + 200 mg + 245 mg",
+   "sub": [
+    "Efavirenzum",
+    "Emtricitabine",
+    "Tenofovirum disoproxilum"
+   ]
+  },
+  {
+   "n": "Emtricitabine + Tenofovir disoproxil Aurovitas",
+   "inn": "Emtricitabinum + Tenofovirum disoproxilum",
+   "atc": "J05AR03",
+   "moc": "200 mg + 245 mg",
+   "sub": [
+    "Emtricitabinum",
+    "Tenofovirum disoproxilum"
+   ]
+  },
+  {
+   "n": "Emtricitabine/Rilpivirine/Tenofovir Alafenamide Viatris",
+   "inn": "Emtricitabinum + Rilpivirinum + Tenofovirum alafenamidum",
+   "atc": "J05AR19",
+   "moc": "200 mg + 25 mg + 25 mg",
+   "sub": [
+    "Emtricitabinum",
+    "Rilpivirinum",
+    "Tenofovirum alafenamidum"
+   ]
+  },
+  {
+   "n": "Emtricitabine/Tenofovir alafenamide Viatris",
+   "inn": "Emtricitabinum + Tenofovirum alafenamidum",
+   "atc": "J05AR17",
+   "moc": "200 mg + 10 mg",
+   "sub": [
+    "Emtricitabinum",
+    "Tenofovirum alafenamidum"
+   ]
+  },
+  {
+   "n": "Emtriva",
+   "inn": "Emtricitabinum",
+   "atc": "J05AF09",
+   "moc": "200 mg",
+   "sub": [
+    "Emtricitabinum"
+   ]
+  },
+  {
+   "n": "Epivir",
+   "inn": "Lamivudinum",
+   "atc": "J05AF05",
+   "moc": "150 mg",
+   "sub": [
+    "Lamivudinum"
+   ]
+  },
+  {
+   "n": "Eviplera",
+   "inn": "Emtricitabinum + Rilpivirinum + Tenofovirum disoproxilum",
+   "atc": "J05AR08",
+   "moc": "200 mg + 25 mg + 245 mg",
+   "sub": [
+    "Emtricitabinum",
+    "Rilpivirini hydrochloridum",
+    "Tenofovirum disoproxilum"
+   ]
+  },
+  {
+   "n": "Evotaz",
+   "inn": "Atazanavirum + Cobicistatum",
+   "atc": "J05AR15",
+   "moc": "300 mg + 150 mg",
+   "sub": [
+    "Atazanavirum",
+    "Cobicistatum"
+   ]
+  },
+  {
+   "n": "Fuzeon",
+   "inn": "Enfuvirtidum",
+   "atc": "J05AX07",
+   "moc": "90 mg/ml",
+   "sub": [
+    "Enfuvirtidum"
+   ]
+  },
+  {
+   "n": "Genvoya",
+   "inn": "Elvitegravirum + Cobicistatum + Emtricitabinum + Tenofovirum alafenamidum",
+   "atc": "J05AR18",
+   "moc": "150 mg + 150 mg + 200 mg + 10 mg",
+   "sub": [
+    "Cobicistatum",
+    "Elvitegravirum",
+    "Emtricitabinum",
+    "Tenofovirum alafenamidum"
+   ]
+  },
+  {
+   "n": "Intelence",
+   "inn": "Etravirinum",
+   "atc": "J05AG04",
+   "moc": "100 mg",
+   "sub": [
+    "Etravirinum"
+   ]
+  },
+  {
+   "n": "Invirase",
+   "inn": "Saquinavirum",
+   "atc": "J05AE01",
+   "moc": "500 mg",
+   "sub": [
+    "Saquinavirum"
+   ]
+  },
+  {
+   "n": "Juluca",
+   "inn": "Dolutegravirum + Rilpivirini hydrochloridum",
+   "atc": "J05AR21",
+   "moc": "50 mg + 25 mg",
+   "sub": [
+    "Dolutegravirum",
+    "Rilpivirini hydrochloridum"
+   ]
+  },
+  {
+   "n": "Kaletra",
+   "inn": "Lopinavirum + Ritonavirum",
+   "atc": "J05AR10",
+   "moc": "(80 mg + 20 mg)/ml",
+   "sub": [
+    "Lopinavirum",
+    "Ritonavirum"
+   ]
+  },
+  {
+   "n": "Kivexa",
+   "inn": "Abacavirum + Lamivudinum",
+   "atc": "J05AR02",
+   "moc": "600 mg + 300 mg",
+   "sub": [
+    "Abacavirum",
+    "Lamivudinum"
+   ]
+  },
+  {
+   "n": "Lamivudine + Zidovudine Accord",
+   "inn": "Lamivudinum + Zidovudinum",
+   "atc": "J05AR01",
+   "moc": "150 mg + 300 mg",
+   "sub": [
+    "Lamivudinum",
+    "Zidovudinum"
+   ]
+  },
+  {
+   "n": "Lopinavir/Ritonavir Viatris",
+   "inn": "Lopinavirum + Ritonavirum",
+   "atc": "J05AR10",
+   "moc": "100 mg + 25 mg",
+   "sub": [
+    "Lopinavirum",
+    "Ritonavirum"
+   ]
+  },
+  {
+   "n": "Nevirapine Accord",
+   "inn": "Nevirapinum",
+   "atc": "J05AG01",
+   "moc": "400 mg",
+   "sub": [
+    "Nevirapinum anhydricum"
+   ]
+  },
+  {
+   "n": "Norvir",
+   "inn": "Ritonavirum",
+   "atc": "J05AE03",
+   "moc": "100 mg",
+   "sub": [
+    "Ritonavirum"
+   ]
+  },
+  {
+   "n": "Odefsey",
+   "inn": "Emtricitabinum + Rilpivirini hydrochloridum + Tenofoviri alafenamidum",
+   "atc": "J05AR19",
+   "moc": "200 mg + 25 mg + 25 mg",
+   "sub": [
+    "Emtricitabinum",
+    "Rylpivirini hydrochloridum",
+    "Tenofovirum alafenamidum"
+   ]
+  },
+  {
+   "n": "Pifeltro",
+   "inn": "Doravirinum",
+   "atc": "J05AG06",
+   "moc": "100 mg",
+   "sub": [
+    "Doravirinum"
+   ]
+  },
+  {
+   "n": "Prezista",
+   "inn": "Darunavirum",
+   "atc": "J05AE10",
+   "moc": "400 mg",
+   "sub": [
+    "Darunavirum"
+   ]
+  },
+  {
+   "n": "REKAMBYS",
+   "inn": "Rilpivirinum",
+   "atc": "J05AG05",
+   "moc": "600 mg",
+   "sub": [
+    "Rilpivirinum"
+   ]
+  },
+  {
+   "n": "Retrovir",
+   "inn": "Zidovudinum",
+   "atc": "J05AF01",
+   "moc": "50 mg/5 ml",
+   "sub": [
+    "Zidovudinum"
+   ]
+  },
+  {
+   "n": "Reyataz",
+   "inn": "Atazanaviri sulfas",
+   "atc": "J05AE08",
+   "moc": "100 mg",
+   "sub": [
+    "Atazanaviri sulfas"
+   ]
+  },
+  {
+   "n": "Rezolsta",
+   "inn": "Darunavirum + Cobicistatum",
+   "atc": "J05AR14",
+   "moc": "800 mg + 150 mg",
+   "sub": [
+    "Cobicistatum",
+    "Darunavirum"
+   ]
+  },
+  {
+   "n": "Ritonavir Accord",
+   "inn": "Ritonavirum",
+   "atc": "J05AE03",
+   "moc": "100 mg",
+   "sub": [
+    "Ritonavirum"
+   ]
+  },
+  {
+   "n": "Rukobia",
+   "inn": "Fostemsavirum",
+   "atc": "J05AX29",
+   "moc": "600 mg",
+   "sub": [
+    "Fostemsavirum"
+   ]
+  },
+  {
+   "n": "Stocrin",
+   "inn": "Efavirenzum",
+   "atc": "J05AG03",
+   "moc": "600 mg",
+   "sub": [
+    "Efavirenzum"
+   ]
+  },
+  {
+   "n": "Stribild",
+   "inn": "Elvitegravirum + Cobicistatum + Emtricitabinum + Tenofovirum disoproxilum",
+   "atc": "J05AR09",
+   "moc": "150 mg + 150 mg + 200 mg + 245 mg",
+   "sub": [
+    "Cobicistatum",
+    "Elvitegravirum",
+    "Emtricitabinum",
+    "Tenofovirum disoproxilum"
+   ]
+  },
+  {
+   "n": "Sunlenca",
+   "inn": "Lenacapavirum",
+   "atc": "J05AX31",
+   "moc": "464 mg",
+   "sub": [
+    "Lenacapavirum"
+   ]
+  },
+  {
+   "n": "Sustiva",
+   "inn": "Efavirenzum",
+   "atc": "J05AG03",
+   "moc": "50 mg",
+   "sub": [
+    "Efavirenzum"
+   ]
+  },
+  {
+   "n": "Symtuza",
+   "inn": "Darunavirum + Cobicistatum + Emtricitabinum + Tenofovirum alafenamidum",
+   "atc": "J05AR22",
+   "moc": "800 mg + 150 mg + 200 mg + 10 mg",
+   "sub": [
+    "Cobicistatum",
+    "Darunavirum",
+    "Emtricitabinum",
+    "Tenofovirum alafenamidum"
+   ]
+  },
+  {
+   "n": "Telzir",
+   "inn": "Fosamprenavirum",
+   "atc": "J05AE07",
+   "moc": "700 mg",
+   "sub": [
+    "Fosamprenavirum"
+   ]
+  },
+  {
+   "n": "Tenofovir Polpharma",
+   "inn": "Tenofovirum disoproxilum",
+   "atc": "J05AF07",
+   "moc": "245 mg",
+   "sub": [
+    "Tenofovirum disoproxilum"
+   ]
+  },
+  {
+   "n": "Triumeq",
+   "inn": "Dolutegravirum + Abacavirum + Lamivudinum",
+   "atc": "J05AR13",
+   "moc": "50 mg + 600 mg + 300 mg",
+   "sub": [
+    "Abacavirum",
+    "Dolutegravirum",
+    "Lamivudinum"
+   ]
+  },
+  {
+   "n": "Trizivir",
+   "inn": "Abacavirum + Lamivudinum + Zidovudinum",
+   "atc": "J05AR04",
+   "moc": "300 mg + 150 mg + 300 mg",
+   "sub": [
+    "Abacaviri sulfas",
+    "Lamivudinum",
+    "Zidovudinum"
+   ]
+  },
+  {
+   "n": "Truvada",
+   "inn": "Emtricitabinum + Tenofovirum disoproxilum",
+   "atc": "J05AR03",
+   "moc": "200 mg + 245 mg",
+   "sub": [
+    "Emtricitabinum",
+    "Tenofovirum disoproxilum"
+   ]
+  },
+  {
+   "n": "Vemlidy",
+   "inn": "Tenofovirum alafenamidum",
+   "atc": "J05AF13",
+   "moc": "25 mg",
+   "sub": [
+    "Tenofovirum alafenamidum"
+   ]
+  },
+  {
+   "n": "Viramune",
+   "inn": "Nevirapinum",
+   "atc": "J05AG01",
+   "moc": "50 mg/5 ml",
+   "sub": [
+    "Nevirapinum"
+   ]
+  },
+  {
+   "n": "Viread",
+   "inn": "Tenofovirum disoproxilum",
+   "atc": "J05AF07",
+   "moc": "245 mg",
+   "sub": [
+    "Tenofovirum disoproxilum"
+   ]
+  },
+  {
+   "n": "Yeytuo",
+   "inn": "Lenacapavirum",
+   "atc": "J05AX31",
+   "moc": "464 mg",
+   "sub": [
+    "Lenacapavirum"
+   ]
+  },
+  {
+   "n": "Zeffix",
+   "inn": "Lamivudinum",
+   "atc": "J05AF05",
+   "moc": "5 mg/ml",
+   "sub": [
+    "Lamivudinum"
+   ]
+  },
+  {
+   "n": "Ziagen",
+   "inn": "Abacaviri sulfas",
+   "atc": "J05AF06",
+   "moc": "300 mg",
+   "sub": [
+    "Abacaviri sulfas"
+   ]
+  }
+ ]
+}

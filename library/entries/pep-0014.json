@@ -1,0 +1,68 @@
+{
+  "id": "pep-0014",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "DYZUR_PEP",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "pep-0014#v1",
+      "entryId": "pep-0014",
+      "language": "pl",
+      "content": {
+        "summary": "Wojewódzki Szpital Zespolony — SOR zakaźny— ul. Arkońska 4, 71-455 Szczecin tel. 91 813 94 40 (pn–pt 14:00–8:00; dni wolne i święta całodobowo)",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": {
+          "placeKind": "DYZUR_PEP",
+          "city": "Szczecin",
+          "voivodeship": "zachodniopomorskie",
+          "address": "ul. Arkońska 4, 71-455 Szczecin",
+          "phone": [
+            "91 813 94 40"
+          ],
+          "hours": "pn–pt 14:00–8:00; dni wolne i święta całodobowo",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2026-10-25",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "804822c893d20490"
+    }
+  ],
+  "currentVersion": "pep-0014#v1"
+}

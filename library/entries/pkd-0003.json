@@ -1,0 +1,74 @@
+{
+  "id": "pkd-0003",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "PKD",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "pkd-0003#v1",
+      "entryId": "pkd-0003",
+      "language": "pl",
+      "content": {
+        "summary": "PKD przy Poradni Terapii Uzależnień— ul. Zjednoczenia 10, 41-500 Chorzów (pn–czw 12:00–16:00; pt 8:00–12:00)",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": {
+          "placeKind": "PKD",
+          "city": "Chorzów",
+          "voivodeship": "śląskie",
+          "address": "ul. Zjednoczenia 10, 41-500 Chorzów",
+          "phone": [],
+          "hours": "pn–czw 12:00–16:00; pt 8:00–12:00",
+          "tests": [
+            "HIV",
+            "HCV",
+            "kiła"
+          ],
+          "languages": [
+            "pl",
+            "ru",
+            "uk"
+          ],
+          "accessible": true,
+          "audience": "DOROSLI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Portal edukacyjny Krajowego Centrum ds. AIDS",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Portal edukacyjny Krajowego Centrum ds. AIDS",
+        "locator": "https://www.hiv-aids.edu.pl/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2026",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-01-23",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "274e35de485fc3b7"
+    }
+  ],
+  "currentVersion": "pkd-0003#v1"
+}

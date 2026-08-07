@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0091",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "prawo",
+  "topic": "nowelizacja",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "prawnik",
+  "versions": [
+    {
+      "id": "hiv-0091#v1",
+      "entryId": "hiv-0091",
+      "language": "pl",
+      "content": {
+        "summary": "W 2024 roku Ministerstwo Zdrowia zaproponowało złagodzenie artykułu 161 i usunięcie wyodrębnienia HIV jako stygmatyzującego. Zmiana nie została uchwalona.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "PRESS",
+            "reference": "Termedia — doniesienia o nowelizacji art. 161 KK",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "termedia",
+        "type": "PRESS",
+        "reference": "Termedia — doniesienia o nowelizacji art. 161 KK",
+        "locator": "https://www.termedia.pl/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2024",
+      "confidence": "COMMUNITY",
+      "ceiling": "COMMUNITY",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2026-12-31",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "502b5735f4468afa"
+    }
+  ],
+  "currentVersion": "hiv-0091#v1"
+}

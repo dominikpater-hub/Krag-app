@@ -1,0 +1,68 @@
+{
+  "id": "pep-0018",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "DYZUR_PEP",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "pep-0018#v1",
+      "entryId": "pep-0018",
+      "language": "pl",
+      "content": {
+        "summary": "Szpital Wojewódzki — Oddział Kliniczny Chorób Zakaźnych— ul. Kośnego 53, 45-372 Opole tel. 77 443 30 44 (całodobowo (dyżurka lekarska))",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": {
+          "placeKind": "DYZUR_PEP",
+          "city": "Opole",
+          "voivodeship": "opolskie",
+          "address": "ul. Kośnego 53, 45-372 Opole",
+          "phone": [
+            "77 443 30 44"
+          ],
+          "hours": "całodobowo (dyżurka lekarska)",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2026-10-25",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "87ea0dfeb5497f5c"
+    }
+  ],
+  "currentVersion": "pep-0018#v1"
+}

@@ -1,0 +1,141 @@
+{
+  "$comment": "Co obserwujemy, jak często i czym. Rytm bierze się z tego, jak często zmienia się ŹRÓDŁO, a nie z tego, jak często chcemy zaglądać. Strategia mówi, czy zmianę da się wykryć maszynowo.",
+  "version": "1.0.0",
+  "strategies": {
+    "$comment": "STRUCTURED — źródło publikuje plik do porównania. HTTP — zmianę wykryjemy, ale znaczenie musi ocenić człowiek lub model. MANUAL — nie ma żadnego kanału, zostaje telefon.",
+    "STRUCTURED": {
+      "auto": true,
+      "needsReading": false
+    },
+    "HTTP": {
+      "auto": true,
+      "needsReading": true
+    },
+    "MANUAL": {
+      "auto": false,
+      "needsReading": true
+    }
+  },
+  "watchpoints": [
+    {
+      "id": "rpl",
+      "label": "Rejestr Produktów Leczniczych",
+      "strategy": "STRUCTURED",
+      "url": "https://rejestry.ezdrowie.gov.pl/api/rpl/medicinal-products/public-pl-report/5.0.0/overall.xml",
+      "everyDays": 1,
+      "parser": "rplArv",
+      "atcAllow": [
+        "J05AE",
+        "J05AF",
+        "J05AG",
+        "J05AJ",
+        "J05AR",
+        "J05AX07",
+        "J05AX09",
+        "J05AX12",
+        "J05AX23",
+        "J05AX27"
+      ],
+      "affectsBlocks": [
+        "leczenie",
+        "leczenie-pl",
+        "prep",
+        "prep-pl"
+      ],
+      "note": "Plik ma ~68 MB. Interesują nas wyłącznie kody ATC z listy — pojawienie się nowego generyku paracetamolu nie jest zdarzeniem dla tej aplikacji."
+    },
+    {
+      "id": "refundacja",
+      "label": "Obwieszczenie refundacyjne MZ",
+      "strategy": "HTTP",
+      "url": "https://www.gov.pl/web/zdrowie/obwieszczenia-ministra-zdrowia-lista-lekow-refundowanych",
+      "everyDays": 30,
+      "affectsBlocks": [
+        "prep-pl",
+        "leczenie-pl"
+      ],
+      "note": "Wychodzi cyklicznie co miesiąc. To tutaj mieszka fakt o braku refundacji PrEP — najdroższy przeterminowany fakt w bazie."
+    },
+    {
+      "id": "ptn-aids-2025",
+      "label": "Zalecenia PTN AIDS",
+      "strategy": "HTTP",
+      "url": "https://ptnaids.pl/rekomendacje-ptn-aids-2024/",
+      "everyDays": 30,
+      "affectsSource": "ptn-aids-2025",
+      "note": "Nowa edycja unieważnia naraz kilkadziesiąt faktów. Edycja 2026 jest zapowiedziana — obserwujemy stronę z rekomendacjami, nie sam PDF."
+    },
+    {
+      "id": "eacs-13",
+      "label": "EACS Guidelines",
+      "strategy": "HTTP",
+      "url": "https://www.eacsociety.org/guidelines/eacs-guidelines/",
+      "everyDays": 30,
+      "affectsSource": "eacs-13",
+      "note": "Od v12.1 tylko online, bez PDF — obserwujemy stronę wersji."
+    },
+    {
+      "id": "liverpool",
+      "label": "Liverpool HIV Drug Interactions",
+      "strategy": "HTTP",
+      "url": "https://www.hiv-druginteractions.org/",
+      "everyDays": 7,
+      "affectsBlocks": [
+        "leczenie"
+      ],
+      "note": "Zmiana oceny interakcji z zielonej na czerwoną jest zdarzeniem o wysokim koszcie. Rytm tygodniowy."
+    },
+    {
+      "id": "nizp-pzh-2024",
+      "label": "Dane epidemiologiczne NIZP-PZH",
+      "strategy": "HTTP",
+      "url": "https://wwwold.pzh.gov.pl/oldpage/epimeld/hiv_aids/",
+      "everyDays": 90,
+      "affectsSource": "nizp-pzh-2024",
+      "note": "Meldunki miesięczne, ale nasze fakty są roczne."
+    },
+    {
+      "id": "kc-aids",
+      "label": "Krajowe Centrum ds. AIDS",
+      "strategy": "HTTP",
+      "url": "https://aids.gov.pl/",
+      "everyDays": 30,
+      "affectsSource": "kc-aids",
+      "note": "Lista PKD i poradni HIV. Zmiany bez ogłoszenia."
+    },
+    {
+      "id": "kk-161",
+      "label": "Kodeks karny art. 161 (ISAP)",
+      "strategy": "HTTP",
+      "url": "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU19970880553",
+      "everyDays": 90,
+      "affectsBlocks": [
+        "prawo"
+      ],
+      "note": "Zmiana rzadka, ale skutek duży. Nowelizacja była postulowana i nie przeszła — stan wymaga pilnowania."
+    },
+    {
+      "id": "linie-kryzysowe",
+      "label": "Godziny dyżurów linii wsparcia",
+      "strategy": "MANUAL",
+      "everyDays": 90,
+      "affectsBlocks": [
+        "granice"
+      ],
+      "howTo": "Zadzwonić na 116 123 i 800 888 448, zapytać o realne godziny dyżurów. Zapisać kto dzwonił i kiedy.",
+      "note": "Nie ma feedu. Źródła internetowe podają sprzeczne godziny dla 116 123 — to znalezisko z audytu, wciąż nierozstrzygnięte."
+    },
+    {
+      "id": "program-arv",
+      "label": "Rządowy Program leczenia ARV",
+      "strategy": "MANUAL",
+      "everyDays": 30,
+      "affectsBlocks": [
+        "leczenie-pl"
+      ],
+      "expiresOn": "2026-12-31",
+      "howTo": "Sprawdzić na stronie MZ, czy program został przedłużony na okres po 2026.",
+      "note": "Fakt z twardą datą wygaśnięcia. Stoi pod odpowiedzią o leczeniu bez obywatelstwa — najczęściej zadawanym pytaniu osób z Ukrainy."
+    }
+  ]
+}

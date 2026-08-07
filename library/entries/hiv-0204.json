@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0204",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "odbudowa",
+  "topic": "brak odpowiedzi immunologicznej",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0204#v1",
+      "entryId": "hiv-0204",
+      "language": "pl",
+      "content": {
+        "summary": "U części osób z niewykrywalną wiremią CD4 mimo to nie rośnie. Zależnie od przyjętej definicji dotyczy to od kilkunastu do kilkudziesięciu procent leczonych. Najsilniejszym czynnikiem ryzyka jest niski nadir, drugim wiek w chwili rozpoczęcia leczenia.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "RESEARCH_REPORT",
+            "reference": "Frontiers in Virology",
+            "retrievedAt": "2026-07-26"
+          }
+        ]
+      },
+      "source": {
+        "id": "frontiers-inr-2022",
+        "type": "RESEARCH_REPORT",
+        "reference": "Frontiers in Virology",
+        "locator": "",
+        "retrievedAt": "2026-07-26"
+      },
+      "edition": "2022",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "81dec767d62c5e76"
+    }
+  ],
+  "currentVersion": "hiv-0204#v1"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0048",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "wyleczenie",
+  "topic": "drugi pacjent berliński",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0048#v1",
+      "entryId": "hiv-0048",
+      "language": "pl",
+      "content": {
+        "summary": "„Drugi pacjent berliński\" z 2024 roku to pierwszy przypadek remisji od dawcy z pojedynczą, a nie podwójną mutacją CCR5-delta32.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "RESEARCH_REPORT",
+            "reference": "IAS 2024 — przypadki remisji HIV",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "ias-2024",
+        "type": "RESEARCH_REPORT",
+        "reference": "IAS 2024 — przypadki remisji HIV",
+        "locator": "https://www.iasociety.org/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2024",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "ef0f3f15ae0d74ce"
+    }
+  ],
+  "currentVersion": "hiv-0048#v1"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0053",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "prep",
+  "topic": "schemat 2-1-1",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0053#v1",
+      "entryId": "hiv-0053",
+      "language": "pl",
+      "content": {
+        "summary": "Schemat 2-1-1 zbadano w IPERGAY: 86 procent skuteczności, a w przedłużeniu badania 97 procent.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "RESEARCH_REPORT",
+            "reference": "IPERGAY — PrEP w schemacie 2-1-1",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "ipergay",
+        "type": "RESEARCH_REPORT",
+        "reference": "IPERGAY — PrEP w schemacie 2-1-1",
+        "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7174437/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2015",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "02707a3867fa40ea"
+    }
+  ],
+  "currentVersion": "hiv-0053#v1"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "wsp-0004",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "ORGANIZACJA",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "wsp-0004#v1",
+      "entryId": "wsp-0004",
+      "language": "pl",
+      "content": {
+        "summary": "Społeczny Komitet ds. AIDS",
+        "actions": [],
+        "rights": [],
+        "warnings": [
+          "Współprowadzi program Buddy."
+        ],
+        "details": {
+          "placeKind": "ORGANIZACJA",
+          "city": "Warszawa",
+          "voivodeship": "mazowieckie",
+          "address": null,
+          "phone": [],
+          "hours": null,
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": "https://skaids.org",
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "FORUM",
+            "reference": "Dane kontaktowe organizacji pozarządowych (strony własne)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "ngo-kontakt",
+        "type": "FORUM",
+        "reference": "Dane kontaktowe organizacji pozarządowych (strony własne)",
+        "locator": null,
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "2026-07",
+      "confidence": "COMMUNITY",
+      "ceiling": "COMMUNITY",
+      "rights": "UNKNOWN",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-27",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "a6f4672c7da36720"
+    }
+  ],
+  "currentVersion": "wsp-0004#v1"
+}

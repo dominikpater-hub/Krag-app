@@ -1,0 +1,68 @@
+{
+  "id": "wsp-0008",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "ORGANIZACJA",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "wsp-0008#v1",
+      "entryId": "wsp-0008",
+      "language": "pl",
+      "content": {
+        "summary": "Grupa Stonewall",
+        "actions": [],
+        "rights": [],
+        "warnings": [
+          "Prowadzi przychodnię i PKD w Poznaniu, w tym poradnictwo w PJM."
+        ],
+        "details": {
+          "placeKind": "ORGANIZACJA",
+          "city": "Poznań",
+          "voivodeship": "wielkopolskie",
+          "address": null,
+          "phone": [],
+          "hours": null,
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": "https://grupa-stonewall.pl",
+          "email": "pkd@grupa-stonewall.pl",
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "FORUM",
+            "reference": "Dane kontaktowe organizacji pozarządowych (strony własne)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "ngo-kontakt",
+        "type": "FORUM",
+        "reference": "Dane kontaktowe organizacji pozarządowych (strony własne)",
+        "locator": null,
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "2026-07",
+      "confidence": "COMMUNITY",
+      "ceiling": "COMMUNITY",
+      "rights": "UNKNOWN",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-27",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "61a23bcf9d90fa98"
+    }
+  ],
+  "currentVersion": "wsp-0008#v1"
+}

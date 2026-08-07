@@ -1,0 +1,33 @@
+{
+  "$comment": "Moduły 1 (pierwsze dni) i 6 (życie długoterminowe) Trenera odporności. Treść przełożona z raportu 'Odbudowa odporności' na schemat bazy. NIEZWERYFIKOWANE przez człowieka — migrator ustawia DRAFT i verifiedBy:null. To najbardziej obciążona klinicznie treść (rokowanie, start leczenia, monitorowanie), więc idzie tą samą drogą podpisu co reszta.",
+  "edition": "modules-2026-07",
+  "language": "pl",
+  "provenance": "AI_RESEARCH",
+  "facts": [
+    { "id": "hiv-0223", "block": "pierwsze-dni", "topic": "diagnoza to nie wyrok",
+      "why": "Dziś HIV jest chorobą przewlekłą, leczoną codzienną terapią. Przy leczeniu, zwłaszcza rozpoczętym przy zachowanej odporności, oczekiwana długość życia jest zbliżona do długości życia osób bez HIV.",
+      "source": "lancet-hiv-2023-le", "confidence": "VERIFIED" },
+    { "id": "hiv-0224", "block": "pierwsze-dni", "topic": "tempo — co jest pilne, a co nie",
+      "why": "Leczenie antyretrowirusowe zaczyna się szybko po diagnozie, ale nie w trybie nagłym jak PEP. Jest czas na badania wyjściowe i rozmowę z lekarzem — pilne jest umówienie się do poradni, nie podejmowanie wszystkich decyzji naraz.",
+      "source": "eacs-13", "confidence": "OFFICIAL" },
+    { "id": "hiv-0225", "block": "pierwsze-dni", "topic": "pierwsze badania",
+      "why": "Na starcie opieki lekarz zleca zwykle liczbę CD4, wiremię, badania nerek i wątroby oraz badania w kierunku koinfekcji: HBV, HCV, kiły i gruźlicy. To punkt odniesienia dla dalszego leczenia.",
+      "source": "ptn-aids-2025", "confidence": "OFFICIAL" },
+    { "id": "hiv-0226", "block": "pierwsze-dni", "topic": "głowa w pierwszych tygodniach",
+      "why": "Szok, lęk i przytłoczenie w pierwszych tygodniach po diagnozie to najczęstszy przebieg, a nie wyjątek. Pierwszy rok bywa najtrudniejszy psychicznie — dlatego warto od początku mieć z kim o tym rozmawiać: lekarza, psychologa albo kogoś, kto to przeszedł.",
+      "source": "gen-psych-2021", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0227", "block": "dlugoterminowo", "topic": "rokowanie zaciera się z czasem",
+      "why": "Różnica w długości życia jest największa przy bardzo niskim CD4 na starcie, ale częściowo zaciera się z każdym rokiem skutecznego leczenia. Dane dla osób rozpoczynających leczenie po 2015 roku są wyraźnie lepsze niż wcześniejsze.",
+      "source": "lancet-hiv-2023-le", "confidence": "VERIFIED" },
+    { "id": "hiv-0228", "block": "dlugoterminowo", "topic": "co się monitoruje przez lata",
+      "why": "W stabilnym leczeniu regularnie kontroluje się wiremię i CD4, a z czasem także ciśnienie, lipidy, poziom cukru oraz pracę nerek i wątroby — bo z wiekiem rośnie ryzyko chorób niezwiązanych z AIDS.",
+      "source": "eacs-13", "confidence": "OFFICIAL" },
+    { "id": "hiv-0229", "block": "dlugoterminowo", "topic": "główne ryzyko długoterminowe",
+      "why": "U osób długo żyjących z HIV głównym ryzykiem stają się choroby serca, nerek, kości, wątroby oraz nowotwory niezwiązane z AIDS. Dlatego niepalenie, ruch i leczenie chorób współistniejących mają realne znaczenie.",
+      "source": "ptn-aids-2025", "confidence": "OFFICIAL" },
+    { "id": "hiv-0230", "block": "dlugoterminowo", "topic": "opieka to nie tylko tabletka",
+      "why": "Opieka długoterminowa obejmuje plan szczepień, profilaktykę i badania przesiewowe dostosowane do wieku i odporności. Część szczepień uzupełnia się lub powtarza po odbudowie liczby CD4.",
+      "source": "eacs-13", "confidence": "OFFICIAL" }
+  ]
+}

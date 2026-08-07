@@ -1,0 +1,56 @@
+{
+  "id": "hiv-0022",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "leczenie",
+  "topic": "pierwszy rzut",
+  "kind": "FACT",
+  "citesAtc": [
+    "J05AJ03",
+    "J05AJ05"
+  ],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0022#v1",
+      "entryId": "hiv-0022",
+      "language": "pl",
+      "content": {
+        "summary": "Współczesne leczenie pierwszego rzutu opiera się najczęściej na leku z grupy inhibitorów integrazy, na przykład dolutegrawirze lub biktegrawirze.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "EACS Guidelines v13.0",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "eacs-13",
+        "type": "GUIDELINE",
+        "reference": "EACS Guidelines v13.0",
+        "locator": "https://eacs.sanfordguide.com/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "13.0 (2025)",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "b534ae06474b1f2e"
+    }
+  ],
+  "currentVersion": "hiv-0022#v1"
+}

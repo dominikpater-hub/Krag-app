@@ -905,8 +905,12 @@ function idaBubble(who, html, src) {
 }
 function trustHtml(c, src, block) { const x = confBadge(c, src, block); return `<span class="trust ${x[0]}">${t('trust.' + x[0])}</span>`; }
 // Nazwa źródła jako link do strony źródłowej (jeśli znamy URL); inaczej zwykły tekst.
-function srcHtml(name) {
-  const u = srcUrl(name);
+/* Link do źródła. Pierwszeństwo ma adres NIESIONY PRZEZ FAKT (f.u) — czyli konkretna
+ * strona, z której pochodzi parafraza. Mapa nazw (SRC_URL) zostaje jako zapas dla faktów
+ * bez własnego lokalizatora: kliknięcie w „gov.pl" prowadziło dotąd na stronę główną
+ * gov.pl, a nie do dokumentu, o którym mowa (decyzja właściciela 2026-08-06). */
+function srcHtml(name, url) {
+  const u = url || srcUrl(name);
   return u ? `<a href="${escapeHtml(u)}" target="_blank" rel="noopener" class="srclink">${escapeHtml(name)}</a>` : escapeHtml(name);
 }
 // toast zależny od płci językowej (M/Ż/neutralnie)
@@ -974,8 +978,8 @@ function srcLine(facts, L) {
   if (facts.length && facts.every((f) => f.b === 'granice')) {
     return `<span class="trust rule">${escapeHtml(t('trust.rule'))}</span>`;
   }
-  const uniq = {}; facts.forEach((f) => { uniq[f.s] = { c: f.c, b: f.b }; });
-  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm].c, nm, uniq[nm].b) + srcHtml(nm)).join('<br>');
+  const uniq = {}; facts.forEach((f) => { uniq[f.s + '\u0000' + (f.u || '')] = { c: f.c, b: f.b, s: f.s, u: f.u }; });
+  let src = Object.values(uniq).map((x) => trustHtml(x.c, x.s, x.b) + srcHtml(x.s, x.u)).join('<br>');
   if (L !== 'pl' && facts.some((f) => factTranslated(f, L))) {
     src += `<br><span class="mtag">${escapeHtml(t('ida.mt'))}</span>`;
   }
@@ -1051,8 +1055,8 @@ async function idaAsk(q) {
 // Render odpowiedzi „Ida Rozumie": tekst modelu (escapowany) + etykiety zaufania z użytych faktów.
 function renderAi(res) {
   const used = (res.usedFactIds || []).map((id) => FACTS.find((f) => f.id === id)).filter(Boolean);
-  const uniq = {}; used.forEach((f) => { uniq[f.s] = { c: f.c, b: f.b }; });
-  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm].c, nm, uniq[nm].b) + srcHtml(nm)).join('<br>');
+  const uniq = {}; used.forEach((f) => { uniq[f.s + '\u0000' + (f.u || '')] = { c: f.c, b: f.b, s: f.s, u: f.u }; });
+  let src = Object.values(uniq).map((x) => trustHtml(x.c, x.s, x.b) + srcHtml(x.s, x.u)).join('<br>');
   src += `<br><span class="aitag">${t('ai.badge')}</span>`;
   src += `<br><span style="opacity:.75">${t('ida.base', { ed: PROV.ed })}</span>`;
   const body = escapeHtml(res.answer).replace(/\n/g, '<br>');
@@ -1170,7 +1174,7 @@ function openLibPath(id) {
     html += `<div class="lib-block"><div class="klbl">${escapeHtml(BLOCKNAME[b] || b)}</div>`;
     for (const f of fs) {
       const x = confBadge(f.c, f.s, f.b);
-      html += `<div class="lib-fact"><p>${factText(f, P)}</p><div class="srcline"><span class="trust ${x[0]}">${t('trust.' + x[0])}</span>${srcHtml(f.s)}</div></div>`;
+      html += `<div class="lib-fact"><p>${factText(f, P)}</p><div class="srcline"><span class="trust ${x[0]}">${t('trust.' + x[0])}</span>${srcHtml(f.s, f.u)}</div></div>`;
     }
     html += '</div>';
   }

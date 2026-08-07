@@ -1,0 +1,68 @@
+{
+  "id": "arv-0019",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "PORADNIA_ARV",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "arv-0019#v1",
+      "entryId": "arv-0019",
+      "language": "pl",
+      "content": {
+        "summary": "Poradnia Profilaktyczno-Lecznicza Niedoborów Odporności (bud. A2)— ul. Koszarowa 5, 51-149 Wrocław tel. 71 700 30 00 (pn 9:30–16:00; wt 8:30–13:30; śr 8:00–14:00; czw 8:00–11:00; pt 9:30–12:30)",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": {
+          "placeKind": "PORADNIA_ARV",
+          "city": "Wrocław",
+          "voivodeship": "dolnośląskie",
+          "address": "ul. Koszarowa 5, 51-149 Wrocław",
+          "phone": [
+            "71 700 30 00"
+          ],
+          "hours": "pn 9:30–16:00; wt 8:30–13:30; śr 8:00–14:00; czw 8:00–11:00; pt 9:30–12:30",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-01-23",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "2cff57e2437ed149"
+    }
+  ],
+  "currentVersion": "arv-0019#v1"
+}

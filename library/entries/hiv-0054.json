@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0054",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "prep",
+  "topic": "schemat 2-1-1",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0054#v1",
+      "entryId": "hiv-0054",
+      "language": "pl",
+      "content": {
+        "summary": "Schemat 2-1-1 zaleca się mężczyznom mającym seks z mężczyznami. Nie jest zalecany przy ekspozycji waginalnej.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "TRAINING_MAT",
+            "reference": "UCSF / PrEP-Rx — schematy dawkowania PrEP",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "ucsf-prep",
+        "type": "TRAINING_MAT",
+        "reference": "UCSF / PrEP-Rx — schematy dawkowania PrEP",
+        "locator": "https://prep.ucsf.edu/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "fc831c9d0451ff47"
+    }
+  ],
+  "currentVersion": "hiv-0054#v1"
+}

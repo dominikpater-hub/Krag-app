@@ -1,0 +1,68 @@
+{
+  "id": "arv-0010",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "PORADNIA_ARV",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "arv-0010#v1",
+      "entryId": "arv-0010",
+      "language": "pl",
+      "content": {
+        "summary": "Poradnia Chorób Zakaźnych Dzieci — Szpital im. Żeromskiego— os. Na Skarpie 67, 31-913 Kraków tel. 12 622 94 63 (pn, wt, śr, pt 7:30–14:30; czw 7:30–18:30)",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": {
+          "placeKind": "PORADNIA_ARV",
+          "city": "Kraków",
+          "voivodeship": "małopolskie",
+          "address": "os. Na Skarpie 67, 31-913 Kraków",
+          "phone": [
+            "12 622 94 63"
+          ],
+          "hours": "pn, wt, śr, pt 7:30–14:30; czw 7:30–18:30",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "TYLKO_DZIECI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-01-23",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "1531bc5649a96c21"
+    }
+  ],
+  "currentVersion": "arv-0010#v1"
+}

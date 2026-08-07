@@ -1,0 +1,71 @@
+{
+  "id": "pep-0016",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "DYZUR_PEP",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "pep-0016#v1",
+      "entryId": "pep-0016",
+      "language": "pl",
+      "content": {
+        "summary": "USK im. Mikulicza-Radeckiego— ul. Chałubińskiego 2-2a, 50-368 Wrocław tel. 71 770 31 55, 71 770 31 58 (8:00–20:00)",
+        "actions": [],
+        "rights": [],
+        "warnings": [
+          "KONFLIKT ŹRÓDEŁ: Placówka jest na liście dyżurów całodobowych, ale sama podaje godziny 8:00–20:00. Nie jest to dyżur całodobowy."
+        ],
+        "details": {
+          "placeKind": "DYZUR_PEP",
+          "city": "Wrocław",
+          "voivodeship": "dolnośląskie",
+          "address": "ul. Chałubińskiego 2-2a, 50-368 Wrocław",
+          "phone": [
+            "71 770 31 55",
+            "71 770 31 58"
+          ],
+          "hours": "8:00–20:00",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "TYLKO_DZIECI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2026-10-25",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "8e9968bc6174023b"
+    }
+  ],
+  "currentVersion": "pep-0016#v1"
+}

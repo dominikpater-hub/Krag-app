@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0107",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "epidemiologia",
+  "topic": "Polska od 1985",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub epidemiolog",
+  "versions": [
+    {
+      "id": "hiv-0107#v1",
+      "entryId": "hiv-0107",
+      "language": "pl",
+      "content": {
+        "summary": "Od 1985 roku do końca 2024 roku w Polsce wykryto ponad 32 900 zakażeń HIV.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Zakażenia HIV i zachorowania na AIDS w Polsce — 2024",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "nizp-pzh-2024",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Zakażenia HIV i zachorowania na AIDS w Polsce — 2024",
+        "locator": "https://wwwold.pzh.gov.pl/oldpage/epimeld/hiv_aids/2024.htm",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2024",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2026-12-31",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "259e5a6118a42a3f"
+    }
+  ],
+  "currentVersion": "hiv-0107#v1"
+}

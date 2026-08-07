@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0073",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "pep",
+  "topic": "anonimowość",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0073#v1",
+      "entryId": "hiv-0073",
+      "language": "pl",
+      "content": {
+        "summary": "PEP nie jest anonimowy — lekarz musi ocenić ryzyko i prowadzić dokumentację, chronioną tajemnicą lekarską.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "FORUM",
+            "reference": "PKD Poznań — ścieżka PEP",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "pkd-poznan",
+        "type": "FORUM",
+        "reference": "PKD Poznań — ścieżka PEP",
+        "locator": "https://pkdpoznan.pl/pep-poznan-gdzie-zglosic",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "COMMUNITY",
+      "ceiling": "COMMUNITY",
+      "rights": "UNKNOWN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "7a575d1e72284c88"
+    }
+  ],
+  "currentVersion": "hiv-0073#v1"
+}

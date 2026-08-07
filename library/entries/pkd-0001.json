@@ -1,0 +1,73 @@
+{
+  "id": "pkd-0001",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "PKD",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "pkd-0001#v1",
+      "entryId": "pkd-0001",
+      "language": "pl",
+      "content": {
+        "summary": "PKD przy przychodni na Bema— ul. Bema 2 lok. 011 (poziom -1), 15-369 Białystok (pn, śr, pt 15:00–17:30)",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": {
+          "placeKind": "PKD",
+          "city": "Białystok",
+          "voivodeship": "podlaskie",
+          "address": "ul. Bema 2 lok. 011 (poziom -1), 15-369 Białystok",
+          "phone": [],
+          "hours": "pn, śr, pt 15:00–17:30",
+          "tests": [
+            "HIV",
+            "HCV",
+            "kiła"
+          ],
+          "languages": [
+            "pl",
+            "en"
+          ],
+          "accessible": true,
+          "audience": "DOROSLI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Portal edukacyjny Krajowego Centrum ds. AIDS",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Portal edukacyjny Krajowego Centrum ds. AIDS",
+        "locator": "https://www.hiv-aids.edu.pl/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2026",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-01-23",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "ce8d6d5d81caca6c"
+    }
+  ],
+  "currentVersion": "pkd-0001#v1"
+}

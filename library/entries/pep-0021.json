@@ -1,0 +1,71 @@
+{
+  "id": "pep-0021",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "DYZUR_PEP",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "pep-0021#v1",
+      "entryId": "pep-0021",
+      "language": "pl",
+      "content": {
+        "summary": "Wrocławskie Centrum Zdrowia — Poradnia Profilaktyczno-Lecznicza— ul. Wszystkich Świętych 2, 50-136 Wrocław tel. 71 356 07 80, 71 326 67 30 (BRAK dyżuru całodobowego — tylko w godzinach pracy poradni)",
+        "actions": [],
+        "rights": [],
+        "warnings": [
+          "Figuruje na liście dyżurów, ale sam nie ma dyżuru całodobowego. Po godzinach kieruj do Koszarowej 5."
+        ],
+        "details": {
+          "placeKind": "DYZUR_PEP",
+          "city": "Wrocław",
+          "voivodeship": "dolnośląskie",
+          "address": "ul. Wszystkich Świętych 2, 50-136 Wrocław",
+          "phone": [
+            "71 356 07 80",
+            "71 326 67 30"
+          ],
+          "hours": "BRAK dyżuru całodobowego — tylko w godzinach pracy poradni",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2026-10-25",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "a55db8aefa55fc46"
+    }
+  ],
+  "currentVersion": "pep-0021#v1"
+}

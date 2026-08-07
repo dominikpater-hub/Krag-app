@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0030",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "uu",
+  "topic": "kto to potwierdza",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0030#v1",
+      "entryId": "hiv-0030",
+      "language": "pl",
+      "content": {
+        "summary": "U=U poparły między innymi WHO, UNAIDS i CDC oraz ponad tysiąc organizacji ze 105 krajów.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "EXPERT_NOTE",
+            "reference": "Prevention Access Campaign — U=U",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "prevention-access",
+        "type": "EXPERT_NOTE",
+        "reference": "Prevention Access Campaign — U=U",
+        "locator": "https://preventionaccess.org/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-31",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "c8f50175e5356245"
+    }
+  ],
+  "currentVersion": "hiv-0030#v1"
+}

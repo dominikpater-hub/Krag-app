@@ -1,0 +1,945 @@
+{
+  "$comment": "Ziarno z deep researchu 2026-07-25. NIC stąd nie jest zweryfikowane przez człowieka. Migrator ustawia verifiedBy:null i status DRAFT dla całości.",
+  "edition": "hiv-2026-07",
+  "language": "pl",
+  "provenance": "AI_RESEARCH",
+  "facts": [
+    {
+      "id": "hiv-0001",
+      "block": "transmisja",
+      "topic": "drogi przenoszenia",
+      "why": "HIV przenosi się trzema drogami: przez seks bez zabezpieczenia, przez krew i z matki na dziecko (ciąża, poród, karmienie piersią).",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0002",
+      "block": "transmisja",
+      "topic": "czym się nie zakazisz",
+      "why": "HIV nie przenosi się przez ślinę, pot, łzy, mocz ani kał, jeśli nie ma w nich krwi.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0003",
+      "block": "transmisja",
+      "topic": "czym się nie zakazisz",
+      "why": "Nie zakazisz się HIV przez przytulenie, podanie ręki, wspólne naczynia, toaletę czy basen.",
+      "source": "kc-aids",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0004",
+      "block": "transmisja",
+      "topic": "płyny zakaźne",
+      "why": "Płyny, które mogą przenosić HIV, to m.in. krew, nasienie, wydzielina pochwy i mleko kobiece.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0005",
+      "block": "transmisja",
+      "topic": "mity",
+      "why": "Komary i inne owady nie przenoszą HIV.",
+      "source": "cdc",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0006",
+      "block": "transmisja",
+      "topic": "ryzyko na akt",
+      "why": "Na 10 000 kontaktów analnych biernych z osobą zakażoną, nieleczoną i bez zabezpieczeń, do zakażenia dochodzi około 138 razy.",
+      "source": "patel-2014",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0007",
+      "block": "transmisja",
+      "topic": "ryzyko na akt",
+      "why": "Seks analny czynny to około 11 zakażeń na 10 000 kontaktów.",
+      "source": "patel-2014",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0008",
+      "block": "transmisja",
+      "topic": "ryzyko na akt",
+      "why": "Seks waginalny to około 8 zakażeń na 10 000 kontaktów dla strony przyjmującej i około 4 dla strony wprowadzającej.",
+      "source": "patel-2014",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0009",
+      "block": "transmisja",
+      "topic": "ryzyko na akt",
+      "why": "Wspólna igła do narkotyków to około 63 zakażenia na 10 000 użyć.",
+      "source": "patel-2014",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0010",
+      "block": "transmisja",
+      "topic": "ryzyko na akt",
+      "why": "Przetoczenie zakażonej krwi ma bardzo wysokie ryzyko — około 9250 na 10 000.",
+      "source": "patel-2014",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0011",
+      "block": "transmisja",
+      "topic": "ryzyko na akt",
+      "why": "Seks oralny uznaje się za niskie ryzyko, a plucie czy ugryzienie za znikome.",
+      "source": "patel-2014",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0012",
+      "block": "transmisja",
+      "topic": "co podnosi ryzyko",
+      "why": "Ryzyko zakażenia rośnie, gdy druga osoba ma świeże zakażenie, wysoką wiremię albo inną chorobę przenoszoną drogą płciową.",
+      "source": "patel-2014",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0013",
+      "block": "przebieg",
+      "topic": "faza ostra",
+      "why": "Pierwsze objawy mogą przypominać grypę: gorączka, ból gardła, wysypka, powiększone węzły chłonne — zwykle 2 do 4 tygodni po zakażeniu.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0014",
+      "block": "przebieg",
+      "topic": "faza bezobjawowa",
+      "why": "Po fazie ostrej przychodzi faza bezobjawowa, która bez leczenia może trwać wiele lat.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0015",
+      "block": "przebieg",
+      "topic": "AIDS",
+      "why": "AIDS rozpoznaje się u osoby z HIV wtedy, gdy pojawia się jedna z tak zwanych chorób wskaźnikowych.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0016",
+      "block": "przebieg",
+      "topic": "CD4",
+      "why": "Liczba CD4 pokazuje, jak silny jest układ odpornościowy. Wynik poniżej 200 oznacza duże ryzyko zakażeń oportunistycznych.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0017",
+      "block": "przebieg",
+      "topic": "wiremia",
+      "why": "Wiremia to liczba kopii wirusa we krwi. Celem leczenia jest, żeby była niewykrywalna.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0018",
+      "block": "przebieg",
+      "topic": "niewykrywalny",
+      "why": "„Niewykrywalny\" znaczy „poniżej progu testu\", zwykle mniej niż 50 kopii na mililitr — a nie „bez wirusa\".",
+      "source": "eacs-13",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0019",
+      "block": "przebieg",
+      "topic": "późne rozpoznania",
+      "why": "W Polsce w grudniu 2024 roku średnia liczba CD4 przy rozpoznaniu AIDS wynosiła 71 — to bardzo późne rozpoznania.",
+      "source": "nizp-pzh-2024",
+      "confidence": "OFFICIAL",
+      "review": "2027-12-31"
+    },
+    {
+      "id": "hiv-0020",
+      "block": "leczenie",
+      "topic": "czym jest ART",
+      "why": "Leczenie HIV nazywa się terapią antyretrowirusową i przyjmuje się je codziennie, przez całe życie.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0021",
+      "block": "leczenie",
+      "topic": "klasy leków",
+      "why": "Główne klasy leków to NRTI, NNRTI, inhibitory proteazy, inhibitory integrazy, inhibitory wejścia oraz inhibitory kapsydu (np. lenakapawir).",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0022",
+      "block": "leczenie",
+      "topic": "pierwszy rzut",
+      "why": "Współczesne leczenie pierwszego rzutu opiera się najczęściej na leku z grupy inhibitorów integrazy, na przykład dolutegrawirze lub biktegrawirze.",
+      "source": "eacs-13",
+      "confidence": "OFFICIAL",
+      "citesAtc": [
+        "J05AJ03",
+        "J05AJ05"
+      ]
+    },
+    {
+      "id": "hiv-0023",
+      "block": "leczenie",
+      "topic": "terapia iniekcyjna",
+      "why": "Istnieje terapia w zastrzykach — kabotegrawir z rylpiwiryną — podawana co jeden lub dwa miesiące zamiast codziennych tabletek.",
+      "source": "nhc",
+      "confidence": "VERIFIED",
+      "citesAtc": [
+        "J05AJ04",
+        "J05AG05"
+      ]
+    },
+    {
+      "id": "hiv-0024",
+      "block": "leczenie",
+      "topic": "terapia iniekcyjna",
+      "why": "Terapia w zastrzykach jest tylko dla osób, które już mają niewykrywalną wiremię i nie miały niepowodzeń leczenia. Nie zaczyna się od niej leczenia.",
+      "source": "eacs-13",
+      "confidence": "OFFICIAL",
+      "citesAtc": [
+        "J05AJ04",
+        "J05AG05"
+      ]
+    },
+    {
+      "id": "hiv-0025",
+      "block": "leczenie",
+      "topic": "adherencja",
+      "why": "Regularne przyjmowanie leków jest kluczowe. Pomijane dawki mogą prowadzić do lekooporności.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0026",
+      "block": "leczenie",
+      "topic": "rokowanie",
+      "why": "Dobrze leczony HIV pozwala żyć długo i w zdrowiu, przez czas zbliżony do długości życia osób bez HIV.",
+      "source": "eacs-13",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0027",
+      "block": "uu",
+      "topic": "czym jest U=U",
+      "why": "U=U znaczy: niewykrywalny równa się niezakaźny. Osoba z niewykrywalną wiremią nie przenosi HIV drogą seksualną.",
+      "source": "cdc",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0028",
+      "block": "uu",
+      "topic": "podstawa dowodowa",
+      "why": "U=U potwierdziły cztery duże badania: HPTN 052, PARTNER, PARTNER2 i Opposites Attract.",
+      "source": "i-base",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0029",
+      "block": "uu",
+      "topic": "podstawa dowodowa",
+      "why": "W badaniach nie odnotowano ani jednej transmisji seksualnej przy utrzymanej niewykrywalnej wiremii — łącznie w około 126 tysiącach aktów bez prezerwatywy.",
+      "source": "aidsmap",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0030",
+      "block": "uu",
+      "topic": "kto to potwierdza",
+      "why": "U=U poparły między innymi WHO, UNAIDS i CDC oraz ponad tysiąc organizacji ze 105 krajów.",
+      "source": "prevention-access",
+      "confidence": "VERIFIED",
+      "review": "2027-07-31"
+    },
+    {
+      "id": "hiv-0031",
+      "block": "uu",
+      "topic": "warunek",
+      "why": "Żeby U=U działało, wiremia musi być niewykrywalna trwale — zwykle rozumie się to jako poniżej 200 kopii na mililitr.",
+      "source": "hivguidelines-ny",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0032",
+      "block": "uu",
+      "topic": "blipy",
+      "why": "Krótkie „blipy\", czyli chwilowe niskie wyniki wykrywalne, nie znosiły ochrony w badaniach.",
+      "source": "hivguidelines-ny",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0033",
+      "block": "uu",
+      "topic": "granice U=U",
+      "why": "U=U udowodniono dla kontaktów seksualnych. To nie jest to samo co karmienie piersią czy wspólne igły.",
+      "source": "hivguidelines-ny",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0034",
+      "block": "uu",
+      "topic": "granice U=U",
+      "why": "Przy karmieniu piersią na skutecznym leczeniu ryzyko zakażenia dziecka jest mniejsze niż 1 procent, ale nie zerowe.",
+      "source": "nih-dhhs",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0035",
+      "block": "uu",
+      "topic": "granice U=U",
+      "why": "Nie udowodniono, że osoba z niewykrywalną wiremią nie przenosi HIV przez wspólne igły.",
+      "source": "hivguidelines-ny",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0036",
+      "block": "ciaza",
+      "topic": "ciąża",
+      "why": "Skuteczne leczenie w ciąży niemal całkowicie zapobiega przekazaniu HIV dziecku.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0037",
+      "block": "ciaza",
+      "topic": "karmienie",
+      "why": "Karmienie mlekiem modyfikowanym albo pasteryzowanym mlekiem z banku daje zerowe ryzyko zakażenia dziecka.",
+      "source": "nih-dhhs",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0038",
+      "block": "ciaza",
+      "topic": "karmienie",
+      "why": "Od 2023 i 2024 roku wytyczne wspierają wspólne podejmowanie decyzji o karmieniu piersią zamiast bezwzględnego zakazu.",
+      "source": "wellproject",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0039",
+      "block": "ciaza",
+      "topic": "karmienie",
+      "why": "Osoba z HIV, która chce karmić piersią i ma utrwaloną supresję wirusa, powinna być wspierana, a nie straszona.",
+      "source": "nih-dhhs",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0040",
+      "block": "wspolistniejace",
+      "topic": "starzenie się",
+      "why": "Osoby żyjące z HIV częściej i wcześniej doświadczają chorób serca, nerek, kości i zaburzeń metabolicznych.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0041",
+      "block": "wspolistniejace",
+      "topic": "koinfekcje",
+      "why": "Częste koinfekcje to WZW C, WZW B, gruźlica i kiła. Warto się w ich kierunku badać.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0042",
+      "block": "wspolistniejace",
+      "topic": "zdrowie psychiczne",
+      "why": "Zdrowie psychiczne jest częścią opieki nad HIV. Depresja i lęk zdarzają się częściej i można je leczyć.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0043",
+      "block": "wspolistniejace",
+      "topic": "szczepienia",
+      "why": "Osobom żyjącym z HIV zaleca się szereg szczepień, między innymi przeciw WZW A i B, pneumokokom, grypie, COVID-19 i HPV.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0044",
+      "block": "wspolistniejace",
+      "topic": "profilaktyka oportunistyczna",
+      "why": "Przy niskiej liczbie CD4 stosuje się leki zapobiegające zakażeniom oportunistycznym.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0045",
+      "block": "wyleczenie",
+      "topic": "stan badań",
+      "why": "Nie ma jeszcze leku, który całkowicie usuwa HIV z organizmu.",
+      "source": "amfar",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0046",
+      "block": "wyleczenie",
+      "topic": "przypadki remisji",
+      "why": "Dotąd siedem osób uznano za wyleczone lub będące w długiej remisji. Wszystkie po przeszczepie komórek krwiotwórczych z powodu nowotworu.",
+      "source": "ias-2024",
+      "confidence": "VERIFIED",
+      "review": "2027-07-31"
+    },
+    {
+      "id": "hiv-0047",
+      "block": "wyleczenie",
+      "topic": "dlaczego nie dla wszystkich",
+      "why": "Przeszczep szpiku jest zbyt ryzykowny, żeby był metodą leczenia HIV. Służy nauce jako dowód, że wyleczenie w ogóle jest możliwe.",
+      "source": "amfar",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0048",
+      "block": "wyleczenie",
+      "topic": "drugi pacjent berliński",
+      "why": "„Drugi pacjent berliński\" z 2024 roku to pierwszy przypadek remisji od dawcy z pojedynczą, a nie podwójną mutacją CCR5-delta32.",
+      "source": "ias-2024",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0049",
+      "block": "wyleczenie",
+      "topic": "co jest w badaniach",
+      "why": "Terapie genowe, przeciwciała szeroko neutralizujące i terapie CAR-T są w fazie badań, a nie w praktyce klinicznej.",
+      "source": "aidsmap",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0050",
+      "block": "wyleczenie",
+      "topic": "szczepionka",
+      "why": "Skutecznej szczepionki przeciw HIV na razie nie ma.",
+      "source": "amfar",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0051",
+      "block": "prep",
+      "topic": "czym jest PrEP",
+      "why": "PrEP to leki brane przez osobę bez HIV po to, żeby zapobiec zakażeniu.",
+      "source": "cdc",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0052",
+      "block": "prep",
+      "topic": "schematy",
+      "why": "PrEP można brać codziennie albo w schemacie „na żądanie\" 2-1-1: dwie tabletki przed seksem, po jednej przez dwa kolejne dni.",
+      "source": "ucsf-prep",
+      "confidence": "VERIFIED",
+      "citesAtc": [
+        "J05AR03"
+      ]
+    },
+    {
+      "id": "hiv-0053",
+      "block": "prep",
+      "topic": "schemat 2-1-1",
+      "why": "Schemat 2-1-1 zbadano w IPERGAY: 86 procent skuteczności, a w przedłużeniu badania 97 procent.",
+      "source": "ipergay",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0054",
+      "block": "prep",
+      "topic": "schemat 2-1-1",
+      "why": "Schemat 2-1-1 zaleca się mężczyznom mającym seks z mężczyznami. Nie jest zalecany przy ekspozycji waginalnej.",
+      "source": "ucsf-prep",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0055",
+      "block": "prep",
+      "topic": "lenakapawir",
+      "why": "Lenakapawir w zastrzyku co pół roku został zatwierdzony przez amerykański FDA 18 czerwca 2025 roku jako PrEP.",
+      "source": "gilead-2025",
+      "confidence": "OFFICIAL",
+      "review": "2027-06-30"
+    },
+    {
+      "id": "hiv-0056",
+      "block": "prep",
+      "topic": "lenakapawir",
+      "why": "W badaniu PURPOSE 1, wśród kobiet, lenakapawir dał zero zakażeń.",
+      "source": "purpose-nejm",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0057",
+      "block": "prep",
+      "topic": "lenakapawir",
+      "why": "W badaniu PURPOSE 2 lenakapawir zmniejszył liczbę zakażeń o 96 procent.",
+      "source": "purpose-nejm",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0058",
+      "block": "prep",
+      "topic": "lenakapawir",
+      "why": "WHO zaleciło lenakapawir jako PrEP 14 lipca 2025 roku.",
+      "source": "who",
+      "confidence": "OFFICIAL",
+      "review": "2027-07-31"
+    },
+    {
+      "id": "hiv-0059",
+      "block": "prep",
+      "topic": "badania kontrolne",
+      "why": "Przed rozpoczęciem PrEP i w trakcie jego stosowania robi się test HIV, badania nerek i badania w kierunku innych chorób przenoszonych drogą płciową.",
+      "source": "cdc",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0060",
+      "block": "prep",
+      "topic": "czego PrEP nie robi",
+      "why": "PrEP nie chroni przed innymi chorobami przenoszonymi drogą płciową ani przed ciążą.",
+      "source": "cdc",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0061",
+      "block": "prep-pl",
+      "topic": "refundacja",
+      "why": "W Polsce w 2026 roku PrEP nie jest refundowany. Pacjent płaci pełną cenę leku, wizyty i badań.",
+      "source": "rynek-zdrowia",
+      "confidence": "VERIFIED",
+      "review": "2027-03-31"
+    },
+    {
+      "id": "hiv-0062",
+      "block": "prep-pl",
+      "topic": "koszt",
+      "why": "Miesięczny koszt generycznego PrEP w Polsce to orientacyjnie 150 do 200 złotych, z wahaniami przy brakach leku.",
+      "source": "gdziepolek",
+      "confidence": "COMMUNITY",
+      "review": "2027-03-31"
+    },
+    {
+      "id": "hiv-0063",
+      "block": "prep-pl",
+      "topic": "recepta",
+      "why": "Od 19 września 2024 roku receptę na PrEP mogą wystawiać także lekarze podstawowej opieki zdrowotnej — nadal pełnopłatnie.",
+      "source": "rynek-zdrowia",
+      "confidence": "VERIFIED",
+      "review": "2026-12-31"
+    },
+    {
+      "id": "hiv-0064",
+      "block": "prep-pl",
+      "topic": "gdzie",
+      "why": "PrEP w Polsce można uzyskać w poradniach zakaźnych i wenerologicznych oraz w prywatnych klinikach w dużych miastach. Lista poradni jest na stronie Krajowego Centrum do spraw AIDS.",
+      "source": "kc-aids",
+      "confidence": "OFFICIAL",
+      "review": "2027-06-30"
+    },
+    {
+      "id": "hiv-0065",
+      "block": "prep-pl",
+      "topic": "refundacja",
+      "why": "Temat refundacji PrEP był na agendzie Parlamentarnego Zespołu do spraw HIV/AIDS w styczniu 2026 roku, ale świadczenie wciąż nie jest gwarantowane.",
+      "source": "rynek-zdrowia",
+      "confidence": "VERIFIED",
+      "review": "2026-12-31"
+    },
+    {
+      "id": "hiv-0066",
+      "block": "pep",
+      "topic": "czym jest PEP",
+      "why": "PEP to leki brane po możliwym kontakcie z HIV, żeby zapobiec zakażeniu.",
+      "source": "pozytywni",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0067",
+      "block": "pep",
+      "topic": "okno czasowe",
+      "why": "PEP trzeba zacząć jak najszybciej — najlepiej w ciągu dwóch godzin, maksymalnie do 48, a w uzasadnionych przypadkach do 72 godzin.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0068",
+      "block": "pep",
+      "topic": "okno czasowe",
+      "why": "Po 72 godzinach PEP nie jest już zalecany — nie ma dowodów, że działa. Zgłoś się mimo to: potrzebne są testy wyjściowe i ocena, co dalej.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0069",
+      "block": "pep",
+      "topic": "czas trwania",
+      "why": "PEP przyjmuje się codziennie przez 28 dni.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0070",
+      "block": "pep",
+      "topic": "kto płaci",
+      "why": "W Polsce PEP przy ekspozycji zawodowej opłaca pracodawca.",
+      "source": "gov-pl-ekspozycja",
+      "confidence": "OFFICIAL",
+      "review": "2027-07-31"
+    },
+    {
+      "id": "hiv-0071",
+      "block": "pep",
+      "topic": "kto płaci",
+      "why": "Kto płaci za PEP pozazawodowy w Polsce, zależy od rodzaju ekspozycji i bywa różny — przy części sytuacji koszt może ponosić pacjent. Nie mamy tego jeszcze potwierdzonego u źródła, więc zapytaj o koszt na miejscu, w szpitalu zakaźnym — i nie odkładaj z tego powodu zgłoszenia.",
+      "source": "jedenswiat",
+      "confidence": "COMMUNITY",
+      "review": "2026-12-31"
+    },
+    {
+      "id": "hiv-0072",
+      "block": "pep",
+      "topic": "gdzie się zgłosić",
+      "why": "Po PEP zgłoś się bezpośrednio na SOR albo izbę przyjęć szpitala zakaźnego. Bez skierowania.",
+      "source": "pkd-poznan",
+      "confidence": "COMMUNITY",
+      "review": "2027-01-31"
+    },
+    {
+      "id": "hiv-0073",
+      "block": "pep",
+      "topic": "anonimowość",
+      "why": "PEP nie jest anonimowy — lekarz musi ocenić ryzyko i prowadzić dokumentację, chronioną tajemnicą lekarską.",
+      "source": "pkd-poznan",
+      "confidence": "COMMUNITY"
+    },
+    {
+      "id": "hiv-0074",
+      "block": "pep",
+      "topic": "czego PEP nie robi",
+      "why": "PEP nie chroni przed kiłą, rzeżączką, chlamydią, HPV ani innymi chorobami przenoszonymi drogą płciową.",
+      "source": "pkd-poznan",
+      "confidence": "COMMUNITY"
+    },
+    {
+      "id": "hiv-0075",
+      "block": "testowanie",
+      "topic": "rodzaje testów",
+      "why": "Test czwartej generacji wykrywa antygen p24, zwykle po około dwóch tygodniach, oraz przeciwciała, po czterech do dwunastu tygodni.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0076",
+      "block": "testowanie",
+      "topic": "rodzaje testów",
+      "why": "Są testy z krwi, ze śliny, testy szybkie i testy do samodzielnego wykonania w domu.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0077",
+      "block": "testowanie",
+      "topic": "test molekularny",
+      "why": "Test molekularny wykrywa wirusa najwcześniej, bo szuka jego materiału genetycznego, a nie reakcji organizmu.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0078",
+      "block": "testowanie",
+      "topic": "potwierdzenie wyniku",
+      "why": "Dodatni wynik testu przesiewowego zawsze wymaga potwierdzenia testem weryfikującym.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0079",
+      "block": "testowanie",
+      "topic": "PKD",
+      "why": "W punkcie konsultacyjno-diagnostycznym test HIV jest bezpłatny, anonimowy i bez skierowania.",
+      "source": "kc-aids",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0080",
+      "block": "testowanie",
+      "topic": "PKD",
+      "why": "Wynik z punktu konsultacyjno-diagnostycznego odbiera się osobiście, na hasło. Nie podaje się go przez telefon.",
+      "source": "kc-aids",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0081",
+      "block": "testowanie",
+      "topic": "PKD",
+      "why": "W każdym województwie działa co najmniej jeden punkt konsultacyjno-diagnostyczny. Aktualna lista jest na stronie Krajowego Centrum do spraw AIDS.",
+      "source": "kc-aids",
+      "confidence": "OFFICIAL",
+      "review": "2027-06-30"
+    },
+    {
+      "id": "hiv-0082",
+      "block": "testowanie",
+      "topic": "PKD",
+      "why": "W punkcie konsultacyjno-diagnostycznym nie wystawia się recept ani nie prowadzi leczenia. To miejsce testowania i rozmowy.",
+      "source": "kc-aids",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0083",
+      "block": "ekspozycja",
+      "topic": "pierwsze minuty",
+      "why": "Po zakłuciu nie wyciskaj rany. Przemyj ją wodą z mydłem.",
+      "source": "gov-pl-ekspozycja",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0084",
+      "block": "ekspozycja",
+      "topic": "pierwsze minuty",
+      "why": "Błony śluzowe po ekspozycji przepłucz wodą albo solą fizjologiczną.",
+      "source": "gov-pl-ekspozycja",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0085",
+      "block": "ekspozycja",
+      "topic": "zgłoszenie",
+      "why": "Zdarzenie ekspozycji zawodowej trzeba zgłosić przełożonemu i zarejestrować.",
+      "source": "gov-pl-ekspozycja",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0086",
+      "block": "ekspozycja",
+      "topic": "kwalifikacja do PEP",
+      "why": "Po ekspozycji zgłoś się do ośrodka specjalistycznego najlepiej w ciągu 48 godzin, żeby ocenić potrzebę PEP.",
+      "source": "gov-pl-ekspozycja",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0087",
+      "block": "ekspozycja",
+      "topic": "pacjent źródłowy",
+      "why": "Pacjenta źródłowego bada się w kierunku HIV testem czwartej generacji, za jego zgodą.",
+      "source": "gov-pl-ekspozycja",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0088",
+      "block": "prawo",
+      "topic": "art. 161 KK",
+      "why": "Artykuł 161 Kodeksu karnego karze umyślne bezpośrednie narażenie innej osoby na zakażenie HIV — od trzech miesięcy do pięciu lat pozbawienia wolności.",
+      "source": "kk",
+      "confidence": "OFFICIAL",
+      "review": "2027-07-31"
+    },
+    {
+      "id": "hiv-0089",
+      "block": "prawo",
+      "topic": "art. 161 KK",
+      "why": "Przy narażeniu wielu osób kara wynosi od roku do dziesięciu lat.",
+      "source": "kk",
+      "confidence": "OFFICIAL",
+      "review": "2027-07-31"
+    },
+    {
+      "id": "hiv-0090",
+      "block": "prawo",
+      "topic": "art. 161 KK",
+      "why": "Ściganie z artykułu 161 następuje na wniosek pokrzywdzonego.",
+      "source": "kk",
+      "confidence": "OFFICIAL",
+      "review": "2027-07-31"
+    },
+    {
+      "id": "hiv-0091",
+      "block": "prawo",
+      "topic": "nowelizacja",
+      "why": "W 2024 roku Ministerstwo Zdrowia zaproponowało złagodzenie artykułu 161 i usunięcie wyodrębnienia HIV jako stygmatyzującego. Zmiana nie została uchwalona.",
+      "source": "termedia",
+      "confidence": "COMMUNITY",
+      "review": "2026-12-31"
+    },
+    {
+      "id": "hiv-0092",
+      "block": "prawo",
+      "topic": "kryminalizacja",
+      "why": "UNAIDS krytykuje kryminalizację narażenia na HIV.",
+      "source": "unaids",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0093",
+      "block": "prawo",
+      "topic": "dane osobowe",
+      "why": "Dane o statusie HIV to dane o zdrowiu — szczególna kategoria chroniona przez RODO.",
+      "source": "rodo",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0094",
+      "block": "prawo",
+      "topic": "tajemnica lekarska",
+      "why": "Status HIV jest objęty tajemnicą lekarską.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0095",
+      "block": "prawo",
+      "topic": "praca",
+      "why": "Pracodawca co do zasady nie może wymagać testu na HIV ani pytać o status.",
+      "source": "ilo",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0096",
+      "block": "prawo",
+      "topic": "praca",
+      "why": "Badania medycyny pracy nie obejmują rutynowo testu na HIV.",
+      "source": "kp",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0097",
+      "block": "prawo",
+      "topic": "dyskryminacja",
+      "why": "Osobę żyjącą z HIV chroni zakaz dyskryminacji w zatrudnieniu.",
+      "source": "kp",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0098",
+      "block": "leczenie-pl",
+      "topic": "bezpłatność",
+      "why": "W Polsce leczenie antyretrowirusowe jest bezpłatne dla każdej osoby z HIV, niezależnie od obywatelstwa i ubezpieczenia.",
+      "source": "mz-pl",
+      "confidence": "OFFICIAL",
+      "review": "2026-12-31"
+    },
+    {
+      "id": "hiv-0099",
+      "block": "leczenie-pl",
+      "topic": "program",
+      "why": "Leczenie antyretrowirusowe finansuje Rządowy Program Polityki Zdrowotnej na lata 2022–2026.",
+      "source": "mz-pl",
+      "confidence": "OFFICIAL",
+      "review": "2026-12-31"
+    },
+    {
+      "id": "hiv-0100",
+      "block": "leczenie-pl",
+      "topic": "cudzoziemcy",
+      "why": "Obywatele Ukrainy z HIV mogą kontynuować leczenie antyretrowirusowe w Polsce. Szerszy dostęp do świadczeń NFZ zmienił się po wygaszeniu specustawy w marcu 2026 roku.",
+      "source": "nfz-2026",
+      "confidence": "OFFICIAL",
+      "review": "2026-12-31"
+    },
+    {
+      "id": "hiv-0101",
+      "block": "stygma",
+      "topic": "język",
+      "why": "Zamiast „nosiciel\" czy „zarażony\" mów „osoba żyjąca z HIV\" albo „osoba seropozytywna\".",
+      "source": "fes",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0102",
+      "block": "stygma",
+      "topic": "język",
+      "why": "Słowo „nosiciel\" jest stygmatyzujące i medycznie niepoprawne.",
+      "source": "natemat",
+      "confidence": "COMMUNITY"
+    },
+    {
+      "id": "hiv-0103",
+      "block": "stygma",
+      "topic": "język",
+      "why": "Nie mów „ofiara AIDS\" ani „grupy ryzyka\". Mów o ryzykownych zachowaniach, nie o grupach ludzi.",
+      "source": "jedenswiat",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0104",
+      "block": "stygma",
+      "topic": "granice rozmowy",
+      "why": "Nie wypytuj osoby żyjącej z HIV o to, jak się zakaziła.",
+      "source": "fes",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0105",
+      "block": "stygma",
+      "topic": "skutki",
+      "why": "Stygmatyzacja związana z HIV pogarsza zdrowie psychiczne i zniechęca do testowania.",
+      "source": "mijas-2017",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0106",
+      "block": "epidemiologia",
+      "topic": "Polska 2024",
+      "why": "W 2024 roku w Polsce zgłoszono 2257 nowo wykrytych zakażeń HIV, 185 zachorowań na AIDS i 20 zgonów z powodu AIDS.",
+      "source": "nizp-pzh-2024",
+      "confidence": "OFFICIAL",
+      "review": "2026-12-31"
+    },
+    {
+      "id": "hiv-0107",
+      "block": "epidemiologia",
+      "topic": "Polska od 1985",
+      "why": "Od 1985 roku do końca 2024 roku w Polsce wykryto ponad 32 900 zakażeń HIV.",
+      "source": "nizp-pzh-2024",
+      "confidence": "OFFICIAL",
+      "review": "2026-12-31"
+    },
+    {
+      "id": "hiv-0108",
+      "block": "epidemiologia",
+      "topic": "późne rozpoznania",
+      "why": "W Polsce utrzymuje się problem późnych rozpoznań. Wiele osób dowiaduje się o zakażeniu w zaawansowanym stadium.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0109",
+      "block": "epidemiologia",
+      "topic": "transmisja",
+      "why": "Osoby nieświadome swojego zakażenia odpowiadają za największą część nowych transmisji.",
+      "source": "ptn-aids-2025",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0110",
+      "block": "granice",
+      "topic": "wyniki badań",
+      "why": "Krąg nie interpretuje wyników badań konkretnej osoby. Od tego jest lekarz.",
+      "source": "projekt-krag",
+      "confidence": "COMMUNITY",
+      "kind": "BOUNDARY"
+    },
+    {
+      "id": "hiv-0111",
+      "block": "granice",
+      "topic": "leczenie",
+      "why": "Krąg nie sugeruje zmian w leczeniu ani doboru leków. Takie decyzje podejmuje lekarz prowadzący.",
+      "source": "projekt-krag",
+      "confidence": "COMMUNITY",
+      "kind": "BOUNDARY"
+    },
+    {
+      "id": "hiv-0112",
+      "block": "granice",
+      "topic": "sytuacja nagła",
+      "why": "W nagłej sytuacji Krąg kieruje do PEP w szpitalu zakaźnym. Nie zastępuje kontaktu z lekarzem.",
+      "source": "projekt-krag",
+      "confidence": "COMMUNITY",
+      "kind": "BOUNDARY"
+    }
+  ]
+}

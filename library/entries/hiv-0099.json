@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0099",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "leczenie-pl",
+  "topic": "program",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "prawnik lub koordynator programu ARV",
+  "versions": [
+    {
+      "id": "hiv-0099#v1",
+      "entryId": "hiv-0099",
+      "language": "pl",
+      "content": {
+        "summary": "Leczenie antyretrowirusowe finansuje Rządowy Program Polityki Zdrowotnej na lata 2022–2026.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Rządowy Program Polityki Zdrowotnej — leczenie ARV 2022–2026",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "mz-pl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Rządowy Program Polityki Zdrowotnej — leczenie ARV 2022–2026",
+        "locator": "https://www.gov.pl/web/zdrowie",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2022-2026",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2026-12-31",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "28586ce8f853d51d"
+    }
+  ],
+  "currentVersion": "hiv-0099#v1"
+}

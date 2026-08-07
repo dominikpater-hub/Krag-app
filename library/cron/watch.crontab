@@ -1,0 +1,5 @@
+# Krąg — obserwator źródeł (KROK 7). Instalacja: crontab cron/watch.crontab
+# Codziennie 05:17; log do state/watch.log. Ścieżkę ROOT dostosuj.
+17 5 * * *  cd /opt/krag-library && /usr/bin/node scripts/watch.js >> state/watch.log 2>&1
+# Kwartalny pełny przegląd (--all) — łapie źródła o rzadkim rytmie
+0 6 1 */3 *  cd /opt/krag-library && /usr/bin/node scripts/watch.js --all >> state/watch.log 2>&1

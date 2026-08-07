@@ -1,0 +1,68 @@
+{
+  "id": "arv-0007",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "PORADNIA_ARV",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "arv-0007#v1",
+      "entryId": "arv-0007",
+      "language": "pl",
+      "content": {
+        "summary": "Poradnia Chorób Zakaźnych dla Dzieci — Szpital św. Wojciecha— al. Jana Pawła II 50, 80-462 Gdańsk tel. 58 772 39 50 (wt 8:30–11:00; rejestracja pn–pt 7:00–18:00)",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": {
+          "placeKind": "PORADNIA_ARV",
+          "city": "Gdańsk",
+          "voivodeship": "pomorskie",
+          "address": "al. Jana Pawła II 50, 80-462 Gdańsk",
+          "phone": [
+            "58 772 39 50"
+          ],
+          "hours": "wt 8:30–11:00; rejestracja pn–pt 7:00–18:00",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "TYLKO_DZIECI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-01-23",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "d1039777e288700f"
+    }
+  ],
+  "currentVersion": "arv-0007#v1"
+}

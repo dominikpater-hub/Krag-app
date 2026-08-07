@@ -1,0 +1,540 @@
+{
+ "$comment": "Baza leków i reguł interakcji prototypu Krąg. UWAGA: reguły napisane przez AI na podstawie ogólnie znanych mechanizmów, NIEZWERYFIKOWANE przez farmaceutę ani lekarza. To demonstracja mechanizmu, nie baza kliniczna. Docelowo źródłem ma być licencjonowana baza — kanonicznie Liverpool HIV Drug Interactions (hiv-druginteractions.org): bezpłatna w użyciu, ponad 100 000 par, ale redystrybucja we własnej aplikacji wymaga osobnej zgody.",
+ "generatedAt": "2026-07-26",
+ "provenance": "AI_DRAFT",
+ "verifiedBy": null,
+ "model": {
+  "opis": "Reguły działają na substancjach czynnych, nie na nazwach handlowych. Każdy preparat ma listę tagów substancji, a reguła wiąże dwa tagi. Dodanie nowego leku dziedziczy wszystkie pasujące reguły bez dopisywania par ręcznie.",
+  "tagi_zbiorcze": {
+   "arv": "dowolny lek antyretrowirusowy",
+   "insti": "inhibitor integrazy — bic, dtg, ral, cab, evg",
+   "cobi": "kobicystat lub inny wzmacniacz farmakokinetyczny",
+   "kation": "wapń, magnez, żelazo, cynk, antacida, nabiał",
+   "ppi": "inhibitor pompy protonowej",
+   "h2": "bloker receptora H2",
+   "sjw": "dziurawiec",
+   "rif": "ryfamycyny"
+  },
+  "poziomy": {
+   "stop": "nie łączyć",
+   "gap": "wymaga odstępu czasowego",
+   "care": "wymaga uwagi lub kontroli"
+  },
+  "jak_brac": "Pole take przy lekach ARV: meal = z posiłkiem ok. 400 kcal, empty = na pusty żołądek, any = obojętnie, inj = zastrzyk"
+ },
+ "insti": [
+  "bic",
+  "dtg",
+  "ral",
+  "cab",
+  "evg"
+ ],
+ "jakBrac": {
+  "meal": {
+   "pl": "Bierz z posiłkiem. Nie wystarczy kawa ani baton — potrzebny jest prawdziwy posiłek, około 400 kcal. Bez jedzenia lek wchłania się znacznie gorzej.",
+   "en": "Take with a meal. Coffee or a snack is not enough — a real meal of roughly 400 kcal. Without food absorption drops sharply."
+  },
+  "empty": {
+   "pl": "Bierz na pusty żołądek, najlepiej przed snem. Tłusty posiłek podnosi stężenie i nasila działania niepożądane.",
+   "en": "Take on an empty stomach, preferably at bedtime. A fatty meal raises levels and worsens side effects."
+  },
+  "any": {
+   "pl": "Można brać z jedzeniem lub bez. Ważna jest stała pora, nie posiłek.",
+   "en": "Can be taken with or without food. A fixed time matters, not the meal."
+  },
+  "inj": {
+   "pl": "Podawany w zastrzyku w gabinecie. Nie dotyczy go kwestia posiłków.",
+   "en": "Given by injection at the clinic. Meals do not apply."
+  }
+ },
+ "leki": [
+  {
+   "n": "Biktarvy",
+   "t": "arv",
+   "s": [
+    "bic",
+    "ftc",
+    "taf"
+   ],
+   "take": "any"
+  },
+  {
+   "n": "Dovato",
+   "t": "arv",
+   "s": [
+    "dtg",
+    "3tc"
+   ],
+   "take": "any"
+  },
+  {
+   "n": "Triumeq",
+   "t": "arv",
+   "s": [
+    "abc",
+    "dtg",
+    "3tc"
+   ],
+   "take": "any"
+  },
+  {
+   "n": "Tivicay",
+   "t": "arv",
+   "s": [
+    "dtg"
+   ],
+   "take": "any"
+  },
+  {
+   "n": "Odefsey",
+   "t": "arv",
+   "s": [
+    "rpv",
+    "ftc",
+    "taf"
+   ],
+   "take": "meal"
+  },
+  {
+   "n": "Eviplera",
+   "t": "arv",
+   "s": [
+    "rpv",
+    "ftc",
+    "tdf"
+   ],
+   "take": "meal"
+  },
+  {
+   "n": "Juluca",
+   "t": "arv",
+   "s": [
+    "dtg",
+    "rpv"
+   ],
+   "take": "meal"
+  },
+  {
+   "n": "Symtuza",
+   "t": "arv",
+   "s": [
+    "drv",
+    "cobi",
+    "ftc",
+    "taf"
+   ],
+   "take": "meal"
+  },
+  {
+   "n": "Rezolsta",
+   "t": "arv",
+   "s": [
+    "drv",
+    "cobi"
+   ],
+   "take": "meal"
+  },
+  {
+   "n": "Prezista",
+   "t": "arv",
+   "s": [
+    "drv"
+   ],
+   "take": "meal"
+  },
+  {
+   "n": "Genvoya",
+   "t": "arv",
+   "s": [
+    "evg",
+    "cobi",
+    "ftc",
+    "taf"
+   ],
+   "take": "meal"
+  },
+  {
+   "n": "Descovy",
+   "t": "arv",
+   "s": [
+    "ftc",
+    "taf"
+   ],
+   "take": "any"
+  },
+  {
+   "n": "Truvada",
+   "t": "arv",
+   "s": [
+    "ftc",
+    "tdf"
+   ],
+   "take": "any"
+  },
+  {
+   "n": "Delstrigo",
+   "t": "arv",
+   "s": [
+    "dor",
+    "3tc",
+    "tdf"
+   ],
+   "take": "any"
+  },
+  {
+   "n": "Pifeltro",
+   "t": "arv",
+   "s": [
+    "dor"
+   ],
+   "take": "any"
+  },
+  {
+   "n": "Isentress",
+   "t": "arv",
+   "s": [
+    "ral"
+   ],
+   "take": "any"
+  },
+  {
+   "n": "Atripla",
+   "t": "arv",
+   "s": [
+    "efv",
+    "ftc",
+    "tdf"
+   ],
+   "take": "empty"
+  },
+  {
+   "n": "Cabenuva (zastrzyk)",
+   "t": "arv",
+   "s": [
+    "cab",
+    "rpv"
+   ],
+   "take": "inj"
+  },
+  {
+   "n": "Omeprazol",
+   "t": "other",
+   "s": [
+    "ppi"
+   ]
+  },
+  {
+   "n": "Pantoprazol",
+   "t": "other",
+   "s": [
+    "ppi"
+   ]
+  },
+  {
+   "n": "Famotydyna",
+   "t": "other",
+   "s": [
+    "h2"
+   ]
+  },
+  {
+   "n": "Atorwastatyna",
+   "t": "other",
+   "s": [
+    "statyna"
+   ]
+  },
+  {
+   "n": "Simwastatyna",
+   "t": "other",
+   "s": [
+    "simwa",
+    "statyna"
+   ]
+  },
+  {
+   "n": "Rosuwastatyna",
+   "t": "other",
+   "s": [
+    "statyna"
+   ]
+  },
+  {
+   "n": "Metformina",
+   "t": "other",
+   "s": [
+    "metformina"
+   ]
+  },
+  {
+   "n": "Ryfampicyna",
+   "t": "other",
+   "s": [
+    "rif"
+   ]
+  },
+  {
+   "n": "Ryfabutyna",
+   "t": "other",
+   "s": [
+    "rif"
+   ]
+  },
+  {
+   "n": "Karbamazepina",
+   "t": "other",
+   "s": [
+    "antykonw"
+   ]
+  },
+  {
+   "n": "Fenytoina",
+   "t": "other",
+   "s": [
+    "antykonw"
+   ]
+  },
+  {
+   "n": "Sertralina",
+   "t": "other",
+   "s": [
+    "ssri"
+   ]
+  },
+  {
+   "n": "Escitalopram",
+   "t": "other",
+   "s": [
+    "ssri"
+   ]
+  },
+  {
+   "n": "Kwetiapina",
+   "t": "other",
+   "s": [
+    "kwetiapina"
+   ]
+  },
+  {
+   "n": "Sildenafil",
+   "t": "other",
+   "s": [
+    "pde5"
+   ]
+  },
+  {
+   "n": "Antykoncepcja hormonalna",
+   "t": "other",
+   "s": [
+    "hormon"
+   ]
+  },
+  {
+   "n": "Metadon",
+   "t": "other",
+   "s": [
+    "metadon"
+   ]
+  },
+  {
+   "n": "Warfaryna",
+   "t": "other",
+   "s": [
+    "warfaryna"
+   ]
+  },
+  {
+   "n": "Dziurawiec",
+   "t": "supp",
+   "s": [
+    "sjw"
+   ]
+  },
+  {
+   "n": "Wapń",
+   "t": "supp",
+   "s": [
+    "kation"
+   ]
+  },
+  {
+   "n": "Magnez",
+   "t": "supp",
+   "s": [
+    "kation"
+   ]
+  },
+  {
+   "n": "Żelazo",
+   "t": "supp",
+   "s": [
+    "kation"
+   ]
+  },
+  {
+   "n": "Cynk",
+   "t": "supp",
+   "s": [
+    "kation"
+   ]
+  },
+  {
+   "n": "Multiwitamina z minerałami",
+   "t": "supp",
+   "s": [
+    "kation"
+   ]
+  },
+  {
+   "n": "Leki na zgagę (antacida)",
+   "t": "supp",
+   "s": [
+    "kation",
+    "antacid"
+   ]
+  },
+  {
+   "n": "Witamina D",
+   "t": "supp",
+   "s": [
+    "witd"
+   ]
+  },
+  {
+   "n": "Grejpfrut / sok",
+   "t": "food",
+   "s": [
+    "grejpfrut"
+   ]
+  },
+  {
+   "n": "Nabiał (mleko, jogurt, ser)",
+   "t": "food",
+   "s": [
+    "kation",
+    "nabial"
+   ]
+  },
+  {
+   "n": "Kawa",
+   "t": "food",
+   "s": [
+    "kawa"
+   ]
+  },
+  {
+   "n": "Alkohol",
+   "t": "food",
+   "s": [
+    "alkohol"
+   ]
+  }
+ ],
+ "reguly": [
+  {
+   "a": "arv",
+   "b": "sjw",
+   "sev": "stop",
+   "pl": "Dziurawiec obniża stężenie leku antyretrowirusowego we krwi i grozi utratą skuteczności terapii. To przeciwwskazanie opisane w charakterystyce produktu.",
+   "en": "St John's wort lowers antiretroviral blood levels and risks loss of efficacy. A contraindication stated in the product information."
+  },
+  {
+   "a": "arv",
+   "b": "rif",
+   "sev": "stop",
+   "pl": "Ryfamycyny silnie obniżają stężenie większości leków ARV. Wymaga zmiany schematu — decyzję podejmuje lekarz prowadzący.",
+   "en": "Rifamycins strongly lower most ARV levels. A regimen change is needed — decided by your doctor."
+  },
+  {
+   "a": "rpv",
+   "b": "ppi",
+   "sev": "stop",
+   "pl": "Rylpiwiryny nie łączy się z inhibitorami pompy protonowej. Podwyższone pH żołądka drastycznie obniża jej wchłanianie.",
+   "en": "Rilpivirine must not be combined with proton pump inhibitors. Raised gastric pH sharply reduces absorption."
+  },
+  {
+   "a": "cobi",
+   "b": "simwa",
+   "sev": "stop",
+   "pl": "Symwastatyny nie łączy się z kobicystatem — stężenie statyny gwałtownie rośnie, co grozi uszkodzeniem mięśni.",
+   "en": "Simvastatin must not be combined with cobicistat — statin levels rise sharply, risking muscle damage."
+  },
+  {
+   "a": "arv",
+   "b": "antykonw",
+   "sev": "stop",
+   "pl": "Karbamazepina i fenytoina obniżają stężenie leków ARV. Wymaga zmiany jednego z leków.",
+   "en": "Carbamazepine and phenytoin lower ARV levels. One of the drugs must be changed."
+  },
+  {
+   "a": "insti",
+   "b": "kation",
+   "sev": "gap",
+   "pl": "Wapń, magnez, żelazo, cynk i leki na zgagę wiążą inhibitor integrazy w jelicie i blokują jego wchłanianie. Wymagany odstęp czasowy — konkretny ustal z farmaceutą.",
+   "en": "Calcium, magnesium, iron, zinc and antacids bind the integrase inhibitor in the gut and block absorption. A time gap is required — agree it with your pharmacist."
+  },
+  {
+   "a": "rpv",
+   "b": "h2",
+   "sev": "gap",
+   "pl": "Leki na zgagę z grupy H2 wymagają odstępu od rylpiwiryny — zwykle kilkanaście godzin. Ustal z farmaceutą.",
+   "en": "H2 blockers require a gap from rilpivirine — usually many hours. Agree it with your pharmacist."
+  },
+  {
+   "a": "cobi",
+   "b": "grejpfrut",
+   "sev": "care",
+   "pl": "Grejpfrut hamuje ten sam enzym co kobicystat i rytonawir. Stężenie leku może wzrosnąć nieprzewidywalnie.",
+   "en": "Grapefruit inhibits the same enzyme as cobicistat and ritonavir. Drug levels may rise unpredictably."
+  },
+  {
+   "a": "cobi",
+   "b": "pde5",
+   "sev": "care",
+   "pl": "Kobicystat podnosi stężenie sildenafilu. Dawka wymaga korekty — zapytaj lekarza, zanim weźmiesz.",
+   "en": "Cobicistat raises sildenafil levels. The dose needs adjusting — ask your doctor first."
+  },
+  {
+   "a": "cobi",
+   "b": "kwetiapina",
+   "sev": "care",
+   "pl": "Kobicystat podnosi stężenie kwetiapiny. Wymaga nadzoru i zwykle niższej dawki.",
+   "en": "Cobicistat raises quetiapine levels. Needs monitoring and usually a lower dose."
+  },
+  {
+   "a": "bic",
+   "b": "metformina",
+   "sev": "care",
+   "pl": "Biktegrawir może podnosić stężenie metforminy. Zwykle bez zmiany dawki, ale zgłoś to lekarzowi.",
+   "en": "Bictegravir can raise metformin levels. Usually no dose change, but tell your doctor."
+  },
+  {
+   "a": "cobi",
+   "b": "hormon",
+   "sev": "care",
+   "pl": "Leki wzmacniane kobicystatem wpływają na antykoncepcję hormonalną. Dobór metody omów z ginekologiem.",
+   "en": "Cobicistat-boosted regimens affect hormonal contraception. Discuss the method with your gynaecologist."
+  },
+  {
+   "a": "arv",
+   "b": "warfaryna",
+   "sev": "care",
+   "pl": "Leki ARV mogą zmieniać działanie warfaryny w obie strony. Potrzebna częstsza kontrola INR.",
+   "en": "ARVs can shift warfarin activity in either direction. More frequent INR checks are needed."
+  },
+  {
+   "a": "arv",
+   "b": "metadon",
+   "sev": "care",
+   "pl": "Część leków ARV zmienia stężenie metadonu. Dawkę może trzeba skorygować — powiedz o tym w programie.",
+   "en": "Some ARVs change methadone levels. The dose may need adjusting — tell your programme."
+  },
+  {
+   "a": "arv",
+   "b": "alkohol",
+   "sev": "care",
+   "pl": "Alkohol nie wchodzi w bezpośrednią reakcję z ARV, ale obciąża wątrobę i najczęściej stoi za pominiętymi dawkami.",
+   "en": "Alcohol does not react directly with ARVs, but it burdens the liver and is the most common reason for missed doses."
+  }
+ ]
+}

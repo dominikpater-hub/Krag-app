@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0031",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "uu",
+  "topic": "warunek",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0031#v1",
+      "entryId": "hiv-0031",
+      "language": "pl",
+      "content": {
+        "summary": "Żeby U=U działało, wiremia musi być niewykrywalna trwale — zwykle rozumie się to jako poniżej 200 kopii na mililitr.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "U=U Guidance for Implementation in Clinical Settings",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "hivguidelines-ny",
+        "type": "GUIDELINE",
+        "reference": "U=U Guidance for Implementation in Clinical Settings",
+        "locator": "https://www.hivguidelines.org/guideline/u-equals-u/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "ebd58f131dc84fda"
+    }
+  ],
+  "currentVersion": "hiv-0031#v1"
+}

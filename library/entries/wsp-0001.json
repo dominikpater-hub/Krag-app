@@ -1,0 +1,71 @@
+{
+  "id": "wsp-0001",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "miejsca",
+  "topic": "TELEFON",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "wsp-0001#v1",
+      "entryId": "wsp-0001",
+      "language": "pl",
+      "content": {
+        "summary": "Telefon Zaufania HIV/AIDS tel. 800 888 448 (pn–pt 9:00–21:00, z wyłączeniem dni ustawowo wolnych)",
+        "actions": [],
+        "rights": [],
+        "warnings": [
+          "KONFLIKT ŹRÓDEŁ: Źródła się różnią: gov.pl podaje pn–pt, Stow. „Bądź z Nami\" podaje 7 dni w tygodniu. Numer drugi bywa podawany jako 22 692 82 26 albo 22 629 82 26 — cyfry przestawione. Starsze materiały podają 801 888 448 zamiast 800. DO POTWIERDZENIA TELEFONICZNEGO.",
+          "Połączenie bezpłatne. Dyżury pełnią m.in. wolontariusze Stow. „Bądź z Nami\", lekarze, psycholodzy i certyfikowani doradcy."
+        ],
+        "details": {
+          "placeKind": "TELEFON",
+          "city": null,
+          "voivodeship": null,
+          "address": null,
+          "phone": [
+            "800 888 448"
+          ],
+          "hours": "pn–pt 9:00–21:00, z wyłączeniem dni ustawowo wolnych",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2026-10-25",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "81d1604600f0538c"
+    }
+  ],
+  "currentVersion": "wsp-0001#v1"
+}

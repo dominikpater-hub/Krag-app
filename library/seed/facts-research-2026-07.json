@@ -1,0 +1,95 @@
+{
+  "$comment": "Ustalenia z raportu badawczego przełożone na schemat bazy. Powód: cztery moduły Trenera odporności były napisane poza bazą, więc omijały bramkę recenzji — lekarz dostawał do podpisu 112 zdań i nie widział progów profilaktyki ani ostrzeżenia o IRIS. To najbardziej obciążona klinicznie treść w aplikacji i musi przejść tą samą drogą co reszta. Provenance identyczne: AI_RESEARCH, verifiedBy ustawi migrator na null.",
+  "edition": "2026-07-research",
+  "language": "pl",
+  "provenance": "AI_RESEARCH",
+  "facts": [
+    { "id": "hiv-0201", "block": "odbudowa", "topic": "dwie fazy odbudowy",
+      "why": "Po włączeniu leczenia liczba CD4 rośnie najszybciej przez pierwsze pół roku, potem coraz wolniej. W dużych kohortach pierwsza faza to rząd 265 komórek na rok, uśrednienie przez pierwsze dwa lata daje około 100, a po sześciu latach już tylko kilka.",
+      "source": "ofid-2026-cd4", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0202", "block": "odbudowa", "topic": "start z niskiego poziomu",
+      "why": "Start z bardzo niskiego CD4 nie zamyka drogi do odbudowy. W badaniach osoby zaczynające poniżej 50 komórek miały w drugiej fazie tempo równe lub szybsze niż zaczynające wyżej — po prostu dłużej pozostawały poniżej progu 200.",
+      "source": "pmc-1435908", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0203", "block": "odbudowa", "topic": "jak długo trwa",
+      "why": "Odbudowa liczy się w latach, nie w miesiącach. W jednej z kohort CD4 rosło średnio przez sześć i pół roku, zanim wyszło na płaskowyż. Punkt startu wpływa na to, gdzie ten płaskowyż wypadnie, ale nie na to, czy wzrost w ogóle nastąpi.",
+      "source": "ofid-2026-cd4", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0204", "block": "odbudowa", "topic": "brak odpowiedzi immunologicznej",
+      "why": "U części osób z niewykrywalną wiremią CD4 mimo to nie rośnie. Zależnie od przyjętej definicji dotyczy to od kilkunastu do kilkudziesięciu procent leczonych. Najsilniejszym czynnikiem ryzyka jest niski nadir, drugim wiek w chwili rozpoczęcia leczenia.",
+      "source": "frontiers-inr-2022", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0205", "block": "odbudowa", "topic": "czego nie robi się przy słabej odbudowie",
+      "why": "Przy niewykrywalnej wiremii i słabo rosnącym CD4 nie dokłada się kolejnych leków ani nie zmienia schematu wyłącznie po to, by podnieść limfocyty — wytyczne odradzają to wprost. Interleukina-2 podnosi CD4, ale w dużych badaniach nie zmniejszyła ryzyka zachorowania ani zgonu.",
+      "source": "dhhs-suboptimal-2025", "confidence": "OFFICIAL" },
+
+    { "id": "hiv-0206", "block": "odbudowa", "topic": "wskaźnik CD4/CD8",
+      "why": "Stosunek CD4 do CD8 bywa lepszym wskaźnikiem przewlekłego stanu zapalnego niż samo CD4. Bywa niski nawet wtedy, gdy CD4 wróciło powyżej 500, i wiąże się z ryzykiem chorób niezwiązanych z AIDS.",
+      "source": "jac-cd4cd8", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0207", "block": "odbudowa", "topic": "czego nie zmienisz",
+      "why": "Na tempo odbudowy wpływają rzeczy przesądzone przed diagnozą: wiek w chwili rozpoczęcia leczenia, najniższy poziom CD4 w historii, czas od zakażenia do leczenia oraz funkcja grasicy. Wolniejsza odbudowa nie jest niczyją winą.",
+      "source": "dhhs-suboptimal-2025", "confidence": "OFFICIAL" },
+
+    { "id": "hiv-0208", "block": "odbudowa", "topic": "co jest po Twojej stronie",
+      "why": "Jedyną rzeczą o udowodnionym wpływie na odbudowę jest regularne przyjmowanie leków i utrzymanie niewykrywalnej wiremii. Poza tym liczy się leczenie koinfekcji, szczepienia we właściwym momencie, niepalenie i leczenie depresji — to ostatnie głównie dlatego, że ułatwia regularność.",
+      "source": "dhhs-suboptimal-2025", "confidence": "OFFICIAL" },
+
+    { "id": "hiv-0209", "block": "odbudowa", "topic": "ruch a CD4",
+      "why": "Przeglądy systematyczne pokazują, że regularny wysiłek u osób z HIV poprawia wydolność, siłę, nastrój i jakość życia, i jest bezpieczny. Nie wykazano natomiast, żeby podnosił CD4 albo obniżał wiremię.",
+      "source": "cochrane-exercise", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0210", "block": "odbudowa", "topic": "suplementy a odbudowa",
+      "why": "Przeglądy Cochrane nie wykazały istotnego wpływu suplementacji mikroelementów na CD4 ani przeżycie u osób prawidłowo odżywionych. Suplementacja ma uzasadnienie przy niedoborze potwierdzonym badaniem, a nie profilaktycznie.",
+      "source": "cochrane-micronutrients", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0211", "block": "odbudowa", "topic": "rokowanie a moment rozpoczęcia leczenia",
+      "why": "Osoby zaczynające leczenie z wysokim CD4 mają dziś oczekiwaną długość życia zbliżoną do populacji ogólnej. Przy bardzo niskim CD4 na starcie różnica jest istotna, ale dane dla osób rozpoczynających leczenie po 2015 roku są wyraźnie lepsze niż wcześniejsze.",
+      "source": "lancet-hiv-2023-le", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0212", "block": "bezpieczenstwo", "topic": "profilaktyka PCP",
+      "why": "Przy CD4 poniżej 200 lekarz zwykle dokłada lek osłonowy przeciw zapaleniu płuc wywołanemu przez Pneumocystis. Odstawia się go po utrzymaniu CD4 powyżej 200 przez około trzy miesiące — decyzję podejmuje lekarz prowadzący.",
+      "source": "eacs-13", "confidence": "OFFICIAL" },
+
+    { "id": "hiv-0213", "block": "bezpieczenstwo", "topic": "profilaktyka toksoplazmozy",
+      "why": "Przy CD4 poniżej 100 i dodatnim wyniku przeciwciał stosuje się profilaktykę toksoplazmozy. Odstawia się ją po odbudowie powyżej 200.",
+      "source": "eacs-13", "confidence": "OFFICIAL" },
+
+    { "id": "hiv-0214", "block": "bezpieczenstwo", "topic": "MAC",
+      "why": "Prątki atypowe stanowią ryzyko przy CD4 poniżej 50. Przy skutecznym leczeniu antyretrowirusowym osobna profilaktyka zwykle nie jest już potrzebna.",
+      "source": "dhhs-oi", "confidence": "OFFICIAL" },
+
+    { "id": "hiv-0215", "block": "bezpieczenstwo", "topic": "pogorszenie po starcie leczenia",
+      "why": "W pierwszych tygodniach leczenia może pojawić się gorączka, powiększone węzły lub nasilenie objawów istniejącego zakażenia. To zespół rekonstytucji immunologicznej i zwykle oznacza, że układ odpornościowy zaczyna działać, a nie że lek zawodzi. Objaw trzeba zgłosić lekarzowi, ale nie odstawiać leków samodzielnie.",
+      "source": "eacs-13", "confidence": "OFFICIAL" },
+
+    { "id": "hiv-0216", "block": "bezpieczenstwo", "topic": "szczepionki żywe",
+      "why": "Przy CD4 poniżej 200 szczepionki żywe są przeciwwskazane — dotyczy to odry, świnki i różyczki, ospy wietrznej, żółtej gorączki oraz doustnej szczepionki przeciw durowi brzusznemu.",
+      "source": "eacs-13", "confidence": "OFFICIAL" },
+
+    { "id": "hiv-0217", "block": "bezpieczenstwo", "topic": "szczepionki zalecane",
+      "why": "Szczepionki nieżywe są bezpieczne i zalecane: WZW typu A i B, HPV, grypa, pneumokoki, COVID-19, a według wskazań także półpasiec w wersji rekombinowanej. Przy niskim CD4 odpowiedź bywa słabsza, więc część szczepień lekarz przesuwa na czas po odbudowie.",
+      "source": "eacs-13", "confidence": "OFFICIAL" },
+
+    { "id": "hiv-0218", "block": "bezpieczenstwo", "topic": "codzienne środki ostrożności",
+      "why": "Przy niskim CD4 sens mają: mycie rąk, rękawiczki przy sprzątaniu po zwierzęciu, dobrze wysmażone mięso i jajka, mycie warzyw oraz konsultacja przed dalszą podróżą. Oddawanie zwierzęcia nie jest zalecane — liczy się higiena, nie pozbycie się psa czy kota.",
+      "source": "aidsmap-food", "confidence": "COMMUNITY" },
+
+    { "id": "hiv-0219", "block": "psyche", "topic": "pierwszy rok",
+      "why": "Pierwszy rok po diagnozie jest dla większości osób najtrudniejszy i to najczęstszy przebieg, a nie wyjątek. Około jednej trzeciej osób żyjących z HIV doświadcza depresji, z nasileniem w pierwszych miesiącach po wyniku.",
+      "source": "gen-psych-2021", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0220", "block": "psyche", "topic": "samostygmatyzacja",
+      "why": "Najsilniej szkodzi nie sam wirus, tylko przejęcie cudzych sądów jako własnych. W badaniach samostygmatyzacja jest jednym z najmocniejszych czynników związanych z depresją — i jednym z niewielu, które da się zmienić.",
+      "source": "resilstigma", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0221", "block": "psyche", "topic": "co ma dowody",
+      "why": "Dowody mają: kontakt z osobą, która przeszła to samo, wsparcie rówieśnicze, terapia poznawczo-behawioralna oraz leczenie depresji. W badaniu z Los Angeles osoby z przydzielonym towarzyszem z doświadczeniem utrzymały skuteczność leczenia po roku na poziomie 49 procent wobec 30 procent bez takiego wsparcia.",
+      "source": "linkla-2018", "confidence": "VERIFIED" },
+
+    { "id": "hiv-0222", "block": "psyche", "topic": "granice pozytywnego myślenia",
+      "why": "W badaniu z grupą kontrolną osiem tygodni treningu uważności poprawiło nastrój, poziom stresu i samopoczucie, ale nie zmieniło ani CD4, ani markerów zapalnych. Depresja szkodzi zdrowiu przede wszystkim przez to, że utrudnia regularne branie leków — i dlatego warto ją leczyć.",
+      "source": "hecht-2018", "confidence": "VERIFIED" }
+  ]
+}

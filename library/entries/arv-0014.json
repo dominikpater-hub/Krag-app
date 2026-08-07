@@ -1,0 +1,71 @@
+{
+  "id": "arv-0014",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "REGIONAL",
+  "block": "miejsca",
+  "topic": "PORADNIA_ARV",
+  "kind": "PLACE",
+  "status": "DRAFT",
+  "requiredVerifier": "kontakt telefoniczny — potwierdzenie adresu, godzin i numeru",
+  "versions": [
+    {
+      "id": "arv-0014#v1",
+      "entryId": "arv-0014",
+      "language": "pl",
+      "content": {
+        "summary": "Poradnia Chorób Zakaźnych— ul. Kośnego 53, 45-372 Opole tel. 77 443 36 98, 77 443 30 64 (pn–pt 7:00–14:30)",
+        "actions": [],
+        "rights": [],
+        "warnings": [
+          "KONFLIKT ŹRÓDEŁ: Drugi numer podany na źródle jako 744-433-064 — prefiks 744 nie jest poprawnym numerem kierunkowym dla Opola (77). Prawdopodobna literówka. DO SPRAWDZENIA."
+        ],
+        "details": {
+          "placeKind": "PORADNIA_ARV",
+          "city": "Opole",
+          "voivodeship": "opolskie",
+          "address": "ul. Kośnego 53, 45-372 Opole",
+          "phone": [
+            "77 443 36 98",
+            "77 443 30 64"
+          ],
+          "hours": "pn–pt 7:00–14:30",
+          "tests": [],
+          "languages": [],
+          "accessible": null,
+          "audience": "DOROSLI",
+          "url": null,
+          "email": null,
+          "operational": true
+        },
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+            "retrievedAt": "2026-07-27"
+          }
+        ]
+      },
+      "source": {
+        "id": "kc-aids-govpl",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Krajowe Centrum ds. AIDS — serwis gov.pl (listy poradni ARV i dyżurów PEP)",
+        "locator": "https://www.gov.pl/web/aids",
+        "retrievedAt": "2026-07-27"
+      },
+      "edition": "aktualizacja 2025-02-23",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "OPEN_LICENSE",
+      "effectiveDate": "2026-07-27",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-01-23",
+      "supersededBy": null,
+      "provenance": "OFFICIAL_LIST",
+      "checksum": "29fa19f3bed54655"
+    }
+  ],
+  "currentVersion": "arv-0014#v1"
+}

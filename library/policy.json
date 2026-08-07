@@ -1,0 +1,126 @@
+{
+  "$comment": "Progi i bramki. Zmiana progu NIE wymaga migracji rekordów (D.3.5).",
+  "product": "krag",
+  "domain": "HIV",
+  "version": "1.2.0",
+  "generatedAt": "2026-07-25",
+  "ceiling": {
+    "$comment": "C.9.4 — rodzaj dokumentu wyznacza MAKSIMUM. Reguła strukturalna, nie ocena jakości.",
+    "LAW_TEXT": "OFFICIAL",
+    "OFFICIAL_PAGE": "OFFICIAL",
+    "GUIDELINE": "OFFICIAL",
+    "STANDARD": "VERIFIED",
+    "TRAINING_MAT": "VERIFIED",
+    "RESEARCH_REPORT": "VERIFIED",
+    "EXPERT_NOTE": "VERIFIED",
+    "PRESS": "COMMUNITY",
+    "AI_RESEARCH": "COMMUNITY",
+    "FORUM": "COMMUNITY",
+    "PROJECT_RULE": "COMMUNITY"
+  },
+  "confidenceOrder": [
+    "COMMUNITY",
+    "VERIFIED",
+    "OFFICIAL"
+  ],
+  "rights": {
+    "$comment": "C.9.3 — builder czyta WYŁĄCZNIE to pole przy decyzji o dist/.",
+    "PUBLIC_DOMAIN": {
+      "redistribute": true,
+      "quote": true
+    },
+    "OPEN_LICENSE": {
+      "redistribute": true,
+      "quote": true
+    },
+    "QUOTE_ONLY": {
+      "redistribute": false,
+      "quote": true
+    },
+    "INTERNAL_ONLY": {
+      "redistribute": false,
+      "quote": false
+    },
+    "UNKNOWN": {
+      "redistribute": false,
+      "quote": false
+    }
+  },
+  "publishGate": {
+    "$comment": "NAJWAŻNIEJSZA RÓŻNICA WOBEC MasterADR. Tam 224/239 faktów poszło do produkcji z verifiedBy:null i stało się długiem. Tu warstwa medyczna nie publikuje się bez podpisu człowieka — z góry, nie po fakcie.",
+    "requireHumanVerification": false,
+    "requireVerifierForBlocks": [
+      "transmisja",
+      "przebieg",
+      "leczenie",
+      "uu",
+      "ciaza",
+      "wspolistniejace",
+      "wyleczenie",
+      "prep",
+      "pep",
+      "testowanie",
+      "ekspozycja",
+      "odbudowa",
+      "bezpieczenstwo",
+      "psyche",
+      "pierwsze-dni",
+      "dlugoterminowo"
+    ],
+    "verifierRole": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+    "onMissingVerifier": "DRAFT",
+    "$note": "Bloki prawne i społeczne mogą iść przez weryfikację prawnika/osoby z mandatem środowiska — patrz verifierByBlock.",
+    "publishOnSourceAuthority": [
+      "miejsca"
+    ],
+    "$authorityNote": "D-2: 'miejsca' to oficjalny katalog (poradnie ARV, dyżury PEP, PKD) z gov.pl / Krajowego Centrum ds. AIDS (provenance OFFICIAL_LIST). To dane faktograficzne z poważnego, zweryfikowanego źródła — publikują się z autorytetu źródła, bez podpisu lekarza i bez potwierdzania telefonicznego. Wymóg lokalizatora zostaje: każde miejsce musi wskazywać swoje źródło.",
+    "publishReadyConfidence": [
+      "OFFICIAL",
+      "VERIFIED"
+    ],
+    "$decision": "K-34 (2026-08-06): o wiarygodności rozstrzyga autorytet ŹRÓDŁA, nie podpis człowieka. requireVerifierForBlocks zostaje jako informacja, KTO może dodatkowo firmować blok — nie jest już warunkiem publikacji."
+  },
+  "verifierByBlock": {
+    "prawo": "prawnik",
+    "leczenie-pl": "prawnik lub koordynator programu ARV",
+    "stygma": "osoba żyjąca z HIV / organizacja mandatowa",
+    "epidemiologia": "lekarz zakaźnik lub epidemiolog",
+    "granice": "właściciel projektu + prawnik (kwalifikacja wyrobu medycznego)",
+    "prep-pl": "lekarz zakaźnik"
+  },
+  "derivedRights": {
+    "$comment": "A-2 / K-35: parafraza faktu z atrybucją nie jest utworem źródła (chroniony jest sposób wyrażenia, nie fakt). Wpisy w ziarnie to parafrazy, nie cytaty. WŁĄCZONE decyzją właściciela: parafrazy ze źródeł QUOTE_ONLY/OPEN/PUBLIC są publikowalne PO PODPISIE; cytaty dosłowne (verbatim/kind=QUOTE) oraz INTERNAL_ONLY/UNKNOWN nigdy. Zalecane potwierdzenie przez prawnika przed publicznym startem.",
+    "publishParaphrased": true,
+    "blockedForParaphrase": [
+      "INTERNAL_ONLY",
+      "UNKNOWN"
+    ]
+  },
+  "review": {
+    "$comment": "Fakt po nextReviewDue nadal ma swoje confidence, ale odpowiedź spada do T2 (C.9.5).",
+    "defaultIntervalDays": 730,
+    "intervalByBlock": {
+      "prep-pl": 30,
+      "leczenie-pl": 180,
+      "epidemiologia": 365,
+      "prawo": 365,
+      "pep": 365,
+      "testowanie": 365
+    },
+    "warnBeforeDays": 30
+  },
+  "trustLadder": {
+    "$comment": "C.9.5 — confidence to właściwość wersji wiedzy, trustLevel to właściwość ODPOWIEDZI. To nie synonimy.",
+    "T1": "confidence OFFICIAL + verifiedBy != null + przed nextReviewDue",
+    "T2": "j.w. ale po nextReviewDue, albo confidence VERIFIED + verifiedBy != null",
+    "T3": "verifiedBy == null (dopisek DO WERYFIKACJI) lub confidence COMMUNITY",
+    "T4": "brak trafienia — Ida mówi wprost, że tego nie ma, i przyjmuje zgłoszenie luki"
+  },
+  "boundaries": {
+    "$comment": "Granica wyrobu medycznego — wymuszona w kodzie, nie w prompcie.",
+    "neverInterpretPersonalResults": true,
+    "neverSuggestTreatmentChange": true,
+    "neverDiagnose": true,
+    "crisisLayerIsDeterministic": true
+  }
+}

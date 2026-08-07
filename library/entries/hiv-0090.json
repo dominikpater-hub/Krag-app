@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0090",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "prawo",
+  "topic": "art. 161 KK",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "prawnik",
+  "versions": [
+    {
+      "id": "hiv-0090#v1",
+      "entryId": "hiv-0090",
+      "language": "pl",
+      "content": {
+        "summary": "Ściganie z artykułu 161 następuje na wniosek pokrzywdzonego.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "LAW_TEXT",
+            "reference": "Kodeks karny — art. 161",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "kk",
+        "type": "LAW_TEXT",
+        "reference": "Kodeks karny — art. 161",
+        "locator": "https://isap.sejm.gov.pl/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "stan na 2026-07",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "PUBLIC_DOMAIN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-31",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "ecbad75916a04fea"
+    }
+  ],
+  "currentVersion": "hiv-0090#v1"
+}

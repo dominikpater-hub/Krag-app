@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0061",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "prep-pl",
+  "topic": "refundacja",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik",
+  "versions": [
+    {
+      "id": "hiv-0061#v1",
+      "entryId": "hiv-0061",
+      "language": "pl",
+      "content": {
+        "summary": "W Polsce w 2026 roku PrEP nie jest refundowany. Pacjent płaci pełną cenę leku, wizyty i badań.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "PRESS",
+            "reference": "Rynek Zdrowia — doniesienia o refundacji PrEP",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "rynek-zdrowia",
+        "type": "PRESS",
+        "reference": "Rynek Zdrowia — doniesienia o refundacji PrEP",
+        "locator": "https://www.rynekzdrowia.pl/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025-2026",
+      "confidence": "COMMUNITY",
+      "ceiling": "COMMUNITY",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-03-31",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "a16d86542b25c923"
+    }
+  ],
+  "currentVersion": "hiv-0061#v1"
+}

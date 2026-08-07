@@ -1,0 +1,47 @@
+{
+ "$comment": "D2 — PROPOZYCJA do akceptacji. Lista dozwolonych kodów ATC dla watchpointa 'rpl'. Zastępuje myślenie prefiksem J05A (który łapie inozynę pranobeks J05AX05 i leki wyłącznie na HBV). Kody wg indeksu WHO ATC/DDD — PRZED wdrożeniem zweryfikować z aktualnym indeksem WHO oraz z overall.xml z RPL, bo klasyfikacja bywa przenoszona (np. dolutegrawir historycznie J05AX12, dziś J05AJ03).",
+ "version": "0.1-proposal",
+ "generatedFor": "watch.json → watchpoints[rpl].atcAllow",
+ "allowSubgroups": {
+  "$comment": "Podgrupy czysto-HIV — cały zakres jest właściwy.",
+  "J05AE": "Inhibitory proteazy (PI)",
+  "J05AG": "Nienukleozydowe inhibitory odwrotnej transkryptazy (NNRTI)",
+  "J05AJ": "Inhibitory integrazy (INSTI) — BRAKOWAŁO w obecnej liście: dolutegrawir, raltegrawir, biktegrawir, kabotegrawir",
+  "J05AR": "Leki przeciw HIV, połączenia (fixed-dose combinations)"
+ },
+ "allowExplicit": {
+  "$comment": "J05AF (NRTI) NIE jest czysto-HIV — zawiera leki wyłącznie na HBV. Dlatego wyliczamy kody HIV zamiast brać całą podgrupę.",
+  "J05AF01": "zydowudyna",
+  "J05AF02": "dydanozyna",
+  "J05AF04": "stawudyna",
+  "J05AF05": "lamiwudyna",
+  "J05AF06": "abakawir",
+  "J05AF07": "tenofowir dizoproksyl",
+  "J05AF09": "emtrycytabina",
+  "J05AF13": "tenofowir alafenamid",
+  "J05AX07": "enfuwirtyd (inhibitor fuzji)",
+  "J05AX09": "marawirok (antagonista CCR5)",
+  "J05AX23": "fostemsawir (do weryfikacji kodu)",
+  "J05AX27": "lenakapawir (do weryfikacji kodu)",
+  "J05AX12": "dolutegrawir — kod legacy; zwykle J05AJ03, zostawiony na wszelki wypadek"
+ },
+ "denyExplicit": {
+  "$comment": "Jawnie wykluczone — żeby nie wróciły przez pomyłkę.",
+  "J05AX05": "inozyna pranobeks — NIE jest lekiem na HIV (to był powód D2)",
+  "J05AF08": "adefowir — wyłącznie HBV",
+  "J05AF10": "entekawir — wyłącznie HBV",
+  "J05AF11": "telbiwudyna — wyłącznie HBV",
+  "J05AE30": "nirmatrelwir+rytonawir (Paxlovid) — COVID, nie HIV",
+  "J05AX10": "marybawir (Livtencity) — CMV",
+  "J05AX18": "letermowir (Prevymis) — CMV",
+  "J05AX24": "tekowirimat — ospa prawdziwa",
+  "J05AX25": "baloksawir (Xofluza) — grypa",
+  "J05AX28": "bulewirtyd (Hepcludex) — HDV"
+ },
+ "openQuestions": [
+  "Czy watcher ma śledzić leki na HBV? Część osób z HIV ma koinfekcję HBV, ale to inny blok wiedzy.",
+  "Zweryfikować kody J05AX dla fostemsawiru, lenakapawiru, ibalizumabu w aktualnym RPL (nazwy handlowe potrafią mieć nietypowe kody).",
+  "Po wdrożeniu: porównać liczbę trafień z deklarowanymi w GENESIS ~109 pozycjami."
+ ],
+ "validatedAgainst": "RPL 2026-07 (76 pozycji → 56 ARV, 20 odrzuconych)"
+}

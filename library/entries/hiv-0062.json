@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0062",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "prep-pl",
+  "topic": "koszt",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik",
+  "versions": [
+    {
+      "id": "hiv-0062#v1",
+      "entryId": "hiv-0062",
+      "language": "pl",
+      "content": {
+        "summary": "Miesięczny koszt generycznego PrEP w Polsce to orientacyjnie 150 do 200 złotych, z wahaniami przy brakach leku.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "PRESS",
+            "reference": "GdziePoLek — ceny i dostępność leków",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "gdziepolek",
+        "type": "PRESS",
+        "reference": "GdziePoLek — ceny i dostępność leków",
+        "locator": "https://www.gdziepolek.pl/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "COMMUNITY",
+      "ceiling": "COMMUNITY",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-03-31",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "0262689028b06de6"
+    }
+  ],
+  "currentVersion": "hiv-0062#v1"
+}

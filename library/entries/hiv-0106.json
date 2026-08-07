@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0106",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "epidemiologia",
+  "topic": "Polska 2024",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub epidemiolog",
+  "versions": [
+    {
+      "id": "hiv-0106#v1",
+      "entryId": "hiv-0106",
+      "language": "pl",
+      "content": {
+        "summary": "W 2024 roku w Polsce zgłoszono 2257 nowo wykrytych zakażeń HIV, 185 zachorowań na AIDS i 20 zgonów z powodu AIDS.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "Zakażenia HIV i zachorowania na AIDS w Polsce — 2024",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "nizp-pzh-2024",
+        "type": "OFFICIAL_PAGE",
+        "reference": "Zakażenia HIV i zachorowania na AIDS w Polsce — 2024",
+        "locator": "https://wwwold.pzh.gov.pl/oldpage/epimeld/hiv_aids/2024.htm",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2024",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2026-12-31",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "b5ad051cfb921ced"
+    }
+  ],
+  "currentVersion": "hiv-0106#v1"
+}

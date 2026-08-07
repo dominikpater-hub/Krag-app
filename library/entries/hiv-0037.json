@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0037",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "ciaza",
+  "topic": "karmienie",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0037#v1",
+      "entryId": "hiv-0037",
+      "language": "pl",
+      "content": {
+        "summary": "Karmienie mlekiem modyfikowanym albo pasteryzowanym mlekiem z banku daje zerowe ryzyko zakażenia dziecka.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "Clinicalinfo HIV Guidelines / NIH OAR",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "nih-dhhs",
+        "type": "GUIDELINE",
+        "reference": "Clinicalinfo HIV Guidelines / NIH OAR",
+        "locator": "https://clinicalinfo.hiv.gov/",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2024",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "PUBLIC_DOMAIN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "24b335efedaaff1b"
+    }
+  ],
+  "currentVersion": "hiv-0037#v1"
+}
