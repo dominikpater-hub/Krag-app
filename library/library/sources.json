@@ -680,6 +680,54 @@
       "carrier": "url",
       "locator": "https://onlinelibrary.wiley.com/doi/10.1111/hiv.70072",
       "retrievedAt": "2026-08-07"
+    },
+    "esprit-2009": {
+      "title": "INSIGHT–ESPRIT i SILCAAT — interleukina-2 w HIV (NEJM 2009)",
+      "authority": "New England Journal of Medicine",
+      "kind": "RESEARCH_REPORT",
+      "edition": "2009",
+      "rights": "QUOTE_ONLY",
+      "rightsNote": "© Massachusetts Medical Society. Parafraza z przypisem.",
+      "locator": "https://www.nejm.org/doi/full/10.1056/NEJMoa0903175",
+      "language": "en",
+      "carrier": "url",
+      "retrievedAt": "2026-08-07"
+    },
+    "reprieve-2023": {
+      "title": "REPRIEVE — pitawastatyna a zdarzenia sercowo-naczyniowe u osób z HIV (NEJM 2023)",
+      "authority": "New England Journal of Medicine",
+      "kind": "RESEARCH_REPORT",
+      "edition": "2023",
+      "rights": "QUOTE_ONLY",
+      "rightsNote": "© Massachusetts Medical Society. Parafraza z przypisem.",
+      "locator": "https://www.nejm.org/doi/full/10.1056/NEJMoa2304146",
+      "language": "en",
+      "carrier": "url",
+      "retrievedAt": "2026-08-07"
+    },
+    "hcv-svr-cd4": {
+      "title": "Odbudowa CD4 po wyleczeniu HCV u osób z koinfekcją (PMC 2015)",
+      "authority": "PubMed Central",
+      "kind": "RESEARCH_REPORT",
+      "edition": "2015",
+      "rights": "OPEN_LICENSE",
+      "rightsNote": "Open access. Badanie retrospektywne — dowód słabszej klasy, oznaczyć w treści.",
+      "locator": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4321096/",
+      "language": "en",
+      "carrier": "url",
+      "retrievedAt": "2026-08-07"
+    },
+    "cmv-iris-meta": {
+      "title": "Zapalenie błony naczyniowej po odbudowie odporności w CMV-retinitis — metaanaliza",
+      "authority": "HIV/AIDS Research and Palliative Care",
+      "kind": "RESEARCH_REPORT",
+      "edition": "2014",
+      "rights": "OPEN_LICENSE",
+      "rightsNote": "Open access (Dove Press).",
+      "locator": "https://www.tandfonline.com/doi/full/10.2147/HIV.S42328",
+      "language": "en",
+      "carrier": "url",
+      "retrievedAt": "2026-08-07"
     }
   },
   "$changelog": "2026-08-07: korekta rodzajów (PKD EXPERT_NOTE, GdziePoLek SPECIALIST_DB, prasa branżowa PRESS_TRADE) — dotąd tylko w katalogu wiedzy projektu, pipeline czytał starą wersję. Uzupełnione lokalizatory tam, gdzie dały się ustalić bez zgadywania."

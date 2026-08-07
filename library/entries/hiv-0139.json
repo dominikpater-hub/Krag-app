@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0139",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "odbudowa",
+  "topic": "wzrost CD4 nie jest celem sam w sobie",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0139#v1",
+      "entryId": "hiv-0139",
+      "language": "pl",
+      "content": {
+        "summary": "W dwóch dużych badaniach interleukina-2 podniosła CD4 średnio o 159 i o 53 komórki — i nie zmieniła ryzyka zachorowania ani zgonu. To najczystszy dowód na to, że sama liczba na wyniku nie jest celem. Celem jest zdrowie, a droga do niego wiedzie przez regularne przyjmowanie leków.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "RESEARCH_REPORT",
+            "reference": "INSIGHT–ESPRIT i SILCAAT — interleukina-2 w HIV (NEJM 2009)",
+            "retrievedAt": "2026-08-07"
+          }
+        ]
+      },
+      "source": {
+        "id": "esprit-2009",
+        "type": "RESEARCH_REPORT",
+        "reference": "INSIGHT–ESPRIT i SILCAAT — interleukina-2 w HIV (NEJM 2009)",
+        "locator": "https://www.nejm.org/doi/full/10.1056/NEJMoa0903175",
+        "retrievedAt": "2026-08-07"
+      },
+      "edition": "2009",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "e8180dae172066d8"
+    }
+  ],
+  "currentVersion": "hiv-0139#v1"
+}

@@ -1,0 +1,80 @@
+{
+  "$comment": "Fakty wzmacniające moduł Trenera odporności oraz dwa doprecyzowania o CMV. Kroki 5 i 6 planu z review/MAPOWANIE-7-RAPORTOW-2026-08-07. Deep research 2026-08-07, NIC nie zweryfikowane przez człowieka — status DRAFT, verifiedBy:null. Świadomie POMINIĘTE: doniesienia konferencyjne (letermowir a starzenie immunologiczne, abstrakty CROI 2026 o CMV IgG) — to dane wstępne z badań przerwanych albo nierecenzowanych i dla bazy przeznaczonej dla ludzi szukających pomocy nie są wiedzą medyczną.",
+  "edition": "hiv-2026-08-trener",
+  "language": "pl",
+  "provenance": "AI_RESEARCH",
+  "facts": [
+    {
+      "id": "hiv-0139",
+      "block": "odbudowa",
+      "topic": "wzrost CD4 nie jest celem sam w sobie",
+      "why": "W dwóch dużych badaniach interleukina-2 podniosła CD4 średnio o 159 i o 53 komórki — i nie zmieniła ryzyka zachorowania ani zgonu. To najczystszy dowód na to, że sama liczba na wyniku nie jest celem. Celem jest zdrowie, a droga do niego wiedzie przez regularne przyjmowanie leków.",
+      "source": "esprit-2009",
+      "locator": "https://www.nejm.org/doi/full/10.1056/NEJMoa0903175",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0140",
+      "block": "odbudowa",
+      "topic": "start z bardzo niskiego CD4",
+      "why": "Osoby zaczynające leczenie poniżej 50 komórek rosną wolniej, ale rosną dłużej: w dużej kohorcie ich CD4 zwiększało się nadal po szóstym roku, bez wypłaszczenia. Niski start wydłuża drogę, a nie zamyka ją.",
+      "source": "ofid-2026-cd4",
+      "locator": "https://academic.oup.com/ofid/article-abstract/13/4/ofag181/8551460",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0141",
+      "block": "dlugoterminowo",
+      "topic": "statyna a serce",
+      "why": "W badaniu z udziałem ponad 7 tysięcy osób żyjących z HIV statyna zmniejszyła ryzyko poważnych zdarzeń sercowo-naczyniowych o około 35 procent. Nie podnosi CD4 ani nie działa na wirusa — działa na to, co dziś stanowi główne ryzyko przy dobrze leczonym HIV.",
+      "source": "reprieve-2023",
+      "locator": "https://www.nejm.org/doi/full/10.1056/NEJMoa2304146",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0142",
+      "block": "odbudowa",
+      "topic": "wyleczenie WZW C a CD4",
+      "why": "Po wyleczeniu wirusowego zapalenia wątroby typu C liczba CD4 zwykle rośnie — w obserwacjach średnio o kilkadziesiąt komórek w pierwszym roku po eliminacji wirusa. To jeden z niewielu konkretów, które da się zrobić poza samym przyjmowaniem leków na HIV.",
+      "source": "hcv-svr-cd4",
+      "locator": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4321096/",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "hiv-0143",
+      "block": "przebieg",
+      "topic": "jak czytać własny wynik",
+      "why": "Na wyniku CD4 podawane są dwie liczby: wartość bezwzględna w komórkach na mikrolitr i odsetek limfocytów. To nie to samo — 20 procent i 200 komórek opisują różne rzeczy. Wiremia podawana jest w kopiach na mililitr, a próg wykrywalności zależy od aparatu i wynosi zwykle poniżej 20 albo 50.",
+      "source": "ptn-aids-2025",
+      "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=19",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0144",
+      "block": "przebieg",
+      "topic": "jak często robi się badania",
+      "why": "Wiremię oznacza się przed rozpoczęciem leczenia, potem po 4 do 8 tygodniach od jego włączenia, a przy stabilnej supresji co 3 do 6 miesięcy. CD4 kontroluje się co 3 do 6 miesięcy, a po ustabilizowaniu co 6 do 12. Rzadsze badania przy dobrych wynikach to nie zaniedbanie, tylko norma.",
+      "source": "ptn-aids-2025",
+      "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=19",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0145",
+      "block": "koinf-inne",
+      "topic": "CMV — jak rzadkie jest dziś zapalenie siatkówki",
+      "why": "Zapalenie siatkówki wywołane przez cytomegalię zdarza się w erze leczenia rzadko: około 0,36 przypadku na 100 osobolat. Wśród osób z CD4 poniżej 50 jest to około 3,89 — czyli ryzyko skupia się prawie wyłącznie tam, gdzie odporność jest głęboko obniżona.",
+      "source": "dhhs-oi",
+      "locator": "https://clinicalinfo.hiv.gov/sites/default/files/guidelines/documents/adult-adolescent-oi/cytomegalovirus-adult-adolescent-oi.pdf",
+      "confidence": "OFFICIAL"
+    },
+    {
+      "id": "hiv-0146",
+      "block": "koinf-inne",
+      "topic": "CMV a odbudowa odporności",
+      "why": "U osób, u których zapalenie siatkówki rozpoznano przed włączeniem leczenia, wracająca odporność sama bywa źródłem zapalenia oka. W metaanalizie dotyczyło to około 37 procent takich osób. Dlatego przy niskim CD4 warto zbadać dno oka, zanim odporność ruszy.",
+      "source": "cmv-iris-meta",
+      "locator": "https://www.tandfonline.com/doi/full/10.2147/HIV.S42328",
+      "confidence": "VERIFIED"
+    }
+  ]
+}

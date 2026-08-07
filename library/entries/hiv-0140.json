@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0140",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "odbudowa",
+  "topic": "start z bardzo niskiego CD4",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0140#v1",
+      "entryId": "hiv-0140",
+      "language": "pl",
+      "content": {
+        "summary": "Osoby zaczynające leczenie poniżej 50 komórek rosną wolniej, ale rosną dłużej: w dużej kohorcie ich CD4 zwiększało się nadal po szóstym roku, bez wypłaszczenia. Niski start wydłuża drogę, a nie zamyka ją.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "RESEARCH_REPORT",
+            "reference": "Open Forum Infectious Diseases",
+            "retrievedAt": "2026-07-26"
+          }
+        ]
+      },
+      "source": {
+        "id": "ofid-2026-cd4",
+        "type": "RESEARCH_REPORT",
+        "reference": "Open Forum Infectious Diseases",
+        "locator": "https://academic.oup.com/ofid/article-abstract/13/4/ofag181/8551460",
+        "retrievedAt": "2026-07-26"
+      },
+      "edition": "2026",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "d4c50c8584c13084"
+    }
+  ],
+  "currentVersion": "hiv-0140#v1"
+}
