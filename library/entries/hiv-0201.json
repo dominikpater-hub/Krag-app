@@ -15,7 +15,7 @@
       "entryId": "hiv-0201",
       "language": "pl",
       "content": {
-        "summary": "Po włączeniu leczenia liczba CD4 rośnie najszybciej przez pierwsze pół roku, potem coraz wolniej. W dużych kohortach pierwsza faza to rząd 265 komórek na rok, uśrednienie przez pierwsze dwa lata daje około 100, a po sześciu latach już tylko kilka.",
+        "summary": "Po włączeniu leczenia liczba CD4 rośnie najszybciej przez pierwsze pół roku, potem coraz wolniej. W dużej kohorcie tempo kolejnych faz to około 265, 46, 22 i po sześciu latach 8 komórek na rok. To są średnie z badania obserwacyjnego, a nie prognoza dla konkretnej osoby.",
         "actions": [],
         "rights": [],
         "warnings": [],
@@ -32,7 +32,7 @@
         "id": "ofid-2026-cd4",
         "type": "RESEARCH_REPORT",
         "reference": "Open Forum Infectious Diseases",
-        "locator": "",
+        "locator": "https://academic.oup.com/ofid/article-abstract/13/4/ofag181/8551460",
         "retrievedAt": "2026-07-26"
       },
       "edition": "2026",
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "68d68daaff4cd616"
+      "checksum": "00da68430b7cbaee"
     }
   ],
   "currentVersion": "hiv-0201#v1"

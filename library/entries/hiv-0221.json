@@ -15,7 +15,7 @@
       "entryId": "hiv-0221",
       "language": "pl",
       "content": {
-        "summary": "Dowody mają: kontakt z osobą, która przeszła to samo, wsparcie rówieśnicze, terapia poznawczo-behawioralna oraz leczenie depresji. W badaniu z Los Angeles osoby z przydzielonym towarzyszem z doświadczeniem utrzymały skuteczność leczenia po roku na poziomie 49 procent wobec 30 procent bez takiego wsparcia.",
+        "summary": "Dowody mają: kontakt z osobą, która przeszła to samo, terapia poznawczo-behawioralna oraz leczenie depresji. Przy wsparciu rówieśniczym najmocniejszy dowód dotyczy utrzymania się w opiece — w metaanalizie dwudziestu badań efekt był niewielki, ale pewny. Wpływ na samą wiremię wychodził w badaniach różnie.",
         "actions": [],
         "rights": [],
         "warnings": [],
@@ -23,22 +23,22 @@
         "legalRefs": [
           {
             "type": "RESEARCH_REPORT",
-            "reference": "JAMA Internal Medicine",
-            "retrievedAt": "2026-07-26"
+            "reference": "Berg i wsp. — wsparcie rówieśnicze w opiece nad HIV, metaanaliza 20 badań (PLOS ONE 2021)",
+            "retrievedAt": "2026-08-07"
           }
         ]
       },
       "source": {
-        "id": "linkla-2018",
+        "id": "berg-2021",
         "type": "RESEARCH_REPORT",
-        "reference": "JAMA Internal Medicine",
-        "locator": "",
-        "retrievedAt": "2026-07-26"
+        "reference": "Berg i wsp. — wsparcie rówieśnicze w opiece nad HIV, metaanaliza 20 badań (PLOS ONE 2021)",
+        "locator": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0252623",
+        "retrievedAt": "2026-08-07"
       },
-      "edition": "2018",
+      "edition": "2021",
       "confidence": "VERIFIED",
       "ceiling": "VERIFIED",
-      "rights": "QUOTE_ONLY",
+      "rights": "OPEN_LICENSE",
       "effectiveDate": "2026-07-25",
       "validUntil": null,
       "verifiedAt": null,
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "643f8dba572d0d0d"
+      "checksum": "a649600cba24ea4f"
     }
   ],
   "currentVersion": "hiv-0221#v1"

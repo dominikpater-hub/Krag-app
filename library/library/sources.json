@@ -632,6 +632,30 @@
       "carrier": "url",
       "locator": "https://www.ecdc.europa.eu/en/hiv-aids",
       "retrievedAt": "2026-08-07"
+    },
+    "berg-2021": {
+      "title": "Berg i wsp. — wsparcie rówieśnicze w opiece nad HIV, metaanaliza 20 badań (PLOS ONE 2021)",
+      "authority": "PLOS ONE",
+      "kind": "RESEARCH_REPORT",
+      "edition": "2021",
+      "language": "en",
+      "rights": "OPEN_LICENSE",
+      "rightsNote": "Open access (CC BY). Redystrybucja dozwolona z atrybucją.",
+      "carrier": "url",
+      "locator": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0252623",
+      "retrievedAt": "2026-08-07"
+    },
+    "mussini-2015": {
+      "title": "Mussini i wsp. — normalizacja stosunku CD4/CD8 (Lancet HIV 2015)",
+      "authority": "The Lancet HIV",
+      "kind": "RESEARCH_REPORT",
+      "edition": "2015",
+      "language": "en",
+      "rights": "QUOTE_ONLY",
+      "rightsNote": "© Elsevier. Parafraza z przypisem, nigdy kopia.",
+      "carrier": "url",
+      "locator": "https://www.thelancet.com/journals/lanhiv/article/PIIS2352-3018(15)00006-5/fulltext",
+      "retrievedAt": "2026-08-07"
     }
   },
   "$changelog": "2026-08-07: korekta rodzajów (PKD EXPERT_NOTE, GdziePoLek SPECIALIST_DB, prasa branżowa PRESS_TRADE) — dotąd tylko w katalogu wiedzy projektu, pipeline czytał starą wersję. Uzupełnione lokalizatory tam, gdzie dały się ustalić bez zgadywania."

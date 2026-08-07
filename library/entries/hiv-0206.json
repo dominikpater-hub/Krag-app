@@ -15,7 +15,7 @@
       "entryId": "hiv-0206",
       "language": "pl",
       "content": {
-        "summary": "Stosunek CD4 do CD8 bywa lepszym wskaźnikiem przewlekłego stanu zapalnego niż samo CD4. Bywa niski nawet wtedy, gdy CD4 wróciło powyżej 500, i wiąże się z ryzykiem chorób niezwiązanych z AIDS.",
+        "summary": "Stosunek CD4 do CD8 bywa lepszym wskaźnikiem przewlekłego stanu zapalnego niż samo CD4. Bywa niski nawet wtedy, gdy CD4 wróciło powyżej 500. Wraca do normy rzadko i powoli: po roku leczenia u około 4 procent osób, po dwóch latach u 11, po pięciu u 29.",
         "actions": [],
         "rights": [],
         "warnings": [],
@@ -23,19 +23,19 @@
         "legalRefs": [
           {
             "type": "RESEARCH_REPORT",
-            "reference": "Journal of Antimicrobial Chemotherapy",
-            "retrievedAt": "2026-07-26"
+            "reference": "Mussini i wsp. — normalizacja stosunku CD4/CD8 (Lancet HIV 2015)",
+            "retrievedAt": "2026-08-07"
           }
         ]
       },
       "source": {
-        "id": "jac-cd4cd8",
+        "id": "mussini-2015",
         "type": "RESEARCH_REPORT",
-        "reference": "Journal of Antimicrobial Chemotherapy",
-        "locator": "",
-        "retrievedAt": "2026-07-26"
+        "reference": "Mussini i wsp. — normalizacja stosunku CD4/CD8 (Lancet HIV 2015)",
+        "locator": "https://www.thelancet.com/journals/lanhiv/article/PIIS2352-3018(15)00006-5/fulltext",
+        "retrievedAt": "2026-08-07"
       },
-      "edition": "",
+      "edition": "2015",
       "confidence": "VERIFIED",
       "ceiling": "VERIFIED",
       "rights": "QUOTE_ONLY",
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "54b2992d0b47d8f5"
+      "checksum": "9634cf495b785261"
     }
   ],
   "currentVersion": "hiv-0206#v1"
