@@ -64,8 +64,10 @@ for (const file of files) {
   }
 
   // W-5: źródło bez lokalizatora jest dla recenzenta tym samym co brak źródła.
-  // Domyślnie ostrzeżenie; twardy błąd pod --strict (włączyć, gdy uzupełni się 16 lokalizatorów).
-  if (src && !src.locator)
+  // Domyślnie ostrzeżenie; twardy błąd pod --strict (włączyć, gdy uzupełni się 13 lokalizatorów).
+  // Patrzymy na lokalizator WERSJI, nie katalogu: fakt z własnym głębokim linkiem jest sprawdzalny
+  // nawet wtedy, gdy wpis katalogowy nie ma adresu ogólnego. Odwrotnie nie działa — stąd fallback.
+  if (src && !(v.source?.locator || src.locator))
     (STRICT ? errors : warnings).push(`${at}: źródło "${v.source.id}" bez lokalizatora — niesprawdzalne dla recenzenta (W-5)`);
 }
 

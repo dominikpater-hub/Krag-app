@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0116",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "testowanie",
+  "topic": "okienko serologiczne",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0116#v1",
+      "entryId": "hiv-0116",
+      "language": "pl",
+      "content": {
+        "summary": "Test molekularny wykrywa zakażenie najwcześniej, ale i on ma granicę: przy zakażeniu młodszym niż mniej więcej 10 dni wynik ujemny nie wyklucza niczego. Nie ma testu, który powie coś pewnego nazajutrz po ekspozycji.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "Zasady opieki nad osobami żyjącymi z HIV. Zalecenia PTN AIDS 2025",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "ptn-aids-2025",
+        "type": "GUIDELINE",
+        "reference": "Zasady opieki nad osobami żyjącymi z HIV. Zalecenia PTN AIDS 2025",
+        "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=12",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "02d0fa17f3b265e0"
+    }
+  ],
+  "currentVersion": "hiv-0116#v1"
+}

@@ -87,7 +87,10 @@ export async function idaAnswer(input: AiInput, deps: { callModel?: CallModel } 
   const facts: Fact[] = Array.isArray(input?.facts) ? input.facts.slice(0, 40).map((f) => ({ id: String(f.id), text: String(f.text || '').slice(0, 600), src: f.src ? String(f.src).slice(0, 120) : undefined })) : [];
   // Ciągłość rozmowy: ostatnie ~6 tur, sam tekst, przycięte. Nic z tożsamości/dziennika.
   const history: Turn[] = Array.isArray(input?.history)
-    ? input.history.slice(-6).map((h) => ({ role: h?.role === 'ida' ? 'ida' : 'user', text: String(h?.text || '').slice(0, 500) })).filter((h) => h.text)
+    // Adnotacja `: Turn` na zwrotce map jest konieczna: bez niej TypeScript rozszerza `role`
+    // do zwykłego `string` i tablica przestaje pasować do Turn[]. Zwężenie operatorem
+    // warunkowym samo z siebie nie wystarcza, bo typ wynikowy liczy się dla całego obiektu.
+    ? input.history.slice(-6).map((h): Turn => ({ role: h?.role === 'ida' ? 'ida' : 'user', text: String(h?.text || '').slice(0, 500) })).filter((h) => h.text)
     : [];
   if (!q) throw httpError(400, 'Puste pytanie');
   const call = deps.callModel || (process.env.IDA_MOCK === '1' ? mockModel() : defaultAnthropic());

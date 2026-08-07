@@ -65,7 +65,11 @@ for (const f of seed.facts) {
     entryId: f.id,
     language: seed.language,
     content,
-    source: { id: f.source, type: src.kind, reference: src.title, locator: src.locator, retrievedAt: src.retrievedAt },
+    // Lokalizator per fakt ma pierwszeństwo nad ogólnym adresem źródła (decyzja właściciela 2026-08-07).
+    // Powód: „PTN AIDS 2025" to 430-stronicowy PDF. Odesłanie czytelnika do całości nie jest odesłaniem
+    // do niczego — recenzent i użytkownik mają trafić na stronę z parafrazowanym zdaniem, nie na okładkę.
+    // Gdy fakt nie poda własnego, zostaje adres katalogowy — czyli zachowanie sprzed tej zmiany.
+    source: { id: f.source, type: src.kind, reference: src.title, locator: f.locator ?? src.locator, retrievedAt: src.retrievedAt },
     edition: src.edition,
     confidence,
     ceiling,
