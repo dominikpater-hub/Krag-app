@@ -24,7 +24,7 @@
           {
             "type": "RESEARCH_REPORT",
             "reference": "Open Forum Infectious Diseases",
-            "retrievedAt": "2026-07-26"
+            "retrievedAt": "2026-08-07"
           }
         ]
       },
@@ -32,8 +32,8 @@
         "id": "ofid-2026-cd4",
         "type": "RESEARCH_REPORT",
         "reference": "Open Forum Infectious Diseases",
-        "locator": "",
-        "retrievedAt": "2026-07-26"
+        "locator": "https://academic.oup.com/ofid/article-abstract/13/4/ofag181/8551460",
+        "retrievedAt": "2026-08-07"
       },
       "edition": "2026",
       "confidence": "VERIFIED",
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "f1f65a98c72b02b0"
+      "checksum": "f9629273b1728987"
     }
   ],
   "currentVersion": "hiv-0203#v1"

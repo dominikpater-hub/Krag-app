@@ -24,7 +24,7 @@
           {
             "type": "EXPERT_NOTE",
             "reference": "aidsmap",
-            "retrievedAt": "2026-07-26"
+            "retrievedAt": "2026-08-07"
           }
         ]
       },
@@ -32,11 +32,11 @@
         "id": "aidsmap-food",
         "type": "EXPERT_NOTE",
         "reference": "aidsmap",
-        "locator": "",
-        "retrievedAt": "2026-07-26"
+        "locator": "https://www.aidsmap.com/about-hiv/food-and-water-safety-people-living-hiv",
+        "retrievedAt": "2026-08-07"
       },
       "edition": "",
-      "confidence": "COMMUNITY",
+      "confidence": "VERIFIED",
       "ceiling": "VERIFIED",
       "rights": "QUOTE_ONLY",
       "effectiveDate": "2026-07-25",
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "e1348e0282d87e24"
+      "checksum": "66ca4383fe71e827"
     }
   ],
   "currentVersion": "hiv-0218#v1"

@@ -474,8 +474,8 @@
       "language": "en",
       "rights": "QUOTE_ONLY",
       "carrier": "url",
-      "locator": "",
-      "retrievedAt": "2026-07-26"
+      "locator": "https://academic.oup.com/ofid/article-abstract/13/4/ofag181/8551460",
+      "retrievedAt": "2026-08-07"
     },
     "pmc-1435908": {
       "title": "PubMed Central",
@@ -507,8 +507,8 @@
       "language": "en",
       "rights": "PUBLIC_DOMAIN",
       "carrier": "url",
-      "locator": "",
-      "retrievedAt": "2026-07-26"
+      "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/suboptimal-cd4-cell-recovery",
+      "retrievedAt": "2026-08-07"
     },
     "jac-cd4cd8": {
       "title": "Journal of Antimicrobial Chemotherapy",
@@ -518,8 +518,8 @@
       "language": "en",
       "rights": "QUOTE_ONLY",
       "carrier": "url",
-      "locator": "",
-      "retrievedAt": "2026-07-26"
+      "locator": "https://academic.oup.com/jac/article/76/3/729/6010296",
+      "retrievedAt": "2026-08-07"
     },
     "cochrane-exercise": {
       "title": "Cochrane / BMC Infectious Diseases",
@@ -552,8 +552,8 @@
       "language": "en",
       "rights": "QUOTE_ONLY",
       "carrier": "url",
-      "locator": "",
-      "retrievedAt": "2026-07-26"
+      "locator": "https://www.thelancet.com/article/S2352-3018(23)00028-0/fulltext",
+      "retrievedAt": "2026-08-07"
     },
     "dhhs-oi": {
       "title": "DHHS / Clinicalinfo.HIV.gov",
@@ -574,8 +574,8 @@
       "language": "en",
       "rights": "QUOTE_ONLY",
       "carrier": "url",
-      "locator": "",
-      "retrievedAt": "2026-07-26"
+      "locator": "https://www.aidsmap.com/about-hiv/food-and-water-safety-people-living-hiv",
+      "retrievedAt": "2026-08-07"
     },
     "gen-psych-2021": {
       "title": "General Psychiatry",
@@ -589,15 +589,15 @@
       "retrievedAt": "2026-07-26"
     },
     "resilstigma": {
-      "title": "PLOS One",
+      "title": "RESILSTIGMA — odporność na samostygmatyzację u osób żyjących z HIV (PLOS ONE)",
       "authority": "PLOS",
       "kind": "RESEARCH_REPORT",
       "edition": "",
       "language": "en",
       "rights": "QUOTE_ONLY",
       "carrier": "url",
-      "locator": "",
-      "retrievedAt": "2026-07-26"
+      "locator": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0311776",
+      "retrievedAt": "2026-08-07"
     },
     "linkla-2018": {
       "title": "JAMA Internal Medicine",
@@ -607,8 +607,8 @@
       "language": "en",
       "rights": "QUOTE_ONLY",
       "carrier": "url",
-      "locator": "",
-      "retrievedAt": "2026-07-26"
+      "locator": "https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2674556",
+      "retrievedAt": "2026-08-07"
     },
     "hecht-2018": {
       "title": "Psychoneuroendocrinology",

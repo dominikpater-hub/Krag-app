@@ -24,7 +24,7 @@
           {
             "type": "GUIDELINE",
             "reference": "DHHS / Clinicalinfo.HIV.gov",
-            "retrievedAt": "2026-07-26"
+            "retrievedAt": "2026-08-07"
           }
         ]
       },
@@ -33,7 +33,7 @@
         "type": "GUIDELINE",
         "reference": "DHHS / Clinicalinfo.HIV.gov",
         "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/suboptimal-cd4-cell-recovery",
-        "retrievedAt": "2026-07-26"
+        "retrievedAt": "2026-08-07"
       },
       "edition": "2025",
       "confidence": "OFFICIAL",
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "563ab05c7d37403c"
+      "checksum": "61f382d29c682ef6"
     }
   ],
   "currentVersion": "hiv-0344#v1"

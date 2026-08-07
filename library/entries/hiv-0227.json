@@ -24,7 +24,7 @@
           {
             "type": "RESEARCH_REPORT",
             "reference": "The Lancet HIV",
-            "retrievedAt": "2026-07-26"
+            "retrievedAt": "2026-08-07"
           }
         ]
       },
@@ -32,8 +32,8 @@
         "id": "lancet-hiv-2023-le",
         "type": "RESEARCH_REPORT",
         "reference": "The Lancet HIV",
-        "locator": "",
-        "retrievedAt": "2026-07-26"
+        "locator": "https://www.thelancet.com/article/S2352-3018(23)00028-0/fulltext",
+        "retrievedAt": "2026-08-07"
       },
       "edition": "2023",
       "confidence": "VERIFIED",
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "d7526d05b48cfc88"
+      "checksum": "7671942137a5c214"
     }
   ],
   "currentVersion": "hiv-0227#v1"

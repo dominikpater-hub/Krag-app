@@ -15,7 +15,7 @@
       "entryId": "hiv-0107",
       "language": "pl",
       "content": {
-        "summary": "Od 1985 roku do 31 grudnia 2024 roku w Polsce wykryto 35 175 zakażeń HIV. Odnotowano też 4 377 zachorowań na AIDS, a 1 518 osób zmarło.",
+        "summary": "Od 1985 roku do 31 grudnia 2024 roku w Polsce stwierdzono zakażenie HIV u 35 175 osób. Odnotowano też 4 377 zachorowań na AIDS, a 1 518 osób zmarło.",
         "actions": [],
         "rights": [],
         "warnings": [],
@@ -46,7 +46,7 @@
       "nextReviewDue": "2026-12-31",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "a8de5ea0d1aaeb47"
+      "checksum": "5d382a7143dbe479"
     }
   ],
   "currentVersion": "hiv-0107#v1"

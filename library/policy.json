@@ -2,7 +2,7 @@
   "$comment": "Progi i bramki. Zmiana progu NIE wymaga migracji rekordów (D.3.5).",
   "product": "krag",
   "domain": "HIV",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "generatedAt": "2026-07-25",
   "ceiling": {
     "$comment": "C.9.4 — rodzaj dokumentu wyznacza MAKSIMUM. Reguła strukturalna, nie ocena jakości.",
@@ -79,7 +79,8 @@
     "onMissingVerifier": "DRAFT",
     "$note": "Bloki prawne i społeczne mogą iść przez weryfikację prawnika/osoby z mandatem środowiska — patrz verifierByBlock.",
     "publishOnSourceAuthority": [
-      "miejsca"
+      "miejsca",
+      "granice"
     ],
     "$authorityNote": "D-2: 'miejsca' to oficjalny katalog (poradnie ARV, dyżury PEP, PKD) z gov.pl / Krajowego Centrum ds. AIDS (provenance OFFICIAL_LIST). To dane faktograficzne z poważnego, zweryfikowanego źródła — publikują się z autorytetu źródła, bez podpisu lekarza i bez potwierdzania telefonicznego. Wymóg lokalizatora zostaje: każde miejsce musi wskazywać swoje źródło.",
     "publishReadyConfidence": [
@@ -98,11 +99,10 @@
     "swiat": "lekarz zakaźnik lub epidemiolog"
   },
   "derivedRights": {
-    "$comment": "A-2 / K-35: parafraza faktu z atrybucją nie jest utworem źródła (chroniony jest sposób wyrażenia, nie fakt). Wpisy w ziarnie to parafrazy, nie cytaty. WŁĄCZONE decyzją właściciela: parafrazy ze źródeł QUOTE_ONLY/OPEN/PUBLIC są publikowalne PO PODPISIE; cytaty dosłowne (verbatim/kind=QUOTE) oraz INTERNAL_ONLY/UNKNOWN nigdy. Zalecane potwierdzenie przez prawnika przed publicznym startem.",
+    "$comment": "A-2 / K-35: parafraza faktu z atrybucją nie jest utworem źródła (chroniony jest sposób wyrażenia, nie fakt). Wpisy w ziarnie to parafrazy, nie cytaty. WŁĄCZONE decyzją właściciela: parafrazy ze źródeł QUOTE_ONLY/OPEN/PUBLIC są publikowalne PO PODPISIE; cytaty dosłowne (verbatim/kind=QUOTE) oraz INTERNAL_ONLY nigdy. K-44 (2026-08-07): UNKNOWN odblokowane dla parafrazy — nieznana licencja nie jest zakazem, a parafraza z atrybucją i linkiem nie jest reprodukcją utworu. Status w katalogu zostaje UNKNOWN, bo nadal go nie znamy. Zalecane potwierdzenie przez prawnika przed publicznym startem.",
     "publishParaphrased": true,
     "blockedForParaphrase": [
-      "INTERNAL_ONLY",
-      "UNKNOWN"
+      "INTERNAL_ONLY"
     ]
   },
   "review": {
@@ -143,5 +143,18 @@
     "SPECIALIST_DB": "Baza dziedzinowa prowadzona zawodowo — do pytania z jej dziedziny jest źródłem najlepszym z dostępnych, mimo że nie jest instytucją państwową.",
     "PRESS_TRADE": "Prasa branżowa z redakcją, adresowana do profesjonalistów. Wyżej niż media ogólne, niżej niż wytyczne.",
     "PRESS": "Media ogólne — sygnalizują fakt, nie ugruntowują go."
+  },
+  "domainAuthority": {
+    "$comment": "K-42 (2026-08-07). Lustro decyzji K-34 z lib/sources.js: autorytet jest DZIEDZINOWY. Media ogólne są pełnoprawnym źródłem tam, gdzie są kompetentne — sprawy społeczne, język, relacjonowanie tego, co się wydarzyło. Przy twierdzeniach klinicznych ich rola jest inna, bo referują z drugiej ręki. Test lib/sources.test.mjs pilnuje, żeby obie warstwy się nie rozjechały.",
+    "blocks": [
+      "stygma",
+      "prawo",
+      "epidemiologia",
+      "prep-pl",
+      "leczenie-pl"
+    ],
+    "raise": {
+      "PRESS": "VERIFIED"
+    }
   }
 }

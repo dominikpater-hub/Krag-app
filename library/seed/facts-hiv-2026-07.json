@@ -887,16 +887,18 @@
       "why": "W 2024 roku w Polsce zgłoszono 2257 nowo wykrytych zakażeń HIV, 185 zachorowań na AIDS i 20 zgonów z powodu AIDS.",
       "source": "nizp-pzh-2024",
       "confidence": "OFFICIAL",
-      "review": "2026-12-31"
+      "review": "2026-12-31",
+      "locator": "https://wwwold.pzh.gov.pl/oldpage/epimeld/hiv_aids/2024.htm"
     },
     {
       "id": "hiv-0107",
       "block": "epidemiologia",
       "topic": "Polska od 1985",
-      "why": "Od 1985 roku do 31 grudnia 2024 roku w Polsce wykryto 35 175 zakażeń HIV. Odnotowano też 4 377 zachorowań na AIDS, a 1 518 osób zmarło.",
+      "why": "Od 1985 roku do 31 grudnia 2024 roku w Polsce stwierdzono zakażenie HIV u 35 175 osób. Odnotowano też 4 377 zachorowań na AIDS, a 1 518 osób zmarło.",
       "source": "nizp-pzh-2024",
       "confidence": "OFFICIAL",
-      "review": "2026-12-31"
+      "review": "2026-12-31",
+      "locator": "https://wwwold.pzh.gov.pl/oldpage/epimeld/hiv_aids/2024.htm"
     },
     {
       "id": "hiv-0108",

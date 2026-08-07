@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { levelFromSource } = require('./authority');
 const STRICT = process.argv.includes('--strict');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -36,9 +37,11 @@ for (const file of files) {
 
   // Inwariant C.9.4: sufit
   if (src) {
-    const ceiling = policy.ceiling[src.kind];
+    // C.9.4 liczone TĄ SAMĄ regułą co migrator (K-42) — inaczej walidator wywracał build
+    // na faktach, którym autorytet dziedzinowy słusznie podniósł poziom.
+    const ceiling = levelFromSource(policy, src.kind, e.block);
     if (order.indexOf(v.confidence) > order.indexOf(ceiling))
-      errors.push(`${at}: confidence ${v.confidence} ponad sufitem ${ceiling} dla ${src.kind}`);
+      errors.push(`${at}: confidence ${v.confidence} ponad sufitem ${ceiling} dla ${src.kind} w bloku ${e.block}`);
   }
 
   // Inwariant C.9.3: rights dziedziczone, nie wymyślone

@@ -36,7 +36,7 @@
         "retrievedAt": "2026-07-25"
       },
       "edition": "2025",
-      "confidence": "COMMUNITY",
+      "confidence": "VERIFIED",
       "ceiling": "VERIFIED",
       "rights": "UNKNOWN",
       "effectiveDate": "2026-07-25",
@@ -46,7 +46,7 @@
       "nextReviewDue": "2027-07-25",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "d8b0cd06ad023bd5"
+      "checksum": "ccce7665bd90c890"
     }
   ],
   "currentVersion": "hiv-0073#v1"

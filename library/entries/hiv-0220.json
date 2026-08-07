@@ -23,17 +23,17 @@
         "legalRefs": [
           {
             "type": "RESEARCH_REPORT",
-            "reference": "PLOS One",
-            "retrievedAt": "2026-07-26"
+            "reference": "RESILSTIGMA — odporność na samostygmatyzację u osób żyjących z HIV (PLOS ONE)",
+            "retrievedAt": "2026-08-07"
           }
         ]
       },
       "source": {
         "id": "resilstigma",
         "type": "RESEARCH_REPORT",
-        "reference": "PLOS One",
-        "locator": "",
-        "retrievedAt": "2026-07-26"
+        "reference": "RESILSTIGMA — odporność na samostygmatyzację u osób żyjących z HIV (PLOS ONE)",
+        "locator": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0311776",
+        "retrievedAt": "2026-08-07"
       },
       "edition": "",
       "confidence": "VERIFIED",
@@ -46,7 +46,7 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "d962732f1a016225"
+      "checksum": "7911aa6b30a06b42"
     }
   ],
   "currentVersion": "hiv-0220#v1"

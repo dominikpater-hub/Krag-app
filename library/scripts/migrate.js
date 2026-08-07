@@ -26,6 +26,24 @@ const order = policy.confidenceOrder;
 const cap = (claimed, ceiling) =>
   order.indexOf(claimed) > order.indexOf(ceiling) ? ceiling : claimed;
 
+/* K-42 (decyzja właściciela 2026-08-07): poziom wiarygodności WYNIKA ZE ŹRÓDŁA,
+ * nie z ręcznego wpisu w ziarnie.
+ *
+ * Powód. W lipcu każdy fakt dostał poziom wpisany ręcznie, na oko. W sierpniu zapadła
+ * decyzja K-34: o wiarygodności rozstrzyga autorytet źródła, i to autorytet DZIEDZINOWY.
+ * Warstwa aplikacji (lib/sources.js) tę decyzję wykonała. Pipeline — nie: migrator brał
+ * ręczny wpis z lipca i tylko OBCINAŁ go do sufitu, nigdy nie podnosił. Skutek: PKD Poznań,
+ * Jeden Świat i Fundacja Edukacji Społecznej figurowały jako „społeczność", choć katalog
+ * uznaje je za notę ekspercką, a bramka wstrzymywała ich treść. Dwie warstwy tego samego
+ * projektu mówiły o tych samych źródłach dwie różne rzeczy.
+ *
+ * Odtąd poziom jest WYPROWADZANY z rodzaju źródła, a wpis w ziarnie działa wyłącznie
+ * w dół — jako świadome obniżenie („to źródło jest zwykle solidne, ale akurat w tym
+ * zdaniu referuje z drugiej ręki"). Wpis w górę jest ignorowany, bo ziarno nie ma prawa
+ * nadawać autorytetu, którego katalog nie potwierdza. */
+const { levelFromSource } = require('./authority');
+const poziomZeZrodla = (kind, block) => levelFromSource(policy, kind, block);
+
 const addDays = (iso, days) => {
   const d = new Date(iso);
   d.setDate(d.getDate() + days);
@@ -43,9 +61,15 @@ for (const f of seed.facts) {
   const ceiling = policy.ceiling[src.kind];
   if (!ceiling) throw new Error(`${f.id}: rodzaj źródła "${src.kind}" nie ma sufitu w policy.json`);
 
-  const confidence = cap(f.confidence, ceiling);
-  if (confidence !== f.confidence) {
-    demotions.push({ id: f.id, from: f.confidence, to: confidence, why: `${src.kind} → sufit ${ceiling}` });
+  // Poziom wyprowadzony ze źródła (K-42); ziarno może go tylko OBNIŻYĆ, i to jawnie.
+  const zeZrodla = poziomZeZrodla(src.kind, f.block);
+  const confidence = f.downgrade ? cap(f.downgrade, zeZrodla) : zeZrodla;
+  if (f.confidence && f.confidence !== confidence) {
+    demotions.push({
+      id: f.id, from: f.confidence, to: confidence,
+      why: f.downgrade ? `jawne obniżenie w ziarnie: ${f.downgradeWhy || 'bez uzasadnienia'}`
+                       : `${src.kind}${confidence !== ceiling ? ' + autorytet dziedzinowy' : ''} → ${confidence}`,
+    });
   }
 
   const interval = policy.review.intervalByBlock[f.block] ?? policy.review.defaultIntervalDays;
