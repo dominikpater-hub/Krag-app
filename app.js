@@ -895,7 +895,7 @@ function idaBubble(who, html, src) {
   log.scrollTop = log.scrollHeight;
   return d;
 }
-function trustHtml(c) { const x = confBadge(c); return `<span class="trust ${x[0]}">${t('trust.' + x[0])}</span>`; }
+function trustHtml(c, src) { const x = confBadge(c, src); return `<span class="trust ${x[0]}">${t('trust.' + x[0])}</span>`; }
 // Nazwa źródła jako link do strony źródłowej (jeśli znamy URL); inaczej zwykły tekst.
 function srcHtml(name) {
   const u = srcUrl(name);
@@ -967,7 +967,7 @@ function srcLine(facts, L) {
     return `<span class="trust rule">${escapeHtml(t('trust.rule'))}</span>`;
   }
   const uniq = {}; facts.forEach((f) => { uniq[f.s] = f.c; });
-  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + srcHtml(nm)).join('<br>');
+  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm], nm) + srcHtml(nm)).join('<br>');
   if (L !== 'pl' && facts.some((f) => factTranslated(f, L))) {
     src += `<br><span class="mtag">${escapeHtml(t('ida.mt'))}</span>`;
   }
@@ -1044,7 +1044,7 @@ async function idaAsk(q) {
 function renderAi(res) {
   const used = (res.usedFactIds || []).map((id) => FACTS.find((f) => f.id === id)).filter(Boolean);
   const uniq = {}; used.forEach((f) => { uniq[f.s] = f.c; });
-  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm]) + srcHtml(nm)).join('<br>');
+  let src = Object.keys(uniq).map((nm) => trustHtml(uniq[nm], nm) + srcHtml(nm)).join('<br>');
   src += `<br><span class="aitag">${t('ai.badge')}</span>`;
   src += `<br><span style="opacity:.75">${t('ida.base', { ed: PROV.ed })}</span>`;
   const body = escapeHtml(res.answer).replace(/\n/g, '<br>');
@@ -1161,7 +1161,7 @@ function openLibPath(id) {
     if (!fs.length) continue;
     html += `<div class="lib-block"><div class="klbl">${escapeHtml(BLOCKNAME[b] || b)}</div>`;
     for (const f of fs) {
-      const x = confBadge(f.c);
+      const x = confBadge(f.c, f.s);
       html += `<div class="lib-fact"><p>${factText(f, P)}</p><div class="srcline"><span class="trust ${x[0]}">${t('trust.' + x[0])}</span>${srcHtml(f.s)}</div></div>`;
     }
     html += '</div>';
