@@ -47,7 +47,7 @@
         "id": "kc-aids",
         "type": "OFFICIAL_PAGE",
         "reference": "Portal edukacyjny Krajowego Centrum ds. AIDS",
-        "locator": "https://www.hiv-aids.edu.pl/",
+        "locator": "https://aids.gov.pl/pi",
         "retrievedAt": "2026-07-25"
       },
       "edition": "2026",
@@ -61,7 +61,7 @@
       "nextReviewDue": "2027-07-27",
       "supersededBy": null,
       "provenance": "OFFICIAL_LIST",
-      "checksum": "33777fdb53f337d1"
+      "checksum": "491b4b6bc9f59ae2"
     }
   ],
   "currentVersion": "wsp-0002#v1"

@@ -47,7 +47,7 @@
         "id": "ngo-kontakt",
         "type": "FORUM",
         "reference": "Dane kontaktowe organizacji pozarządowych (strony własne)",
-        "locator": null,
+        "locator": "https://buddy-polska.pl",
         "retrievedAt": "2026-07-27"
       },
       "edition": "2026-07",
@@ -61,7 +61,7 @@
       "nextReviewDue": "2027-07-27",
       "supersededBy": null,
       "provenance": "OFFICIAL_LIST",
-      "checksum": "3c5173269b6f5b64"
+      "checksum": "76c9ffc5b8bd3a7e"
     }
   ],
   "currentVersion": "wsp-0003#v1"

@@ -47,7 +47,7 @@
         "id": "ngo-kontakt",
         "type": "FORUM",
         "reference": "Dane kontaktowe organizacji pozarządowych (strony własne)",
-        "locator": null,
+        "locator": "https://grupa-stonewall.pl",
         "retrievedAt": "2026-07-27"
       },
       "edition": "2026-07",
@@ -61,7 +61,7 @@
       "nextReviewDue": "2027-07-27",
       "supersededBy": null,
       "provenance": "OFFICIAL_LIST",
-      "checksum": "61a23bcf9d90fa98"
+      "checksum": "377e7330a32b30a2"
     }
   ],
   "currentVersion": "wsp-0008#v1"

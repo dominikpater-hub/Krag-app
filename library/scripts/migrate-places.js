@@ -69,7 +69,13 @@ for (const p of seed.places) {
       },
       legalRefs: [{ type: src.kind, reference: src.title, retrievedAt: src.retrievedAt }]
     },
-    source: { id: p.source, type: src.kind, reference: src.title, locator: src.locator, retrievedAt: src.retrievedAt },
+    /* Strona własna placówki JEST lokalizatorem jej danych kontaktowych (2026-08-07).
+     * Wcześniej `p.url` trafiał wyłącznie do treści wpisu, a bramka patrzyła na adres
+     * KATALOGOWY źródła — więc osiem organizacji z zaślepką „różne organizacje" wisiało
+     * jako niesprawdzalne, mimo że siedem z nich miało swój adres wpisany obok, w tym
+     * samym pliku. Recenzent sprawdzający telefon Lambdy i tak idzie na stronę Lambdy,
+     * a nie do katalogu źródeł. */
+    source: { id: p.source, type: src.kind, reference: src.title, locator: p.url ?? src.locator, retrievedAt: src.retrievedAt },
     edition: src.edition,
     confidence, ceiling, rights: src.rights,
     effectiveDate: today, validUntil: null,

@@ -47,7 +47,7 @@
         "id": "ngo-kontakt",
         "type": "FORUM",
         "reference": "Dane kontaktowe organizacji pozarządowych (strony własne)",
-        "locator": null,
+        "locator": "https://pozytywniwteczy.pl",
         "retrievedAt": "2026-07-27"
       },
       "edition": "2026-07",
@@ -61,7 +61,7 @@
       "nextReviewDue": "2027-07-27",
       "supersededBy": null,
       "provenance": "OFFICIAL_LIST",
-      "checksum": "80d03fdad42e94dc"
+      "checksum": "c086b02c50192e59"
     }
   ],
   "currentVersion": "wsp-0005#v1"

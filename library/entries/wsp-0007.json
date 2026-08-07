@@ -47,7 +47,7 @@
         "id": "ngo-kontakt",
         "type": "FORUM",
         "reference": "Dane kontaktowe organizacji pozarządowych (strony własne)",
-        "locator": null,
+        "locator": "https://stowarzyszeniejedenswiat.org",
         "retrievedAt": "2026-07-27"
       },
       "edition": "2026-07",
@@ -61,7 +61,7 @@
       "nextReviewDue": "2027-07-27",
       "supersededBy": null,
       "provenance": "OFFICIAL_LIST",
-      "checksum": "db636c8d60d52704"
+      "checksum": "bc482e21f9137746"
     }
   ],
   "currentVersion": "wsp-0007#v1"
