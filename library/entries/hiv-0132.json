@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0132",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "epidemiologia",
+  "topic": "późne rozpoznania w Europie",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub epidemiolog",
+  "versions": [
+    {
+      "id": "hiv-0132#v1",
+      "entryId": "hiv-0132",
+      "language": "pl",
+      "content": {
+        "summary": "W europejskim regionie WHO ponad połowa rozpoznań HIV — 54 procent w 2024 roku — jest stawiana zbyt późno na optymalne leczenie. Późna diagnoza nie jest w tej części świata wyjątkiem, tylko regułą.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "OFFICIAL_PAGE",
+            "reference": "ECDC — European Centre for Disease Prevention and Control",
+            "retrievedAt": "2026-08-07"
+          }
+        ]
+      },
+      "source": {
+        "id": "ecdc",
+        "type": "OFFICIAL_PAGE",
+        "reference": "ECDC — European Centre for Disease Prevention and Control",
+        "locator": "https://www.ecdc.europa.eu/en/news-events/europes-hidden-hiv-crisis-half-all-people-living-hiv-europe-are-diagnosed-late",
+        "retrievedAt": "2026-08-07"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "1e397d169214dc91"
+    }
+  ],
+  "currentVersion": "hiv-0132#v1"
+}

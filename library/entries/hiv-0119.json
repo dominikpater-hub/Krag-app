@@ -1,21 +1,21 @@
 {
-  "id": "hiv-0224",
+  "id": "hiv-0119",
   "domain": "HIV",
   "country": "PL",
   "scope": "NATIONAL",
-  "block": "pierwsze-dni",
-  "topic": "tempo — co jest pilne, a co nie",
+  "block": "leczenie",
+  "topic": "badanie lekooporności",
   "kind": "FACT",
   "citesAtc": [],
   "status": "DRAFT",
   "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
   "versions": [
     {
-      "id": "hiv-0224#v1",
-      "entryId": "hiv-0224",
+      "id": "hiv-0119#v1",
+      "entryId": "hiv-0119",
       "language": "pl",
       "content": {
-        "summary": "Leczenie można zacząć bardzo szybko po diagnozie, nawet tego samego dnia — nie trzeba czekać na komplet wyników. To jednak nie jest wyścig z zegarem jak przy PEP: o terminie decyduje lekarz, a Ty nie musisz podjąć wszystkich decyzji naraz.",
+        "summary": "Na wejściu do opieki wykonuje się badanie lekooporności wirusa, żeby dobrać pierwszy schemat. Oporność bywa przeniesiona razem z zakażeniem, więc dotyczy także osób, które nigdy nie brały żadnego leku.",
         "actions": [],
         "rights": [],
         "warnings": [],
@@ -23,22 +23,22 @@
         "legalRefs": [
           {
             "type": "GUIDELINE",
-            "reference": "EACS Guidelines v13.0",
+            "reference": "Clinicalinfo HIV Guidelines / NIH OAR",
             "retrievedAt": "2026-07-25"
           }
         ]
       },
       "source": {
-        "id": "eacs-13",
+        "id": "nih-dhhs",
         "type": "GUIDELINE",
-        "reference": "EACS Guidelines v13.0",
-        "locator": "https://eacs.sanfordguide.com/",
+        "reference": "Clinicalinfo HIV Guidelines / NIH OAR",
+        "locator": "https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/what-start-initial-combination-regimens",
         "retrievedAt": "2026-07-25"
       },
-      "edition": "13.0 (2025)",
+      "edition": "2024",
       "confidence": "OFFICIAL",
       "ceiling": "OFFICIAL",
-      "rights": "QUOTE_ONLY",
+      "rights": "PUBLIC_DOMAIN",
       "effectiveDate": "2026-07-25",
       "validUntil": null,
       "verifiedAt": null,
@@ -46,8 +46,8 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "ce71e99680698113"
+      "checksum": "c9243ac4293e3225"
     }
   ],
-  "currentVersion": "hiv-0224#v1"
+  "currentVersion": "hiv-0119#v1"
 }

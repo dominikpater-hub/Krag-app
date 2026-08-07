@@ -656,6 +656,30 @@
       "carrier": "url",
       "locator": "https://www.thelancet.com/journals/lanhiv/article/PIIS2352-3018(15)00006-5/fulltext",
       "retrievedAt": "2026-08-07"
+    },
+    "cdc-npep-2025": {
+      "title": "CDC — wytyczne profilaktyki poekspozycyjnej pozazawodowej (nPEP) 2025",
+      "authority": "Centers for Disease Control and Prevention",
+      "kind": "GUIDELINE",
+      "edition": "2025",
+      "language": "en",
+      "rights": "PUBLIC_DOMAIN",
+      "rightsNote": "Dzieło rządu USA — domena publiczna, redystrybucja dozwolona z podaniem źródła.",
+      "carrier": "url",
+      "locator": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12064164/",
+      "retrievedAt": "2026-08-07"
+    },
+    "keane-2025": {
+      "title": "Keane i wsp. — karmienie piersią przy HIV, przegląd (HIV Medicine 2025)",
+      "authority": "HIV Medicine",
+      "kind": "RESEARCH_REPORT",
+      "edition": "2025",
+      "language": "en",
+      "rights": "QUOTE_ONLY",
+      "rightsNote": "© Wiley. Parafraza z przypisem.",
+      "carrier": "url",
+      "locator": "https://onlinelibrary.wiley.com/doi/10.1111/hiv.70072",
+      "retrievedAt": "2026-08-07"
     }
   },
   "$changelog": "2026-08-07: korekta rodzajów (PKD EXPERT_NOTE, GdziePoLek SPECIALIST_DB, prasa branżowa PRESS_TRADE) — dotąd tylko w katalogu wiedzy projektu, pipeline czytał starą wersję. Uzupełnione lokalizatory tam, gdzie dały się ustalić bez zgadywania."

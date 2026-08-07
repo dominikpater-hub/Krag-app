@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0129",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "ciaza",
+  "topic": "wytyczne o karmieniu się różnią",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0129#v1",
+      "entryId": "hiv-0129",
+      "language": "pl",
+      "content": {
+        "summary": "To nie jest kwestia rozstrzygnięta: WHO zaleca karmienie piersią przy skutecznym leczeniu, a wytyczne amerykańskie, brytyjskie i europejskie są ostrożniejsze i stawiają na wspólną decyzję z lekarzem. Jeśli usłyszysz w gabinecie coś innego niż w internecie, to nie znaczy, że ktoś się myli.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "RESEARCH_REPORT",
+            "reference": "Keane i wsp. — karmienie piersią przy HIV, przegląd (HIV Medicine 2025)",
+            "retrievedAt": "2026-08-07"
+          }
+        ]
+      },
+      "source": {
+        "id": "keane-2025",
+        "type": "RESEARCH_REPORT",
+        "reference": "Keane i wsp. — karmienie piersią przy HIV, przegląd (HIV Medicine 2025)",
+        "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10242550/",
+        "retrievedAt": "2026-08-07"
+      },
+      "edition": "2025",
+      "confidence": "VERIFIED",
+      "ceiling": "VERIFIED",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2028-07-24",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "3860b7886b76855e"
+    }
+  ],
+  "currentVersion": "hiv-0129#v1"
+}

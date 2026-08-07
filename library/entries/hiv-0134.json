@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0134",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "swiat",
+  "topic": "ile osób żyje z HIV",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub epidemiolog",
+  "versions": [
+    {
+      "id": "hiv-0134#v1",
+      "entryId": "hiv-0134",
+      "language": "pl",
+      "content": {
+        "summary": "Na koniec 2025 roku na świecie żyło z HIV szacunkowo 41 milionów osób. To nie jest rzadka choroba i nie jesteś w tym sam — choć w Polsce łatwo odnieść wrażenie przeciwne, bo mało kto mówi o tym głośno.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "WHO — HIV guidelines and recommendations",
+            "retrievedAt": "2026-07-25"
+          }
+        ]
+      },
+      "source": {
+        "id": "who",
+        "type": "GUIDELINE",
+        "reference": "WHO — HIV guidelines and recommendations",
+        "locator": "https://www.who.int/teams/global-hiv-hepatitis-and-stis-programmes/hiv/strategic-information/hiv-data-and-statistics",
+        "retrievedAt": "2026-07-25"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "QUOTE_ONLY",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "fffe40514ec10cb8"
+    }
+  ],
+  "currentVersion": "hiv-0134#v1"
+}

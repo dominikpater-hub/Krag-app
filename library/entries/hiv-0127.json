@@ -1,0 +1,53 @@
+{
+  "id": "hiv-0127",
+  "domain": "HIV",
+  "country": "PL",
+  "scope": "NATIONAL",
+  "block": "pep",
+  "topic": "co się dostaje w PEP",
+  "kind": "FACT",
+  "citesAtc": [],
+  "status": "DRAFT",
+  "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
+  "versions": [
+    {
+      "id": "hiv-0127#v1",
+      "entryId": "hiv-0127",
+      "language": "pl",
+      "content": {
+        "summary": "PEP to trzy leki antyretrowirusowe przez 28 dni. Wytyczne wymieniają jako preferowane połączenie biktegrawiru z emtrycytabiną i tenofowirem alafenamidem albo dolutegrawiru z tenofowirem i emtrycytabiną lub lamiwudyną. Konkretny zestaw i dawkowanie ustala lekarz, który ocenia ryzyko.",
+        "actions": [],
+        "rights": [],
+        "warnings": [],
+        "details": null,
+        "legalRefs": [
+          {
+            "type": "GUIDELINE",
+            "reference": "CDC — wytyczne profilaktyki poekspozycyjnej pozazawodowej (nPEP) 2025",
+            "retrievedAt": "2026-08-07"
+          }
+        ]
+      },
+      "source": {
+        "id": "cdc-npep-2025",
+        "type": "GUIDELINE",
+        "reference": "CDC — wytyczne profilaktyki poekspozycyjnej pozazawodowej (nPEP) 2025",
+        "locator": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12064164/",
+        "retrievedAt": "2026-08-07"
+      },
+      "edition": "2025",
+      "confidence": "OFFICIAL",
+      "ceiling": "OFFICIAL",
+      "rights": "PUBLIC_DOMAIN",
+      "effectiveDate": "2026-07-25",
+      "validUntil": null,
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "nextReviewDue": "2027-07-25",
+      "supersededBy": null,
+      "provenance": "AI_RESEARCH",
+      "checksum": "71015bad85674486"
+    }
+  ],
+  "currentVersion": "hiv-0127#v1"
+}

@@ -81,7 +81,7 @@ const PATHS = [
   { id: 'kontekst', roles: ['plhiv', 'partner', 'bliska'],
     n: { pl: 'Szerszy obraz', en: 'The wider picture' },
     lead: { pl: 'Skala w Polsce i dokąd zmierzają badania.', en: 'The scale in Poland and where research is heading.' },
-    blocks: ['epidemiologia', 'wyleczenie'] },
+    blocks: ['epidemiologia', 'swiat', 'wyleczenie'] },
 
   /* Koinfekcje (2026-08-07). Osobna ścieżka, a nie doklejenie do „terapii" — bo to nie jest
      ciąg dalszy leczenia HIV, tylko drugi front, który część osób prowadzi równolegle.

@@ -2,7 +2,7 @@
   "$comment": "Progi i bramki. Zmiana progu NIE wymaga migracji rekordów (D.3.5).",
   "product": "krag",
   "domain": "HIV",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "generatedAt": "2026-07-25",
   "ceiling": {
     "$comment": "C.9.4 — rodzaj dokumentu wyznacza MAKSIMUM. Reguła strukturalna, nie ocena jakości.",
@@ -94,7 +94,8 @@
     "stygma": "osoba żyjąca z HIV / organizacja mandatowa",
     "epidemiologia": "lekarz zakaźnik lub epidemiolog",
     "granice": "właściciel projektu + prawnik (kwalifikacja wyrobu medycznego)",
-    "prep-pl": "lekarz zakaźnik"
+    "prep-pl": "lekarz zakaźnik",
+    "swiat": "lekarz zakaźnik lub epidemiolog"
   },
   "derivedRights": {
     "$comment": "A-2 / K-35: parafraza faktu z atrybucją nie jest utworem źródła (chroniony jest sposób wyrażenia, nie fakt). Wpisy w ziarnie to parafrazy, nie cytaty. WŁĄCZONE decyzją właściciela: parafrazy ze źródeł QUOTE_ONLY/OPEN/PUBLIC są publikowalne PO PODPISIE; cytaty dosłowne (verbatim/kind=QUOTE) oraz INTERNAL_ONLY/UNKNOWN nigdy. Zalecane potwierdzenie przez prawnika przed publicznym startem.",
@@ -119,7 +120,8 @@
       "koinf-hpv": 365,
       "koinf-tb": 365,
       "koinf-sti": 365,
-      "koinf-inne": 365
+      "koinf-inne": 365,
+      "swiat": 365
     },
     "warnBeforeDays": 30
   },

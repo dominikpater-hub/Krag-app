@@ -1,21 +1,21 @@
 {
-  "id": "hiv-0224",
+  "id": "hiv-0123",
   "domain": "HIV",
   "country": "PL",
   "scope": "NATIONAL",
-  "block": "pierwsze-dni",
-  "topic": "tempo — co jest pilne, a co nie",
+  "block": "prep",
+  "topic": "PrEP — kontrole",
   "kind": "FACT",
   "citesAtc": [],
   "status": "DRAFT",
   "requiredVerifier": "lekarz zakaźnik lub inna osoba z uprawnieniami do firmowania treści medycznych",
   "versions": [
     {
-      "id": "hiv-0224#v1",
-      "entryId": "hiv-0224",
+      "id": "hiv-0123#v1",
+      "entryId": "hiv-0123",
       "language": "pl",
       "content": {
-        "summary": "Leczenie można zacząć bardzo szybko po diagnozie, nawet tego samego dnia — nie trzeba czekać na komplet wyników. To jednak nie jest wyścig z zegarem jak przy PEP: o terminie decyduje lekarz, a Ty nie musisz podjąć wszystkich decyzji naraz.",
+        "summary": "W trakcie PrEP wizyty kontrolne odbywają się co najmniej co 3 miesiące, pierwsza po miesiącu, i za każdym razem wyklucza się zakażenie HIV. Po odstawieniu PrEP wykonuje się jeszcze jeden test — 6 do 8 tygodni po ostatniej dawce.",
         "actions": [],
         "rights": [],
         "warnings": [],
@@ -23,19 +23,19 @@
         "legalRefs": [
           {
             "type": "GUIDELINE",
-            "reference": "EACS Guidelines v13.0",
+            "reference": "Zasady opieki nad osobami żyjącymi z HIV. Zalecenia PTN AIDS 2025",
             "retrievedAt": "2026-07-25"
           }
         ]
       },
       "source": {
-        "id": "eacs-13",
+        "id": "ptn-aids-2025",
         "type": "GUIDELINE",
-        "reference": "EACS Guidelines v13.0",
-        "locator": "https://eacs.sanfordguide.com/",
+        "reference": "Zasady opieki nad osobami żyjącymi z HIV. Zalecenia PTN AIDS 2025",
+        "locator": "https://ptnaids.pl/wp-content/uploads/2025/06/Rekomendacje_PTN_AIDS_2025_2.pdf#page=36",
         "retrievedAt": "2026-07-25"
       },
-      "edition": "13.0 (2025)",
+      "edition": "2025",
       "confidence": "OFFICIAL",
       "ceiling": "OFFICIAL",
       "rights": "QUOTE_ONLY",
@@ -46,8 +46,8 @@
       "nextReviewDue": "2028-07-24",
       "supersededBy": null,
       "provenance": "AI_RESEARCH",
-      "checksum": "ce71e99680698113"
+      "checksum": "ba66e9088a928950"
     }
   ],
-  "currentVersion": "hiv-0224#v1"
+  "currentVersion": "hiv-0123#v1"
 }
